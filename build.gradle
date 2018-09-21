@@ -1,0 +1,58 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.5.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group 'pl.khuzzuk'
+version '1.0.0-SNAPSHOT'
+
+sourceCompatibility = 9
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url "https://raw.github.com/khuzzuk/MessageBus/mvn-repo/" }
+    maven { url "https://raw.github.com/khuzzuk/functional-logic/mvn-repo/" }
+    maven { url "https://maven.vaadin.com/vaadin-prereleases" }
+    maven { url "http://maven.vaadin.com/vaadin-addons" }
+}
+
+dependencies {
+    compile group: 'pl.khuzzuk', name: 'form-binder', version:'1.0.0-SNAPSHOT'
+    compile group: 'pl.khuzzuk', name: 'message-bus', version:'2.0.1'
+    compile group: 'com.vaadin', name:'vaadin-spring-boot-starter'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile('org.springframework.boot:spring-boot-starter-validation')
+    compile group: 'org.jooq', name: 'jool', version: '0.9.14'
+
+    runtime('com.h2database:h2')
+
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testCompile group: 'org.spockframework', name: 'spock-core', version: '1.1-groovy-2.4'
+    testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.1-groovy-2.4'
+    testCompile group: 'org.awaitility', name: 'awaitility', version: '3.1.0'
+
+    compileOnly group: 'org.projectlombok', name: 'lombok', version:'1.18.2'
+    testCompileOnly group: 'org.projectlombok', name: 'lombok', version:'1.18.2'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version:'1.18.2'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version:'1.18.2'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "com.vaadin:vaadin-spring-bom:11.0.1"
+    }
+}
