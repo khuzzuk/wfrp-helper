@@ -12,6 +12,7 @@ import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
+import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
@@ -21,6 +22,7 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 @RequiredArgsConstructor
 public class RightMenu extends WebComponent implements InitializingBean {
     private final Bus<Event> bus;
+    private final FormFieldFactory formFieldFactory;
 
     @UIProperty
     private Button raceButton = new Button("Race");
@@ -32,7 +34,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        raceCrud = Crud.forBean(Race.class, bus);
+        raceCrud = Crud.forBean(Race.class, bus, formFieldFactory);
         ComponentInitialization.initializeComponents(this);
         raceButton.addClickListener(event -> showRace());
     }
