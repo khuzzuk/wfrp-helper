@@ -8,7 +8,6 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.DisposableBean;
 import pl.khuzzuk.messaging.Bus;
@@ -20,9 +19,10 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
-import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import static pl.khuzzuk.wfrp.helper.ui.crud.ExclusionFieldsUtils.isFieldExcluded;
 
@@ -49,13 +49,13 @@ public class Crud<T> extends WebComponent implements DisposableBean {
 
     public static <T> Crud<T> forBean(Class<T> beanType, Bus<Event> bus, FormFieldFactory formFieldFactory) {
         Crud<T> crud = new Crud<>(bus, beanType);
-        crud.bindings = BindingsFactory.create(beanType);
+        crud.bindings = BindingsFactory.create(beanType, formFieldFactory);
 
         crud.table = new Grid<>(beanType);
         crud.table.setDataProvider(new ListDataProvider<>(crud.data));
         getExcludedColumns(beanType).forEach(crud.table::removeColumnByKey);
         ComponentInitialization.initializeComponents(crud);
-        crud.prepareForms(beanType, formFieldFactory);
+        crud.prepareForms();
         return crud;
     }
 
@@ -76,15 +76,15 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     }
 
     @SuppressWarnings("unchecked")
-    private void prepareForms(Class<T> beanType, FormFieldFactory formFieldFactory) {
-        createForm = CreateItemFormFactory.createForm(beanType, formFieldFactory, bindings, e -> save());
+    private void prepareForms() {
+        createForm = CreateItemFormFactory.createForm(bindings, e -> save());
         createButton.addClickListener(e -> createForm.open());
     }
 
     private void save() {
         try {
-            T bean = (T) creator.invoke();
-            bindings.values().forEach(binding -> binding.setValue(bean));
+            T bean = bindings.createNewInstance();
+            bindings.fill(bean);
             bus.message(Event.SAVE).withContent(bean).send();
             bus.message(Event.FIND_ALL).withContent(beanType).withResponse(listAll).send();
         } catch (Throwable throwable) {

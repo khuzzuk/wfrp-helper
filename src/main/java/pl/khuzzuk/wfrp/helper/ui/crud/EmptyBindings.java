@@ -1,5 +1,7 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
+import com.vaadin.flow.component.dialog.Dialog;
+
 class EmptyBindings<T> implements Bindings<T> {
     @Override
     public ReflectionBindings<T> add(String name, Binding<T, ?> binding) {
@@ -12,7 +14,17 @@ class EmptyBindings<T> implements Bindings<T> {
     }
 
     @Override
-    public T createNewInstance() throws Throwable {
+    public T createNewInstance() {
         return null;
+    }
+
+    @Override
+    public void fill(T bean) {
+        //nothing to do
+    }
+
+    @Override
+    public void addFieldsTo(Dialog form) {
+        // no fields to add
     }
 }

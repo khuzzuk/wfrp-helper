@@ -1,6 +1,8 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
-import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.dialog.Dialog;
 import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -22,7 +24,7 @@ public class Binding<B, T> {
     private final Class<T> valueType;
     private MethodHandle getter;
     private MethodHandle setter;
-    private AbstractField<? extends AbstractField<?, T>, T> component;
+    private HasValue<?, ?> component;
     private Supplier<T> defaultValue = (Supplier<T>) NULL_SUPPLIER;
 
     T getValue(Object bean) {
@@ -40,5 +42,9 @@ public class Binding<B, T> {
         } catch (Throwable throwable) {
             log.error("Error during set value on bean", throwable);
         }
+    }
+
+    void addComponentTo(Dialog form) {
+        form.add((Component) component);
     }
 }

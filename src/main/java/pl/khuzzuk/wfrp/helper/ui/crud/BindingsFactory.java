@@ -1,7 +1,10 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
+import com.vaadin.flow.component.HasValue;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
@@ -11,10 +14,14 @@ import java.lang.reflect.Field;
 import static pl.khuzzuk.wfrp.helper.ui.crud.ExclusionFieldsUtils.isFieldExcluded;
 
 @Slf4j
+@RequiredArgsConstructor
+@Component
 class BindingsFactory {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
 
-    static <T> Bindings<T> create(Class<T> beanType) {
+    private final FormFieldFactory formFieldFactory;
+
+    static <T> Bindings<T> create(Class<T> beanType, FormFieldFactory formFieldFactory) {
         try {
             MethodType constructor = MethodType.methodType(void.class);
             MethodHandle constructorHandle = LOOKUP.findConstructor(beanType, constructor);
@@ -35,6 +42,9 @@ class BindingsFactory {
                     MethodType getterMethodType = MethodType.methodType(field.getType());
                     MethodHandle getterMethodHandle = LOOKUP.findVirtual(beanType, getterName, getterMethodType);
                     binding.setGetter(getterMethodHandle);
+
+                    HasValue<?, ?> component = formFieldFactory.getComponentFor(field);
+                    binding.setComponent(component);
 
                     bindings.add(fieldName, binding);
                 }

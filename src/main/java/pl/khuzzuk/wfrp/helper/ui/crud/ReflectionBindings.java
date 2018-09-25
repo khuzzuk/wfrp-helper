@@ -1,5 +1,6 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
+import com.vaadin.flow.component.dialog.Dialog;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.invoke.MethodHandle;
@@ -21,7 +22,23 @@ class ReflectionBindings<T> implements Bindings<T> {
         return bindings.computeIfAbsent(name, key -> new Binding<>(key, beanType, fieldType));
     }
 
-    public T createNewInstance() throws Throwable {
-        return (T) constructor.invokeExact();
+    public T createNewInstance() {
+        try {
+            T bean = (T) constructor.invoke();
+            fill(bean);
+            return bean;
+        } catch (Throwable throwable) {
+            throw new RuntimeException(throwable);
+        }
+    }
+
+    @Override
+    public void fill(T bean) {
+        bindings.values().forEach(binding -> binding.setValue(bean));
+    }
+
+    @Override
+    public void addFieldsTo(Dialog form) {
+        bindings.values().forEach(binding -> binding.addComponentTo(form));
     }
 }
