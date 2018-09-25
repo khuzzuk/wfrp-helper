@@ -19,6 +19,6 @@ public class Race {
 
     private String specialFeatures;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Determinant> determinants;
 }

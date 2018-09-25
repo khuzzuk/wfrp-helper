@@ -19,6 +19,7 @@ class RepoDispatcher implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         bus.subscribingFor(Event.FIND_ALL).mapResponse(this::findAll).subscribe();
+        bus.subscribingFor(Event.SAVE).accept(this::save).subscribe();
     }
 
     private List<?> findAll(Class<?> type) {
@@ -26,5 +27,13 @@ class RepoDispatcher implements InitializingBean {
             return raceRepo.findAll();
         }
         return Collections.emptyList();
+    }
+
+    private void save(Object entity) {
+        if (entity instanceof Race) {
+            raceRepo.save((Race) entity);
+        } else {
+            bus.message(Event.ERROR).withContent(String.format("Cannot save entity of type %s", entity.getClass())).send();
+        }
     }
 }

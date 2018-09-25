@@ -30,11 +30,10 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @UIProperty
     private Div content = new Div();
 
-    private Crud<Race> raceCrud;
+    private final Crud<Race> raceCrud;
 
     @Override
     public void afterPropertiesSet() {
-        raceCrud = Crud.forBean(Race.class, bus, formFieldFactory);
         ComponentInitialization.initializeComponents(this);
         raceButton.addClickListener(event -> showRace());
     }

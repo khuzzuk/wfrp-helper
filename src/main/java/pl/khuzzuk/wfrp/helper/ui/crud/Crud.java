@@ -1,16 +1,18 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.factory.DisposableBean;
 import pl.khuzzuk.messaging.Bus;
+import pl.khuzzuk.messaging.Cancellable;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
@@ -20,39 +22,47 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static pl.khuzzuk.wfrp.helper.ui.crud.ExclusionFieldsUtils.isFieldExcluded;
 
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class Crud<T> extends WebComponent {
-    private static final MethodHandles.Lookup lookup = MethodHandles.publicLookup();
+public class Crud<T> extends WebComponent implements DisposableBean {
+    private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
 
     private final Bus<Event> bus;
+    private final Class<T> beanType;
+    private Event listAll;
 
     private MethodHandle creator;
-    private Map<String, Binding> bindings = new HashMap<>();
+    private Bindings<T> bindings;
+    private Cancellable<Event> subscription;
+    private Collection<T> data = new ArrayList<>();
 
     @UIProperty
     private Grid<T> table;
     private Button createButton = new Button("Create");
     @UIProperty
     private HorizontalLayout crudButtons = new HorizontalLayout(createButton);
-    private Dialog createForm = new Dialog();
+    private Dialog createForm;
 
     public static <T> Crud<T> forBean(Class<T> beanType, Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        Crud<T> crud = new Crud<>(bus);
-        crud.createBinding(beanType);
+        Crud<T> crud = new Crud<>(bus, beanType);
+        crud.bindings = BindingsFactory.create(beanType);
 
         crud.table = new Grid<>(beanType);
+        crud.table.setDataProvider(new ListDataProvider<>(crud.data));
         getExcludedColumns(beanType).forEach(crud.table::removeColumnByKey);
         ComponentInitialization.initializeComponents(crud);
-        crud.prepareCreateItemForm(beanType, formFieldFactory);
+        crud.prepareForms(beanType, formFieldFactory);
         return crud;
+    }
+
+    public void listAllWhen(Event event) {
+        listAll = event;
+        subscription = bus.subscribingFor(event).accept(this::refreshData).subscribe();
+        bus.message(Event.FIND_ALL).withContent(beanType).withResponse(event).send();
     }
 
     private static List<String> getExcludedColumns(Class<?> beanType) {
@@ -65,62 +75,32 @@ public class Crud<T> extends WebComponent {
         return excludedFields;
     }
 
-    private void createBinding(Class<?> beanType) {
-        try {
-            MethodType constructor = MethodType.methodType(void.class);
-            creator = lookup.findConstructor(beanType, constructor);
-
-            Field[] fields = beanType.getDeclaredFields();
-            for (Field field : fields) {
-                if (!isFieldExcluded(field)) {
-                    String fieldName = field.getName();
-                    Binding binding = bindings.computeIfAbsent(fieldName, Binding::new);
-
-                    String setterName = "set" + StringUtils.capitalize(fieldName);
-                    MethodType setterMethodType = MethodType.methodType(void.class, field.getType());
-                    MethodHandle setterMethodHandle = lookup.findVirtual(beanType, setterName, setterMethodType);
-                    binding.setSetter(setterMethodHandle);
-
-                    String getterName = "get" + StringUtils.capitalize(fieldName);
-                    MethodType getterMethodType = MethodType.methodType(field.getType());
-                    MethodHandle getterMethodHandle = lookup.findVirtual(beanType, getterName, getterMethodType);
-                    binding.setGetter(getterMethodHandle);
-                }
-            }
-        } catch (NoSuchMethodException | IllegalAccessException e) {
-            log.error("Error during binding form for {}\n{}", beanType, e);
-        }
-    }
-
-    private void prepareCreateItemForm(Class<T> beanType, FormFieldFactory formFieldFactory) {
-        Field[] fields = beanType.getDeclaredFields();
-        for (Field field : fields) {
-            if (!isFieldExcluded(field)) {
-                Component component = formFieldFactory.getComponentFor(field);
-                createForm.add(component);
-                bindings.get(field.getName()).setComponent(component);
-            }
-        }
-
-        Button addButton = new Button("Add");
-        addButton.addClickListener(e -> createForm.close());
-
-        Button cancelButton = new Button("Cancel");
-        cancelButton.addClickListener(e -> createForm.close());
-
-        createForm.add(new HorizontalLayout(addButton, cancelButton));
-
+    @SuppressWarnings("unchecked")
+    private void prepareForms(Class<T> beanType, FormFieldFactory formFieldFactory) {
+        createForm = CreateItemFormFactory.createForm(beanType, formFieldFactory, bindings, e -> save());
         createButton.addClickListener(e -> createForm.open());
     }
 
     private void save() {
         try {
             T bean = (T) creator.invoke();
-            bindings.values().forEach(binding -> {
-                binding.getComponent();
-            });
+            bindings.values().forEach(binding -> binding.setValue(bean));
+            bus.message(Event.SAVE).withContent(bean).send();
+            bus.message(Event.FIND_ALL).withContent(beanType).withResponse(listAll).send();
         } catch (Throwable throwable) {
             bus.message(Event.ERROR).withContent(ExceptionUtils.getStackTrace(throwable)).send();
+        }
+    }
+
+    private void refreshData(Collection<T> newData) {
+        data.clear();
+        data.addAll(newData);
+    }
+
+    @Override
+    public void destroy() {
+        if (subscription != null) {
+            bus.unSubscribe(subscription);
         }
     }
 }
