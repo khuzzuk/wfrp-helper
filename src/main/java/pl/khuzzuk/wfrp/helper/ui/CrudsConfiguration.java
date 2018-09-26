@@ -15,7 +15,6 @@ class CrudsConfiguration {
     @UIScope
     Crud<Race> raceCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
         Crud<Race> raceCrud = Crud.forBean(Race.class, bus, formFieldFactory);
-        raceCrud.listAllWhen(Event.RACE_ALL);
         return raceCrud;
     }
 }

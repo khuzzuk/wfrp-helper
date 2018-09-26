@@ -5,7 +5,6 @@ import lombok.experimental.UtilityClass;
 import javax.persistence.Id;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
-import java.util.Collections;
 import java.util.Set;
 
 @UtilityClass
@@ -14,5 +13,9 @@ class ExclusionFieldsUtils {
 
     static boolean isFieldExcluded(Field field) {
         return excludedFieldAnnotations.stream().anyMatch(field::isAnnotationPresent);
+    }
+
+    static boolean canIncludeInForm(Field field) {
+        return excludedFieldAnnotations.stream().noneMatch(field::isAnnotationPresent);
     }
 }

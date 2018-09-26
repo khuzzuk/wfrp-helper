@@ -18,6 +18,6 @@ public class Determinant {
 
     private int value;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Modifier> modifiers;
 }

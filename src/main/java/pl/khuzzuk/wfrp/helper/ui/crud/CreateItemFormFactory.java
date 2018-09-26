@@ -1,19 +1,19 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
-import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import pl.khuzzuk.wfrp.helper.ui.crud.form.CreateForm;
+
+import java.util.function.Consumer;
 
 class CreateItemFormFactory {
-    public static <T> Dialog createForm(Bindings<T> bindings,
-                                        ComponentEventListener<ClickEvent<Button>> saveListener) {
-        Dialog createForm = new Dialog();
+    public static <T> CreateForm<T> createForm(Bindings<T> bindings,
+                                        Consumer<T> afterFinish) {
+        CreateForm<T> createForm = CreateForm.createFor(bindings);
         bindings.addFieldsTo(createForm);
 
         Button addButton = new Button("Add");
-        addButton.addClickListener(saveListener);
+        addButton.addClickListener(e -> afterFinish.accept(createForm.getBean()));
         addButton.addClickListener(e -> createForm.close());
 
         Button cancelButton = new Button("Cancel");

@@ -1,11 +1,11 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
-import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.converter.StringToIntegerConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToManyField;
@@ -14,71 +14,61 @@ import javax.persistence.Entity;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Slf4j
 @Component
 public class FormFieldFactory {
-    @SuppressWarnings("unchecked")
-    HasValue<?, ?> getComponentFor(Field field) {
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    void bindWithComponent(Field field, Bindings<?> bindings) {
         Class<?> type = field.getType();
         String name = field.getName();
 
         if (type.equals(String.class)) {
-            return new TextField(name);
-        }
+            bindings.bind(new TextField(name), name);
 
-        if (type.equals(int.class)) {
-            TextField intField = new TextField();
-            return intField;
-        }
+        } else if (type.equals(int.class)) {
+            bindings.bind(new TextField(name), name, new StringToIntegerConverter("Please enter a number"));
 
-        if (Collection.class.isAssignableFrom(type)) {
+        } else if (Collection.class.isAssignableFrom(type)) {
             ParameterizedType genericType = (ParameterizedType) field.getGenericType(); //collections should be parametrized, otherwise it's not bindable by crud
             Type[] actualTypeArguments = genericType.getActualTypeArguments();
             if (actualTypeArguments.length == 1 && canHaveEditor(actualTypeArguments[0])) {
                 Class<?> elementType = (Class<?>) actualTypeArguments[0];
-                Bindings<?> bindings = BindingsFactory.create(elementType, this);
+                Bindings subEntityBindings = BindingsFactory.create(elementType, this);
 
-                EntityOneToManyField entityField = EntityOneToManyField.createFor(elementType);
-                entityField.setValue(collectionFromFieldType(type));
-                Dialog form = CreateItemFormFactory.createForm(bindings, e ->
-                        entityField.addEntity(bindings.createNewInstance()));
+                EntityOneToManyField entityField = EntityOneToManyField.createFor((Class) elementType, collectionFromFieldType(type));
+                Dialog form = CreateItemFormFactory.createForm(subEntityBindings, entityField::addEntity);
                 Button button = new Button(VaadinIcon.PLUS.create());
                 button.addClickListener(e -> form.open());
-                entityField.add(button);
+                entityField.addComponent(button);
 
-                return entityField;
+                bindings.bind(entityField, name);
+            } else {
+                bindings.bind(new ComboBox<>(name), name);
             }
-            return new ComboBox<>(name);
-        }
 
-        if (Enum.class.isAssignableFrom(type)) {
+        } else if (Enum.class.isAssignableFrom(type)) {
             ComboBox<Enum> enumField = new ComboBox<>(name);
             enumField.setItems(EnumSet.allOf((Class<Enum>) type));
-            return enumField;
-        }
+            bindings.bind(enumField, name);
 
-        throw new IllegalArgumentException(String.format("No mapping for field %s: %s", name, type));
+        } else {
+            throw new IllegalArgumentException(String.format("No mapping for field %s: %s", name, type));
+        }
     }
 
     private static boolean canHaveEditor(Type type) {
         return ((Class<?>) type).isAnnotationPresent(Entity.class);
     }
 
-    private Collection collectionFromFieldType(Class<?> type) {
+    private static <V> Collection<V> collectionFromFieldType(Class<V> type) {
         if (Set.class.isAssignableFrom(type)) {
-            return new HashSet();
+            return new HashSet<>();
         }
         if (List.class.isAssignableFrom(type)) {
-            return new ArrayList();
+            return new ArrayList<>();
         }
-        return new ArrayDeque();
+        return new ArrayDeque<>();
     }
 }

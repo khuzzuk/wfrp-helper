@@ -2,9 +2,9 @@ package pl.khuzzuk.wfrp.helper.event;
 
 public enum Event {
     FIND_ALL,
+    DATA_ALL,
     SAVE,
-
-    RACE_ALL,
+    DELETE,
 
     ERROR
 }

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-class ReflectionBindings<T> implements Bindings<T> {
+class ReflectionBindings<T> {
     private final Class<T> beanType;
     private final MethodHandle constructor;
     private Map<String, Binding<T, ?>> bindings = new HashMap<>();
@@ -32,12 +32,10 @@ class ReflectionBindings<T> implements Bindings<T> {
         }
     }
 
-    @Override
     public void fill(T bean) {
         bindings.values().forEach(binding -> binding.setValue(bean));
     }
 
-    @Override
     public void addFieldsTo(Dialog form) {
         bindings.values().forEach(binding -> binding.addComponentTo(form));
     }

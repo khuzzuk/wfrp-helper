@@ -19,14 +19,22 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
     private Collection<T> values = new ArrayList<>();
     private List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> listeners = new ArrayList<>();
 
-    public static <T> EntityOneToManyField<T> createFor(Class<T> type) {
+    public static <T> EntityOneToManyField<T> createFor(Class<T> type, Collection<T> initialValues) {
         EntityOneToManyField<T> field = new EntityOneToManyField<>();
+        field.values = initialValues;
         return field;
+    }
+
+    public void addComponent(Component component) {
+        components.add(component);
     }
 
     @Override
     public void setValue(Collection<T> values) {
-        this.values = values;
+        this.values.clear();
+        if (values != null) {
+            values.addAll(values);
+        }
         refreshView();
     }
 

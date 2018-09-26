@@ -7,6 +7,7 @@ import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,22 +19,35 @@ class RepoDispatcher implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        bus.subscribingFor(Event.FIND_ALL).mapResponse(this::findAll).subscribe();
+        bus.subscribingFor(Event.FIND_ALL).accept((Class<?> type) -> findAll(type)).subscribe();
         bus.subscribingFor(Event.SAVE).accept(this::save).subscribe();
+        bus.subscribingFor(Event.DELETE).accept(this::remove).subscribe();
     }
 
-    private List<?> findAll(Class<?> type) {
+    @SuppressWarnings("unchecked")
+    private <T> void findAll(Class<T> type) {
+        List all = Collections.emptyList();
+
         if (Race.class.equals(type)) {
-            return raceRepo.findAll();
+            all = raceRepo.findAll();
         }
-        return Collections.emptyList();
+
+        bus.message(Event.DATA_ALL).withContent(new QueryAllResult<>(type, (Collection<T>) all)).send();
     }
 
     private void save(Object entity) {
         if (entity instanceof Race) {
             raceRepo.save((Race) entity);
+            findAll(entity.getClass());
         } else {
             bus.message(Event.ERROR).withContent(String.format("Cannot save entity of type %s", entity.getClass())).send();
+        }
+    }
+
+    private void remove(Object entity) {
+        if (entity instanceof Race) {
+            raceRepo.delete((Race) entity);
+            findAll(Race.class);
         }
     }
 }
