@@ -37,6 +37,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private Bindings<T> bindings;
     private Cancellable<Event> subscription;
     private Collection<T> data = new ArrayList<>();
+    private ListDataProvider<T> dataProvider;
     private FormFieldFactory formFieldFactory;
 
     @UIProperty
@@ -53,7 +54,8 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         crud.formFieldFactory = formFieldFactory;
         crud.table = new Grid<>(beanType);
         getExcludedColumns(beanType).forEach(crud.table::removeColumnByKey);
-        crud.table.setDataProvider(new ListDataProvider<>(crud.data));
+        crud.dataProvider = new ListDataProvider<>(crud.data);
+        crud.table.setDataProvider(crud.dataProvider);
         ComponentInitialization.initializeComponents(crud);
 
         crud.prepareForms();
@@ -104,6 +106,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private void refreshData(Collection<T> newData) {
         data.clear();
         data.addAll(newData);
+        dataProvider.refreshAll();
     }
 
     @Override

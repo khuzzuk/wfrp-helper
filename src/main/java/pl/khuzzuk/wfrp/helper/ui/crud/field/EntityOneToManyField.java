@@ -27,6 +27,7 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
 
     public void addComponent(Component component) {
         components.add(component);
+        refreshView();
     }
 
     @Override

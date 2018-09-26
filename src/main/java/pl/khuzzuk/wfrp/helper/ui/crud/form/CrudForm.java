@@ -10,6 +10,7 @@ public abstract class CrudForm<T> extends Dialog {
     private T bean;
 
     public void showForm() {
+        bean = getFormBean();
         open();
     }
 

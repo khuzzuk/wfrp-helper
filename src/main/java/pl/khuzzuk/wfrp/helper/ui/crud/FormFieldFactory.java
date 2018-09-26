@@ -2,19 +2,25 @@ package pl.khuzzuk.wfrp.helper.ui.crud;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToManyField;
+import pl.khuzzuk.wfrp.helper.ui.crud.form.CreateForm;
 
 import javax.persistence.Entity;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Component
@@ -38,9 +44,9 @@ public class FormFieldFactory {
                 Bindings subEntityBindings = BindingsFactory.create(elementType, this);
 
                 EntityOneToManyField entityField = EntityOneToManyField.createFor((Class) elementType, collectionFromFieldType(type));
-                Dialog form = CreateItemFormFactory.createForm(subEntityBindings, entityField::addEntity);
+                CreateForm<?> form = CreateItemFormFactory.createForm(subEntityBindings, entityField::addEntity);
                 Button button = new Button(VaadinIcon.PLUS.create());
-                button.addClickListener(e -> form.open());
+                button.addClickListener(e -> form.showForm());
                 entityField.addComponent(button);
 
                 bindings.bind(entityField, name);
