@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
@@ -9,6 +10,7 @@ import java.util.Set;
 
 @Data
 @Entity
+@EqualsAndHashCode(of = {"id", "name"})
 public class Race {
     @Id
     @GeneratedValue

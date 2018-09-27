@@ -17,6 +17,7 @@ import java.lang.invoke.MethodHandle;
 class AutoBindings<T> implements Bindings<T> {
     private Binder<T> binder;
     MethodHandle constructorHandle;
+    T bean;
 
     static <T> AutoBindings<T> createForType(Class<T> beanType) {
         AutoBindings<T> bindings = new AutoBindings<>();
@@ -45,8 +46,8 @@ class AutoBindings<T> implements Bindings<T> {
     @Override
     public T createNewInstance() {
         try {
-            T bean = (T) constructorHandle.invoke();
-            binder.setBean(bean);
+            bean = (T) constructorHandle.invoke();
+            binder.readBean(bean);
             return bean;
         } catch (Throwable throwable) {
             throw new RuntimeException(throwable);
@@ -55,7 +56,15 @@ class AutoBindings<T> implements Bindings<T> {
 
     @Override
     public void update(T bean) {
-        binder.setBean(bean);
+        this.bean = bean;
+        binder.readBean(bean);
+    }
+
+    @Override
+    public T read() {
+        binder.validate();
+        binder.writeBeanIfValid(bean);
+        return bean;
     }
 
     @Override

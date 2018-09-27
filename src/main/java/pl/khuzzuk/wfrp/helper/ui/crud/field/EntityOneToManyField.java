@@ -2,28 +2,21 @@ package pl.khuzzuk.wfrp.helper.ui.crud.field;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValue;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.Registration;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<HasValue.ValueChangeEvent<Collection<T>>, Collection<T>> {
-    private List<Component> components = new ArrayList<>();
-    private Collection<T> values = new ArrayList<>();
-    private List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> listeners = new ArrayList<>();
-
-    public static <T> EntityOneToManyField<T> createFor(Class<T> type, Collection<T> initialValues) {
-        EntityOneToManyField<T> field = new EntityOneToManyField<>();
-        field.values = initialValues;
-        return field;
-    }
+    private List<Component> components;
+    private Collection<T> values;
+    private List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> listeners;
 
     public void addComponent(Component component) {
         components.add(component);
@@ -34,7 +27,7 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
     public void setValue(Collection<T> values) {
         this.values.clear();
         if (values != null) {
-            values.addAll(values);
+            this.values.addAll(values);
         }
         refreshView();
     }
@@ -44,12 +37,18 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
         refreshView();
     }
 
+    private void removeValue(T value) {
+        values.remove(value);
+        refreshView();
+    }
+
     private void refreshView() {
         removeAll();
-        values.stream()
-                .map(Objects::toString)
-                .map(Label::new)
-                .forEach(this::add);
+        values.forEach(t -> {
+            Button removeButton = new Button(VaadinIcon.MINUS.create());
+            removeButton.addClickListener(e -> removeValue(t));
+            add(new VerticalLayout(new Label(t.toString()), removeButton));
+        });
         components.forEach(this::add);
     }
 

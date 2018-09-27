@@ -3,6 +3,7 @@ package pl.khuzzuk.wfrp.helper.ui.crud;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -13,16 +14,13 @@ import pl.khuzzuk.messaging.Cancellable;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
-import pl.khuzzuk.wfrp.helper.ui.crud.form.CreateForm;
+import pl.khuzzuk.wfrp.helper.ui.crud.form.CrudForm;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static pl.khuzzuk.wfrp.helper.ui.crud.ExclusionFieldsUtils.isFieldExcluded;
 
@@ -33,12 +31,12 @@ public class Crud<T> extends WebComponent implements DisposableBean {
 
     private final Bus<Event> bus;
     private final Class<T> beanType;
+    private final FormFieldFactory formFieldFactory;
 
     private Bindings<T> bindings;
     private Cancellable<Event> subscription;
     private Collection<T> data = new ArrayList<>();
     private ListDataProvider<T> dataProvider;
-    private FormFieldFactory formFieldFactory;
 
     @UIProperty
     private Grid<T> table;
@@ -47,27 +45,18 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private Button removeButton = new Button("Remove");
     @UIProperty
     private HorizontalLayout crudButtons = new HorizontalLayout(createButton, editButton, removeButton);
-    private CreateForm<T> createForm;
+    private CrudForm<T> createForm;
+    private CrudForm<T> editForm;
 
     public static <T> Crud<T> forBean(Class<T> beanType, Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        Crud<T> crud = new Crud<>(bus, beanType);
-        crud.formFieldFactory = formFieldFactory;
-        crud.table = new Grid<>(beanType);
-        getExcludedColumns(beanType).forEach(crud.table::removeColumnByKey);
-        crud.dataProvider = new ListDataProvider<>(crud.data);
-        crud.table.setDataProvider(crud.dataProvider);
-        ComponentInitialization.initializeComponents(crud);
-
-        crud.prepareForms();
-        crud.subscription = bus.subscribingFor(Event.DATA_ALL).accept(crud::listAll).subscribe();
-        bus.message(Event.FIND_ALL).withContent(beanType).send();
+        Crud<T> crud = new Crud<>(bus, beanType, formFieldFactory);
+        crud.initialize();
         return crud;
     }
 
-    @SuppressWarnings("unchecked") //cannot set collection with different element types then query type
-    private void listAll(QueryAllResult<?> queryAllResult) {
+    private void listAll(QueryAllResult<T> queryAllResult) {
         if (beanType.equals(queryAllResult.getType())) {
-            refreshData((Collection<T>) queryAllResult.getItems());
+            refreshData(queryAllResult.getItems());
         }
     }
 
@@ -81,14 +70,33 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         return excludedFields;
     }
 
+    private void initialize() {
+        table = new Grid<>(beanType);
+        getExcludedColumns(beanType).forEach(table::removeColumnByKey);
+        ComponentInitialization.initializeComponents(this);
+        dataProvider = DataProvider.ofCollection(data);
+        table.setDataProvider(dataProvider);
+        subscription = bus.subscribingFor(Event.DATA_ALL).accept(this::listAll).subscribe();
+        bus.message(Event.FIND_ALL).withContent(beanType).send();
+
+        table.addSelectionListener(e -> removeButton.setEnabled(getSelected() != null));
+        table.addSelectionListener(e -> editButton.setEnabled(getSelected() != null));
+
+        prepareForms();
+    }
+
     @SuppressWarnings("unchecked")
     private void prepareForms() {
         bindings = BindingsFactory.create(beanType, formFieldFactory);
 
-        createForm = CreateItemFormFactory.createForm(bindings, this::save);
+        createForm = CrudForm.createFor(bindings, this::save);
         createButton.addClickListener(e -> createForm.showForm());
 
+        editButton.setEnabled(false);
+        editButton.addClickListener(e -> createForm.showForm(getSelected()));
+
         removeButton.addClickListener(e -> remove());
+        removeButton.setEnabled(false);
     }
 
     private void save(T bean) {
@@ -96,17 +104,21 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     }
 
     private void remove() {
-        Set<T> selectedItems = table.getSelectedItems();
-        if (selectedItems.size() == 1) {
-            T bean = selectedItems.iterator().next();
-            bus.message(Event.DELETE).withContent(bean).send();
+        T selectedItem = getSelected();
+        if (selectedItem != null) {
+            bus.message(Event.DELETE).withContent(selectedItem).send();
         }
     }
 
     private void refreshData(Collection<T> newData) {
         data.clear();
         data.addAll(newData);
-        dataProvider.refreshAll();
+        execute(() -> dataProvider.refreshAll());
+    }
+
+    private T getSelected() {
+        Iterator<T> iterator = table.getSelectedItems().iterator();
+        return iterator.hasNext() ? iterator.next() : null;
     }
 
     @Override

@@ -18,5 +18,7 @@ public interface Bindings<T> {
 
     void update(T bean);
 
+    T read();
+
     void addFieldsTo(Dialog form);
 }
