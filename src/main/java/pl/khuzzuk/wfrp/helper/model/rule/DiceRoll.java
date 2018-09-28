@@ -2,6 +2,7 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,7 @@ import javax.validation.constraints.NotNull;
 public class DiceRoll {
     @Id
     @GeneratedValue
+    @FormElement(exclude = true)
     private Long id;
 
     @Column(nullable = false)

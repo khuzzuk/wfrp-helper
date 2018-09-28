@@ -2,6 +2,8 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pl.khuzzuk.wfrp.helper.edit.EditorType;
+import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 public class Modifier {
     @Id
     @GeneratedValue
+    @FormElement(exclude = true)
     private Long id;
 
     private @Min(-100) @Max(100) int value;
@@ -24,6 +27,7 @@ public class Modifier {
     private @NotNull ModifierType type = ModifierType.REGULAR;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @FormElement(editor = EditorType.DELEGATED)
     private List<DiceRoll> rolls;
 
     @Override

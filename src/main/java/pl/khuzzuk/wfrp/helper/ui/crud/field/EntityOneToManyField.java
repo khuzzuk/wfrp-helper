@@ -12,16 +12,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<HasValue.ValueChangeEvent<Collection<T>>, Collection<T>> {
-    private final List<Component> components;
-    private final Collection<T> current;
+    final List<Component> components;
     private final List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> listeners;
+    Collection<T> current = Collections.emptyList();
     @Setter
-    private Consumer<T> onEdit = any -> {};
+    Consumer<T> onEdit = any -> {};
 
     public void addComponent(Component component) {
         components.add(component);
@@ -30,9 +31,8 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
 
     @Override
     public void setValue(Collection<T> values) {
-        current.clear();
         if (values != null) {
-            current.addAll(values);
+            current = values;
         }
         refreshView();
     }
@@ -42,12 +42,12 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
         refreshView();
     }
 
-    private void removeValue(T bean) {
+    void removeValue(T bean) {
         current.remove(bean);
         refreshView();
     }
 
-    private void refreshView() {
+    void refreshView() {
         removeAll();
         current.forEach(t -> {
             Button removeButton = new Button(VaadinIcon.MINUS.create());

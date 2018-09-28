@@ -1,21 +1,28 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
 import lombok.experimental.UtilityClass;
+import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
-import javax.persistence.Id;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.Set;
 
 @UtilityClass
 class ExclusionFieldsUtils {
-    private static final Set<Class<? extends Annotation>> excludedFieldAnnotations = Set.of(Id.class);
-
-    static boolean isFieldExcluded(Field field) {
-        return excludedFieldAnnotations.stream().anyMatch(field::isAnnotationPresent);
-    }
+    private static final Set<Class<?>> supportedTypes = Set.of(
+            String.class,
+            int.class, Integer.class
+    );
 
     static boolean canIncludeInForm(Field field) {
-        return excludedFieldAnnotations.stream().noneMatch(field::isAnnotationPresent);
+        if (Enum.class.isAssignableFrom(field.getType())) {
+            return true;
+        }
+
+        if (!field.isAnnotationPresent(FormElement.class)) {
+            return supportedTypes.contains(field.getType());
+        }
+
+        FormElement metadata = field.getDeclaredAnnotation(FormElement.class);
+        return !metadata.exclude();
     }
 }
