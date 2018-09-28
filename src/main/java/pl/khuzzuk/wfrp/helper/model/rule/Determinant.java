@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Data
 @EqualsAndHashCode(of = "type")
@@ -20,4 +21,13 @@ public class Determinant {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Modifier> modifiers;
+
+    @Override
+    public String toString() {
+        return type +
+                "=" + value +
+                (modifiers.isEmpty() ? "" : modifiers.stream()
+                        .map(Modifier::toString)
+                        .collect(Collectors.joining(" + ", " + ", ";")));
+    }
 }

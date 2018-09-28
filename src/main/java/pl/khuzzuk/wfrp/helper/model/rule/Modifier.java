@@ -3,9 +3,12 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @EqualsAndHashCode(of = "id")
@@ -15,5 +18,19 @@ public class Modifier {
     @GeneratedValue
     private Long id;
 
-    private int value;
+    private @Min(-100) @Max(100) int value;
+
+    @Column(nullable = false)
+    private @NotNull ModifierType type = ModifierType.REGULAR;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private List<DiceRoll> rolls;
+
+    @Override
+    public String toString() {
+        return type + " "
+                + (rolls.isEmpty() ? ""
+                : rolls.stream().map(Object::toString).collect(Collectors.joining("+"))) + "+"
+                + value;
+    }
 }

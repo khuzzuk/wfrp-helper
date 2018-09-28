@@ -5,18 +5,23 @@ import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.Registration;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Consumer;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<HasValue.ValueChangeEvent<Collection<T>>, Collection<T>> {
-    private List<Component> components;
-    private Collection<T> values;
-    private List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> listeners;
+    private final List<Component> components;
+    private final Collection<T> current;
+    private final List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> listeners;
+    @Setter
+    private Consumer<T> onEdit = any -> {};
 
     public void addComponent(Component component) {
         components.add(component);
@@ -25,36 +30,38 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
 
     @Override
     public void setValue(Collection<T> values) {
-        this.values.clear();
+        current.clear();
         if (values != null) {
-            this.values.addAll(values);
+            current.addAll(values);
         }
         refreshView();
     }
 
     public void addEntity(T entity) {
-        values.add(entity);
+        current.add(entity);
         refreshView();
     }
 
-    private void removeValue(T value) {
-        values.remove(value);
+    private void removeValue(T bean) {
+        current.remove(bean);
         refreshView();
     }
 
     private void refreshView() {
         removeAll();
-        values.forEach(t -> {
+        current.forEach(t -> {
             Button removeButton = new Button(VaadinIcon.MINUS.create());
             removeButton.addClickListener(e -> removeValue(t));
-            add(new VerticalLayout(new Label(t.toString()), removeButton));
+            Button editButton = new Button(VaadinIcon.EDIT.create());
+            editButton.addClickListener(e -> onEdit.accept(t));
+            add(new HorizontalLayout(editButton, removeButton, new Label(t.toString())));
         });
         components.forEach(this::add);
     }
 
     @Override
     public Collection<T> getValue() {
-        return values;
+        return current;
     }
 
     @Override
@@ -71,8 +78,7 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
     @Override
     public boolean isReadOnly() {
         return components.stream()
-                .map(Component::isVisible)
-                .allMatch(b -> !b);
+                .noneMatch(Component::isVisible);
     }
 
     @Override

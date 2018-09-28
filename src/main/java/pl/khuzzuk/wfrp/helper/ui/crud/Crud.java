@@ -20,9 +20,9 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
-import java.util.*;
-
-import static pl.khuzzuk.wfrp.helper.ui.crud.ExclusionFieldsUtils.isFieldExcluded;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -60,19 +60,9 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         }
     }
 
-    private static List<String> getExcludedColumns(Class<?> beanType) {
-        List<String> excludedFields = new ArrayList<>();
-        for (Field field : beanType.getDeclaredFields()) {
-            if (isFieldExcluded(field)) {
-                excludedFields.add(field.getName());
-            }
-        }
-        return excludedFields;
-    }
-
     private void initialize() {
         table = new Grid<>(beanType);
-        getExcludedColumns(beanType).forEach(table::removeColumnByKey);
+        createColumnsInTable();
         ComponentInitialization.initializeComponents(this);
         dataProvider = DataProvider.ofCollection(data);
         table.setDataProvider(dataProvider);
@@ -83,6 +73,19 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         table.addSelectionListener(e -> editButton.setEnabled(getSelected() != null));
 
         prepareForms();
+    }
+
+    private void createColumnsInTable() {
+        table.getColumns().forEach(table::removeColumn);
+        for (Field f : beanType.getDeclaredFields()) {
+            if (ExclusionFieldsUtils.canIncludeInForm(f)) {
+                addFieldToTable(f);
+            }
+        }
+    }
+
+    private void addFieldToTable(Field field) {
+        table.addColumn(field.getName());
     }
 
     @SuppressWarnings("unchecked")
