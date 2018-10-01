@@ -2,6 +2,8 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pl.khuzzuk.wfrp.helper.edit.EditorType;
+import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -20,6 +22,7 @@ public class Determinant {
     private int value;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @FormElement(editor = EditorType.DELEGATED)
     private Set<Modifier> modifiers;
 
     @Override
@@ -28,6 +31,6 @@ public class Determinant {
                 "=" + value +
                 (modifiers.isEmpty() ? "" : modifiers.stream()
                         .map(Modifier::toString)
-                        .collect(Collectors.joining(" + ", " + ", ";")));
+                        .collect(Collectors.joining(" + ", " + ", "")));
     }
 }

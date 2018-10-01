@@ -46,8 +46,7 @@ class AutoBindings<T> implements Bindings<T> {
     @Override
     public T createNewInstance() {
         try {
-            bean = (T) constructorHandle.invoke();
-            binder.readBean(bean);
+            update((T) constructorHandle.invoke());
             return bean;
         } catch (Throwable throwable) {
             throw new RuntimeException(throwable);
@@ -57,6 +56,7 @@ class AutoBindings<T> implements Bindings<T> {
     @Override
     public void update(T bean) {
         this.bean = bean;
+        binder.removeBean();
         binder.readBean(bean);
     }
 

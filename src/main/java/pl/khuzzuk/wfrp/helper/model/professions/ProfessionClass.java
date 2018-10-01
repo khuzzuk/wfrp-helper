@@ -22,4 +22,9 @@ public class ProfessionClass {
     private String description;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER, mappedBy = "professionClass")
     private Set<Profession> professions;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

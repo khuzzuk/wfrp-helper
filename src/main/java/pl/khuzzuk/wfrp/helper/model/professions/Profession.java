@@ -21,4 +21,9 @@ public class Profession {
     @ManyToOne
     @FormElement(editor = EditorType.CHOOSE)
     private ProfessionClass professionClass;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

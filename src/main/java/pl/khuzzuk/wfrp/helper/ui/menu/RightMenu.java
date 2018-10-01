@@ -32,9 +32,9 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @UIProperty
     private Button skillButton = new Button("Skills");
     @UIProperty
-    private Button professionClassButton = new Button("Skills");
+    private Button professionClassButton = new Button("Classes");
     @UIProperty
-    private Button professionButton = new Button("Skills");
+    private Button professionButton = new Button("Professions");
 
     @UIProperty
     private Div content = new Div();
