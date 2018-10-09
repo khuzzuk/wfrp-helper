@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Supplier;
 
 public class ReflectionUtils {
     public static Class getGenericParameterType(Field field) {
@@ -20,13 +21,13 @@ public class ReflectionUtils {
         return (Class<?>) actualTypeArguments[0];
     }
 
-    public static <V> Collection<V> collectionFromFieldType(Class<V> type) {
+    public static <V> Supplier<Collection<V>> collectionFromFieldTypeProvider(Class<V> type) {
         if (Set.class.isAssignableFrom(type)) {
-            return new HashSet<>();
+            return HashSet::new;
         }
         if (List.class.isAssignableFrom(type)) {
-            return new ArrayList<>();
+            return ArrayList::new;
         }
-        return new ArrayDeque<>();
+        return ArrayDeque::new;
     }
 }

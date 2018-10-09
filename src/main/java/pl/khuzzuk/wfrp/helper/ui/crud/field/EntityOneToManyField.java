@@ -15,11 +15,13 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<HasValue.ValueChangeEvent<Collection<T>>, Collection<T>> {
     final List<Component> components;
     private final List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> listeners;
+    private final Supplier<? extends Collection<T>> defaultValuesProvider;
     Collection<T> current = Collections.emptyList();
     @Setter
     Consumer<T> onEdit = any -> {};
@@ -31,9 +33,7 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
 
     @Override
     public void setValue(Collection<T> values) {
-        if (values != null) {
-            current = values;
-        }
+        current = values;
         refreshView();
     }
 
@@ -47,8 +47,12 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
         refreshView();
     }
 
-    void refreshView() {
+    public void refreshView() {
         removeAll();
+        if (current == null) {
+            current = defaultValuesProvider.get();
+        }
+
         current.forEach(t -> {
             Button removeButton = new Button(VaadinIcon.MINUS.create());
             removeButton.addClickListener(e -> removeValue(t));

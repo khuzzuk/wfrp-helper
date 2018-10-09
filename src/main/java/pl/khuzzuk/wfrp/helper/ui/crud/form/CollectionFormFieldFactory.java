@@ -16,7 +16,7 @@ import javax.persistence.Entity;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
-import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.collectionFromFieldType;
+import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.collectionFromFieldTypeProvider;
 import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.getGenericParameterType;
 
 @Component
@@ -45,7 +45,8 @@ public class CollectionFormFieldFactory {
 
     private void putChooseFromExisting(Field field, DataSubscription<?> dataSubscription) {
         Class listableType = getGenericParameterType(field);
-        ListableEntityOneToManyField listable = entityOneToManyFieldFactory.createListable(listableType, collectionFromFieldType(field.getType()));
+        ListableEntityOneToManyField listable = entityOneToManyFieldFactory.createListable(
+                listableType, collectionFromFieldTypeProvider(field.getType()));
         dataSubscription.setOnRefresh(listable::refreshData);
     }
 
@@ -54,7 +55,8 @@ public class CollectionFormFieldFactory {
         Class<?> type = field.getType();
 
         if (canHaveEditor(getGenericParameterType(field))) {
-            EntityOneToManyField<?> entityField = entityOneToManyFieldFactory.createEditable(getGenericParameterType(field), collectionFromFieldType(type), formFieldFactory);
+            EntityOneToManyField<?> entityField = entityOneToManyFieldFactory.createWithDelegatedEditor(
+                    getGenericParameterType(field), collectionFromFieldTypeProvider(type), formFieldFactory);
             bindings.bind(entityField, name);
         } else {
             throw new IllegalArgumentException(String.format("Field cannot have delegated editor: %s", field));

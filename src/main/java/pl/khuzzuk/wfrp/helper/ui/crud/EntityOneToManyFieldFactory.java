@@ -10,30 +10,30 @@ import pl.khuzzuk.wfrp.helper.ui.crud.form.CrudForm;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Supplier;
 
 @Component
 @AllArgsConstructor
 public class EntityOneToManyFieldFactory {
-    public <T> EntityOneToManyField<T> createEditable(Class<T> type, Collection<T> initialValues, FormFieldFactory formFieldFactory) {
+    public <T> EntityOneToManyField<T> createWithDelegatedEditor(Class<T> type, Supplier<Collection<T>> initialValues, FormFieldFactory formFieldFactory) {
         Bindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
-        EntityOneToManyField<T> entityField = new EntityOneToManyField<>(new ArrayList<>(), new ArrayList<>());
+        EntityOneToManyField<T> entityField = new EntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), initialValues);
         CrudForm<T> form = CrudForm.createFor(subEntityBindings, entityField::addEntity);
         entityField.setOnEdit(form::showForm);
-
-        entityField.setValue(initialValues);
 
         Button button = new Button(VaadinIcon.PLUS.create());
         button.addClickListener(e -> form.showForm());
         entityField.addComponent(button);
 
+        entityField.refreshView();
         return entityField;
     }
 
     public <T> ListableEntityOneToManyField<T> createListable(
             Class<T> type,
-            Collection<T> initialValues) {
-        ListableEntityOneToManyField<T> field = new ListableEntityOneToManyField<>(type, new ArrayList<>(), new ArrayList<>());
-        field.setValue(initialValues);
+            Supplier<Collection<T>> initialValues) {
+        ListableEntityOneToManyField<T> field = new ListableEntityOneToManyField<>(type, new ArrayList<>(), new ArrayList<>(), initialValues);
+        field.refreshView();
         return field;
     }
 }

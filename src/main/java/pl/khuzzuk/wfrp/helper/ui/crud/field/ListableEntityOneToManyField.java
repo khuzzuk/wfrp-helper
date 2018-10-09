@@ -9,14 +9,16 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> {
     private Grid<T> list;
     public ListableEntityOneToManyField(
             Class<T> beanType,
             List<Component> components,
-            List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> valueChangeListeners) {
-        super(components, valueChangeListeners);
+            List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> valueChangeListeners,
+            Supplier<? extends Collection<T>> initialValuesProvider) {
+        super(components, valueChangeListeners, initialValuesProvider);
         initializeList(beanType);
     }
 
@@ -33,7 +35,7 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> {
     }
 
     @Override
-    void refreshView() {
+    public void refreshView() {
         removeAll();
         current.forEach(t -> {
             Button removeButton = new Button(VaadinIcon.MINUS.create());
