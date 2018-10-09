@@ -46,7 +46,6 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     @UIProperty
     private HorizontalLayout crudButtons = new HorizontalLayout(createButton, editButton, removeButton);
     private CrudForm<T> createForm;
-    private CrudForm<T> editForm;
 
     public static <T> Crud<T> forBean(Class<T> beanType, Bus<Event> bus, FormFieldFactory formFieldFactory) {
         Crud<T> crud = new Crud<>(bus, beanType, formFieldFactory);
@@ -58,6 +57,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         if (beanType.equals(queryAllResult.getType())) {
             refreshData(queryAllResult.getItems());
         }
+        bindings.onData(queryAllResult);
     }
 
     private void initialize() {
@@ -66,13 +66,13 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         ComponentInitialization.initializeComponents(this);
         dataProvider = DataProvider.ofCollection(data);
         table.setDataProvider(dataProvider);
-        subscription = bus.subscribingFor(Event.DATA_ALL).accept(this::listAll).subscribe();
-        bus.message(Event.FIND_ALL).withContent(beanType).send();
 
         table.addSelectionListener(e -> removeButton.setEnabled(getSelected() != null));
         table.addSelectionListener(e -> editButton.setEnabled(getSelected() != null));
 
         prepareForms();
+        subscription = bus.subscribingFor(Event.DATA_ALL).accept(this::listAll).subscribe();
+        bus.message(Event.FIND_ALL).withContent(beanType).send();
     }
 
     private void createColumnsInTable() {

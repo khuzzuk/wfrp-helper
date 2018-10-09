@@ -8,6 +8,6 @@ import pl.khuzzuk.messaging.Bus;
 class EventConfiguration {
     @Bean
     Bus<Event> bus() {
-        return Bus.initializeBus(Event.class);
+        return Bus.initializeBus(Event.class, System.out, true);
     }
 }

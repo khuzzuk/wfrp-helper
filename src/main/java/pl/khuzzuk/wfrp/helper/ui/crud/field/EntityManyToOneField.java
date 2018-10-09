@@ -1,21 +1,18 @@
 package pl.khuzzuk.wfrp.helper.ui.crud.field;
 
 import com.vaadin.flow.component.combobox.ComboBox;
-import lombok.Setter;
+import com.vaadin.flow.data.provider.ListDataProvider;
 
 import java.util.Collection;
 
 public class EntityManyToOneField<T> extends ComboBox<T> {
-    @Setter
-    private Collection<T> sourceValues;
+    private ListDataProvider<T> dataProvider;
 
     public EntityManyToOneField(String label) {
         super(label);
     }
 
-    @Override
-    protected void open() {
+    public void setSourceValues(Collection<T> sourceValues) {
         setItems(sourceValues);
-        super.open();
     }
 }

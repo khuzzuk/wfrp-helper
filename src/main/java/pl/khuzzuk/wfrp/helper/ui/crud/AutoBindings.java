@@ -9,13 +9,18 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 
 import java.lang.invoke.MethodHandle;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 class AutoBindings<T> implements Bindings<T> {
     private Binder<T> binder;
+    private List<Consumer<QueryAllResult<?>>> dataConsumers = new ArrayList<>();
     MethodHandle constructorHandle;
     T bean;
 
@@ -73,5 +78,15 @@ class AutoBindings<T> implements Bindings<T> {
                 .filter(Component.class::isInstance)
                 .map(Component.class::cast)
                 .forEach(form::add);
+    }
+
+    @Override
+    public void onData(QueryAllResult<?> allResult) {
+        dataConsumers.forEach(c -> c.accept(allResult));
+    }
+
+    @Override
+    public void registerDataListener(Consumer<QueryAllResult<?>> dataConsumer) {
+        dataConsumers.add(dataConsumer);
     }
 }

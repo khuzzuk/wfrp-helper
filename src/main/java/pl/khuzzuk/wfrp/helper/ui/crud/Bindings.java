@@ -3,9 +3,11 @@ package pl.khuzzuk.wfrp.helper.ui.crud;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.data.converter.Converter;
+import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
+import java.util.function.Consumer;
 
 public interface Bindings<T> {
     MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
@@ -21,4 +23,8 @@ public interface Bindings<T> {
     T read();
 
     void addFieldsTo(Dialog form);
+
+    void onData(QueryAllResult<?> allResult);
+
+    void registerDataListener(Consumer<QueryAllResult<?>> dataConsumer);
 }

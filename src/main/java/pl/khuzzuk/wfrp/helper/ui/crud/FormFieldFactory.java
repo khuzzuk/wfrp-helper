@@ -9,14 +9,19 @@ import org.springframework.stereotype.Component;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.event.Event;
-import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityManyToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CollectionFormFieldFactory;
 
 import javax.persistence.Entity;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @AllArgsConstructor
@@ -50,11 +55,12 @@ public class FormFieldFactory {
             switch (formElementMetadata.editor()) {
                 case CHOOSE:
                     EntityManyToOneField<?> entityChooseField = new EntityManyToOneField<>(name);
-                    bus.subscribingFor(Event.DATA_ALL).<QueryAllResult>accept(data -> {
-                        if (type.equals(data.getType())) {
-                            entityChooseField.setSourceValues(data.getItems());
-                        }
-                    }).subscribe();
+                    bindings.registerDataListener(data -> {
+                                if (type.equals(data.getType())) {
+                                    Collection items = data.getItems();
+                                    entityChooseField.setSourceValues(items);
+                                }
+                            });
                     bindings.bind(entityChooseField, name);
                     break;
             }

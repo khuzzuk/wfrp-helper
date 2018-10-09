@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.model.professions;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
@@ -11,6 +12,7 @@ import javax.persistence.ManyToOne;
 
 @Data
 @Entity
+@EqualsAndHashCode(of = {"id", "name"})
 public class Profession {
     @Id
     @GeneratedValue
