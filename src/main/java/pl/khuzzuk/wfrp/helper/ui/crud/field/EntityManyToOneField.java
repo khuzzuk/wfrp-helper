@@ -9,11 +9,9 @@ public class EntityManyToOneField<T> extends ComboBox<T> {
 
     public EntityManyToOneField(String label) {
         super(label);
-        System.out.println("Created " + this);
     }
 
     public void setSourceValues(Collection<T> sourceValues) {
-        System.out.println("source values for " + this + " " + sourceValues);
         this.sourceValues = sourceValues;
         setItems(sourceValues);
     }
