@@ -27,4 +27,8 @@ public interface Bindings<T> {
     void onData(QueryAllResult<?> allResult);
 
     void registerDataListener(Consumer<QueryAllResult<?>> dataConsumer);
+
+    void registerEntity(Class<?> entity);
+
+    void requestData(Consumer<Class<?>> entityRequest);
 }

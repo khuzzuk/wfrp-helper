@@ -23,7 +23,6 @@ import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.getGenericParameter
 @AllArgsConstructor
 public class CollectionFormFieldFactory {
     private EntityOneToManyFieldFactory entityOneToManyFieldFactory;
-    private Bus<Event> bus;
 
     public <T> void putFieldIntoForm(Field field, Bindings<T> bindings, FormFieldFactory formFieldFactory) {
         FormElement settings = field.getDeclaredAnnotation(FormElement.class);
@@ -33,9 +32,9 @@ public class CollectionFormFieldFactory {
                 putDelegatedEditor(field, bindings, formFieldFactory);
                 break;
             case CHOOSE:
-                DataSubscription<?> dataSubscription = new DataSubscription<>(getGenericParameterType(field));
-                putChooseFromExisting(field, dataSubscription);
-                bus.subscribingFor(Event.FIND_ALL).accept(dataSubscription::accept).subscribe();
+                Class chooseDataType = getGenericParameterType(field);
+                bindings.registerEntity(chooseDataType);
+                putChooseFromExisting(field, bindings);
                 break;
             case NONE:
             default:
@@ -43,11 +42,11 @@ public class CollectionFormFieldFactory {
         }
     }
 
-    private void putChooseFromExisting(Field field, DataSubscription<?> dataSubscription) {
+    private void putChooseFromExisting(Field field, Bindings<?> bindings) {
         Class listableType = getGenericParameterType(field);
-        ListableEntityOneToManyField listable = entityOneToManyFieldFactory.createListable(
+        ListableEntityOneToManyField<?> listable = entityOneToManyFieldFactory.createListable(
                 listableType, collectionFromFieldTypeProvider(field.getType()));
-        dataSubscription.setOnRefresh(listable::refreshData);
+        bindings.bind(listable, field.getName());
     }
 
     private void putDelegatedEditor(Field field, Bindings<?> bindings, FormFieldFactory formFieldFactory) {

@@ -61,6 +61,7 @@ public class FormFieldFactory {
                                     entityChooseField.setSourceValues(items);
                                 }
                             });
+                    bindings.registerEntity(type);
                     bindings.bind(entityChooseField, name);
                     break;
             }

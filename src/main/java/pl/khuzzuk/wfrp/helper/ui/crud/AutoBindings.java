@@ -13,6 +13,8 @@ import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 
 import java.lang.invoke.MethodHandle;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -23,9 +25,11 @@ class AutoBindings<T> implements Bindings<T> {
     private List<Consumer<QueryAllResult<?>>> dataConsumers = new ArrayList<>();
     MethodHandle constructorHandle;
     T bean;
+    private Collection<Class<?>> registeredEntities = new HashSet<>();
 
     static <T> AutoBindings<T> createForType(Class<T> beanType) {
         AutoBindings<T> bindings = new AutoBindings<>();
+        bindings.registeredEntities.add(beanType);
         bindings.binder = new Binder<>(beanType);
 
         try {
@@ -88,5 +92,15 @@ class AutoBindings<T> implements Bindings<T> {
     @Override
     public void registerDataListener(Consumer<QueryAllResult<?>> dataConsumer) {
         dataConsumers.add(dataConsumer);
+    }
+
+    @Override
+    public void registerEntity(Class<?> entity) {
+        registeredEntities.add(entity);
+    }
+
+    @Override
+    public void requestData(Consumer<Class<?>> entityRequest) {
+        registeredEntities.forEach(entityRequest::accept);
     }
 }

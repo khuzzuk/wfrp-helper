@@ -72,7 +72,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
 
         prepareForms();
         subscription = bus.subscribingFor(Event.DATA_ALL).accept(this::listAll).subscribe();
-        bus.message(Event.FIND_ALL).withContent(beanType).send();
+        bindings.requestData(type -> bus.message(Event.FIND_ALL).withContent(type).send());
     }
 
     private void createColumnsInTable() {
