@@ -33,7 +33,7 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
 
     @Override
     public void setValue(Collection<T> values) {
-        current = values;
+        current = values == null ? defaultValuesProvider.get() : values;
         refreshView();
     }
 

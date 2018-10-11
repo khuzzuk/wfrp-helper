@@ -2,11 +2,8 @@ package pl.khuzzuk.wfrp.helper.ui.crud.form;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
-import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.ui.crud.Bindings;
-import pl.khuzzuk.wfrp.helper.ui.crud.DataSubscription;
 import pl.khuzzuk.wfrp.helper.ui.crud.EntityOneToManyFieldFactory;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToManyField;
@@ -15,6 +12,7 @@ import pl.khuzzuk.wfrp.helper.ui.crud.field.ListableEntityOneToManyField;
 import javax.persistence.Entity;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import java.util.Collection;
 
 import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.collectionFromFieldTypeProvider;
 import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.getGenericParameterType;
@@ -47,6 +45,12 @@ public class CollectionFormFieldFactory {
         ListableEntityOneToManyField<?> listable = entityOneToManyFieldFactory.createListable(
                 listableType, collectionFromFieldTypeProvider(field.getType()));
         bindings.bind(listable, field.getName());
+        bindings.registerDataListener(data -> {
+            if (data.getType().equals(listableType)) {
+                Collection items = data.getItems();
+                listable.refreshData(items);
+            }
+        });
     }
 
     private void putDelegatedEditor(Field field, Bindings<?> bindings, FormFieldFactory formFieldFactory) {

@@ -24,14 +24,13 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> {
 
     private void initializeList(Class<T> beanType) {
         list = new Grid<>(beanType);
-        list.getColumns().forEach(list::removeColumn);
         addComponent(list);
 
         list.addSelectionListener(event -> event.getFirstSelectedItem().ifPresent(this::addEntity));
     }
 
     public void refreshData(Collection<T> data) {
-        getUI().ifPresent(ui -> ui.access(() -> list.setItems(data)));
+        list.setItems(data);
     }
 
     @Override
