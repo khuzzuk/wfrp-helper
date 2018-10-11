@@ -48,8 +48,10 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private CrudForm<T> createForm;
 
     public static <T> Crud<T> forBean(Class<T> beanType, Bus<Event> bus, FormFieldFactory formFieldFactory) {
+        log.info("start create crud for {}", beanType);
         Crud<T> crud = new Crud<>(bus, beanType, formFieldFactory);
         crud.initialize();
+        log.info("finished create crud for {}", beanType);
         return crud;
     }
 
@@ -91,6 +93,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     @SuppressWarnings("unchecked")
     private void prepareForms() {
         bindings = BindingsFactory.create(beanType, formFieldFactory);
+        log.info("bindings ready for {}", beanType);
 
         createForm = CrudForm.createFor(bindings, this::save);
         createButton.addClickListener(e -> createForm.showForm());

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.messaging.Bus;
+import pl.khuzzuk.messaging.BusPublisher;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
@@ -47,7 +48,9 @@ class RepoDispatcher implements InitializingBean {
     @SuppressWarnings("unchecked")
     private <T> void findAll(Class<T> type) {
         List all = repositories.get(type).findAll();
-        bus.message(Event.DATA_ALL).withContent(new QueryAllResult<>(type, (Collection<T>) all)).send();
+        BusPublisher<Event> message = bus.message(Event.DATA_ALL);
+        BusPublisher<Event> eventBusPublisher = message.withContent(new QueryAllResult<>(type, (Collection<T>) all));
+        eventBusPublisher.send();
     }
 
     private void save(Object entity) {
