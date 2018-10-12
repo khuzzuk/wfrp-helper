@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;
-import java.util.Arrays;
+import java.util.Collection;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -16,12 +16,12 @@ class BindingsFactory {
 
     private final FormFieldFactory formFieldFactory;
 
-    static <T> Bindings<T> create(Class<T> beanType, FormFieldFactory formFieldFactory) {
-        Bindings<T> bindings = AutoBindings.createForType(beanType);
-        Field[] fields = beanType.getDeclaredFields();
-        Arrays.stream(fields)
+    static <T> AutoBindings<T> create(Class<T> beanType, FormFieldFactory formFieldFactory) {
+        AutoBindings<T> bindings = AutoBindings.createForType(beanType);
+        Collection<Field> fields = ReflectionUtils.getFields(beanType);
+        fields.stream()
                 .filter(ExclusionFieldsUtils::canIncludeInForm)
-                .forEach(field -> formFieldFactory.bindWithComponent(field, bindings));
+                .forEach(field -> formFieldFactory.bindWithComponent(field, bindings, field.getName()));
         return bindings;
     }
 }

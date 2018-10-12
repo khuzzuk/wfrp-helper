@@ -8,9 +8,11 @@ import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.messaging.BusPublisher;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
+import pl.khuzzuk.wfrp.helper.model.inventory.Item;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
+import pl.khuzzuk.wfrp.helper.repo.crud.ItemRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ProfessionClassRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ProfessionRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.RaceRepo;
@@ -28,6 +30,7 @@ class RepoDispatcher implements InitializingBean {
     private final SkillRepo skillRepo;
     private final ProfessionClassRepo professionClassRepo;
     private final ProfessionRepo professionRepo;
+    private final ItemRepo itemRepo;
 
     private Map<Class<?>, JpaRepository> repositories;
 
@@ -37,7 +40,8 @@ class RepoDispatcher implements InitializingBean {
                 Race.class, raceRepo,
                 Skill.class, skillRepo,
                 ProfessionClass.class, professionClassRepo,
-                Profession.class, professionRepo
+                Profession.class, professionRepo,
+                Item.class, itemRepo
         );
 
         bus.subscribingFor(Event.FIND_ALL).accept((Class<?> type) -> findAll(type)).subscribe();
@@ -47,7 +51,12 @@ class RepoDispatcher implements InitializingBean {
 
     @SuppressWarnings("unchecked")
     private <T> void findAll(Class<T> type) {
-        List all = repositories.get(type).findAll();
+        JpaRepository repository = repositories.get(type);
+        if (repository == null) {
+            throw new IllegalStateException(String.format("No repository defined for type %s", type));
+        }
+
+        List all = repository.findAll();
         BusPublisher<Event> message = bus.message(Event.DATA_ALL);
         BusPublisher<Event> eventBusPublisher = message.withContent(new QueryAllResult<>(type, (Collection<T>) all));
         eventBusPublisher.send();

@@ -30,4 +30,16 @@ public class ReflectionUtils {
         }
         return ArrayDeque::new;
     }
+
+    public static Collection<Field> getFields(Class<?> type) {
+        List<Field> fields = new ArrayList<>();
+        Class<?> currentType = type;
+        while (!Object.class.equals(currentType)) {
+            for (Field field : currentType.getDeclaredFields()) {
+                fields.add(field);
+            }
+            currentType = currentType.getSuperclass();
+        }
+        return fields;
+    }
 }

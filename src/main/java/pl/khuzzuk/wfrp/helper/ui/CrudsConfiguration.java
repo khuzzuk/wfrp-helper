@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
+import pl.khuzzuk.wfrp.helper.model.inventory.Item;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
@@ -36,5 +37,11 @@ class CrudsConfiguration {
     @UIScope
     Crud<Profession> professionCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
         return Crud.forBean(Profession.class, bus, formFieldFactory);
+    }
+
+    @Bean
+    @UIScope
+    Crud<Item> itemCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
+        return Crud.forBean(Item.class, bus, formFieldFactory);
     }
 }

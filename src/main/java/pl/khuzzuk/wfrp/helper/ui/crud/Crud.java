@@ -1,7 +1,9 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -33,7 +35,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private final Class<T> beanType;
     private final FormFieldFactory formFieldFactory;
 
-    private Bindings<T> bindings;
+    private AutoBindings<T> bindings;
     private Cancellable<Event> subscription;
     private Collection<T> data = new ArrayList<>();
     private ListDataProvider<T> dataProvider;
@@ -106,7 +108,14 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     }
 
     private void save(T bean) {
-        bus.message(Event.SAVE).withContent(bean).send();
+        bus.message(Event.SAVE)
+                .withContent(bean)
+                .onError(() -> execute(() -> {
+                    Dialog dialog = new Dialog();
+                    dialog.add(new Label("Exception during save entity"));
+                    dialog.open();
+                }))
+                .send();
     }
 
     private void remove() {

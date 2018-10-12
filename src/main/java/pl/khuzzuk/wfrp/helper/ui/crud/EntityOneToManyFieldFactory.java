@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 @AllArgsConstructor
 public class EntityOneToManyFieldFactory {
     public <T> EntityOneToManyField<T> createWithDelegatedEditor(Class<T> type, Supplier<Collection<T>> initialValues, FormFieldFactory formFieldFactory) {
-        Bindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
+        AutoBindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
         EntityOneToManyField<T> entityField = new EntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), initialValues);
         CrudForm<T> form = CrudForm.createFor(subEntityBindings, entityField::addEntity);
         entityField.setOnEdit(form::showForm);

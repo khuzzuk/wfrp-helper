@@ -4,16 +4,16 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import lombok.RequiredArgsConstructor;
-import pl.khuzzuk.wfrp.helper.ui.crud.Bindings;
+import pl.khuzzuk.wfrp.helper.ui.crud.AutoBindings;
 
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 public class CrudForm<T> extends Dialog {
-    private final Bindings<T> bindings;
+    private final AutoBindings<T> bindings;
     private T bean;
 
-    public static <T> CrudForm<T> createFor(Bindings<T> bindings, Consumer<T> afterFinish) {
+    public static <T> CrudForm<T> createFor(AutoBindings<T> bindings, Consumer<T> afterFinish) {
         CrudForm<T> form = new CrudForm<>(bindings);
         bindings.addFieldsTo(form);
 

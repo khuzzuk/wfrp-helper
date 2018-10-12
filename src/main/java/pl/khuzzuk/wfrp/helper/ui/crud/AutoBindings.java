@@ -12,6 +12,9 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,15 +23,21 @@ import java.util.function.Consumer;
 
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-class AutoBindings<T> implements Bindings<T> {
+public class AutoBindings<T> {
+    private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
+    private static final MethodType CONSTRUCTOR_TYPE = MethodType.methodType(void.class);
+
+    private Class<T> beanType;
     private Binder<T> binder;
     private List<Consumer<QueryAllResult<?>>> dataConsumers = new ArrayList<>();
     MethodHandle constructorHandle;
+    private Collection<InnerFieldInitializer> innerFieldInitializers = new ArrayList<>();
     T bean;
     private Collection<Class<?>> registeredEntities = new HashSet<>();
 
     static <T> AutoBindings<T> createForType(Class<T> beanType) {
         AutoBindings<T> bindings = new AutoBindings<>();
+        bindings.beanType = beanType;
         bindings.registeredEntities.add(beanType);
         bindings.binder = new Binder<>(beanType);
 
@@ -40,43 +49,59 @@ class AutoBindings<T> implements Bindings<T> {
         return bindings;
     }
 
-    @Override
     public <E> void bind(HasValue<?, E> component, String name) {
+        registerInnerFieldInitializer(name);
         binder.bind(component, name);
     }
 
-    @Override
     public <E, P> void bind(HasValue<?, P> component, String name, Converter<P, E> converter) {
+        registerInnerFieldInitializer(name);
         binder.forField(component)
                 .withConverter(converter)
                 .bind(name);
     }
 
-    @Override
+    private void registerInnerFieldInitializer(String name) {
+        try {
+            if (name.contains(".")) {
+                Field referenceField = beanType.getDeclaredField(name.substring(0, name.indexOf('.')));
+                MethodType setterType = MethodType.methodType(void.class, referenceField.getType());
+                String setterName = "set" + referenceField.getName().substring(0, 1).toUpperCase()
+                        + referenceField.getName().substring(1);
+                innerFieldInitializers.add(new InnerFieldInitializer(
+                        LOOKUP.findVirtual(beanType, setterName, setterType),
+                        LOOKUP.findConstructor(referenceField.getType(), CONSTRUCTOR_TYPE)));
+            }
+        } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public T createNewInstance() {
         try {
-            update((T) constructorHandle.invoke());
+            Object newBean = constructorHandle.invoke();
+            for (InnerFieldInitializer initializer : innerFieldInitializers) {
+                initializer.initializeField(newBean);
+            }
+            update((T) newBean);
             return bean;
         } catch (Throwable throwable) {
             throw new RuntimeException(throwable);
         }
     }
 
-    @Override
     public void update(T bean) {
         this.bean = bean;
         binder.removeBean();
         binder.readBean(bean);
     }
 
-    @Override
     public T read() {
         binder.validate();
         binder.writeBeanIfValid(bean);
         return bean;
     }
 
-    @Override
     public void addFieldsTo(Dialog form) {
         binder.getFields()
                 .filter(Component.class::isInstance)
@@ -84,22 +109,18 @@ class AutoBindings<T> implements Bindings<T> {
                 .forEach(form::add);
     }
 
-    @Override
     public void onData(QueryAllResult<?> allResult) {
         dataConsumers.forEach(c -> c.accept(allResult));
     }
 
-    @Override
     public void registerDataListener(Consumer<QueryAllResult<?>> dataConsumer) {
         dataConsumers.add(dataConsumer);
     }
 
-    @Override
     public void registerEntity(Class<?> entity) {
         registeredEntities.add(entity);
     }
 
-    @Override
     public void requestData(Consumer<Class<?>> entityRequest) {
         registeredEntities.forEach(entityRequest::accept);
     }

@@ -10,7 +10,8 @@ import java.util.Set;
 class ExclusionFieldsUtils {
     private static final Set<Class<?>> supportedTypes = Set.of(
             String.class,
-            int.class, Integer.class
+            int.class, Integer.class,
+            float.class, Float.class
     );
 
     static boolean canIncludeInForm(Field field) {

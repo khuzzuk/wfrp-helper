@@ -3,7 +3,7 @@ package pl.khuzzuk.wfrp.helper.ui.crud.form;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
-import pl.khuzzuk.wfrp.helper.ui.crud.Bindings;
+import pl.khuzzuk.wfrp.helper.ui.crud.AutoBindings;
 import pl.khuzzuk.wfrp.helper.ui.crud.EntityOneToManyFieldFactory;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToManyField;
@@ -22,7 +22,7 @@ import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.getGenericParameter
 public class CollectionFormFieldFactory {
     private EntityOneToManyFieldFactory entityOneToManyFieldFactory;
 
-    public <T> void putFieldIntoForm(Field field, Bindings<T> bindings, FormFieldFactory formFieldFactory) {
+    public <T> void putFieldIntoForm(Field field, AutoBindings<T> bindings, FormFieldFactory formFieldFactory) {
         FormElement settings = field.getDeclaredAnnotation(FormElement.class);
 
         switch (settings.editor()) {
@@ -40,7 +40,7 @@ public class CollectionFormFieldFactory {
         }
     }
 
-    private void putChooseFromExisting(Field field, Bindings<?> bindings) {
+    private void putChooseFromExisting(Field field, AutoBindings<?> bindings) {
         Class listableType = getGenericParameterType(field);
         ListableEntityOneToManyField<?> listable = entityOneToManyFieldFactory.createListable(
                 listableType, collectionFromFieldTypeProvider(field.getType()));
@@ -53,7 +53,7 @@ public class CollectionFormFieldFactory {
         });
     }
 
-    private void putDelegatedEditor(Field field, Bindings<?> bindings, FormFieldFactory formFieldFactory) {
+    private void putDelegatedEditor(Field field, AutoBindings<?> bindings, FormFieldFactory formFieldFactory) {
         String name = field.getName();
         Class<?> type = field.getType();
 
