@@ -12,12 +12,15 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Min;
 
 @Data
 @Entity
-public class Item {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public abstract class Item {
     @FormElement(exclude = true)
     @Id
     @SequenceGenerator(name = "item_seq_gen", sequenceName = "item_seq")

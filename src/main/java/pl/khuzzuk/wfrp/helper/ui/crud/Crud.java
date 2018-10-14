@@ -81,7 +81,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
 
     private void createColumnsInTable() {
         table.getColumns().forEach(table::removeColumn);
-        for (Field f : beanType.getDeclaredFields()) {
+        for (Field f : ReflectionUtils.getFields(beanType)) {
             if (ExclusionFieldsUtils.canIncludeInForm(f)) {
                 addFieldToTable(f);
             }

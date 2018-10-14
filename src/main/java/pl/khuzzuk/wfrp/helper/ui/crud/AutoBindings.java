@@ -30,9 +30,9 @@ public class AutoBindings<T> {
     private Class<T> beanType;
     private Binder<T> binder;
     private List<Consumer<QueryAllResult<?>>> dataConsumers = new ArrayList<>();
-    MethodHandle constructorHandle;
+    private MethodHandle constructorHandle;
     private Collection<InnerFieldInitializer> innerFieldInitializers = new ArrayList<>();
-    T bean;
+    private T bean;
     private Collection<Class<?>> registeredEntities = new HashSet<>();
 
     static <T> AutoBindings<T> createForType(Class<T> beanType) {
@@ -54,7 +54,7 @@ public class AutoBindings<T> {
         binder.bind(component, name);
     }
 
-    public <E, P> void bind(HasValue<?, P> component, String name, Converter<P, E> converter) {
+    <E, P> void bind(HasValue<?, P> component, String name, Converter<P, E> converter) {
         registerInnerFieldInitializer(name);
         binder.forField(component)
                 .withConverter(converter)
@@ -64,7 +64,7 @@ public class AutoBindings<T> {
     private void registerInnerFieldInitializer(String name) {
         try {
             if (name.contains(".")) {
-                Field referenceField = beanType.getDeclaredField(name.substring(0, name.indexOf('.')));
+                Field referenceField = ReflectionUtils.getFieldByName(beanType, name.substring(0, name.indexOf('.')));
                 MethodType setterType = MethodType.methodType(void.class, referenceField.getType());
                 String setterName = "set" + referenceField.getName().substring(0, 1).toUpperCase()
                         + referenceField.getName().substring(1);
@@ -77,6 +77,7 @@ public class AutoBindings<T> {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public T createNewInstance() {
         try {
             Object newBean = constructorHandle.invoke();

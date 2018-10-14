@@ -9,10 +9,12 @@ import pl.khuzzuk.messaging.BusPublisher;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
+import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
 import pl.khuzzuk.wfrp.helper.repo.crud.ItemRepo;
+import pl.khuzzuk.wfrp.helper.repo.crud.MiscItemRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ProfessionClassRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ProfessionRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.RaceRepo;
@@ -31,6 +33,7 @@ class RepoDispatcher implements InitializingBean {
     private final ProfessionClassRepo professionClassRepo;
     private final ProfessionRepo professionRepo;
     private final ItemRepo itemRepo;
+    private final MiscItemRepo miscItemRepo;
 
     private Map<Class<?>, JpaRepository> repositories;
 
@@ -41,7 +44,8 @@ class RepoDispatcher implements InitializingBean {
                 Skill.class, skillRepo,
                 ProfessionClass.class, professionClassRepo,
                 Profession.class, professionRepo,
-                Item.class, itemRepo
+                Item.class, itemRepo,
+                MiscItem.class, miscItemRepo
         );
 
         bus.subscribingFor(Event.FIND_ALL).accept((Class<?> type) -> findAll(type)).subscribe();

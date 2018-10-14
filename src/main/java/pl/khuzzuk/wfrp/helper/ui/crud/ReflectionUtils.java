@@ -5,6 +5,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.function.Supplier;
 
 public class ReflectionUtils {
     public static Class getGenericParameterType(Field field) {
-        ParameterizedType genericType = (ParameterizedType) field.getGenericType(); //collections should be parametrized, otherwise it's not bindable by crud
+        ParameterizedType genericType = (ParameterizedType) field.getGenericType(); //collections should be parametrized, otherwise it's not possible to bind by crud
         Type[] actualTypeArguments = genericType.getActualTypeArguments();
         if (actualTypeArguments.length != 1) {
             throw new IllegalArgumentException(String.format("Field do not have 1 generic parameter: %s", field));
@@ -31,15 +32,25 @@ public class ReflectionUtils {
         return ArrayDeque::new;
     }
 
-    public static Collection<Field> getFields(Class<?> type) {
+    static Collection<Field> getFields(Class<?> type) {
         List<Field> fields = new ArrayList<>();
         Class<?> currentType = type;
         while (!Object.class.equals(currentType)) {
-            for (Field field : currentType.getDeclaredFields()) {
-                fields.add(field);
-            }
+            fields.addAll(Arrays.asList(currentType.getDeclaredFields()));
             currentType = currentType.getSuperclass();
         }
         return fields;
+    }
+
+    static Field getFieldByName(Class<?> type, String name) throws NoSuchFieldException {
+        Class<?> currentType = type;
+        while (!Object.class.equals(type)) {
+            try {
+                return currentType.getDeclaredField(name);
+            } catch (NoSuchFieldException e) {
+                currentType = currentType.getSuperclass();
+            }
+        }
+        throw new NoSuchFieldException(String.format("No field named %s found in %s", name, type));
     }
 }
