@@ -17,6 +17,7 @@ import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CrudForm;
+import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
@@ -41,11 +42,16 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private ListDataProvider<T> dataProvider;
 
     @UIProperty
+    @CSS(classNames = "crud-grid")
     private Grid<T> table;
+    @CSS(classNames = "button")
     private Button createButton = new Button("Create");
+    @CSS(classNames = "button")
     private Button editButton = new Button("Edit");
+    @CSS(classNames = "button")
     private Button removeButton = new Button("Remove");
     @UIProperty
+    @CSS(classNames = "button-group")
     private HorizontalLayout crudButtons = new HorizontalLayout(createButton, editButton, removeButton);
     private CrudForm<T> createForm;
 

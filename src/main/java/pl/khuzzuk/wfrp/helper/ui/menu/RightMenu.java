@@ -17,6 +17,7 @@ import pl.khuzzuk.wfrp.helper.model.skill.Skill;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
+import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
@@ -27,20 +28,23 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 public class RightMenu extends WebComponent implements InitializingBean {
     private final Bus<Event> bus;
     private final FormFieldFactory formFieldFactory;
+    private final Div content;
 
     @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
     private Button raceButton = new Button("Race");
     @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
     private Button skillButton = new Button("Skills");
     @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
     private Button professionClassButton = new Button("Classes");
     @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
     private Button professionButton = new Button("Professions");
     @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
     private Button itemButton = new Button("Items");
-
-    @UIProperty
-    private Div content = new Div();
 
     private final Crud<Race> raceCrud;
     private final Crud<Skill> skillCrud;

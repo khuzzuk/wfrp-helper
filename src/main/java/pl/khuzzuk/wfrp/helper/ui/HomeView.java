@@ -2,6 +2,7 @@ package pl.khuzzuk.wfrp.helper.ui;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.StyleSheet;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -15,13 +16,16 @@ import pl.khuzzuk.wfrp.helper.ui.menu.RightMenu;
 @Route("")
 @Component
 @UIScope
-@StyleSheet("css/mtg-organizer.css")
+@StyleSheet("wfrp-helper-style.css")
 @Push
 @Tag("HomeView")
 @RequiredArgsConstructor
 public class HomeView extends WebComponent implements InitializingBean {
     @UIProperty
     private final RightMenu rightMenu;
+
+    @UIProperty
+    private final Div content;
 
     @Override
     public void afterPropertiesSet() {
