@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ReflectionUtils {
     public static Class getGenericParameterType(Field field) {
@@ -33,13 +35,17 @@ public class ReflectionUtils {
     }
 
     static Collection<Field> getFields(Class<?> type) {
-        List<Field> fields = new ArrayList<>();
+        List<Class<?>> typesHierarchy = new LinkedList<>();
         Class<?> currentType = type;
         while (!Object.class.equals(currentType)) {
-            fields.addAll(Arrays.asList(currentType.getDeclaredFields()));
+            typesHierarchy.add(0, currentType);
             currentType = currentType.getSuperclass();
         }
-        return fields;
+
+        return typesHierarchy.stream()
+                .map(Class::getDeclaredFields)
+                .flatMap(Arrays::stream)
+                .collect(Collectors.toList());
     }
 
     static Field getFieldByName(Class<?> type, String name) throws NoSuchFieldException {
