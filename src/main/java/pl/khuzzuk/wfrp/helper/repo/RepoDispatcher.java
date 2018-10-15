@@ -10,6 +10,7 @@ import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
 import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
+import pl.khuzzuk.wfrp.helper.model.inventory.weapons.WeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
@@ -19,6 +20,7 @@ import pl.khuzzuk.wfrp.helper.repo.crud.ProfessionClassRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ProfessionRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.RaceRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.SkillRepo;
+import pl.khuzzuk.wfrp.helper.repo.crud.WeaponRepository;
 
 import java.util.Collection;
 import java.util.List;
@@ -34,6 +36,7 @@ class RepoDispatcher implements InitializingBean {
     private final ProfessionRepo professionRepo;
     private final ItemRepo itemRepo;
     private final MiscItemRepo miscItemRepo;
+    private final WeaponRepository weaponRepository;
 
     private Map<Class<?>, JpaRepository> repositories;
 
@@ -45,7 +48,8 @@ class RepoDispatcher implements InitializingBean {
                 ProfessionClass.class, professionClassRepo,
                 Profession.class, professionRepo,
                 Item.class, itemRepo,
-                MiscItem.class, miscItemRepo
+                MiscItem.class, miscItemRepo,
+                WeaponBlueprint.class, weaponRepository
         );
 
         bus.subscribingFor(Event.FIND_ALL).accept((Class<?> type) -> findAll(type)).subscribe();

@@ -11,6 +11,7 @@ import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
+import pl.khuzzuk.wfrp.helper.model.inventory.weapons.WeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
@@ -45,12 +46,16 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
     private Button itemButton = new Button("Items");
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
+    private Button weaponBlueprintsButton = new Button("Weapon Blueprints");
 
     private final Crud<Race> raceCrud;
     private final Crud<Skill> skillCrud;
     private final Crud<ProfessionClass> professionClassCrud;
     private final Crud<Profession> professionCrud;
     private final Crud<Item> itemCrud;
+    private final Crud<WeaponBlueprint> weaponBlueprintCrud;
 
     @Override
     public void afterPropertiesSet() {
@@ -60,6 +65,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
         professionClassButton.addClickListener(event -> showCrud(professionClassCrud));
         professionButton.addClickListener(event -> showCrud(professionCrud));
         itemButton.addClickListener(event -> showCrud(itemCrud));
+        weaponBlueprintsButton.addClickListener(event -> showCrud(weaponBlueprintCrud));
     }
 
     private void showCrud(Crud<?> crud) {
