@@ -5,6 +5,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToManyField;
+import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.ListableEntityOneToManyField;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CrudForm;
 
@@ -14,7 +15,7 @@ import java.util.function.Supplier;
 
 @Component
 @AllArgsConstructor
-public class EntityOneToManyFieldFactory {
+public class EntityFieldFactory {
     public <T> EntityOneToManyField<T> createWithDelegatedEditor(Class<T> type, Supplier<Collection<T>> initialValues, FormFieldFactory formFieldFactory) {
         AutoBindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
         EntityOneToManyField<T> entityField = new EntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), initialValues);
@@ -27,6 +28,14 @@ public class EntityOneToManyFieldFactory {
 
         entityField.refreshView();
         return entityField;
+    }
+
+    public <T> EntityOneToOneField<T> createWithDelegatedEditor(Class<T> type, FormFieldFactory formFieldFactory) {
+        AutoBindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
+        EntityOneToOneField<T> field = new EntityOneToOneField<>();
+        CrudForm<T> form = CrudForm.createFor(subEntityBindings, field::setValue);
+        field.addClickListener(e -> form.showForm());
+        return field;
     }
 
     public <T> ListableEntityOneToManyField<T> createListable(

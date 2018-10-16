@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityManyToOneField;
+import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CollectionFormFieldFactory;
 
 import java.lang.reflect.Field;
@@ -22,6 +23,7 @@ import java.util.EnumSet;
 @Component
 public class FormFieldFactory {
     private CollectionFormFieldFactory collectionFormFieldFactory;
+    private EntityFieldFactory entityFieldFactory;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     void bindWithComponent(Field field, AutoBindings<?> bindings, String propertyPath) {
@@ -64,6 +66,10 @@ public class FormFieldFactory {
                             });
                     bindings.registerEntity(type);
                     bindings.bind(entityChooseField, propertyPath);
+                    break;
+                case DELEGATED:
+                    EntityOneToOneField<?> entityField = entityFieldFactory.createWithDelegatedEditor(type, this);
+                    bindings.bind(entityField, propertyPath);
                     break;
                 case EMBEDDED:
                     Collection<Field> fields = ReflectionUtils.getFields(type);

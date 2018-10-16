@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.ui.crud.AutoBindings;
-import pl.khuzzuk.wfrp.helper.ui.crud.EntityOneToManyFieldFactory;
+import pl.khuzzuk.wfrp.helper.ui.crud.EntityFieldFactory;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToManyField;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.ListableEntityOneToManyField;
@@ -20,7 +20,7 @@ import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.getGenericParameter
 @Component
 @AllArgsConstructor
 public class CollectionFormFieldFactory {
-    private EntityOneToManyFieldFactory entityOneToManyFieldFactory;
+    private EntityFieldFactory entityFieldFactory;
 
     public <T> void putFieldIntoForm(Field field, AutoBindings<T> bindings, FormFieldFactory formFieldFactory) {
         FormElement settings = field.getDeclaredAnnotation(FormElement.class);
@@ -42,7 +42,7 @@ public class CollectionFormFieldFactory {
 
     private void putChooseFromExisting(Field field, AutoBindings<?> bindings) {
         Class listableType = getGenericParameterType(field);
-        ListableEntityOneToManyField<?> listable = entityOneToManyFieldFactory.createListable(
+        ListableEntityOneToManyField<?> listable = entityFieldFactory.createListable(
                 listableType, collectionFromFieldTypeProvider(field.getType()));
         bindings.bind(listable, field.getName());
         bindings.registerDataListener(data -> {
@@ -58,7 +58,7 @@ public class CollectionFormFieldFactory {
         Class<?> type = field.getType();
 
         if (canHaveEditor(getGenericParameterType(field))) {
-            EntityOneToManyField<?> entityField = entityOneToManyFieldFactory.createWithDelegatedEditor(
+            EntityOneToManyField<?> entityField = entityFieldFactory.createWithDelegatedEditor(
                     getGenericParameterType(field), collectionFromFieldTypeProvider(type), formFieldFactory);
             bindings.bind(entityField, name);
         } else {
