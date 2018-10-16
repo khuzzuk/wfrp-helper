@@ -9,6 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
+import pl.khuzzuk.wfrp.helper.model.inventory.weapons.ArmorBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.MeleeWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.RangedWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
@@ -53,6 +54,8 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private Button weaponBlueprintsButton = new Button("Melee Weapon");
     @CSS(classNames = {"button", "menu-button"})
     private Button rangedWeaponBlueprintsButton = new Button("Ranged Weapon");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button armorBlueprintsButton = new Button("Armor");
 
     private final Crud<Race> raceCrud;
     private final Crud<Skill> skillCrud;
@@ -61,6 +64,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private final Crud<Item> itemCrud;
     private final Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud;
     private final Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud;
+    private final Crud<ArmorBlueprint> armorBlueprintCrud;
 
     @Override
     public void afterPropertiesSet() {
@@ -79,6 +83,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
         itemButton.addClickListener(event -> showCrud(itemCrud));
         weaponBlueprintsButton.addClickListener(event -> showCrud(meleeWeaponBlueprintCrud));
         rangedWeaponBlueprintsButton.addClickListener(event -> showCrud(rangedWeaponBlueprintCrud));
+        armorBlueprintsButton.addClickListener(event -> showCrud(armorBlueprintCrud));
     }
 
     private void showCrud(Crud<?> crud) {
@@ -89,8 +94,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private void showBlueprints() {
         content.removeAll();
         removeAll();
-        add(weaponBlueprintsButton);
-        add(rangedWeaponBlueprintsButton);
-        add(backButton);
+        add(weaponBlueprintsButton, rangedWeaponBlueprintsButton, armorBlueprintsButton,
+                backButton);
     }
 }

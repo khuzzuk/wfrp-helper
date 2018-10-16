@@ -7,9 +7,9 @@ import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
+import pl.khuzzuk.wfrp.helper.model.inventory.weapons.ArmorBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.MeleeWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.RangedWeaponBlueprint;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.WeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
@@ -58,5 +58,11 @@ class CrudsConfiguration {
     @UIScope
     Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
         return Crud.forBean(RangedWeaponBlueprint.class, bus, formFieldFactory);
+    }
+
+    @Bean
+    @UIScope
+    Crud<ArmorBlueprint> armorBlueprintCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
+        return Crud.forBean(ArmorBlueprint.class, bus, formFieldFactory);
     }
 }

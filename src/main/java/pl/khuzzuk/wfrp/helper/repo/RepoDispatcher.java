@@ -10,11 +10,13 @@ import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
 import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
+import pl.khuzzuk.wfrp.helper.model.inventory.weapons.ArmorBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.MeleeWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.RangedWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
+import pl.khuzzuk.wfrp.helper.repo.crud.ArmorBlueprintRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ItemRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.MeleeWeaponBlueprintRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.MiscItemRepo;
@@ -42,6 +44,7 @@ class RepoDispatcher implements InitializingBean {
     private final MiscItemRepo miscItemRepo;
     private final MeleeWeaponBlueprintRepo meleeWeaponBlueprintRepo;
     private final RangedWeaponBlueprintRepo rangedWeaponBlueprintRepo;
+    private final ArmorBlueprintRepo armorBlueprintRepo;
 
     private Map<Class<?>, JpaRepository> repositories;
 
@@ -56,6 +59,7 @@ class RepoDispatcher implements InitializingBean {
         repositories.put(MiscItem.class, miscItemRepo);
         repositories.put(MeleeWeaponBlueprint.class, meleeWeaponBlueprintRepo);
         repositories.put(RangedWeaponBlueprint.class, rangedWeaponBlueprintRepo);
+        repositories.put(ArmorBlueprint.class, armorBlueprintRepo);
 
         bus.subscribingFor(Event.FIND_ALL).accept((Consumer<Class<?>>) this::findAll).subscribe();
         bus.subscribingFor(Event.SAVE).accept(this::save).subscribe();
