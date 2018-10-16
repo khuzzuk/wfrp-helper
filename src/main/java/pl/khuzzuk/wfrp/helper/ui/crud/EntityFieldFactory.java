@@ -21,6 +21,7 @@ public class EntityFieldFactory {
         EntityOneToManyField<T> entityField = new EntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), initialValues);
         CrudForm<T> form = CrudForm.createFor(subEntityBindings, entityField::addEntity);
         entityField.setOnEdit(form::showForm);
+        entityField.setName(type.getSimpleName());
 
         Button button = new Button(VaadinIcon.PLUS.create());
         button.addClickListener(e -> form.showForm());
@@ -34,7 +35,7 @@ public class EntityFieldFactory {
         AutoBindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
         EntityOneToOneField<T> field = new EntityOneToOneField<>();
         CrudForm<T> form = CrudForm.createFor(subEntityBindings, field::setValue);
-        field.addClickListener(e -> form.showForm());
+        field.addClickListener(e -> form.showForm(field.getValue()));
         return field;
     }
 

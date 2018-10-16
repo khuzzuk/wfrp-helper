@@ -5,10 +5,10 @@ import lombok.Setter;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.inventory.Wearable;
+import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -18,14 +18,13 @@ import java.util.Set;
 
 @Getter
 @Setter
-@Entity
-public class WeaponBlueprint extends Wearable {
+public abstract class WeaponBlueprint extends Wearable {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "weapon_modifiers",
+    @JoinTable(name = "weapon_determinants",
             joinColumns = @JoinColumn(name = "weapon_id"),
-            inverseJoinColumns = @JoinColumn(name = "modifier_id"))
+            inverseJoinColumns = @JoinColumn(name = "determinant_id"))
     @FormElement(editor = EditorType.DELEGATED)
-    private Set<Modifier> modifiers;
+    private Set<Determinant> determinants;
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @FormElement(editor = EditorType.DELEGATED)
     private Modifier damage;

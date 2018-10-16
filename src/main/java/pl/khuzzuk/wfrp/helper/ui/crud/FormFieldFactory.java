@@ -9,14 +9,17 @@ import com.vaadin.flow.data.converter.StringToLongConverter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import pl.khuzzuk.wfrp.helper.edit.EnumFilter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityManyToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CollectionFormFieldFactory;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.EnumSet;
+import java.util.stream.Collectors;
 
 @Slf4j
 @AllArgsConstructor
@@ -27,7 +30,7 @@ public class FormFieldFactory {
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     void bindWithComponent(Field field, AutoBindings<?> bindings, String propertyPath) {
-        Class<?> type = field.getType();
+        Class type = field.getType();
         String name = field.getName();
 
         if (type.equals(String.class)) {
@@ -47,7 +50,14 @@ public class FormFieldFactory {
 
         } else if (Enum.class.isAssignableFrom(type)) {
             ComboBox<Enum> enumField = new ComboBox<>(name);
-            enumField.setItems(EnumSet.allOf((Class<Enum>) type));
+            if (field.isAnnotationPresent(EnumFilter.class)) {
+                enumField.setItems(Arrays.stream(field.getDeclaredAnnotation(EnumFilter.class).value())
+                        .map(v -> Enum.valueOf(type, v))
+                        .collect(Collectors.toSet()));
+
+            } else {
+                enumField.setItems(EnumSet.allOf((Class<Enum>) type));
+            }
             bindings.bind(enumField, propertyPath);
 
         } else if (Collection.class.isAssignableFrom(type)) {
@@ -70,6 +80,7 @@ public class FormFieldFactory {
                 case DELEGATED:
                     EntityOneToOneField<?> entityField = entityFieldFactory.createWithDelegatedEditor(type, this);
                     bindings.bind(entityField, propertyPath);
+                    bindings.registerFieldInitializer(field);
                     break;
                 case EMBEDDED:
                     Collection<Field> fields = ReflectionUtils.getFields(type);

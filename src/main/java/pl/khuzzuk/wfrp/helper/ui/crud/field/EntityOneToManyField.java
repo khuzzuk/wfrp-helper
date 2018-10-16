@@ -22,6 +22,7 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
     final List<Component> components;
     private final List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> listeners;
     private final Supplier<? extends Collection<T>> defaultValuesProvider;
+    private Label name = new Label("Entities");
     Collection<T> current = Collections.emptyList();
     @Setter
     Consumer<T> onEdit = any -> {};
@@ -29,6 +30,10 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
     public void addComponent(Component component) {
         components.add(component);
         refreshView();
+    }
+
+    public void setName(String name) {
+        this.name.setText(name);
     }
 
     @Override
@@ -49,6 +54,8 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
 
     public void refreshView() {
         removeAll();
+        add(name);
+
         if (current == null) {
             current = defaultValuesProvider.get();
         }

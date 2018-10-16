@@ -17,8 +17,10 @@ import java.lang.invoke.MethodType;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 @Slf4j
@@ -31,7 +33,7 @@ public class AutoBindings<T> {
     private Binder<T> binder;
     private List<Consumer<QueryAllResult<?>>> dataConsumers = new ArrayList<>();
     private MethodHandle constructorHandle;
-    private Collection<InnerFieldInitializer> innerFieldInitializers = new ArrayList<>();
+    private Map<Class, InnerFieldInitializer> innerFieldInitializers = new HashMap<>();
     private T bean;
     private Collection<Class<?>> registeredEntities = new HashSet<>();
 
@@ -65,14 +67,24 @@ public class AutoBindings<T> {
         try {
             if (name.contains(".")) {
                 Field referenceField = ReflectionUtils.getFieldByName(beanType, name.substring(0, name.indexOf('.')));
-                MethodType setterType = MethodType.methodType(void.class, referenceField.getType());
-                String setterName = "set" + referenceField.getName().substring(0, 1).toUpperCase()
-                        + referenceField.getName().substring(1);
-                innerFieldInitializers.add(new InnerFieldInitializer(
-                        LOOKUP.findVirtual(beanType, setterName, setterType),
-                        LOOKUP.findConstructor(referenceField.getType(), CONSTRUCTOR_TYPE)));
+                registerFieldInitializer(referenceField);
             }
-        } catch (NoSuchFieldException | IllegalAccessException | NoSuchMethodException e) {
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    void registerFieldInitializer(Field field) {
+        try {
+            if (!innerFieldInitializers.containsKey(field.getType())) {
+                MethodType setterType = MethodType.methodType(void.class, field.getType());
+                String setterName = "set" + field.getName().substring(0, 1).toUpperCase()
+                        + field.getName().substring(1);
+                innerFieldInitializers.put(field.getType(), new InnerFieldInitializer(
+                        LOOKUP.findVirtual(beanType, setterName, setterType),
+                        LOOKUP.findConstructor(field.getType(), CONSTRUCTOR_TYPE)));
+            }
+        } catch (IllegalAccessException | NoSuchMethodException e) {
             throw new RuntimeException(e);
         }
     }
@@ -81,7 +93,7 @@ public class AutoBindings<T> {
     public T createNewInstance() {
         try {
             Object newBean = constructorHandle.invoke();
-            for (InnerFieldInitializer initializer : innerFieldInitializers) {
+            for (InnerFieldInitializer initializer : innerFieldInitializers.values()) {
                 initializer.initializeField(newBean);
             }
             update((T) newBean);

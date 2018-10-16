@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,12 +29,11 @@ public class Modifier {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @FormElement(editor = EditorType.DELEGATED)
-    private List<DiceRoll> rolls;
+    private List<DiceRoll> rolls = new ArrayList<>();
 
     @Override
     public String toString() {
-        return type + " "
-                + (rolls.isEmpty() ? ""
+        return (rolls.isEmpty() ? ""
                 : rolls.stream().map(Object::toString).collect(Collectors.joining("+"))) + "+"
                 + value;
     }
