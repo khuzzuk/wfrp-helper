@@ -9,6 +9,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
+import pl.khuzzuk.wfrp.helper.model.inventory.Jewelry;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.ArmorBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.MeleeWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.weapons.RangedWeaponBlueprint;
@@ -45,6 +46,9 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private Button itemButton = new Button("Items");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
+    private Button jewelryButton = new Button("Jewelry");
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
     private Button blueprintsButton = new Button("Blueprints");
 
     @CSS(classNames = {"button", "menu-button"})
@@ -65,6 +69,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private final Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud;
     private final Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud;
     private final Crud<ArmorBlueprint> armorBlueprintCrud;
+    private final Crud<Jewelry> jewelryCrud;
 
     @Override
     public void afterPropertiesSet() {
@@ -84,6 +89,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
         weaponBlueprintsButton.addClickListener(event -> showCrud(meleeWeaponBlueprintCrud));
         rangedWeaponBlueprintsButton.addClickListener(event -> showCrud(rangedWeaponBlueprintCrud));
         armorBlueprintsButton.addClickListener(event -> showCrud(armorBlueprintCrud));
+        jewelryButton.addClickListener(event -> showCrud(jewelryCrud));
     }
 
     private void showCrud(Crud<?> crud) {
