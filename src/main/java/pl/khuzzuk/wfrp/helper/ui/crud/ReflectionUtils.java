@@ -34,7 +34,7 @@ public class ReflectionUtils {
         return ArrayDeque::new;
     }
 
-    static Collection<Field> getFields(Class<?> type) {
+    public static Collection<Field> getFields(Class<?> type) {
         List<Class<?>> typesHierarchy = new LinkedList<>();
         Class<?> currentType = type;
         while (!Object.class.equals(currentType)) {
