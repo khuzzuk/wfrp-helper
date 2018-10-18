@@ -16,6 +16,7 @@ import pl.khuzzuk.messaging.Cancellable;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
+import pl.khuzzuk.wfrp.helper.ui.crud.filter.FilterConfiguration;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CrudForm;
 import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
@@ -41,6 +42,9 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private Collection<T> data = new ArrayList<>();
     private ListDataProvider<T> dataProvider;
 
+    @UIProperty
+    @CSS(classNames = {"crud", "filters-group"})
+    private HorizontalLayout filters = new HorizontalLayout();
     @UIProperty
     @CSS(classNames = "crud-grid")
     private Grid<T> table;
@@ -83,6 +87,9 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         prepareForms();
         subscription = bus.subscribingFor(Event.DATA_ALL).accept(this::listAll).subscribe();
         bindings.requestData(type -> bus.message(Event.FIND_ALL).withContent(type).send());
+
+        FilterConfiguration<T> filterConfiguration = FilterConfiguration.forType(beanType, dataProvider);
+        filterConfiguration.getFilterFields().forEach(filters::add);
     }
 
     private void createColumnsInTable() {
