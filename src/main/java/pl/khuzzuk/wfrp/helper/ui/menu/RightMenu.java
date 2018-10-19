@@ -61,14 +61,23 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @CSS(classNames = {"button", "menu-button"})
     private Button armorBlueprintsButton = new Button("Armor");
 
+    @CSS(classNames = {"crud", "content"})
     private final Crud<Race> raceCrud;
+    @CSS(classNames = {"crud", "content"})
     private final Crud<Skill> skillCrud;
+    @CSS(classNames = {"crud", "content"})
     private final Crud<ProfessionClass> professionClassCrud;
+    @CSS(classNames = {"crud", "content"})
     private final Crud<Profession> professionCrud;
+    @CSS(classNames = {"crud", "content"})
     private final Crud<Item> itemCrud;
+    @CSS(classNames = {"crud", "content"})
     private final Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud;
+    @CSS(classNames = {"crud", "content"})
     private final Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud;
+    @CSS(classNames = {"crud", "content"})
     private final Crud<ArmorBlueprint> armorBlueprintCrud;
+    @CSS(classNames = {"crud", "content"})
     private final Crud<Jewelry> jewelryCrud;
 
     @Override

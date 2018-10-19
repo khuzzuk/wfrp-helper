@@ -4,6 +4,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
@@ -42,21 +43,20 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private Collection<T> data = new ArrayList<>();
     private ListDataProvider<T> dataProvider;
 
+    @CSS(classNames = "button")
+    private Button createButton = new Button(VaadinIcon.PLUS.create());
+    @CSS(classNames = "button")
+    private Button editButton = new Button(VaadinIcon.EDIT.create());
+    @CSS(classNames = "button")
+    private Button removeButton = new Button(VaadinIcon.MINUS.create());
+    @CSS(classNames = "button-group")
+    private HorizontalLayout crudButtons = new HorizontalLayout(createButton, editButton, removeButton);
     @UIProperty
     @CSS(classNames = {"crud", "filters-group"})
-    private HorizontalLayout filters = new HorizontalLayout();
+    private HorizontalLayout filters = new HorizontalLayout(crudButtons);
     @UIProperty
     @CSS(classNames = "crud-grid")
     private Grid<T> table;
-    @CSS(classNames = "button")
-    private Button createButton = new Button("Create");
-    @CSS(classNames = "button")
-    private Button editButton = new Button("Edit");
-    @CSS(classNames = "button")
-    private Button removeButton = new Button("Remove");
-    @UIProperty
-    @CSS(classNames = "button-group")
-    private HorizontalLayout crudButtons = new HorizontalLayout(createButton, editButton, removeButton);
     private CrudForm<T> createForm;
 
     public static <T> Crud<T> forBean(Class<T> beanType, Bus<Event> bus, FormFieldFactory formFieldFactory) {

@@ -1,7 +1,7 @@
 package pl.khuzzuk.wfrp.helper.ui;
 
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.dependency.StyleSheet;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.Route;
@@ -16,7 +16,7 @@ import pl.khuzzuk.wfrp.helper.ui.menu.RightMenu;
 @Route("")
 @Component
 @UIScope
-@StyleSheet("wfrp-helper-style.css")
+@HtmlImport("wfrp-helper-style.html")
 @Push
 @Tag("HomeView")
 @RequiredArgsConstructor
