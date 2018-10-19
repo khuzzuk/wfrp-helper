@@ -1,64 +1,59 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
-import com.vaadin.flow.component.combobox.ComboBox;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.converter.StringToDoubleConverter;
-import com.vaadin.flow.data.converter.StringToFloatConverter;
-import com.vaadin.flow.data.converter.StringToIntegerConverter;
-import com.vaadin.flow.data.converter.StringToLongConverter;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-import pl.khuzzuk.wfrp.helper.edit.EnumFilter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityManyToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CollectionFormFieldFactory;
+import pl.khuzzuk.wfrp.helper.ui.crud.type.DoubleTypeFieldApplier;
+import pl.khuzzuk.wfrp.helper.ui.crud.type.EnumTypeFieldApplier;
+import pl.khuzzuk.wfrp.helper.ui.crud.type.FloatTypeFieldApplier;
+import pl.khuzzuk.wfrp.helper.ui.crud.type.IntegerTypeFieldApplier;
+import pl.khuzzuk.wfrp.helper.ui.crud.type.LongTypeFieldApplier;
+import pl.khuzzuk.wfrp.helper.ui.crud.type.StringTypeFieldApplier;
+import pl.khuzzuk.wfrp.helper.ui.crud.type.TypeFieldApplier;
 
 import java.lang.reflect.Field;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.EnumSet;
-import java.util.stream.Collectors;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Component
-public class FormFieldFactory {
-    private CollectionFormFieldFactory collectionFormFieldFactory;
-    private EntityFieldFactory entityFieldFactory;
+public class FormFieldFactory implements InitializingBean {
+    private final CollectionFormFieldFactory collectionFormFieldFactory;
+    private final EntityFieldFactory entityFieldFactory;
+    private List<TypeFieldApplier> typeFieldAppliers = new ArrayList<>();
+
+    @Override
+    public void afterPropertiesSet() {
+        typeFieldAppliers.add(new StringTypeFieldApplier());
+        typeFieldAppliers.add(new IntegerTypeFieldApplier());
+        typeFieldAppliers.add(new IntegerTypeFieldApplier());
+        typeFieldAppliers.add(new LongTypeFieldApplier());
+        typeFieldAppliers.add(new LongTypeFieldApplier());
+        typeFieldAppliers.add(new FloatTypeFieldApplier());
+        typeFieldAppliers.add(new FloatTypeFieldApplier());
+        typeFieldAppliers.add(new DoubleTypeFieldApplier());
+        typeFieldAppliers.add(new DoubleTypeFieldApplier());
+        typeFieldAppliers.add(new EnumTypeFieldApplier());
+    }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     void bindWithComponent(Field field, AutoBindings<?> bindings, String propertyPath) {
         Class type = field.getType();
         String name = field.getName();
 
-        if (type.equals(String.class)) {
-            bindings.bind(new TextField(name), propertyPath);
-
-        } else if (type.equals(int.class) || type.equals(Integer.class)) {
-            bindings.bind(new TextField(name), propertyPath, new StringToIntegerConverter("Please enter a natural number"));
-
-        } else if (type.equals(long.class) || type.equals(Long.class)) {
-            bindings.bind(new TextField(name), propertyPath, new StringToLongConverter("Please enter a natural number"));
-
-        } else if (type.equals(float.class) || type.equals(Float.class)) {
-            bindings.bind(new TextField(name), propertyPath, new StringToFloatConverter("Please enter a number"));
-
-        } else if (type.equals(double.class) || type.equals(Double.class)) {
-            bindings.bind(new TextField(name), propertyPath, new StringToDoubleConverter("Please enter a number"));
-
-        } else if (Enum.class.isAssignableFrom(type)) {
-            ComboBox<Enum> enumField = new ComboBox<>(name);
-            if (field.isAnnotationPresent(EnumFilter.class)) {
-                enumField.setItems(Arrays.stream(field.getDeclaredAnnotation(EnumFilter.class).value())
-                        .map(v -> Enum.valueOf(type, v))
-                        .collect(Collectors.toSet()));
-
-            } else {
-                enumField.setItems(EnumSet.allOf((Class<Enum>) type));
-            }
-            bindings.bind(enumField, propertyPath);
+        Optional<TypeFieldApplier> applier = typeFieldAppliers.stream()
+                .filter(a -> a.supportType(type))
+                .findFirst();
+        if (applier.isPresent()) {
+            applier.get().apply(field, bindings, propertyPath);
 
         } else if (Collection.class.isAssignableFrom(type)) {
             collectionFormFieldFactory.putFieldIntoForm(field, bindings, this);

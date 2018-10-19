@@ -58,7 +58,7 @@ public class AutoBindings<T> {
         binder.bind(component, name);
     }
 
-    <E, P> void bind(HasValue<?, P> component, String name, Converter<P, E> converter) {
+    public <E, P> void bind(HasValue<?, P> component, String name, Converter<P, E> converter) {
         registerInnerFieldInitializer(name);
         binder.forField(component)
                 .withConverter(converter)
