@@ -2,7 +2,7 @@
     <style>
         :root {
             --main: rgb(189, 190, 191);
-            --main-lighter: rgba(232, 233, 245, 0.6);
+            --main-lighter: rgba(241, 242, 254, 0.97);
             --secondary: rgba(209, 217, 221, 1);
             --secondary-lighter: rgba(209, 217, 221, 0.6);
             --content: rgba(47, 50, 51, 1);
@@ -41,6 +41,7 @@
         content {
             flex-grow: 100;
             height: 100vh;
+            background: var(--secondary-lighter);
         }
 
         .crud.content {
@@ -58,12 +59,12 @@
             box-shadow: 4px 18px 8px -10px hsla(0,0%,0%,.2);
             background: var(--content);
             color: var(--secondary-lighter);
-            transition: all 0.4s ease;
+            transition: all 0.4s ease-out;
         }
 
         .button:hover {
             background: var(--secondary-lighter);
-            color: var(--main);
+            color: var(--content);
             box-shadow:2px 8px 4px -6px hsla(0,0%,0%,.4);
         }
 
@@ -84,28 +85,7 @@
         .menu-button {
             margin: 5px;
         }
-
-        .input {
-            background: var(--main-lighter);
-        }
     </style>
 </custom-style>
 
-<dom-module id="my-grid" theme-for="vaadin-grid">
-    <template>
-        <style>
-            th[part~="header-cell"] {
-                background: var(--content);
-                color: var(--main-lighter);
-            }
-            td[part~="body-cell"] {
-                background: var(--main-lighter);
-                color: var(--content);
-            }
-            [part~="row"][aria-selected~=true] {
-                background: var(--main) none;
-                --_lumo-grid-selected-row-color: none;
-            }
-        </style>
-    </template>
-</dom-module>
+

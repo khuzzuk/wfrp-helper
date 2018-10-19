@@ -18,8 +18,12 @@ public class CrudForm<T> extends Dialog {
         bindings.addFieldsTo(form);
 
         Button addButton = new Button("Apply");
-        addButton.addClickListener(e -> afterFinish.accept(form.bindings.read()));
-        addButton.addClickListener(e -> form.close());
+        addButton.addClickListener(e -> {
+            if (bindings.validate()) afterFinish.accept(form.bindings.read());
+        });
+        addButton.addClickListener(e -> {
+            if (bindings.validate()) form.close();
+        });
 
         Button cancelButton = new Button("Cancel");
         cancelButton.addClickListener(e -> form.close());

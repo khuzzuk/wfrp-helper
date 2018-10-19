@@ -17,6 +17,8 @@ import pl.khuzzuk.wfrp.helper.ui.menu.RightMenu;
 @Component
 @UIScope
 @HtmlImport("wfrp-helper-style.html")
+@HtmlImport("grid-style.html")
+@HtmlImport("text-field-style.html")
 @Push
 @Tag("HomeView")
 @RequiredArgsConstructor

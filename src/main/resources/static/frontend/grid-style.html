@@ -1,0 +1,31 @@
+<dom-module id="my-grid" theme-for="vaadin-grid">
+    <template>
+        <style>
+            [part="row"], [part="cell"] {
+                transition: all 0.4s ease-out;
+            }
+            th[part~="header-cell"] {
+                background: var(--content);
+                color: var(--main-lighter);
+                border-radius: 455px 25px 525px 25px/25px 225px 35px 255px;
+            }
+            td[part~="body-cell"] {
+                background: var(--main-lighter);
+                color: var(--content);
+            }
+            [part="row"][aria-selected~=true] {
+                background: var(--content) none;
+                color: var(--main-lighter);
+                --_lumo-grid-selected-row-color: none;
+                border-radius: 455px 25px 525px 25px/25px 225px 35px 255px;
+            }
+            td[part~="body-cell"][aria-selected~=true] {
+                background: var(--content) none;
+                color: var(--main-lighter);
+            }
+            table {
+                color: var(--main-lighter);
+            }
+        </style>
+    </template>
+</dom-module>

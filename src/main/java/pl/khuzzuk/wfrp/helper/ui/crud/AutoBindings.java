@@ -3,7 +3,9 @@ package pl.khuzzuk.wfrp.helper.ui.crud;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.BinderValidationStatus;
 import com.vaadin.flow.data.converter.Converter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -41,7 +43,7 @@ public class AutoBindings<T> {
         AutoBindings<T> bindings = new AutoBindings<>();
         bindings.beanType = beanType;
         bindings.registeredEntities.add(beanType);
-        bindings.binder = new Binder<>(beanType);
+        bindings.binder = new BeanValidationBinder<>(beanType);
 
         try {
             bindings.constructorHandle = LOOKUP.findConstructor(beanType, CONSTRUCTOR_TYPE);
@@ -113,6 +115,11 @@ public class AutoBindings<T> {
         binder.validate();
         binder.writeBeanIfValid(bean);
         return bean;
+    }
+
+    public boolean validate() {
+        BinderValidationStatus<T> validation = binder.validate();
+        return validation.isOk();
     }
 
     public void addFieldsTo(Dialog form) {

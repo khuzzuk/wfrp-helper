@@ -9,6 +9,7 @@ import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @Entity
@@ -19,6 +20,6 @@ public class Skill {
     private Long id;
     @NaturalId
     @Filter
-    private @Length(min = 3) String name;
+    private @NotEmpty @Length(min = 3, max = 255) String name;
     private String description;
 }

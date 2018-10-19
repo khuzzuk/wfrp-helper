@@ -89,9 +89,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         bindings.requestData(type -> bus.message(Event.FIND_ALL).withContent(type).send());
 
         FilterConfiguration<T> filterConfiguration = FilterConfiguration.forType(beanType, dataProvider);
-        filterConfiguration.getFilterFields().stream()
-                .peek(textField -> textField.addClassNames("input"))
-                .forEach(filters::add);
+        filterConfiguration.getFilterFields().forEach(filters::add);
     }
 
     private void createColumnsInTable() {
