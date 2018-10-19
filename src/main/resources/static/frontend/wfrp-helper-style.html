@@ -2,7 +2,7 @@
     <style>
         :root {
             --main: rgb(189, 190, 191);
-            --main-lighter: rgba(181, 182, 191, 0.6);
+            --main-lighter: rgba(232, 233, 245, 0.6);
             --secondary: rgba(209, 217, 221, 1);
             --secondary-lighter: rgba(209, 217, 221, 0.6);
             --content: rgba(47, 50, 51, 1);
@@ -53,10 +53,6 @@
             background: transparent;
         }
 
-        vaadin-grid-cell-content {
-            background: transparent;
-        }
-
         .button {
             border-radius: 455px 25px 525px 25px/25px 225px 35px 255px;
             box-shadow: 4px 18px 8px -10px hsla(0,0%,0%,.2);
@@ -88,6 +84,10 @@
         .menu-button {
             margin: 5px;
         }
+
+        .input {
+            background: var(--main-lighter);
+        }
     </style>
 </custom-style>
 
@@ -95,14 +95,16 @@
     <template>
         <style>
             th[part~="header-cell"] {
-                background: transparent;
+                background: var(--content);
+                color: var(--main-lighter);
             }
             td[part~="body-cell"] {
-                background: transparent;
+                background: var(--main-lighter);
+                color: var(--content);
             }
-            :host(:not([reordering])) [part~="row"][selected] [part~="body-cell"]:not([part~="details-cell"]) {
-                background-image: linear-gradient(var(--_lumo-grid-selected-row-color), var(--_lumo-grid-selected-row-color));
-                background-repeat: repeat;
+            [part~="row"][aria-selected~=true] {
+                background: var(--main) none;
+                --_lumo-grid-selected-row-color: none;
             }
         </style>
     </template>
