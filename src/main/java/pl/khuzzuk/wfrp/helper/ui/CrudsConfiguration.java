@@ -6,11 +6,14 @@ import org.springframework.context.annotation.Configuration;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
+import pl.khuzzuk.wfrp.helper.model.inventory.Armor;
 import pl.khuzzuk.wfrp.helper.model.inventory.Jewelry;
+import pl.khuzzuk.wfrp.helper.model.inventory.MeleeWeapon;
 import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.ArmorBlueprint;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.MeleeWeaponBlueprint;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.RangedWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.ArmorBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.MeleeWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.RangedWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
@@ -71,5 +74,23 @@ class CrudsConfiguration {
     @UIScope
     Crud<Jewelry> jewelryCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
         return Crud.forBean(Jewelry.class, bus, formFieldFactory);
+    }
+
+    @Bean
+    @UIScope
+    Crud<MeleeWeapon> meleeWeaponCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
+        return Crud.forBean(MeleeWeapon.class, bus, formFieldFactory);
+    }
+
+    @Bean
+    @UIScope
+    Crud<RangedWeapon> rangedWeaponCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
+        return Crud.forBean(RangedWeapon.class, bus, formFieldFactory);
+    }
+
+    @Bean
+    @UIScope
+    Crud<Armor> armorCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
+        return Crud.forBean(Armor.class, bus, formFieldFactory);
     }
 }

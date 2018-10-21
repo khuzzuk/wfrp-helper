@@ -8,11 +8,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.model.Race;
+import pl.khuzzuk.wfrp.helper.model.inventory.Armor;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
 import pl.khuzzuk.wfrp.helper.model.inventory.Jewelry;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.ArmorBlueprint;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.MeleeWeaponBlueprint;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.RangedWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.MeleeWeapon;
+import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.ArmorBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.MeleeWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.RangedWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
@@ -49,6 +52,15 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private Button jewelryButton = new Button("Jewelry");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
+    private Button meleeWeaponButton = new Button("Weapons");
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
+    private Button rangedWeaponButton = new Button("Guns");
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
+    private Button armorButton = new Button("Armors");
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
     private Button blueprintsButton = new Button("Blueprints");
 
     @CSS(classNames = {"button", "menu-button"})
@@ -79,6 +91,12 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private final Crud<ArmorBlueprint> armorBlueprintCrud;
     @CSS(classNames = {"crud", "content"})
     private final Crud<Jewelry> jewelryCrud;
+    @CSS(classNames = {"crud", "content"})
+    private final Crud<MeleeWeapon> meleeWeaponCrud;
+    @CSS(classNames = {"crud", "content"})
+    private final Crud<RangedWeapon> rangedWeaponCrud;
+    @CSS(classNames = {"crud", "content"})
+    private final Crud<Armor> armorCrud;
 
     @Override
     public void afterPropertiesSet() {
@@ -99,6 +117,9 @@ public class RightMenu extends WebComponent implements InitializingBean {
         rangedWeaponBlueprintsButton.addClickListener(event -> showCrud(rangedWeaponBlueprintCrud));
         armorBlueprintsButton.addClickListener(event -> showCrud(armorBlueprintCrud));
         jewelryButton.addClickListener(event -> showCrud(jewelryCrud));
+        meleeWeaponButton.addClickListener(event -> showCrud(meleeWeaponCrud));
+        rangedWeaponButton.addClickListener(event -> showCrud(rangedWeaponCrud));
+        armorButton.addClickListener(event -> showCrud(armorCrud));
     }
 
     private void showCrud(Crud<?> crud) {

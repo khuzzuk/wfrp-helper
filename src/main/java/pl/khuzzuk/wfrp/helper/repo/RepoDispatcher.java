@@ -8,24 +8,30 @@ import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.messaging.BusPublisher;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
+import pl.khuzzuk.wfrp.helper.model.inventory.Armor;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
 import pl.khuzzuk.wfrp.helper.model.inventory.Jewelry;
+import pl.khuzzuk.wfrp.helper.model.inventory.MeleeWeapon;
 import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.ArmorBlueprint;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.MeleeWeaponBlueprint;
-import pl.khuzzuk.wfrp.helper.model.inventory.weapons.RangedWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.ArmorBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.MeleeWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.RangedWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
 import pl.khuzzuk.wfrp.helper.repo.crud.ArmorBlueprintRepo;
+import pl.khuzzuk.wfrp.helper.repo.crud.ArmorRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ItemRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.JewelryRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.MeleeWeaponBlueprintRepo;
+import pl.khuzzuk.wfrp.helper.repo.crud.MeleeWeaponRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.MiscItemRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ProfessionClassRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ProfessionRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.RaceRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.RangedWeaponBlueprintRepo;
+import pl.khuzzuk.wfrp.helper.repo.crud.RangedWeaponRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.SkillRepo;
 
 import java.util.Collection;
@@ -48,6 +54,9 @@ class RepoDispatcher implements InitializingBean {
     private final RangedWeaponBlueprintRepo rangedWeaponBlueprintRepo;
     private final ArmorBlueprintRepo armorBlueprintRepo;
     private final JewelryRepo jewelryRepo;
+    private final MeleeWeaponRepo meleeWeaponRepo;
+    private final RangedWeaponRepo rangedWeaponRepo;
+    private final ArmorRepo armorRepo;
 
     private Map<Class<?>, JpaRepository> repositories;
 
@@ -64,6 +73,9 @@ class RepoDispatcher implements InitializingBean {
         repositories.put(RangedWeaponBlueprint.class, rangedWeaponBlueprintRepo);
         repositories.put(ArmorBlueprint.class, armorBlueprintRepo);
         repositories.put(Jewelry.class, jewelryRepo);
+        repositories.put(MeleeWeapon.class, meleeWeaponRepo);
+        repositories.put(RangedWeapon.class, rangedWeaponRepo);
+        repositories.put(Armor.class, armorRepo);
 
         bus.subscribingFor(Event.FIND_ALL).accept((Consumer<Class<?>>) this::findAll).subscribe();
         bus.subscribingFor(Event.SAVE).accept(this::save).subscribe();

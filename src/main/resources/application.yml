@@ -3,19 +3,18 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:file:./db/wfrp;DB_CLOSE_DELAY=-1
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/wfrp
+    username: wfrp
+    password: wfrp
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     properties:
       hibernate:
         show_sql: false
         format_sql: true
         use_sql_comments: true
-  h2:
-    console:
-      enabled: true
-      path: /console
+        jdbc:
+          lob:
+            non_contextual_creation: true

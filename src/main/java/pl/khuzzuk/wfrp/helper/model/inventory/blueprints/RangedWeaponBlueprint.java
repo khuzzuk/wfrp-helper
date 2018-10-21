@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.inventory.weapons;
+package pl.khuzzuk.wfrp.helper.model.inventory.blueprints;
 
 import lombok.Getter;
 import lombok.Setter;

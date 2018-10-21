@@ -18,7 +18,8 @@ import java.util.stream.Collectors;
 @Entity
 public class Modifier {
     @Id
-    @GeneratedValue
+    @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "modifier_seq_gen")
     @FormElement(exclude = true)
     private Long id;
 
