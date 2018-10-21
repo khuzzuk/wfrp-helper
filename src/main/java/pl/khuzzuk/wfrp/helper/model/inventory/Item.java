@@ -16,6 +16,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -33,6 +34,7 @@ public abstract class Item {
     @Embedded
     @FormElement(editor = EditorType.EMBEDDED)
     private Price price;
+    private @NotNull Accessibility accessibility = Accessibility.COMMON;
 
     @Override
     public String toString() {

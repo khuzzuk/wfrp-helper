@@ -7,6 +7,7 @@ import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
 import pl.khuzzuk.wfrp.helper.model.inventory.Armor;
+import pl.khuzzuk.wfrp.helper.model.inventory.ArmorPattern;
 import pl.khuzzuk.wfrp.helper.model.inventory.Jewelry;
 import pl.khuzzuk.wfrp.helper.model.inventory.MeleeWeapon;
 import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
@@ -16,6 +17,7 @@ import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.MeleeWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.RangedWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
+import pl.khuzzuk.wfrp.helper.model.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
@@ -44,6 +46,18 @@ class CrudsConfiguration {
     @UIScope
     Crud<Profession> professionCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
         return Crud.forBean(Profession.class, bus, formFieldFactory);
+    }
+
+    @Bean
+    @UIScope
+    Crud<ArmorPattern> armorPatternCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
+        return Crud.forBean(ArmorPattern.class, bus, formFieldFactory);
+    }
+
+    @Bean
+    @UIScope
+    Crud<Resource> resourceCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
+        return Crud.forBean(Resource.class, bus, formFieldFactory);
     }
 
     @Bean

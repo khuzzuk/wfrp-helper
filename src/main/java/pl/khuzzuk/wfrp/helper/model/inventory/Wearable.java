@@ -4,22 +4,34 @@ import lombok.Getter;
 import lombok.Setter;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
+import pl.khuzzuk.wfrp.helper.model.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import java.util.Set;
 
 @Getter
 @Setter
-public abstract class Wearable extends Item {
+@Entity
+abstract class Wearable extends Item {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "weapon_determinants",
-            joinColumns = @JoinColumn(name = "weapon_id"),
-            inverseJoinColumns = @JoinColumn(name = "determinant_id"))
+    @JoinTable(name = "item_determinants",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "determinants_id"))
     @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> determinants;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "primary_resource_id")
+    @FormElement(editor = EditorType.CHOOSE)
+    private Resource primaryResource;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "secondary_resource_id")
+    @FormElement(editor = EditorType.CHOOSE)
+    private Resource secondaryResource;
 }
