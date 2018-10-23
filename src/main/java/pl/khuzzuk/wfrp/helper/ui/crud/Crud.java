@@ -1,9 +1,7 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.provider.DataProvider;
@@ -11,8 +9,6 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.DisposableBean;
-import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.messaging.Cancellable;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
@@ -24,6 +20,7 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.lang.invoke.MethodHandles;
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -33,10 +30,10 @@ import java.util.Iterator;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Crud<T> extends WebComponent {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
-    private SaveListener<T> saveListener = SaveListener.EMTPY;
-    private UpdateListener<T> updateListener = UpdateListener.EMPTY;
-    private DeleteListener<T> deleteListener = DeleteListener.EMPTY;
-    private RefreshDataListener refreshDataListener = RefreshDataListener.EMPTY;
+    private WeakReference<SaveListener<T>> saveListener = new WeakReference<>(SaveListener.EMTPY);
+    private WeakReference<UpdateListener<T>> updateListener = new WeakReference<>(UpdateListener.EMPTY);
+    private WeakReference<DeleteListener<T>> deleteListener = new WeakReference<>(DeleteListener.EMPTY);
+    private WeakReference<RefreshDataListener> refreshDataListener = new WeakReference<>(RefreshDataListener.EMPTY);
 
     private final Class<T> beanType;
     private final FormFieldFactory formFieldFactory;
@@ -88,7 +85,7 @@ public class Crud<T> extends WebComponent {
         table.addSelectionListener(e -> editButton.setEnabled(getSelected() != null));
 
         prepareForms();
-        bindings.requestData(type -> refreshDataListener.onRefreshData(type));
+        bindings.requestData(type -> refreshDataListener.get().onRefreshData(type));
 
         FilterConfiguration<T> filterConfiguration = FilterConfiguration.forType(beanType, dataProvider);
         filterConfiguration.getFilterFields().forEach(filters::add);
@@ -112,7 +109,7 @@ public class Crud<T> extends WebComponent {
         bindings = BindingsFactory.create(beanType, formFieldFactory);
         log.info("bindings ready for {}", beanType);
 
-        createForm = CrudForm.createFor(bindings, bean -> saveListener.onSave(bean));
+        createForm = CrudForm.createFor(bindings, bean -> saveListener.get().onSave(bean));
         createButton.addClickListener(e -> createForm.showForm());
 
         editButton.setEnabled(false);
@@ -122,22 +119,10 @@ public class Crud<T> extends WebComponent {
         removeButton.setEnabled(false);
     }
 
-    private void save(T bean) {
-        bus.message(Event.SAVE)
-                .withContent(bean)
-                .onError(() -> execute(() -> {
-                    Dialog dialog = new Dialog();
-                    dialog.add(new Label("Exception during save entity"));
-                    dialog.open();
-                }))
-                .send();
-    }
-
     private void remove() {
         T selectedItem = getSelected();
         if (selectedItem != null) {
-            deleteListener.onDelete(selectedItem);
-            bus.message(Event.DELETE).withContent(selectedItem).send();
+            deleteListener.get().onDelete(selectedItem);
         }
     }
 
@@ -145,6 +130,7 @@ public class Crud<T> extends WebComponent {
         data.clear();
         data.addAll(newData);
         execute(() -> dataProvider.refreshAll());
+        execute(() -> getUI().get().push()  );
     }
 
     private T getSelected() {
@@ -153,18 +139,18 @@ public class Crud<T> extends WebComponent {
     }
 
     public void onSave(SaveListener<T> saveListener) {
-        this.saveListener = saveListener;
+        this.saveListener = new WeakReference<>(saveListener);
     }
 
     public void onUpdate(UpdateListener<T> updateListener) {
-        this.updateListener = updateListener;
+        this.updateListener = new WeakReference<>(updateListener);
     }
 
     public void onDelete(DeleteListener<T> deleteListener) {
-        this.deleteListener = deleteListener;
+        this.deleteListener = new WeakReference<>(deleteListener);
     }
 
     public void onRefreshRequest(RefreshDataListener refreshDataListener) {
-        this.refreshDataListener = refreshDataListener;
+        this.refreshDataListener = new WeakReference<>(refreshDataListener);
     }
 }

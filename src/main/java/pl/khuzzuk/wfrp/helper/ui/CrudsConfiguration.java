@@ -1,6 +1,10 @@
 package pl.khuzzuk.wfrp.helper.ui;
 
+import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.spring.annotation.UIScope;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import pl.khuzzuk.messaging.Bus;
@@ -20,125 +24,193 @@ import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
+import pl.khuzzuk.wfrp.helper.ui.crud.DeleteListener;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
+import pl.khuzzuk.wfrp.helper.ui.crud.RefreshDataListener;
 import pl.khuzzuk.wfrp.helper.ui.crud.SaveListener;
 
+@AllArgsConstructor
 @Configuration
 class CrudsConfiguration {
+    private Bus<Event> bus;
+
     @Bean
-    SaveListener commonSaveListener(Bus<Event> bus) {
-        return bean -> bus.message(Event.SAVE).withContent(bean).send();
+    SaveListener commonSaveListener() {
+        return bean -> bus.message(Event.SAVE)
+                .withContent(bean)
+                .onError(() -> {
+                    Dialog dialog = new Dialog();
+                    dialog.add(new Label("Exception during save entity"));
+                    dialog.open();
+                })
+                .send();
+    }
+
+    @Bean
+    DeleteListener commonDeleteListener() {
+        return bean -> bus.message(Event.DELETE).withContent(bean).send();
+    }
+
+    @Autowired
+    void configureCrudDataListenerList(CrudsDataListenerList listenerList) {
+        bus.subscribingFor(Event.DATA_ALL).accept(listenerList::onUpdate).subscribe();
+    }
+
+    RefreshDataListener commonRefreshDataListener() {
+        return type -> bus.message(Event.FIND_ALL).withContent(type).send();
     }
 
     @Bean
     @UIScope
-    Crud<Race> raceCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<Race> raceCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<Race> raceCrud = Crud.forBean(Race.class, formFieldFactory);
-        raceCrud.onSave(commonSaveListener);
+        raceCrud.onSave(commonSaveListener());
+        raceCrud.onDelete(commonDeleteListener());
+        raceCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(raceCrud);
         return raceCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Skill> skillCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<Skill> skillCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<Skill> skillCrud = Crud.forBean(Skill.class, formFieldFactory);
-        skillCrud.onSave(commonSaveListener);
+        skillCrud.onSave(commonSaveListener());
+        skillCrud.onDelete(commonDeleteListener());
+        skillCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(skillCrud);
         return skillCrud;
     }
 
     @Bean
     @UIScope
-    Crud<ProfessionClass> professionClassCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<ProfessionClass> professionClassCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<ProfessionClass> professionClassCrud = Crud.forBean(ProfessionClass.class, formFieldFactory);
-        professionClassCrud.onSave(commonSaveListener);
+        professionClassCrud.onSave(commonSaveListener());
+        professionClassCrud.onDelete(commonDeleteListener());
+        professionClassCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(professionClassCrud);
         return professionClassCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Profession> professionCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<Profession> professionCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<Profession> professionCrud = Crud.forBean(Profession.class, formFieldFactory);
-        professionCrud.onSave(commonSaveListener);
+        professionCrud.onSave(commonSaveListener());
+        professionCrud.onDelete(commonDeleteListener());
+        professionCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(professionCrud);
         return professionCrud;
     }
 
     @Bean
     @UIScope
-    Crud<ArmorPattern> armorPatternCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<ArmorPattern> armorPatternCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<ArmorPattern> armorPatternCrud = Crud.forBean(ArmorPattern.class, formFieldFactory);
-        armorPatternCrud.onSave(commonSaveListener);
+        armorPatternCrud.onSave(commonSaveListener());
+        armorPatternCrud.onDelete(commonDeleteListener());
+        armorPatternCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(armorPatternCrud);
         return armorPatternCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Resource> resourceCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<Resource> resourceCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<Resource> resourceCrud = Crud.forBean(Resource.class, formFieldFactory);
-        resourceCrud.onSave(commonSaveListener);
+        resourceCrud.onSave(commonSaveListener());
+        resourceCrud.onDelete(commonDeleteListener());
+        resourceCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(resourceCrud);
         return resourceCrud;
     }
 
     @Bean
     @UIScope
-    Crud<MiscItem> itemCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<MiscItem> itemCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<MiscItem> miscItemCrud = Crud.forBean(MiscItem.class, formFieldFactory);
-        miscItemCrud.onSave(commonSaveListener);
+        miscItemCrud.onSave(commonSaveListener());
+        miscItemCrud.onDelete(commonDeleteListener());
+        miscItemCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(miscItemCrud);
         return miscItemCrud;
     }
 
     @Bean
     @UIScope
-    Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud = Crud.forBean(MeleeWeaponBlueprint.class, formFieldFactory);
-        meleeWeaponBlueprintCrud.onSave(commonSaveListener);
+        meleeWeaponBlueprintCrud.onSave(commonSaveListener());
+        meleeWeaponBlueprintCrud.onDelete(commonDeleteListener());
+        meleeWeaponBlueprintCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(meleeWeaponBlueprintCrud);
         return meleeWeaponBlueprintCrud;
     }
 
     @Bean
     @UIScope
-    Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud = Crud.forBean(RangedWeaponBlueprint.class, formFieldFactory);
-        rangedWeaponBlueprintCrud.onSave(commonSaveListener);
+        rangedWeaponBlueprintCrud.onSave(commonSaveListener());
+        rangedWeaponBlueprintCrud.onDelete(commonDeleteListener());
+        rangedWeaponBlueprintCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(rangedWeaponBlueprintCrud);
         return rangedWeaponBlueprintCrud;
     }
 
     @Bean
     @UIScope
-    Crud<ArmorBlueprint> armorBlueprintCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<ArmorBlueprint> armorBlueprintCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<ArmorBlueprint> armorBlueprintCrud = Crud.forBean(ArmorBlueprint.class, formFieldFactory);
-        armorBlueprintCrud.onSave(commonSaveListener);
+        armorBlueprintCrud.onSave(commonSaveListener());
+        armorBlueprintCrud.onDelete(commonDeleteListener());
+        armorBlueprintCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(armorBlueprintCrud);
         return armorBlueprintCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Jewelry> jewelryCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<Jewelry> jewelryCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<Jewelry> jewelryCrud = Crud.forBean(Jewelry.class, formFieldFactory);
-        jewelryCrud.onSave(commonSaveListener);
+        jewelryCrud.onSave(commonSaveListener());
+        jewelryCrud.onDelete(commonDeleteListener());
+        jewelryCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(jewelryCrud);
         return jewelryCrud;
     }
 
     @Bean
     @UIScope
-    Crud<MeleeWeapon> meleeWeaponCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<MeleeWeapon> meleeWeaponCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<MeleeWeapon> meleeWeaponCrud = Crud.forBean(MeleeWeapon.class, formFieldFactory);
-        meleeWeaponCrud.onSave(commonSaveListener);
+        meleeWeaponCrud.onSave(commonSaveListener());
+        meleeWeaponCrud.onDelete(commonDeleteListener());
+        meleeWeaponCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(meleeWeaponCrud);
         return meleeWeaponCrud;
     }
 
     @Bean
     @UIScope
-    Crud<RangedWeapon> rangedWeaponCrud(Bus<Event> bus, FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<RangedWeapon> rangedWeaponCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<RangedWeapon> rangedWeaponCrud = Crud.forBean(RangedWeapon.class, formFieldFactory);
-        rangedWeaponCrud.onSave(commonSaveListener);
+        rangedWeaponCrud.onSave(commonSaveListener());
+        rangedWeaponCrud.onDelete(commonDeleteListener());
+        rangedWeaponCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(rangedWeaponCrud);
         return rangedWeaponCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Armor> armorCrud(Bus<Event> bus, FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+    Crud<Armor> armorCrud(FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
         Crud<Armor> armorCrud = Crud.forBean(Armor.class, formFieldFactory);
-        armorCrud.onSave(commonSaveListener);
+        armorCrud.onSave(commonSaveListener());
+        armorCrud.onDelete(commonDeleteListener());
+        armorCrud.onRefreshRequest(commonRefreshDataListener());
+        listenerList.addCrud(armorCrud);
         return armorCrud;
     }
 }

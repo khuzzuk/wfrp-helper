@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.ui.login;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.Route;
@@ -18,6 +19,7 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 @Slf4j
 @RequiredArgsConstructor
 @Route("login")
+@Push
 @UIScope
 public class LoginPage extends WebComponent {
     private final AuthenticationManager authenticationManager;
