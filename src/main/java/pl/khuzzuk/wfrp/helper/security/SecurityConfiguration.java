@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 @EnableWebSecurity
@@ -40,11 +39,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                     .requestMatchers(vaadinInternalRequestMatcher()).permitAll()
-                    .anyRequest().hasAnyAuthority("USER")
+                    .anyRequest().hasAnyRole("USER")
                 .and()
                     .formLogin().loginPage(LOGIN_URL).permitAll().loginProcessingUrl(LOGIN_URL)
                     .failureUrl(LOGIN_FAILURE_URL)
-                    .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
                 .and()
                     .logout().logoutSuccessUrl(LOGIN_URL);
         //@formatter:on
