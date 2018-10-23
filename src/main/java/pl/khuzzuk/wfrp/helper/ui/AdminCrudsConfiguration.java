@@ -12,6 +12,6 @@ import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
 public class AdminCrudsConfiguration {
     @Bean
     Crud<Role> roleCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(Role.class, bus, formFieldFactory);
+        return Crud.forBean(Role.class, formFieldFactory);
     }
 }

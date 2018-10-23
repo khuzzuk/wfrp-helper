@@ -31,10 +31,13 @@ import java.util.Iterator;
 
 @Slf4j
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class Crud<T> extends WebComponent implements DisposableBean {
+public class Crud<T> extends WebComponent {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
+    private SaveListener<T> saveListener = SaveListener.EMTPY;
+    private UpdateListener<T> updateListener = UpdateListener.EMPTY;
+    private DeleteListener<T> deleteListener = DeleteListener.EMPTY;
+    private RefreshDataListener refreshDataListener = RefreshDataListener.EMPTY;
 
-    private final Bus<Event> bus;
     private final Class<T> beanType;
     private final FormFieldFactory formFieldFactory;
 
@@ -59,15 +62,15 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private Grid<T> table;
     private CrudForm<T> createForm;
 
-    public static <T> Crud<T> forBean(Class<T> beanType, Bus<Event> bus, FormFieldFactory formFieldFactory) {
+    public static <T> Crud<T> forBean(Class<T> beanType, FormFieldFactory formFieldFactory) {
         log.info("start create crud for {}", beanType);
-        Crud<T> crud = new Crud<>(bus, beanType, formFieldFactory);
+        Crud<T> crud = new Crud<>(beanType, formFieldFactory);
         crud.initialize();
         log.info("finished create crud for {}", beanType);
         return crud;
     }
 
-    private void listAll(QueryAllResult<T> queryAllResult) {
+    public void refresh(QueryAllResult<T> queryAllResult) {
         if (beanType.equals(queryAllResult.getType())) {
             refreshData(queryAllResult.getItems());
         }
@@ -85,8 +88,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         table.addSelectionListener(e -> editButton.setEnabled(getSelected() != null));
 
         prepareForms();
-        subscription = bus.subscribingFor(Event.DATA_ALL).accept(this::listAll).subscribe();
-        bindings.requestData(type -> bus.message(Event.FIND_ALL).withContent(type).send());
+        bindings.requestData(type -> refreshDataListener.onRefreshData(type));
 
         FilterConfiguration<T> filterConfiguration = FilterConfiguration.forType(beanType, dataProvider);
         filterConfiguration.getFilterFields().forEach(filters::add);
@@ -110,7 +112,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         bindings = BindingsFactory.create(beanType, formFieldFactory);
         log.info("bindings ready for {}", beanType);
 
-        createForm = CrudForm.createFor(bindings, this::save);
+        createForm = CrudForm.createFor(bindings, bean -> saveListener.onSave(bean));
         createButton.addClickListener(e -> createForm.showForm());
 
         editButton.setEnabled(false);
@@ -134,6 +136,7 @@ public class Crud<T> extends WebComponent implements DisposableBean {
     private void remove() {
         T selectedItem = getSelected();
         if (selectedItem != null) {
+            deleteListener.onDelete(selectedItem);
             bus.message(Event.DELETE).withContent(selectedItem).send();
         }
     }
@@ -149,10 +152,19 @@ public class Crud<T> extends WebComponent implements DisposableBean {
         return iterator.hasNext() ? iterator.next() : null;
     }
 
-    @Override
-    public void destroy() {
-        if (subscription != null) {
-            bus.unSubscribe(subscription);
-        }
+    public void onSave(SaveListener<T> saveListener) {
+        this.saveListener = saveListener;
+    }
+
+    public void onUpdate(UpdateListener<T> updateListener) {
+        this.updateListener = updateListener;
+    }
+
+    public void onDelete(DeleteListener<T> deleteListener) {
+        this.deleteListener = deleteListener;
+    }
+
+    public void onRefreshRequest(RefreshDataListener refreshDataListener) {
+        this.refreshDataListener = refreshDataListener;
     }
 }

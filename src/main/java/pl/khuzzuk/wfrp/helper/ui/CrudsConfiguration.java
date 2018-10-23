@@ -21,90 +21,124 @@ import pl.khuzzuk.wfrp.helper.model.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.skill.Skill;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
+import pl.khuzzuk.wfrp.helper.ui.crud.SaveListener;
 
 @Configuration
 class CrudsConfiguration {
     @Bean
-    @UIScope
-    Crud<Race> raceCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(Race.class, bus, formFieldFactory);
+    SaveListener commonSaveListener(Bus<Event> bus) {
+        return bean -> bus.message(Event.SAVE).withContent(bean).send();
     }
 
     @Bean
     @UIScope
-    Crud<Skill> skillCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(Skill.class, bus, formFieldFactory);
+    Crud<Race> raceCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<Race> raceCrud = Crud.forBean(Race.class, formFieldFactory);
+        raceCrud.onSave(commonSaveListener);
+        return raceCrud;
     }
 
     @Bean
     @UIScope
-    Crud<ProfessionClass> professionClassCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(ProfessionClass.class, bus, formFieldFactory);
+    Crud<Skill> skillCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<Skill> skillCrud = Crud.forBean(Skill.class, formFieldFactory);
+        skillCrud.onSave(commonSaveListener);
+        return skillCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Profession> professionCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(Profession.class, bus, formFieldFactory);
+    Crud<ProfessionClass> professionClassCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<ProfessionClass> professionClassCrud = Crud.forBean(ProfessionClass.class, formFieldFactory);
+        professionClassCrud.onSave(commonSaveListener);
+        return professionClassCrud;
     }
 
     @Bean
     @UIScope
-    Crud<ArmorPattern> armorPatternCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(ArmorPattern.class, bus, formFieldFactory);
+    Crud<Profession> professionCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<Profession> professionCrud = Crud.forBean(Profession.class, formFieldFactory);
+        professionCrud.onSave(commonSaveListener);
+        return professionCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Resource> resourceCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(Resource.class, bus, formFieldFactory);
+    Crud<ArmorPattern> armorPatternCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<ArmorPattern> armorPatternCrud = Crud.forBean(ArmorPattern.class, formFieldFactory);
+        armorPatternCrud.onSave(commonSaveListener);
+        return armorPatternCrud;
     }
 
     @Bean
     @UIScope
-    Crud<MiscItem> itemCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(MiscItem.class, bus, formFieldFactory);
+    Crud<Resource> resourceCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<Resource> resourceCrud = Crud.forBean(Resource.class, formFieldFactory);
+        resourceCrud.onSave(commonSaveListener);
+        return resourceCrud;
     }
 
     @Bean
     @UIScope
-    Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(MeleeWeaponBlueprint.class, bus, formFieldFactory);
+    Crud<MiscItem> itemCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<MiscItem> miscItemCrud = Crud.forBean(MiscItem.class, formFieldFactory);
+        miscItemCrud.onSave(commonSaveListener);
+        return miscItemCrud;
     }
 
     @Bean
     @UIScope
-    Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(RangedWeaponBlueprint.class, bus, formFieldFactory);
+    Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud = Crud.forBean(MeleeWeaponBlueprint.class, formFieldFactory);
+        meleeWeaponBlueprintCrud.onSave(commonSaveListener);
+        return meleeWeaponBlueprintCrud;
     }
 
     @Bean
     @UIScope
-    Crud<ArmorBlueprint> armorBlueprintCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(ArmorBlueprint.class, bus, formFieldFactory);
+    Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud = Crud.forBean(RangedWeaponBlueprint.class, formFieldFactory);
+        rangedWeaponBlueprintCrud.onSave(commonSaveListener);
+        return rangedWeaponBlueprintCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Jewelry> jewelryCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(Jewelry.class, bus, formFieldFactory);
+    Crud<ArmorBlueprint> armorBlueprintCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<ArmorBlueprint> armorBlueprintCrud = Crud.forBean(ArmorBlueprint.class, formFieldFactory);
+        armorBlueprintCrud.onSave(commonSaveListener);
+        return armorBlueprintCrud;
     }
 
     @Bean
     @UIScope
-    Crud<MeleeWeapon> meleeWeaponCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(MeleeWeapon.class, bus, formFieldFactory);
+    Crud<Jewelry> jewelryCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<Jewelry> jewelryCrud = Crud.forBean(Jewelry.class, formFieldFactory);
+        jewelryCrud.onSave(commonSaveListener);
+        return jewelryCrud;
     }
 
     @Bean
     @UIScope
-    Crud<RangedWeapon> rangedWeaponCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(RangedWeapon.class, bus, formFieldFactory);
+    Crud<MeleeWeapon> meleeWeaponCrud(FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<MeleeWeapon> meleeWeaponCrud = Crud.forBean(MeleeWeapon.class, formFieldFactory);
+        meleeWeaponCrud.onSave(commonSaveListener);
+        return meleeWeaponCrud;
     }
 
     @Bean
     @UIScope
-    Crud<Armor> armorCrud(Bus<Event> bus, FormFieldFactory formFieldFactory) {
-        return Crud.forBean(Armor.class, bus, formFieldFactory);
+    Crud<RangedWeapon> rangedWeaponCrud(Bus<Event> bus, FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<RangedWeapon> rangedWeaponCrud = Crud.forBean(RangedWeapon.class, formFieldFactory);
+        rangedWeaponCrud.onSave(commonSaveListener);
+        return rangedWeaponCrud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<Armor> armorCrud(Bus<Event> bus, FormFieldFactory formFieldFactory, SaveListener commonSaveListener) {
+        Crud<Armor> armorCrud = Crud.forBean(Armor.class, formFieldFactory);
+        armorCrud.onSave(commonSaveListener);
+        return armorCrud;
     }
 }
