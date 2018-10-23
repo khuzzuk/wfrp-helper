@@ -28,6 +28,12 @@
 
         homeview {
             display: flex;
+            flex-direction: column;
+            flex-grow: 100;
+        }
+
+        .righ-menu-content {
+            display: flex;
             flex-direction: row;
         }
 
@@ -35,12 +41,16 @@
             background: var(--secondary-lighter);
             display: flex;
             flex-direction: column;
-            height: 100vh;
+        }
+
+        topmenu {
+            background: var(--secondary-lighter);
+            display: flex;
+            flex-direction: row-reverse;
         }
 
         content {
             flex-grow: 100;
-            height: 100vh;
             background: var(--secondary-lighter);
         }
 
@@ -49,7 +59,7 @@
         }
 
         .crud-grid {
-            height: 90vh;
+            height: 85vh;
             border: 0;
             background: transparent;
         }

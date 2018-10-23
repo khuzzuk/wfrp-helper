@@ -3,6 +3,7 @@ package pl.khuzzuk.wfrp.helper.security;
 import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
@@ -29,8 +30,10 @@ public class User {
     @NaturalId
     @Filter
     private @Length(min = 3, max = 100) String name;
+    @FormElement(exclude = true)
     private String password;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(schema = "security")
+    @FormElement(editor = EditorType.CHOOSE)
     private Set<Role> roles;
 }

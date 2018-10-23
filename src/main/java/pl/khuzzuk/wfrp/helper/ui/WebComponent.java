@@ -11,7 +11,7 @@ public abstract class WebComponent extends Div implements InitializingBean {
     }
 
     @Override
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         ComponentInitialization.initializeComponents(this);
     }
 }

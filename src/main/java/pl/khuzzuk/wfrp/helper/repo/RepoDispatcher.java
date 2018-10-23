@@ -37,6 +37,10 @@ import pl.khuzzuk.wfrp.helper.repo.crud.RangedWeaponBlueprintRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.RangedWeaponRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.ResourceRepo;
 import pl.khuzzuk.wfrp.helper.repo.crud.SkillRepo;
+import pl.khuzzuk.wfrp.helper.security.Role;
+import pl.khuzzuk.wfrp.helper.security.RoleRepo;
+import pl.khuzzuk.wfrp.helper.security.User;
+import pl.khuzzuk.wfrp.helper.security.UserRepo;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -64,6 +68,9 @@ class RepoDispatcher implements InitializingBean {
     private final RangedWeaponRepo rangedWeaponRepo;
     private final ArmorRepo armorRepo;
 
+    private final RoleRepo roleRepo;
+    private final UserRepo userRepo;
+
     private Map<Class<?>, JpaRepository> repositories;
 
     @Override
@@ -84,6 +91,9 @@ class RepoDispatcher implements InitializingBean {
         repositories.put(MeleeWeapon.class, meleeWeaponRepo);
         repositories.put(RangedWeapon.class, rangedWeaponRepo);
         repositories.put(Armor.class, armorRepo);
+
+        repositories.put(Role.class, roleRepo);
+        repositories.put(User.class, userRepo);
 
         bus.subscribingFor(Event.FIND_ALL).accept((Consumer<Class<?>>) this::findAll).subscribe();
         bus.subscribingFor(Event.SAVE).accept(this::save).subscribe();

@@ -2,16 +2,17 @@ package pl.khuzzuk.wfrp.helper.ui;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
+import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 import pl.khuzzuk.wfrp.helper.ui.menu.RightMenu;
+import pl.khuzzuk.wfrp.helper.ui.menu.TopMenu;
 
 @Route("")
 @Component
@@ -24,13 +25,17 @@ import pl.khuzzuk.wfrp.helper.ui.menu.RightMenu;
 @RequiredArgsConstructor
 public class HomeView extends WebComponent implements InitializingBean {
     @UIProperty
-    private final RightMenu rightMenu;
+    private final TopMenu topMenu;
 
+    private final RightMenu rightMenu;
+    private final MainContent content;
     @UIProperty
-    private final Div content;
+    @CSS(classNames = {"right-menu-content"})
+    private FlexLayout rightContentLayout = new FlexLayout();
 
     @Override
     public void afterPropertiesSet() {
-        ComponentInitialization.initializeComponents(this);
+        super.afterPropertiesSet();
+        rightContentLayout.add(rightMenu, content);
     }
 }

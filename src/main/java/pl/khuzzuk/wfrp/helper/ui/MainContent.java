@@ -8,5 +8,5 @@ import org.springframework.stereotype.Component;
 @UIScope
 @Component("content")
 @Tag("content")
-class MainContent extends Div {
+public class MainContent extends Div {
 }
