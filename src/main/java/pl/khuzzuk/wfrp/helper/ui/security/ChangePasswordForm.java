@@ -20,6 +20,7 @@ import java.util.function.Consumer;
 @Component
 public class ChangePasswordForm extends WebComponent {
     private final PasswordEncoder passwordEncoder;
+    private final CurrentUserService currentUserService;
 
     @UIProperty
     private PasswordField oldPassword = new PasswordField("Old password");
@@ -31,8 +32,6 @@ public class ChangePasswordForm extends WebComponent {
     private Button changeButton = new Button("Change Password");
 
     @Setter
-    private User currentUser;
-    @Setter
     private Consumer<String> onPasswordChange;
 
     @Override
@@ -40,8 +39,10 @@ public class ChangePasswordForm extends WebComponent {
         super.afterPropertiesSet();
         Binder<ChangePasswordRequest> binder = new Binder<>(ChangePasswordRequest.class);
 
-        binder.forField(oldPassword).withValidator(password ->
-                passwordEncoder.matches(password, currentUser.getPassword()), "Wrong password")
+        binder.forField(oldPassword).withValidator(password -> {
+                    User user = currentUserService.getCurrentUser();
+                    return user != null && passwordEncoder.matches(password, user.getPassword());
+                }, "Wrong password")
                 .bind(ChangePasswordRequest::getOldPassword, ChangePasswordRequest::setOldPassword);
 
         binder.forField(newPassword).bind(ChangePasswordRequest::getNewPassword, ChangePasswordRequest::setNewPassword);

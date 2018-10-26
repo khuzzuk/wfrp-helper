@@ -68,6 +68,7 @@ class CrudsConfiguration {
         raceCrud.onDelete(commonDeleteListener());
         raceCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(raceCrud);
+        raceCrud.requestData();
         return raceCrud;
     }
 
@@ -79,6 +80,7 @@ class CrudsConfiguration {
         skillCrud.onDelete(commonDeleteListener());
         skillCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(skillCrud);
+        skillCrud.requestData();
         return skillCrud;
     }
 
@@ -90,6 +92,7 @@ class CrudsConfiguration {
         professionClassCrud.onDelete(commonDeleteListener());
         professionClassCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(professionClassCrud);
+        professionClassCrud.requestData();
         return professionClassCrud;
     }
 
@@ -101,6 +104,7 @@ class CrudsConfiguration {
         professionCrud.onDelete(commonDeleteListener());
         professionCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(professionCrud);
+        professionCrud.requestData();
         return professionCrud;
     }
 
@@ -112,6 +116,7 @@ class CrudsConfiguration {
         armorPatternCrud.onDelete(commonDeleteListener());
         armorPatternCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(armorPatternCrud);
+        armorPatternCrud.requestData();
         return armorPatternCrud;
     }
 
@@ -123,6 +128,7 @@ class CrudsConfiguration {
         resourceCrud.onDelete(commonDeleteListener());
         resourceCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(resourceCrud);
+        resourceCrud.requestData();
         return resourceCrud;
     }
 
@@ -134,6 +140,7 @@ class CrudsConfiguration {
         miscItemCrud.onDelete(commonDeleteListener());
         miscItemCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(miscItemCrud);
+        miscItemCrud.requestData();
         return miscItemCrud;
     }
 
@@ -145,6 +152,7 @@ class CrudsConfiguration {
         meleeWeaponBlueprintCrud.onDelete(commonDeleteListener());
         meleeWeaponBlueprintCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(meleeWeaponBlueprintCrud);
+        meleeWeaponBlueprintCrud.requestData();
         return meleeWeaponBlueprintCrud;
     }
 
@@ -156,6 +164,7 @@ class CrudsConfiguration {
         rangedWeaponBlueprintCrud.onDelete(commonDeleteListener());
         rangedWeaponBlueprintCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(rangedWeaponBlueprintCrud);
+        rangedWeaponBlueprintCrud.requestData();
         return rangedWeaponBlueprintCrud;
     }
 
@@ -167,6 +176,7 @@ class CrudsConfiguration {
         armorBlueprintCrud.onDelete(commonDeleteListener());
         armorBlueprintCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(armorBlueprintCrud);
+        armorBlueprintCrud.requestData();
         return armorBlueprintCrud;
     }
 
@@ -178,6 +188,7 @@ class CrudsConfiguration {
         jewelryCrud.onDelete(commonDeleteListener());
         jewelryCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(jewelryCrud);
+        jewelryCrud.requestData();
         return jewelryCrud;
     }
 
@@ -189,6 +200,7 @@ class CrudsConfiguration {
         meleeWeaponCrud.onDelete(commonDeleteListener());
         meleeWeaponCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(meleeWeaponCrud);
+        meleeWeaponCrud.requestData();
         return meleeWeaponCrud;
     }
 
@@ -200,6 +212,7 @@ class CrudsConfiguration {
         rangedWeaponCrud.onDelete(commonDeleteListener());
         rangedWeaponCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(rangedWeaponCrud);
+        rangedWeaponCrud.requestData();
         return rangedWeaponCrud;
     }
 
@@ -211,6 +224,8 @@ class CrudsConfiguration {
         armorCrud.onDelete(commonDeleteListener());
         armorCrud.onRefreshRequest(commonRefreshDataListener());
         listenerList.addCrud(armorCrud);
+        armorCrud.requestData();
         return armorCrud;
     }
+
 }

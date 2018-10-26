@@ -6,5 +6,9 @@ public enum Event {
     SAVE,
     DELETE,
 
+    SECURITY_SAVE_USER,
+    SECURITY_DELETE_USER,
+    SECURITY_CHANGE_PASSWORD,
+
     ERROR
 }

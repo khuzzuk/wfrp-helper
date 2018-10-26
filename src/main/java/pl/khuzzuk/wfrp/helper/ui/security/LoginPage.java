@@ -9,11 +9,14 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import pl.khuzzuk.messaging.Bus;
+import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.security.User;
 import pl.khuzzuk.wfrp.helper.security.UserRepo;
 import pl.khuzzuk.wfrp.helper.ui.HomeView;
@@ -30,6 +33,8 @@ public class LoginPage extends WebComponent {
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
     private final ChangePasswordForm changePasswordForm;
+    private final CurrentUserService currentUserService;
+    private final Bus<Event> bus;
 
     @UIProperty
     private TextField username = new TextField("Username");
@@ -45,6 +50,12 @@ public class LoginPage extends WebComponent {
         loginButton.addClickListener(event -> {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username.getValue(), password.getValue()));
             User user = userRepo.findByName(username.getValue()).get();
+            currentUserService.setCurrentUser(user);
+
+            if (user.isDeleted()) {
+                throw new AccountExpiredException("User not found");
+            }
+
             if (user.isOneTimePassword()) {
                 showChangePasswordDialog(user, authentication);
             } else {
@@ -54,11 +65,8 @@ public class LoginPage extends WebComponent {
     }
 
     private void showChangePasswordDialog(User user, Authentication authentication) {
-        changePasswordForm.setCurrentUser(user);
         changePasswordForm.setOnPasswordChange(pass -> {
-            user.setPassword(passwordEncoder.encode(pass));
-            user.setOneTimePassword(false);
-            userRepo.save(user);
+            bus.message(Event.SECURITY_CHANGE_PASSWORD).withContent(pass).send();
             performAuthentication(authentication);
         });
         Dialog changePasswordDialog = new Dialog(changePasswordForm);

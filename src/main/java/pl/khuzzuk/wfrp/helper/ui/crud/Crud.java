@@ -20,7 +20,6 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.lang.invoke.MethodHandles;
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,10 +29,10 @@ import java.util.Iterator;
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class Crud<T> extends WebComponent {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
-    private WeakReference<SaveListener<T>> saveListener = new WeakReference<>(SaveListener.EMTPY);
-    private WeakReference<UpdateListener<T>> updateListener = new WeakReference<>(UpdateListener.EMPTY);
-    private WeakReference<DeleteListener<T>> deleteListener = new WeakReference<>(DeleteListener.EMPTY);
-    private WeakReference<RefreshDataListener> refreshDataListener = new WeakReference<>(RefreshDataListener.EMPTY);
+    private SaveListener<T> saveListener = SaveListener.EMTPY;
+    private UpdateListener<T> updateListener = UpdateListener.EMPTY;
+    private DeleteListener<T> deleteListener = DeleteListener.EMPTY;
+    private RefreshDataListener refreshDataListener = RefreshDataListener.EMPTY;
 
     private final Class<T> beanType;
     private final FormFieldFactory formFieldFactory;
@@ -85,7 +84,6 @@ public class Crud<T> extends WebComponent {
         table.addSelectionListener(e -> editButton.setEnabled(getSelected() != null));
 
         prepareForms();
-        bindings.requestData(type -> refreshDataListener.get().onRefreshData(type));
 
         FilterConfiguration<T> filterConfiguration = FilterConfiguration.forType(beanType, dataProvider);
         filterConfiguration.getFilterFields().forEach(filters::add);
@@ -100,6 +98,10 @@ public class Crud<T> extends WebComponent {
         }
     }
 
+    public void requestData() {
+        bindings.requestData(type -> refreshDataListener.onRefreshData(type));
+    }
+
     private void addFieldToTable(Field field) {
         table.addColumn(field.getName());
     }
@@ -109,7 +111,7 @@ public class Crud<T> extends WebComponent {
         bindings = BindingsFactory.create(beanType, formFieldFactory);
         log.info("bindings ready for {}", beanType);
 
-        createForm = CrudForm.createFor(bindings, bean -> saveListener.get().onSave(bean));
+        createForm = CrudForm.createFor(bindings, bean -> saveListener.onSave(bean));
         createButton.addClickListener(e -> createForm.showForm());
 
         editButton.setEnabled(false);
@@ -122,7 +124,7 @@ public class Crud<T> extends WebComponent {
     private void remove() {
         T selectedItem = getSelected();
         if (selectedItem != null) {
-            deleteListener.get().onDelete(selectedItem);
+            deleteListener.onDelete(selectedItem);
         }
     }
 
@@ -139,18 +141,18 @@ public class Crud<T> extends WebComponent {
     }
 
     public void onSave(SaveListener<T> saveListener) {
-        this.saveListener = new WeakReference<>(saveListener);
+        this.saveListener = saveListener;
     }
 
     public void onUpdate(UpdateListener<T> updateListener) {
-        this.updateListener = new WeakReference<>(updateListener);
+        this.updateListener = updateListener;
     }
 
     public void onDelete(DeleteListener<T> deleteListener) {
-        this.deleteListener = new WeakReference<>(deleteListener);
+        this.deleteListener = deleteListener;
     }
 
     public void onRefreshRequest(RefreshDataListener refreshDataListener) {
-        this.refreshDataListener = new WeakReference<>(refreshDataListener);
+        this.refreshDataListener = refreshDataListener;
     }
 }
