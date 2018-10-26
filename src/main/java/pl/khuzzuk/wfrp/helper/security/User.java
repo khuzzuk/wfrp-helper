@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Data
@@ -31,7 +32,8 @@ public class User {
     @Filter
     private @Length(min = 3, max = 100) String name;
     @FormElement(exclude = true)
-    private String password;
+    private @NotNull String password;
+    private boolean oneTimePassword = true;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(schema = "security")
     @FormElement(editor = EditorType.CHOOSE)
