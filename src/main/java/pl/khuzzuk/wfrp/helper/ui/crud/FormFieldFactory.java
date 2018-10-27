@@ -8,6 +8,7 @@ import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityManyToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CollectionFormFieldFactory;
+import pl.khuzzuk.wfrp.helper.ui.crud.type.BooleanTypeFieldApplier;
 import pl.khuzzuk.wfrp.helper.ui.crud.type.DoubleTypeFieldApplier;
 import pl.khuzzuk.wfrp.helper.ui.crud.type.EnumTypeFieldApplier;
 import pl.khuzzuk.wfrp.helper.ui.crud.type.FloatTypeFieldApplier;
@@ -41,7 +42,16 @@ public class FormFieldFactory implements InitializingBean {
         typeFieldAppliers.add(new FloatTypeFieldApplier());
         typeFieldAppliers.add(new DoubleTypeFieldApplier());
         typeFieldAppliers.add(new DoubleTypeFieldApplier());
+        typeFieldAppliers.add(new BooleanTypeFieldApplier());
         typeFieldAppliers.add(new EnumTypeFieldApplier());
+    }
+
+    boolean supportsType(Field field) {
+        boolean canInclude = typeFieldAppliers.stream().anyMatch(a -> a.supportType(field.getType()));
+        if (field.isAnnotationPresent(FormElement.class)) {
+            canInclude = !field.getDeclaredAnnotation(FormElement.class).exclude();
+        }
+        return canInclude;
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})

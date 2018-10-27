@@ -20,7 +20,7 @@ class BindingsFactory {
         AutoBindings<T> bindings = AutoBindings.createForType(beanType);
         Collection<Field> fields = ReflectionUtils.getFields(beanType);
         fields.stream()
-                .filter(ExclusionFieldsUtils::canIncludeInForm)
+                .filter(formFieldFactory::supportsType)
                 .forEach(field -> formFieldFactory.bindWithComponent(field, bindings, field.getName()));
         return bindings;
     }

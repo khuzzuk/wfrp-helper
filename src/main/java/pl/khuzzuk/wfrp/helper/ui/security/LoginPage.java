@@ -54,7 +54,7 @@ public class LoginPage extends WebComponent {
             User user = userRepo.findByName(username.getValue()).get();
             currentUserService.setCurrentUser(user);
 
-            if (user.isDeleted()) {
+            if (user.getDeleted()) {
                 throw new AccountExpiredException("User not found");
             }
 

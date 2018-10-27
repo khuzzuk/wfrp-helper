@@ -38,5 +38,5 @@ public class User {
     @JoinTable(schema = "security")
     @FormElement(editor = EditorType.CHOOSE)
     private Set<Role> roles;
-    private boolean deleted;
+    private Boolean deleted;
 }
