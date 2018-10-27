@@ -1,5 +1,6 @@
 package pl.khuzzuk.wfrp.helper.ui.security;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.data.binder.Binder;
@@ -60,5 +61,13 @@ public class ChangePasswordForm extends WebComponent {
         binder.setBean(new ChangePasswordRequest());
         retypePassword.addValueChangeListener(event -> retypePasswordBinding.validate());
         changeButton.addClickListener(e -> onPasswordChange.accept(binder.getBean().getNewPassword()));
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        oldPassword.clear();
+        newPassword.clear();
+        retypePassword.clear();
     }
 }

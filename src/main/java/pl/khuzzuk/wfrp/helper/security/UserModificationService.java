@@ -1,50 +1,47 @@
-package pl.khuzzuk.wfrp.helper.ui.security;
+package pl.khuzzuk.wfrp.helper.security;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
-import pl.khuzzuk.wfrp.helper.security.User;
-import pl.khuzzuk.wfrp.helper.security.UserRepo;
+import pl.khuzzuk.wfrp.helper.ui.security.CurrentUserService;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class UserModificationService implements InitializingBean {
+public class UserModificationService {
     private final UserRepo userRepo;
     private final Bus<Event> bus;
     private final PasswordEncoder passwordEncoder;
-    private final String allowedPasswordCharacters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
+    private final String allowedCharacters = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
     private final CurrentUserService currentUserService;
 
-    @Override
-    public void afterPropertiesSet() {
-        bus.subscribingFor(Event.SECURITY_SAVE_USER).accept(this::save).subscribe();
-        bus.subscribingFor(Event.SECURITY_DELETE_USER).accept(this::delete).subscribe();
-        bus.subscribingFor(Event.SECURITY_CHANGE_PASSWORD).accept(this::changePassword).subscribe();
-    }
-
-    private void save(User user) {
-        String password = RandomStringUtils.random(8, allowedPasswordCharacters);
+    public void save(User user) {
+        String password = RandomStringUtils.random(8, allowedCharacters);
         user.setPassword(passwordEncoder.encode(password));
         user.setOneTimePassword(true);
         log.info("Password for user {} is {}", user.getName(), password);
         userRepo.save(user);
+        refreshUsers();
     }
 
-    private void delete(User user) {
+    public void delete(User user) {
         user.setDeleted(true);
         userRepo.save(user);
+        refreshUsers();
     }
 
-    private void changePassword(String newPassword) {
+    public void changePassword(String newPassword) {
         User currentUser = currentUserService.getCurrentUser();
         currentUser.setOneTimePassword(false);
         currentUser.setPassword(passwordEncoder.encode(newPassword));
         userRepo.save(currentUser);
+    }
+
+    private void refreshUsers() {
+        bus.message(Event.FIND_ALL).withContent(User.class).send();
     }
 }

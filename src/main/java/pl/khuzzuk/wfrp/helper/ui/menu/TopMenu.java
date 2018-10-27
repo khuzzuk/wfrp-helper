@@ -1,5 +1,6 @@
 package pl.khuzzuk.wfrp.helper.ui.menu;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -10,10 +11,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-import pl.khuzzuk.messaging.Bus;
-import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.security.Role;
 import pl.khuzzuk.wfrp.helper.security.User;
+import pl.khuzzuk.wfrp.helper.security.UserModificationService;
 import pl.khuzzuk.wfrp.helper.ui.MainContent;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
@@ -31,7 +31,7 @@ public class TopMenu extends WebComponent {
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private final MainContent content;
     private final ChangePasswordForm changePasswordForm;
-    private final Bus<Event> bus;
+    private final UserModificationService userModificationService;
 
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
@@ -51,9 +51,18 @@ public class TopMenu extends WebComponent {
     @CSS(classNames = {"crud", "content"})
     private final Crud<User> userCrud;
 
+    private Dialog dialog = new Dialog();
+
     @Override
     public void afterPropertiesSet() {
         super.afterPropertiesSet();
+        dialog.add(changePasswordForm);
+    }
+
+    private void refreshView() {
+        remove(usersButton, rolesButton);
+        content.removeAll();
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication.isAuthenticated() && isAdmin(authentication.getAuthorities())) {
             add(usersButton, rolesButton);
@@ -61,19 +70,15 @@ public class TopMenu extends WebComponent {
             usersButton.addClickListener(event -> showCrud(userCrud));
         }
 
-        Dialog dialog = new Dialog();
         changePasswordForm.setOnPasswordChange(newPassword -> {
-            bus.message(Event.SECURITY_CHANGE_PASSWORD).withContent(newPassword).send();
+            userModificationService.changePassword(newPassword);
             dialog.close();
         });
 
         currentUserButton.addClickListener(event -> {
             content.removeAll();
             content.add(changePasswordButton);
-            changePasswordButton.addClickListener(e -> {
-                dialog.add(changePasswordForm);
-                dialog.open();
-            });
+            changePasswordButton.addClickListener(e -> dialog.open());
         });
     }
 
@@ -89,5 +94,11 @@ public class TopMenu extends WebComponent {
                 .map(SimpleGrantedAuthority.class::cast)
                 .map(SimpleGrantedAuthority::getAuthority)
                 .anyMatch(ROLE_ADMIN::equals);
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        refreshView();
     }
 }

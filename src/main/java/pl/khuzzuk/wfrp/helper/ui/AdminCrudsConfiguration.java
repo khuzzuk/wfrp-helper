@@ -7,6 +7,7 @@ import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.security.Role;
 import pl.khuzzuk.wfrp.helper.security.User;
+import pl.khuzzuk.wfrp.helper.security.UserModificationService;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
 
@@ -27,14 +28,14 @@ public class AdminCrudsConfiguration {
 
     @Bean
     @UIScope
-    Crud<User> userCrud(Bus<Event> bus, FormFieldFactory formFieldFactory, CrudsDataListenerList listenerList) {
+    Crud<User> userCrud(Bus<Event> bus,
+                        FormFieldFactory formFieldFactory,
+                        CrudsDataListenerList listenerList,
+                        UserModificationService userModificationService) {
         Crud<User> userCrud = Crud.forBean(User.class, formFieldFactory);
-        userCrud.onSave(user -> bus.message(Event.SECURITY_SAVE_USER).withContent(user).send());
-        userCrud.onDelete(user -> bus.message(Event.SECURITY_DELETE_USER).withContent(user).send());
-        userCrud.onRefreshRequest(type -> {
-            System.out.println(type);
-            bus.message(Event.FIND_ALL).withContent(type).send();
-        });
+        userCrud.onSave(userModificationService::save);
+        userCrud.onDelete(userModificationService::delete);
+        userCrud.onRefreshRequest(type -> bus.message(Event.FIND_ALL).withContent(type).send());
         listenerList.addCrud(userCrud);
 
         userCrud.requestData();

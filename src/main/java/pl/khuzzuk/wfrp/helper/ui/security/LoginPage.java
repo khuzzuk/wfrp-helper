@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.security.User;
+import pl.khuzzuk.wfrp.helper.security.UserModificationService;
 import pl.khuzzuk.wfrp.helper.security.UserRepo;
 import pl.khuzzuk.wfrp.helper.ui.HomeView;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
@@ -35,6 +36,7 @@ public class LoginPage extends WebComponent {
     private final ChangePasswordForm changePasswordForm;
     private final CurrentUserService currentUserService;
     private final Bus<Event> bus;
+    private final UserModificationService userModificationService;
 
     @UIProperty
     private TextField username = new TextField("Username");
@@ -57,16 +59,16 @@ public class LoginPage extends WebComponent {
             }
 
             if (user.isOneTimePassword()) {
-                showChangePasswordDialog(user, authentication);
+                showChangePasswordDialog(authentication);
             } else {
                 performAuthentication(authentication);
             }
         });
     }
 
-    private void showChangePasswordDialog(User user, Authentication authentication) {
+    private void showChangePasswordDialog(Authentication authentication) {
         changePasswordForm.setOnPasswordChange(pass -> {
-            bus.message(Event.SECURITY_CHANGE_PASSWORD).withContent(pass).send();
+            userModificationService.changePassword(pass);
             performAuthentication(authentication);
         });
         Dialog changePasswordDialog = new Dialog(changePasswordForm);
