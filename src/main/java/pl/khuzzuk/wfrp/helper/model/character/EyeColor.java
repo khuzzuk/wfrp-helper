@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.skill;
+package pl.khuzzuk.wfrp.helper.model.character;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,14 +16,19 @@ import javax.persistence.SequenceGenerator;
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
-public class Skill {
+public class EyeColor {
     @Id
-    @SequenceGenerator(name = "skill_seq_gen", sequenceName = "skill_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skill_seq_gen")
+    @SequenceGenerator(name = "eye_color_seq_gen", sequenceName = "eye_color_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eye_color_seq_gen")
     @FormElement(exclude = true)
     private Long id;
     @NaturalId
     @Filter
-    private @Length(min = 3, max = 100) String name;
+    private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

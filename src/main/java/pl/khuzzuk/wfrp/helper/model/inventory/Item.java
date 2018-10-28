@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.model.inventory;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
@@ -19,6 +20,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Data
+@EqualsAndHashCode(of = "name")
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Item {

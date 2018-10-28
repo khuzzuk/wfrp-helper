@@ -15,7 +15,9 @@ CREATE TABLE item_blueprint (
   minimum_range    INT,
   placement        INT                NOT NULL,
   damage_id        BIGINT REFERENCES modifier (id),
-  armor_pattern_id BIGINT REFERENCES armor_pattern (id)
+  armor_pattern_id BIGINT REFERENCES armor_pattern (id),
+  prepare_type      INT,
+  prepare_amount   INT
 );
 
 CREATE TABLE item_blueprint_determinants (
