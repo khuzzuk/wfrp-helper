@@ -33,10 +33,12 @@ public class User {
     private @Length(min = 3, max = 100) String name;
     @FormElement(exclude = true)
     private @NotNull String password;
+    @FormElement(exclude = true)
     private boolean oneTimePassword = true;
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(schema = "security")
     @FormElement(editor = EditorType.CHOOSE)
     private Set<Role> roles;
+    @Filter
     private Boolean deleted;
 }

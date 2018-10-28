@@ -1,5 +1,7 @@
 package pl.khuzzuk.wfrp.helper.ui.crud.filter;
 
+import com.vaadin.flow.component.AbstractField;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import lombok.AccessLevel;
@@ -31,7 +33,7 @@ public class FilterConfiguration<T> {
         return configuration;
     }
 
-    public Collection<TextField> getFilterFields() {
+    public Collection<AbstractField<?, ?>> getFilterFields() {
         return filterDefinitions.stream()
                 .map(FilterDefinition::getField).collect(Collectors.toList());
     }
@@ -46,12 +48,20 @@ public class FilterConfiguration<T> {
 
     private void registerFilter(Field field) {
         MethodHandle getter = findGetter(field);
-        TextField textField = new TextField(field.getName());
-        textField.addValueChangeListener(event -> dataProvider.refreshAll());
+        Class<?> fieldType = field.getType();
+        AbstractField<?, ?> filterField;
+        if (Boolean.class.equals(fieldType)) {
+            filterField = new Checkbox(field.getName());
+            ((Checkbox) filterField).setIndeterminate(true);
+            ((Checkbox) filterField).addClickListener(event -> ((Checkbox) filterField).setIndeterminate(event.getClickCount() > 1));
+        } else {
+            filterField = new TextField(field.getName());
+        }
+        filterField.addValueChangeListener(event -> dataProvider.refreshAll());
 
         filterDefinitions.add(FilterDefinition.<T>builder()
                 .getter(getter)
-                .field(textField)
+                .field(filterField)
                 .build());
     }
 
