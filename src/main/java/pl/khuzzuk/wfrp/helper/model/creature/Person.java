@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.character;
+package pl.khuzzuk.wfrp.helper.model.creature;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
@@ -36,4 +37,7 @@ public class Person {
     @ManyToMany(fetch = FetchType.EAGER)
     @FormElement(editor = EditorType.CHOOSE)
     private Set<Skill> skills;
+    @OneToMany(fetch = FetchType.EAGER)
+    @FormElement(editor = EditorType.CHOOSE)
+    private Set<Animal> animals;
 }

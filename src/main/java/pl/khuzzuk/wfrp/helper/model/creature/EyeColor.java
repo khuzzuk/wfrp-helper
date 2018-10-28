@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.character;
+package pl.khuzzuk.wfrp.helper.model.creature;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

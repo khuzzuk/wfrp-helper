@@ -15,30 +15,28 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = "id")
 @Entity
-public class PhysicalFeature {
+public class Animal {
     @Id
-    @SequenceGenerator(name = "character_seq_gen", sequenceName = "character_seq")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "character_seq_gen")
+    @SequenceGenerator(name = "animal_seq_gen", sequenceName = "animal_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_seq_gen")
     @FormElement(exclude = true)
     private Long id;
     @NaturalId
     @Filter
     private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @FormElement(editor = EditorType.CHOOSE)
+    private AnimalKind animalKind;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> determinants;
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }

@@ -1,14 +1,26 @@
-CREATE SEQUENCE person_seq;
-CREATE TABLE person (
-  id          BIGINT PRIMARY KEY DEFAULT nextval('person_seq' :: regclass),
-  name        VARCHAR(64) UNIQUE NOT NULL,
-  description VARCHAR(255),
-  history     TEXT
+CREATE SEQUENCE animal_kind_seq;
+CREATE TABLE animal_kind (
+  id          BIGINT PRIMARY KEY DEFAULT nextval('animal_kind_seq' :: regclass),
+  name        VARCHAR(64) NOT NULL UNIQUE,
+  description VARCHAR(255)
+);
+CREATE TABLE animal_kind_determinants (
+  animal_kind_id BIGINT NOT NULL REFERENCES animal_kind,
+  determinants_id BIGINT NOT NULL REFERENCES determinant,
+  PRIMARY KEY (animal_kind_id, determinants_id)
 );
 
-CREATE TABLE person_skills (
-  person_id BIGINT NOT NULL REFERENCES person,
-  skills_id BIGINT NOT NULL REFERENCES skill,
-  PRIMARY KEY (person_id, skills_id)
+CREATE SEQUENCE animal_seq;
+CREATE TABLE animal (
+  id          BIGINT PRIMARY KEY DEFAULT nextval('animal_seq' :: regclass),
+  name        VARCHAR(64) NOT NULL UNIQUE,
+  description VARCHAR(255),
+  animal_kind_id BIGINT NOT NULL REFERENCES animal_kind,
+  person_id BIGINT NOT NULL REFERENCES person
+);
+CREATE TABLE animal_determinants (
+  animal_id BIGINT NOT NULL REFERENCES animal,
+  determinants_id BIGINT NOT NULL REFERENCES determinant,
+  PRIMARY KEY (animal_id, determinants_id)
 );
 
