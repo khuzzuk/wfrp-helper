@@ -8,6 +8,7 @@ import com.vaadin.flow.data.binder.Binder.Binding;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.security.User;
@@ -19,7 +20,7 @@ import java.util.function.Consumer;
 @RequiredArgsConstructor
 @UIScope
 @Component
-public class ChangePasswordForm extends WebComponent {
+public class ChangePasswordForm extends WebComponent implements InitializingBean {
     private final PasswordEncoder passwordEncoder;
     private final CurrentUserService currentUserService;
 
@@ -37,7 +38,6 @@ public class ChangePasswordForm extends WebComponent {
 
     @Override
     public void afterPropertiesSet() {
-        super.afterPropertiesSet();
         Binder<ChangePasswordRequest> binder = new Binder<>(ChangePasswordRequest.class);
 
         binder.forField(oldPassword).withValidator(password -> {

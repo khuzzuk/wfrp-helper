@@ -76,7 +76,6 @@ public class Crud<T> extends WebComponent {
     private void initialize() {
         table = new Grid<>(beanType);
         createColumnsInTable();
-        ComponentInitialization.initializeComponents(this);
         dataProvider = DataProvider.ofCollection(data);
         table.setDataProvider(dataProvider);
 

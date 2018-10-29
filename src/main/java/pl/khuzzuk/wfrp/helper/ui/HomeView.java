@@ -35,7 +35,6 @@ public class HomeView extends WebComponent implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        super.afterPropertiesSet();
         rightContentLayout.add(rightMenu, content);
     }
 }

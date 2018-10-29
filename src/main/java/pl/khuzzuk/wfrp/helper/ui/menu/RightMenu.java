@@ -8,6 +8,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.model.Race;
+import pl.khuzzuk.wfrp.helper.model.creature.Character;
+import pl.khuzzuk.wfrp.helper.model.creature.EyeColor;
+import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
+import pl.khuzzuk.wfrp.helper.model.creature.PhysicalFeature;
 import pl.khuzzuk.wfrp.helper.model.inventory.Armor;
 import pl.khuzzuk.wfrp.helper.model.inventory.ArmorPattern;
 import pl.khuzzuk.wfrp.helper.model.inventory.Item;
@@ -17,10 +21,15 @@ import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.ArmorBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.MeleeWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.RangedWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.magic.Spell;
+import pl.khuzzuk.wfrp.helper.model.magic.SpellSchool;
+import pl.khuzzuk.wfrp.helper.model.money.Currency;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
+import pl.khuzzuk.wfrp.helper.model.world.Language;
+import pl.khuzzuk.wfrp.helper.model.world.Nation;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
@@ -39,23 +48,34 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private Button raceButton = new Button("Race");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
-    private Button skillButton = new Button("Skills");
-    @UIProperty
-    @CSS(classNames = {"button", "menu-button"})
-    private Button professionClassButton = new Button("Classes");
-    @UIProperty
-    @CSS(classNames = {"button", "menu-button"})
-    private Button professionButton = new Button("Professions");
-    @UIProperty
-    @CSS(classNames = {"button", "menu-button"})
     private Button inventoryButton = new Button("Inventory");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
     private Button blueprintsButton = new Button("Blueprints");
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
+    private Button knowledgeButton = new Button("Knowledge");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button worldButton = new Button("World");
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
+    private Button lookButton = new Button("Look");
 
     @CSS(classNames = {"button", "menu-button"})
     private Button backButton = new Button("Back");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button backToKnowledgeButton = new Button("Back");
 
+    @CSS(classNames = {"button", "menu-button"})
+    private Button skillButton = new Button("Skills");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button professionClassButton = new Button("Classes");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button professionButton = new Button("Professions");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button spellSchoolButton = new Button("Magic school");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button spellButton = new Button("Spells");
 
     @CSS(classNames = {"button", "menu-button"})
     private Button armorPatternButton = new Button("Patterns");
@@ -79,50 +99,68 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @CSS(classNames = {"button", "menu-button"})
     private Button armorBlueprintsButton = new Button("Armor");
 
-    @CSS(classNames = {"crud", "content"})
+    @CSS(classNames = {"button", "menu-button"})
+    private Button characterButton = new Button("Character");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button eyeColorButton = new Button("Eye Color");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button hairColorButton = new Button("Hair color");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button physicalFeaturesButton = new Button("Features");
+
+    @CSS(classNames = {"button", "menu-button"})
+    private Button nationButton = new Button("Nations");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button languageButton = new Button("Languages");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button currencyButton = new Button("Currencies");
+
     private final Crud<Race> raceCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<Skill> skillCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<ProfessionClass> professionClassCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<Profession> professionCrud;
-    @CSS(classNames = {"crud", "content"})
+    private final Crud<SpellSchool> spellSchoolCrud;
+    private final Crud<Spell> spellCrud;
     private final Crud<Resource> resourceCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<ArmorPattern> armorPatternCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<Item> itemCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<ArmorBlueprint> armorBlueprintCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<Jewelry> jewelryCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<MeleeWeapon> meleeWeaponCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<RangedWeapon> rangedWeaponCrud;
-    @CSS(classNames = {"crud", "content"})
     private final Crud<Armor> armorCrud;
+    private final Crud<Character> characterCrud;
+    private final Crud<EyeColor> eyeColorCrud;
+    private final Crud<HairColor> hairColorCrud;
+    private final Crud<PhysicalFeature> physicalFeatureCrud;
+    private final Crud<Nation> nationCrud;
+    private final Crud<Language> languageCrud;
+    private final Crud<Currency> currencyCrud;
 
     @Override
     public void afterPropertiesSet() {
-        ComponentInitialization.initializeComponents(this);
-        inventoryButton.addClickListener(event -> this.showInventory());
-        blueprintsButton.addClickListener(event -> this.showBlueprints());
+        inventoryButton.addClickListener(event -> showInventory());
+        blueprintsButton.addClickListener(event -> showBlueprints());
+        knowledgeButton.addClickListener(event -> showKnowledge());
+        lookButton.addClickListener(event -> showLook());
+        worldButton.addClickListener(event -> showWorld());
         backButton.addClickListener(event -> {
             removeAll();
             content.removeAll();
-            ComponentInitialization.initializeComponents(this);
         });
+        backToKnowledgeButton.addClickListener(event -> showKnowledge());
 
         raceButton.addClickListener(event -> showCrud(raceCrud));
         skillButton.addClickListener(event -> showCrud(skillCrud));
         professionClassButton.addClickListener(event -> showCrud(professionClassCrud));
         professionButton.addClickListener(event -> showCrud(professionCrud));
+        spellSchoolButton.addClickListener(event -> showCrud(spellSchoolCrud));
+        spellButton.addClickListener(event -> showCrud(spellCrud));
+        nationButton.addClickListener(event -> showCrud(nationCrud));
+        languageButton.addClickListener(event -> showCrud(languageCrud));
+        currencyButton.addClickListener(event -> showCrud(currencyCrud));
         resourceButton.addClickListener(event -> showCrud(resourceCrud));
         armorPatternButton.addClickListener(event -> showCrud(armorPatternCrud));
         itemButton.addClickListener(event -> showCrud(itemCrud));
@@ -133,6 +171,10 @@ public class RightMenu extends WebComponent implements InitializingBean {
         meleeWeaponButton.addClickListener(event -> showCrud(meleeWeaponCrud));
         rangedWeaponButton.addClickListener(event -> showCrud(rangedWeaponCrud));
         armorButton.addClickListener(event -> showCrud(armorCrud));
+        characterButton.addClickListener(event -> showCrud(characterCrud));
+        eyeColorButton.addClickListener(event -> showCrud(eyeColorCrud));
+        hairColorButton.addClickListener(event -> showCrud(hairColorCrud));
+        physicalFeaturesButton.addClickListener(event -> showCrud(physicalFeatureCrud));
     }
 
     private void showCrud(Crud<?> crud) {
@@ -151,5 +193,23 @@ public class RightMenu extends WebComponent implements InitializingBean {
         content.removeAll();
         removeAll();
         add(resourceButton, armorPatternButton, itemButton, meleeWeaponButton, rangedWeaponButton, armorButton, jewelryButton, backButton);
+    }
+
+    private void showKnowledge() {
+        content.removeAll();
+        removeAll();
+        add(skillButton, professionClassButton, professionButton, spellSchoolButton, spellButton, worldButton, backButton);
+    }
+
+    private void showWorld() {
+        content.removeAll();
+        removeAll();
+        add(nationButton, languageButton, currencyButton, backToKnowledgeButton);
+    }
+
+    private void showLook() {
+        content.removeAll();
+        removeAll();
+        add(characterButton, eyeColorButton, hairColorButton, physicalFeaturesButton, backButton);
     }
 }

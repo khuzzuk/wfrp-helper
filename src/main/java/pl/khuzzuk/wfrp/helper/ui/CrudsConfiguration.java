@@ -10,6 +10,10 @@ import org.springframework.context.annotation.Configuration;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
+import pl.khuzzuk.wfrp.helper.model.creature.Character;
+import pl.khuzzuk.wfrp.helper.model.creature.EyeColor;
+import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
+import pl.khuzzuk.wfrp.helper.model.creature.PhysicalFeature;
 import pl.khuzzuk.wfrp.helper.model.inventory.Armor;
 import pl.khuzzuk.wfrp.helper.model.inventory.ArmorPattern;
 import pl.khuzzuk.wfrp.helper.model.inventory.Jewelry;
@@ -19,10 +23,15 @@ import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.ArmorBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.MeleeWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.RangedWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.magic.Spell;
+import pl.khuzzuk.wfrp.helper.model.magic.SpellSchool;
+import pl.khuzzuk.wfrp.helper.model.money.Currency;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
+import pl.khuzzuk.wfrp.helper.model.world.Language;
+import pl.khuzzuk.wfrp.helper.model.world.Nation;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.crud.DeleteListener;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
@@ -169,6 +178,78 @@ class CrudsConfiguration {
     @UIScope
     Crud<Armor> armorCrud(FormFieldFactory formFieldFactory) {
         Crud<Armor> crud = Crud.forBean(Armor.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<SpellSchool> spellSchoolCrud(FormFieldFactory formFieldFactory) {
+        Crud<SpellSchool> crud = Crud.forBean(SpellSchool.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<Spell> spellCrud(FormFieldFactory formFieldFactory) {
+        Crud<Spell> crud = Crud.forBean(Spell.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<Character> characterCrud(FormFieldFactory formFieldFactory) {
+        Crud<Character> crud = Crud.forBean(Character.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<EyeColor> eyeColorCrud(FormFieldFactory formFieldFactory) {
+        Crud<EyeColor> crud = Crud.forBean(EyeColor.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<HairColor> hairColorCrud(FormFieldFactory formFieldFactory) {
+        Crud<HairColor> crud = Crud.forBean(HairColor.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<PhysicalFeature> physicalFeatureCrud(FormFieldFactory formFieldFactory) {
+        Crud<PhysicalFeature> crud = Crud.forBean(PhysicalFeature.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<Nation> nationCrud(FormFieldFactory formFieldFactory) {
+        Crud<Nation> crud = Crud.forBean(Nation.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<Language> languageCrud(FormFieldFactory formFieldFactory) {
+        Crud<Language> crud = Crud.forBean(Language.class, formFieldFactory);
+        configureCrud(crud);
+        return crud;
+    }
+
+    @Bean
+    @UIScope
+    Crud<Currency> currencyCrud(FormFieldFactory formFieldFactory) {
+        Crud<Currency> crud = Crud.forBean(Currency.class, formFieldFactory);
         configureCrud(crud);
         return crud;
     }

@@ -9,6 +9,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,7 +30,7 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 @Route("login")
 @Push
 @UIScope
-public class LoginPage extends WebComponent {
+public class LoginPage extends WebComponent implements InitializingBean {
     private final AuthenticationManager authenticationManager;
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
@@ -48,7 +49,6 @@ public class LoginPage extends WebComponent {
 
     @Override
     public void afterPropertiesSet() {
-        super.afterPropertiesSet();
         loginButton.addClickListener(event -> {
             Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username.getValue(), password.getValue()));
             User user = userRepo.findByName(username.getValue()).get();

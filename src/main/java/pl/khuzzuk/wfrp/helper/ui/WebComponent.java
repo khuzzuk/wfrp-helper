@@ -5,13 +5,8 @@ import com.vaadin.flow.server.Command;
 import org.springframework.beans.factory.InitializingBean;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 
-public abstract class WebComponent extends Div implements InitializingBean {
+public abstract class WebComponent extends Div {
     protected void execute(Command command) {
         getUI().ifPresent(ui -> ui.access(command));
-    }
-
-    @Override
-    public void afterPropertiesSet() {
-        ComponentInitialization.initializeComponents(this);
     }
 }

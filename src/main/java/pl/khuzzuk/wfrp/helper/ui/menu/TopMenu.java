@@ -6,6 +6,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +28,7 @@ import java.util.Collection;
 @UIScope
 @Component
 @Tag("TopMenu")
-public class TopMenu extends WebComponent {
+public class TopMenu extends WebComponent implements InitializingBean {
     private static final String ROLE_ADMIN = "ROLE_ADMIN";
     private final MainContent content;
     private final ChangePasswordForm changePasswordForm;
@@ -55,7 +56,6 @@ public class TopMenu extends WebComponent {
 
     @Override
     public void afterPropertiesSet() {
-        super.afterPropertiesSet();
         dialog.add(changePasswordForm);
     }
 
