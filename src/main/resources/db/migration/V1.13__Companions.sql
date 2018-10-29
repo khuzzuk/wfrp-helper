@@ -15,8 +15,7 @@ CREATE TABLE animal (
   id          BIGINT PRIMARY KEY DEFAULT nextval('animal_seq' :: regclass),
   name        VARCHAR(64) NOT NULL UNIQUE,
   description VARCHAR(255),
-  animal_kind_id BIGINT NOT NULL REFERENCES animal_kind,
-  person_id BIGINT NOT NULL REFERENCES person
+  animal_kind_id BIGINT NOT NULL REFERENCES animal_kind
 );
 CREATE TABLE animal_determinants (
   animal_id BIGINT NOT NULL REFERENCES animal,

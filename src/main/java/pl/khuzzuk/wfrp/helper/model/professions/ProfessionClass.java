@@ -6,7 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
-import pl.khuzzuk.wfrp.helper.model.skill.Skill;
+import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;

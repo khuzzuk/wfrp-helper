@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.skill;
+package pl.khuzzuk.wfrp.helper.model.knowledge;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

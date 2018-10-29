@@ -40,5 +40,5 @@ public class User {
     @FormElement(editor = EditorType.CHOOSE)
     private Set<Role> roles;
     @Filter
-    private Boolean deleted;
+    private @NotNull Boolean deleted = Boolean.FALSE;
 }
