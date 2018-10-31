@@ -42,9 +42,9 @@ public class Person {
     private Set<Skill> skills;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "spell_ingredients",
-            joinColumns = @JoinColumn(name = "spell_id"),
-            inverseJoinColumns = @JoinColumn(name = "ingrediend_id"))
+    @JoinTable(name = "person_inventory",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
     @FormElement(editor = EditorType.CHOOSE)
     private List<MiscItem> inventory;
 

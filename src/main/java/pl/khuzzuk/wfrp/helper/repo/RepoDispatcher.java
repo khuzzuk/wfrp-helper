@@ -148,9 +148,7 @@ class RepoDispatcher implements InitializingBean {
         }
 
         List all = repository.findAll();
-        BusPublisher<Event> message = bus.message(Event.DATA_ALL);
-        BusPublisher<Event> eventBusPublisher = message.withContent(new QueryAllResult<>(type, (Collection<T>) all));
-        eventBusPublisher.send();
+        bus.message(Event.DATA_ALL).withContent(new QueryAllResult<>(type, (Collection<T>) all)).send();
     }
 
     private void save(Object entity) {

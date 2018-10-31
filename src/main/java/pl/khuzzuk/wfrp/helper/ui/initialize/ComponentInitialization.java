@@ -42,9 +42,7 @@ public class ComponentInitialization {
 
     @SneakyThrows(IllegalAccessException.class)
     private static void initializeComponent(Field componentField, HasComponents owner) {
-        Component component = (Component) componentField.get(owner);
-        UIProperty uiProperty = componentField.getDeclaredAnnotation(UIProperty.class);
-        owner.add(component);
+        owner.add((Component) componentField.get(owner));
     }
 
     @SneakyThrows(IllegalAccessException.class)
