@@ -21,21 +21,24 @@ import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.ArmorBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.MeleeWeaponBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.RangedWeaponBlueprint;
+import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.magic.Spell;
 import pl.khuzzuk.wfrp.helper.model.magic.SpellSchool;
 import pl.khuzzuk.wfrp.helper.model.money.Currency;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.resource.Resource;
-import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.world.Language;
 import pl.khuzzuk.wfrp.helper.model.world.Nation;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
+import pl.khuzzuk.wfrp.helper.ui.initialize.CrudField;
+import pl.khuzzuk.wfrp.helper.ui.initialize.HasCrud;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
+@HasCrud
 @UIScope
 @Component
 @Tag("RightMenu")
@@ -115,29 +118,29 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @CSS(classNames = {"button", "menu-button"})
     private Button currencyButton = new Button("Currencies");
 
-    private final Crud<Race> raceCrud;
-    private final Crud<Skill> skillCrud;
-    private final Crud<ProfessionClass> professionClassCrud;
-    private final Crud<Profession> professionCrud;
-    private final Crud<SpellSchool> spellSchoolCrud;
-    private final Crud<Spell> spellCrud;
-    private final Crud<Resource> resourceCrud;
-    private final Crud<ArmorPattern> armorPatternCrud;
-    private final Crud<Item> itemCrud;
-    private final Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud;
-    private final Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud;
-    private final Crud<ArmorBlueprint> armorBlueprintCrud;
-    private final Crud<Jewelry> jewelryCrud;
-    private final Crud<MeleeWeapon> meleeWeaponCrud;
-    private final Crud<RangedWeapon> rangedWeaponCrud;
-    private final Crud<Armor> armorCrud;
-    private final Crud<Character> characterCrud;
-    private final Crud<EyeColor> eyeColorCrud;
-    private final Crud<HairColor> hairColorCrud;
-    private final Crud<PhysicalFeature> physicalFeatureCrud;
-    private final Crud<Nation> nationCrud;
-    private final Crud<Language> languageCrud;
-    private final Crud<Currency> currencyCrud;
+    @CrudField private Crud<Race> raceCrud;
+    @CrudField private Crud<Skill> skillCrud;
+    @CrudField private Crud<ProfessionClass> professionClassCrud;
+    @CrudField private Crud<Profession> professionCrud;
+    @CrudField private Crud<SpellSchool> spellSchoolCrud;
+    @CrudField private Crud<Spell> spellCrud;
+    @CrudField private Crud<Resource> resourceCrud;
+    @CrudField private Crud<ArmorPattern> armorPatternCrud;
+    @CrudField private Crud<Item> itemCrud;
+    @CrudField private Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud;
+    @CrudField private Crud<RangedWeaponBlueprint> rangedWeaponBlueprintCrud;
+    @CrudField private Crud<ArmorBlueprint> armorBlueprintCrud;
+    @CrudField private Crud<Jewelry> jewelryCrud;
+    @CrudField private Crud<MeleeWeapon> meleeWeaponCrud;
+    @CrudField private Crud<RangedWeapon> rangedWeaponCrud;
+    @CrudField private Crud<Armor> armorCrud;
+    @CrudField private Crud<Character> characterCrud;
+    @CrudField private Crud<EyeColor> eyeColorCrud;
+    @CrudField private Crud<HairColor> hairColorCrud;
+    @CrudField private Crud<PhysicalFeature> physicalFeatureCrud;
+    @CrudField private Crud<Nation> nationCrud;
+    @CrudField private Crud<Language> languageCrud;
+    @CrudField private Crud<Currency> currencyCrud;
 
     @Override
     public void afterPropertiesSet() {
@@ -149,6 +152,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
         backButton.addClickListener(event -> {
             removeAll();
             content.removeAll();
+            ComponentInitialization.initializeComponents(this);
         });
         backToKnowledgeButton.addClickListener(event -> showKnowledge());
 
