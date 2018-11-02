@@ -6,6 +6,23 @@ CREATE TABLE person (
   history     TEXT
 );
 
+CREATE TABLE person_basic_determinants (
+  person_id         BIGINT NOT NULL REFERENCES person,
+  determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
+  PRIMARY KEY (person_id, determinants_id)
+);
+
+CREATE TABLE person_extension_determinants (
+  person_id         BIGINT NOT NULL REFERENCES person,
+  determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
+  PRIMARY KEY (person_id, determinants_id)
+);
+
+CREATE TABLE person_additional_determinants (
+  person_id         BIGINT NOT NULL REFERENCES person,
+  determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
+  PRIMARY KEY (person_id, determinants_id)
+);
 CREATE TABLE person_skills (
   person_id BIGINT NOT NULL REFERENCES person,
   skills_id BIGINT NOT NULL REFERENCES skill,
@@ -44,5 +61,11 @@ CREATE TABLE person_armor (
   id        BIGINT NOT NULL DEFAULT nextval('person_armor_seq' :: regclass) PRIMARY KEY,
   person_id BIGINT NOT NULL REFERENCES person,
   item_id   BIGINT NOT NULL REFERENCES item
+);
+
+CREATE TABLE person_spells (
+ person_id BIGINT NOT NULL REFERENCES person,
+ spells_id BIGINT NOT NULL REFERENCES spell,
+ PRIMARY KEY (person_id, spells_id)
 );
 

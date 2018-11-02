@@ -26,10 +26,10 @@ sourceCompatibility = 10
 
 repositories {
     mavenCentral()
-    maven { url "https://raw.github.com/khuzzuk/MessageBus/mvn-repo/" }
-    maven { url "https://raw.github.com/khuzzuk/functional-logic/mvn-repo/" }
     maven { url "https://maven.vaadin.com/vaadin-prereleases" }
     maven { url "http://maven.vaadin.com/vaadin-addons" }
+    maven { url "https://raw.github.com/khuzzuk/MessageBus/mvn-repo/" }
+    maven { url "https://raw.github.com/khuzzuk/functional-logic/mvn-repo/" }
 }
 
 dependencies {

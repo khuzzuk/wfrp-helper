@@ -7,8 +7,14 @@ CREATE TABLE profession (
   profession_class_id BIGINT REFERENCES profession_class (id)
 );
 
-CREATE TABLE profession_skill (
+CREATE TABLE profession_skills (
   profession_id BIGINT NOT NULL REFERENCES profession(id),
-  skill_id      BIGINT NOT NULL REFERENCES skill(id),
-  PRIMARY KEY (profession_id, skill_id)
+  skills_id      BIGINT NOT NULL REFERENCES skill(id),
+  PRIMARY KEY (profession_id, skills_id)
+);
+
+CREATE TABLE profession_determinants (
+  profession_id         BIGINT NOT NULL REFERENCES profession,
+  determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
+  PRIMARY KEY (profession_id, determinants_id)
 );

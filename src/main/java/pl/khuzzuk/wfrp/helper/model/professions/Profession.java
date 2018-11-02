@@ -7,16 +7,17 @@ import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
+import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
@@ -35,10 +36,12 @@ public class Profession {
     @ManyToOne
     @FormElement(editor = EditorType.CHOOSE)
     private ProfessionClass professionClass;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @FormElement(editor = EditorType.DELEGATED)
+    private Set<Determinant> determinants;
+
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "profession_skill",
-            joinColumns = @JoinColumn(name = "profession_id"),
-            inverseJoinColumns = @JoinColumn(name = "skill_id"))
     @FormElement(editor = EditorType.CHOOSE)
     private Set<Skill> skills;
 
