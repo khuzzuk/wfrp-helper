@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.ui.security;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.component.textfield.PasswordField;
@@ -27,6 +28,7 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 @Slf4j
 @RequiredArgsConstructor
+@HtmlImport("text-field-style.html")
 @Route("login")
 @Push
 @UIScope

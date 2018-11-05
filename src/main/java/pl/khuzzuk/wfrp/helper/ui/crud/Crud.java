@@ -59,10 +59,8 @@ public class Crud<T> extends WebComponent {
     private CrudForm<T> createForm;
 
     public static <T> Crud<T> forBean(Class<T> beanType, FormFieldFactory formFieldFactory) {
-        log.info("start create crud for {}", beanType);
         Crud<T> crud = new Crud<>(beanType, formFieldFactory);
         crud.initialize();
-        log.info("finished create crud for {}", beanType);
         return crud;
     }
 
@@ -108,7 +106,6 @@ public class Crud<T> extends WebComponent {
     @SuppressWarnings("unchecked")
     private void prepareForms() {
         bindings = BindingsFactory.create(beanType, formFieldFactory);
-        log.info("bindings ready for {}", beanType);
 
         createForm = CrudForm.createFor(bindings, bean -> saveListener.onSave(bean));
         createButton.addClickListener(e -> createForm.showForm());

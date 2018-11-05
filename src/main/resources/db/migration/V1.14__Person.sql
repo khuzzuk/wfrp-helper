@@ -7,19 +7,19 @@ CREATE TABLE person (
 );
 
 CREATE TABLE person_basic_determinants (
-  person_id         BIGINT NOT NULL REFERENCES person,
+  person_id       BIGINT NOT NULL REFERENCES person,
   determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
   PRIMARY KEY (person_id, determinants_id)
 );
 
 CREATE TABLE person_extension_determinants (
-  person_id         BIGINT NOT NULL REFERENCES person,
+  person_id       BIGINT NOT NULL REFERENCES person,
   determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
   PRIMARY KEY (person_id, determinants_id)
 );
 
 CREATE TABLE person_additional_determinants (
-  person_id         BIGINT NOT NULL REFERENCES person,
+  person_id       BIGINT NOT NULL REFERENCES person,
   determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
   PRIMARY KEY (person_id, determinants_id)
 );
@@ -63,9 +63,16 @@ CREATE TABLE person_armor (
   item_id   BIGINT NOT NULL REFERENCES item
 );
 
+CREATE TABLE person_spell_schools (
+  person_id BIGINT NOT NULL REFERENCES person,
+  spell_schools_key BIGINT NOT NULL REFERENCES spell_school,
+  level     INT    NOT NULL DEFAULT 0,
+  PRIMARY KEY (person_id, spell_schools_key)
+);
+
 CREATE TABLE person_spells (
- person_id BIGINT NOT NULL REFERENCES person,
- spells_id BIGINT NOT NULL REFERENCES spell,
- PRIMARY KEY (person_id, spells_id)
+  person_id BIGINT NOT NULL REFERENCES person,
+  spells_id BIGINT NOT NULL REFERENCES spell,
+  PRIMARY KEY (person_id, spells_id)
 );
 

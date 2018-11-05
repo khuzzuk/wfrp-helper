@@ -31,6 +31,7 @@ import pl.khuzzuk.wfrp.helper.model.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.world.Language;
 import pl.khuzzuk.wfrp.helper.model.world.Nation;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
+import pl.khuzzuk.wfrp.helper.ui.character.CharacterSheet;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
@@ -46,6 +47,9 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 public class RightMenu extends WebComponent implements InitializingBean {
     private final Div content;
 
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
+    private Button personButton = new Button("Persons");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
     private Button raceButton = new Button("Race");
@@ -144,6 +148,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
+        personButton.addClickListener(event -> showPersons());
         inventoryButton.addClickListener(event -> showInventory());
         blueprintsButton.addClickListener(event -> showBlueprints());
         knowledgeButton.addClickListener(event -> showKnowledge());
@@ -184,6 +189,11 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private void showCrud(Crud<?> crud) {
         content.removeAll();
         content.add(crud);
+    }
+
+    private void showPersons() {
+        content.removeAll();
+        content.add(new CharacterSheet());
     }
 
     private void showBlueprints() {

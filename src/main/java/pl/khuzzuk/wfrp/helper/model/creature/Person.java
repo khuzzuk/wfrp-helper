@@ -17,8 +17,9 @@ import pl.khuzzuk.wfrp.helper.model.magic.SpellSchool;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -28,6 +29,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Data
@@ -45,66 +47,68 @@ public class Person {
     private @Length(max = 500) String description;
     private @Length(max = 4096) String history;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "person_basic_determinants",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "determinants_id"))
     @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> basicDeterminants;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "person_extension_determinants",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "determinants_id"))
     @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> extensions;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinTable(name = "person_additional_determinants",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "determinants_id"))
     @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> additionalModifiers;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @FormElement(editor = EditorType.CHOOSE)
     private Set<Skill> skills;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "person_inventory",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     @FormElement(editor = EditorType.CHOOSE)
     private List<MiscItem> inventory;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "person_melee_weapons",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     @FormElement(editor = EditorType.CHOOSE)
     private List<MeleeWeapon> weapons;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "person_ranged_weapons",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     @FormElement(editor = EditorType.CHOOSE)
     private List<RangedWeapon> rangedWeapons;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(name = "person_ranged_weapons",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
     @FormElement(editor = EditorType.CHOOSE)
     private List<Armor> armors;
 
-    private List<SpellSchool> spellSchools;
+    @ElementCollection
+    @Column(name = "level")
+    private Map<SpellSchool, Integer> spellSchools;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @FormElement(editor = EditorType.CHOOSE)
     private List<Spell> spells;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @FormElement(editor = EditorType.CHOOSE)
     private Set<Animal> animals;
 }
