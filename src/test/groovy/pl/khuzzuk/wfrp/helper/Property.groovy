@@ -1,17 +1,17 @@
 package pl.khuzzuk.wfrp.helper
 
 class Property<T> {
-    private T property
+    private T value
 
     synchronized void clear() {
-        property = null
+        value = null
     }
 
-    synchronized T getProperty() {
-        return property
+    synchronized T getValue() {
+        return value
     }
 
-    synchronized void setProperty(T property) {
-        this.property = property
+    synchronized void setValue(T property) {
+        this.value = value
     }
 }
