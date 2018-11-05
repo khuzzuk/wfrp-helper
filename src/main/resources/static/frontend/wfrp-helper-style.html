@@ -8,10 +8,15 @@
             --content: rgba(47, 50, 51, 1);
             --content-lighter: rgba(47, 50, 51, 1);
 
+            --text-field-background: rgb(254, 252, 253);
             --field-height: 25px;
             --field-height-part: 12.5px;
             --field-height-part-other: -12.5px;
             --field-width: 200px;
+        }
+
+        html {
+            background: var(--secondary-lighter);
         }
 
         @font-face {
@@ -34,24 +39,20 @@
         }
 
         rightmenu {
-            background: var(--secondary-lighter);
             display: flex;
             flex-direction: column;
         }
 
         topmenu {
-            background: var(--secondary-lighter);
             display: flex;
             flex-direction: row-reverse;
         }
 
         content {
             flex-grow: 100;
-            background: var(--secondary-lighter);
         }
 
         .crud.content {
-            background: var(--secondary-lighter);
         }
 
         .crud-grid {

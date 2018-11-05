@@ -46,6 +46,7 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 @RequiredArgsConstructor
 public class RightMenu extends WebComponent implements InitializingBean {
     private final Div content;
+    private final CharacterSheet characterSheet;
 
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
@@ -193,7 +194,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
 
     private void showPersons() {
         content.removeAll();
-        content.add(new CharacterSheet());
+        content.add(characterSheet);
     }
 
     private void showBlueprints() {

@@ -20,6 +20,7 @@ import pl.khuzzuk.wfrp.helper.ui.menu.TopMenu;
 @HtmlImport("wfrp-helper-style.html")
 @HtmlImport("grid-style.html")
 @HtmlImport("text-field-style.html")
+@HtmlImport("combo-box-style.html")
 @Push
 @Tag("HomeView")
 @RequiredArgsConstructor
