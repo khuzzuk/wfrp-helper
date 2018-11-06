@@ -29,4 +29,9 @@ public class Race {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> determinants;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

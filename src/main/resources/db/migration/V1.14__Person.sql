@@ -3,7 +3,19 @@ CREATE TABLE person (
   id          BIGINT PRIMARY KEY DEFAULT nextval('person_seq' :: regclass),
   name        VARCHAR(64) UNIQUE NOT NULL,
   description VARCHAR(255),
+  gender INT NOT NULL,
+  age INT NOT NULL,
+  height INT NOT NULL,
+  weight REAL NOT NULL,
+  hair_color_id BIGINT NOT NULL REFERENCES hair_color,
+  eye_color_id BIGINT NOT NULL REFERENCES eye_color,
   history     TEXT
+);
+
+CREATE TABLE person_physical_features (
+  person_id       BIGINT NOT NULL REFERENCES person,
+  physical_features_id BIGINT NOT NULL UNIQUE REFERENCES physical_feature,
+  PRIMARY KEY (person_id, physical_features_id)
 );
 
 CREATE TABLE person_basic_determinants (
