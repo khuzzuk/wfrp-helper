@@ -11,7 +11,11 @@ class Property<T> {
         return value
     }
 
-    synchronized void setValue(T property) {
+    synchronized void setValue(T value) {
         this.value = value
+    }
+
+    synchronized boolean hasValue() {
+        value != null
     }
 }

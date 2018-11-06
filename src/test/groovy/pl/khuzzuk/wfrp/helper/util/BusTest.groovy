@@ -22,7 +22,7 @@ trait BusTest {
             initialized = true
             this.bus = bus
             listeners.forEach({ pair ->
-                bus.subscribingFor(pair.key).accept({ pair.value.put(it) }).subscribe()
+                bus.subscribingFor(pair.key).accept({ pair.value.value = it }).subscribe()
             })
         }
     }
