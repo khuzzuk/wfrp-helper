@@ -7,7 +7,7 @@ import pl.khuzzuk.wfrp.helper.Property
 import pl.khuzzuk.wfrp.helper.event.Event
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass
-import pl.khuzzuk.wfrp.helper.util.BusTest
+import pl.khuzzuk.wfrp.helper.util.BusSpec
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Stepwise
@@ -15,7 +15,7 @@ import spock.lang.Stepwise
 @SpringBootTest
 @AutoConfigureEmbeddedDatabase
 @Stepwise
-class RepoDispatcherTest extends Specification implements BusTest {
+class RepoDispatcherTest extends Specification implements BusSpec {
     @Autowired RepoDispatcher repoDispatcher
 
     @Shared Property<Collection> results = new Property<>()

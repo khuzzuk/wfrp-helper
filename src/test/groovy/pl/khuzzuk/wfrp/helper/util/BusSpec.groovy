@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit
 
 import static org.awaitility.Awaitility.await
 
-trait BusTest {
+trait BusSpec {
     static boolean initialized
     static Bus<Event> bus
     static List<Pair<Event, Property<?>>> listeners = new ArrayList<>()
