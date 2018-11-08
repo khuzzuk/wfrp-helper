@@ -72,7 +72,7 @@ public class AutoBindings<T> {
                 registerFieldInitializer(referenceField);
             }
         } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
@@ -87,7 +87,7 @@ public class AutoBindings<T> {
                         LOOKUP.findConstructor(field.getType(), CONSTRUCTOR_TYPE)));
             }
         } catch (IllegalAccessException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
+            throw new IllegalArgumentException(e);
         }
     }
 
