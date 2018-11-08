@@ -1,5 +1,8 @@
 package pl.khuzzuk.wfrp.helper.util
 
+import org.springframework.boot.test.context.SpringBootTest
+import pl.khuzzuk.wfrp.helper.WfrpHelperApplication
+
 import java.lang.annotation.*
 
 @Retention(RetentionPolicy.RUNTIME)

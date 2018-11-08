@@ -9,7 +9,7 @@ import pl.khuzzuk.wfrp.helper.util.SeleniumSpec
 import pl.khuzzuk.wfrp.helper.util.SeleniumTest
 import spock.lang.Specification
 
-@SpringBootTest(classes = [SeleniumConfiguration, WfrpHelperApplication])
+@SpringBootTest(classes = [SeleniumConfiguration, WfrpHelperApplication], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @SeleniumTest
 @AutoConfigureEmbeddedDatabase
 class WfrpHelperApplicationTest extends Specification implements SeleniumSpec {
@@ -23,8 +23,12 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec {
     }
 
     def "check admin login"() {
-        expect:
-        PageFactory.initElements(getWebDriver(), LoginPageView.class) != null
-        println "got it"
+        when: "load application page"
+        def loginPageView = PageFactory.initElements(getWebDriver(), LoginPageView.class)
+
+        then: "login page shows up"
+        loginPageView.usernameElement != null
+        loginPageView.loginElement != null
+        loginPageView.passwordElement != null
     }
 }
