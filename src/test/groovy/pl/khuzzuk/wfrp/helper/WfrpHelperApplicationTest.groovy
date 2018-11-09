@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper
 
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase
+import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.support.PageFactory
 import org.springframework.boot.test.context.SpringBootTest
 import pl.khuzzuk.wfrp.helper.ui.security.LoginPageView
@@ -30,5 +31,13 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec {
         loginPageView.usernameElement != null
         loginPageView.loginElement != null
         loginPageView.passwordElement != null
+        JavascriptExecutor executor = getWebDriver() as JavascriptExecutor
+
+        when:
+        executor.executeScript("arguments[0].shadowRoot.querySelector('[part=\"input\"]').click()", loginPageView.usernameElement)
+        println 'got it'
+
+        then:
+        true
     }
 }
