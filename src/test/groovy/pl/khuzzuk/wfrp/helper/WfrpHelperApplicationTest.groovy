@@ -8,6 +8,7 @@ import pl.khuzzuk.wfrp.helper.ui.security.LoginPageView
 import pl.khuzzuk.wfrp.helper.util.SeleniumConfiguration
 import pl.khuzzuk.wfrp.helper.util.SeleniumSpec
 import pl.khuzzuk.wfrp.helper.util.SeleniumTest
+import pl.khuzzuk.wfrp.helper.util.VaadinUtils
 import spock.lang.Specification
 
 @SpringBootTest(classes = [SeleniumConfiguration, WfrpHelperApplication], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
@@ -31,10 +32,16 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec {
         loginPageView.usernameElement != null
         loginPageView.loginElement != null
         loginPageView.passwordElement != null
-        JavascriptExecutor executor = getWebDriver() as JavascriptExecutor
+        loginPageView.usernameElement.sendKeys("admin")
+        VaadinUtils.waitForUi(getWebDriver() as JavascriptExecutor)
+        loginPageView.passwordElement.sendKeys("admin")
+        VaadinUtils.waitForUi(getWebDriver() as JavascriptExecutor)
+        loginPageView.loginElement.click()
+        VaadinUtils.waitForUi(getWebDriver() as JavascriptExecutor)
 
         when:
-        executor.executeScript("arguments[0].shadowRoot.querySelector('[part=\"input\"]').click()", loginPageView.usernameElement)
+        //JavascriptExecutor executor = getWebDriver() as JavascriptExecutor
+        //executor.executeScript("arguments[0].shadowRoot.querySelector('[part=\"input\"]').click()", loginPageView.usernameElement)
         println 'got it'
 
         then:

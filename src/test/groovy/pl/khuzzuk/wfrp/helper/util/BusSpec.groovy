@@ -1,6 +1,5 @@
 package pl.khuzzuk.wfrp.helper.util
 
-import javafx.util.Pair
 import org.springframework.beans.factory.annotation.Autowired
 import pl.khuzzuk.messaging.Bus
 import pl.khuzzuk.messaging.BusSubscriber
@@ -41,5 +40,11 @@ trait BusSpec {
 
     BusSubscriber<Event> subscribingFor(Event event) {
         bus.subscribingFor(event)
+    }
+
+    private static class Pair<L, R> {
+        private L key
+        private R value
+
     }
 }
