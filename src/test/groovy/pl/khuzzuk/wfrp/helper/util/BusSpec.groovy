@@ -46,5 +46,9 @@ trait BusSpec {
         private L key
         private R value
 
+        Pair(L key, R value) {
+            this.key = key
+            this.value = value
+        }
     }
 }

@@ -6,15 +6,18 @@ import org.springframework.boot.test.context.SpringBootTest
 import pl.khuzzuk.wfrp.helper.ui.HomePageView
 import pl.khuzzuk.wfrp.helper.ui.security.ChangeOneTimePasswordPopupView
 import pl.khuzzuk.wfrp.helper.ui.security.LoginPageView
+import pl.khuzzuk.wfrp.helper.ui.util.LoginTest
 import pl.khuzzuk.wfrp.helper.util.SeleniumConfiguration
 import pl.khuzzuk.wfrp.helper.util.SeleniumSpec
 import pl.khuzzuk.wfrp.helper.util.SeleniumTest
 import spock.lang.Specification
+import spock.lang.Stepwise
 
 @SpringBootTest(classes = [SeleniumConfiguration, WfrpHelperApplication], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @SeleniumTest
 @AutoConfigureEmbeddedDatabase
-class WfrpHelperApplicationTest extends Specification implements SeleniumSpec {
+@Stepwise
+class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, LoginTest {
 
     def setup() {
         initSelenium()
@@ -29,15 +32,24 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec {
         def loginPageView = PageFactory.initElements(getWebDriver(), LoginPageView.class)
 
         then: "login page shows up"
-        loginPageView.fillUsername("admin")
-        loginPageView.fillPassword("admin")
+        loginPageView.fillUsername(ADMIN_LOGIN)
+        loginPageView.fillPassword(ADMIN_LOGIN)
         loginPageView.login()
 
         when:
         def changePasswordPopup = PageFactory.initElements(getWebDriver(), ChangeOneTimePasswordPopupView.class)
-        changePasswordPopup.retypeOldPassword("admin")
-        changePasswordPopup.retypeNewPassword("1")
+        changePasswordPopup.retypeOldPassword(ADMIN_LOGIN)
+        changePasswordPopup.retypeNewPassword(ADMIN_PASSWORD)
         changePasswordPopup.approve()
+        def homeView = PageFactory.initElements(getWebDriver(), HomePageView.class)
+
+        then:
+        homeView.isProperlyLoaded()
+    }
+
+    def "check admin logout and login"() {
+        when: "load home view"
+        login(webDriver)
         def homeView = PageFactory.initElements(getWebDriver(), HomePageView.class)
 
         then:
