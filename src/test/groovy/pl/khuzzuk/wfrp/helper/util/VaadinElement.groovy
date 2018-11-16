@@ -2,7 +2,7 @@ package pl.khuzzuk.wfrp.helper.util
 
 import org.openqa.selenium.JavascriptExecutor
 
-class VaadinUtils {
+trait VaadinElement {
     private static final String WAIT_SCRIPT = """
     if (!window.Vaadin || !window.Vaadin.Flow) {
         return true;
@@ -20,8 +20,14 @@ class VaadinUtils {
     }
 """
 
-    static void waitForUi(JavascriptExecutor executor) {
-        while (!executor.executeScript(WAIT_SCRIPT)) {
+    private JavascriptExecutor javascriptExecutor
+
+    void setJavascriptExecutor(JavascriptExecutor javascriptExecutor) {
+        this.javascriptExecutor = javascriptExecutor
+    }
+
+    void waitForUi() {
+        while (!javascriptExecutor.executeScript(WAIT_SCRIPT)) {
 
         }
     }
