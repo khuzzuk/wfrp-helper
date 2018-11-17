@@ -4,6 +4,8 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -38,7 +40,6 @@ import pl.khuzzuk.wfrp.helper.model.world.Language;
 import pl.khuzzuk.wfrp.helper.model.world.Nation;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
-import pl.khuzzuk.wfrp.helper.ui.character.CharacterSheet;
 import pl.khuzzuk.wfrp.helper.ui.character.GMCharacterView;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
@@ -49,6 +50,7 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 @HasCrud
 @UIScope
@@ -58,7 +60,6 @@ import java.util.Collection;
 public class RightMenu extends WebComponent implements InitializingBean {
     private final Bus<Event> bus;
     private final Div content;
-    private final CharacterSheet characterSheet;
 
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
@@ -136,6 +137,11 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @CSS(classNames = {"button", "menu-button"})
     private Button currencyButton = new Button("Currencies");
 
+    @CSS(classNames = {"button"})
+    private Button addPerson = new Button(VaadinIcon.PLUS.create());
+    @CSS(classNames = {"button"})
+    private Button editPerson = new Button(VaadinIcon.EDIT.create());
+    private HorizontalLayout personTableButtons = new HorizontalLayout(addPerson, editPerson);
     private Grid<Person> persons = new Grid<>(Person.class);
     private ListDataProvider<Person> personDataProvider = DataProvider.ofCollection(new ArrayList<>());
     private final GMCharacterView characterView;
@@ -241,18 +247,22 @@ public class RightMenu extends WebComponent implements InitializingBean {
             }
         }).subscribe();
         personButton.addClickListener(event -> showPersons());
-        persons.addSelectionListener(event -> event.getFirstSelectedItem().ifPresent(person -> showCharacter(person)));
         persons.getColumns().forEach(persons::removeColumn);
         persons.addColumn("name");
+        addPerson.addClickListener(e -> {
+            content.removeAll();
+            content.add(characterView);
+        });
+        editPerson.addClickListener(e -> showCharacter(persons.getSelectedItems()));
     }
 
     private void showPersons() {
         content.removeAll();
-        content.add(persons);
+        content.add(personTableButtons, persons);
         bus.message(Event.FIND_ALL).withContent(Person.class).send();
     }
 
-    private void showCharacter(Person person) {
+    private void showCharacter(Set<Person> persons) {
         content.removeAll();
         content.add(characterView);
     }

@@ -5,17 +5,15 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.shared.Registration;
-import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
-import pl.khuzzuk.wfrp.helper.model.rule.DeterminantType;
-
-import java.util.List;
+import pl.khuzzuk.wfrp.helper.model.creature.PersonDeterminants;
 
 @Tag("person-determinants")
-public class PersonDeterminantsField implements
-        HasValue<HasValue.ValueChangeEvent<List<Determinant>>, List<Determinant>> {
+public class PersonDeterminantsField extends HorizontalLayout
+        implements HasValue<HasValue.ValueChangeEvent<PersonDeterminants>, PersonDeterminants> {
 
     private TextField speed = new TextField("Sp");
     private FlexLayout speedExtensions = new FlexLayout();
@@ -38,25 +36,27 @@ public class PersonDeterminantsField implements
     private TextField will = new TextField("W");
     private TextField charisma = new TextField("Ch");
 
-    public void init() {
+    {
+        add(speedGroup);
+    }
+
+    public PersonDeterminantsField() {
+        add(speedGroup);
     }
 
     @Override
-    public void setValue(List<Determinant> value) {
-        value.forEach(determinant -> speed.setValue(String.valueOf(determinant.getValue())));
+    public void setValue(PersonDeterminants value) {
+    }
+
+
+    @Override
+    public PersonDeterminants getValue() {
+        return new PersonDeterminants();
     }
 
     @Override
-    public List<Determinant> getValue() {
-        Determinant determinant = new Determinant();
-        determinant.setType(DeterminantType.SPEED);
-        determinant.setValue(Integer.valueOf(speed.getValue()));
-        return List.of(determinant);
-    }
-
-    @Override
-    public Registration addValueChangeListener(ValueChangeListener<? super ValueChangeEvent<List<Determinant>>> listener) {
-        return null;
+    public Registration addValueChangeListener(ValueChangeListener<? super ValueChangeEvent<PersonDeterminants>> listener) {
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -78,4 +78,5 @@ public class PersonDeterminantsField implements
     public boolean isRequiredIndicatorVisible() {
         return false;
     }
+
 }

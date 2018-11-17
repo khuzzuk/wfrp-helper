@@ -5,6 +5,8 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.HasDataProvider;
+import com.vaadin.flow.data.converter.StringToFloatConverter;
+import com.vaadin.flow.data.converter.StringToIntegerConverter;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -19,6 +21,8 @@ import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
+import pl.khuzzuk.wfrp.helper.ui.field.PersonDeterminantsField;
+import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -30,16 +34,28 @@ import java.util.Map;
 @UIScope
 @Tag("gm-character-view")
 public class GMCharacterView extends WebComponent implements InitializingBean {
+    private static final String NUMBER_INVALID_MESSAGE = "Please insert number";
+
     private final Bus<Event> bus;
 
-    private BeanValidationBinder<Person> binder = new BeanValidationBinder<>(Person.class);
+    @UIProperty
     private TextField name = new TextField("Name");
-    private ComboBox<Gender> gender = new ComboBox<>();
+    @UIProperty
+    private ComboBox<Gender> gender = new ComboBox<>("Sex");
+    @UIProperty
     private TextField age = new TextField("Age");
+    @UIProperty
     private TextField height = new TextField("Height");
+    @UIProperty
     private TextField weight = new TextField("Weight");
+    @UIProperty
     private ComboBox<HairColor> hairColor = new ComboBox<>("Hair color");
+    @UIProperty
     private ComboBox<EyeColor> eyeColor = new ComboBox<>("Eye color");
+    @UIProperty
+    private PersonDeterminantsField determinantsField = new PersonDeterminantsField();
+
+    private BeanValidationBinder<Person> binder = new BeanValidationBinder<>(Person.class);
     private Map<Class<?>, ListDataProvider<?>> dataProviders = new HashMap<>();
 
     @Override
@@ -52,9 +68,9 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
 
         binder.forField(name)
                 .bind(Person::getName, Person::setName);
-        binder.bind(age, "age");
-        binder.bind(height, "height");
-        binder.bind(weight, "weight");
+        binder.forField(age).withConverter(new StringToIntegerConverter(NUMBER_INVALID_MESSAGE)).bind("age");
+        binder.forField(height).withConverter(new StringToIntegerConverter(NUMBER_INVALID_MESSAGE)).bind("height");
+        binder.forField(weight).withConverter(new StringToFloatConverter(NUMBER_INVALID_MESSAGE)).bind("weight");
     }
 
     private <T> void registerDataProvider(Class<T> type, HasDataProvider<T> field) {
