@@ -19,6 +19,7 @@ public class Determinant {
     @FormElement(exclude = true)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
     private DeterminantType type;
 
     private int value;

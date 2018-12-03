@@ -1,7 +1,7 @@
 package pl.khuzzuk.wfrp.helper.util
 
-import org.springframework.boot.test.context.SpringBootTest
-import pl.khuzzuk.wfrp.helper.WfrpHelperApplication
+
+import org.springframework.test.context.jdbc.Sql
 
 import java.lang.annotation.*
 

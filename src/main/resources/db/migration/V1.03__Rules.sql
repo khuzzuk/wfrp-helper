@@ -2,7 +2,7 @@ CREATE SEQUENCE determinant_seq;
 
 CREATE TABLE determinant (
   id    BIGINT PRIMARY KEY DEFAULT nextval('determinant_seq' :: regclass),
-  type  INT,
+  type  VARCHAR(255),
   value INT
 );
 
@@ -11,7 +11,7 @@ CREATE SEQUENCE modifier_seq;
 
 CREATE TABLE modifier (
   id    BIGINT PRIMARY KEY DEFAULT nextval('modifier_seq' :: regclass),
-  type  INT NOT NULL,
+  type  VARCHAR(255) NOT NULL,
   value INT NOT NULL
 );
 

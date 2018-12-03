@@ -18,23 +18,12 @@ CREATE TABLE person_physical_features (
   PRIMARY KEY (person_id, physical_features_id)
 );
 
-CREATE TABLE person_basic_determinants (
+CREATE TABLE person_determinants (
   person_id       BIGINT NOT NULL REFERENCES person,
   determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
   PRIMARY KEY (person_id, determinants_id)
 );
 
-CREATE TABLE person_extension_determinants (
-  person_id       BIGINT NOT NULL REFERENCES person,
-  determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
-  PRIMARY KEY (person_id, determinants_id)
-);
-
-CREATE TABLE person_additional_determinants (
-  person_id       BIGINT NOT NULL REFERENCES person,
-  determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
-  PRIMARY KEY (person_id, determinants_id)
-);
 CREATE TABLE person_skills (
   person_id BIGINT NOT NULL REFERENCES person,
   skills_id BIGINT NOT NULL REFERENCES skill,

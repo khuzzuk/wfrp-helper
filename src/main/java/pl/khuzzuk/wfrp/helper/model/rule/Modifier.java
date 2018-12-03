@@ -26,6 +26,7 @@ public class Modifier {
     private @Min(-100) @Max(100) int value;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private @NotNull ModifierType type = ModifierType.REGULAR;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)

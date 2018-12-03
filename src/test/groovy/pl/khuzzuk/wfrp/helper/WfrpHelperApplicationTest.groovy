@@ -3,6 +3,7 @@ package pl.khuzzuk.wfrp.helper
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase
 import org.openqa.selenium.support.PageFactory
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.test.context.jdbc.Sql
 import pl.khuzzuk.wfrp.helper.ui.HomePageView
 import pl.khuzzuk.wfrp.helper.ui.security.ChangeOneTimePasswordPopupView
 import pl.khuzzuk.wfrp.helper.ui.security.LoginPageView
@@ -17,7 +18,12 @@ import spock.lang.Stepwise
 @SeleniumTest
 @AutoConfigureEmbeddedDatabase
 @Stepwise
+@Sql("/loginTest.sql")
 class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, LoginTest {
+
+    def setupSpec() {
+        println '\n\ninit\n\n\n\n'
+    }
 
     def setup() {
         initSelenium()

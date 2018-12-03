@@ -26,4 +26,9 @@ public class Skill {
     @Filter
     private @Length(min = 3, max = 100) String name;
     private @Length(max = 500) String description;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

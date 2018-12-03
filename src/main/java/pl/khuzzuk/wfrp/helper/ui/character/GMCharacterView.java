@@ -20,6 +20,7 @@ import pl.khuzzuk.wfrp.helper.model.creature.Gender;
 import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
+import pl.khuzzuk.wfrp.helper.service.determinant.DeterminantService;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.field.PersonDeterminantsField;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
@@ -37,6 +38,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     private static final String NUMBER_INVALID_MESSAGE = "Please insert number";
 
     private final Bus<Event> bus;
+    private final DeterminantService determinantService;
 
     @UIProperty
     private TextField name = new TextField("Name");
@@ -61,6 +63,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         gender.setItems(EnumSet.allOf(Gender.class));
+        determinantsField.init(determinantService);
 
         bus.subscribingFor(Event.DATA_ALL).accept(this::refreshData).subscribe();
         registerDataProvider(HairColor.class, hairColor);

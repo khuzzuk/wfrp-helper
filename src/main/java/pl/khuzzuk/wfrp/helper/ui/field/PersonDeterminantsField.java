@@ -9,11 +9,23 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.shared.Registration;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import pl.khuzzuk.wfrp.helper.model.creature.PersonDeterminants;
+import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
+import pl.khuzzuk.wfrp.helper.model.rule.DeterminantType;
+import pl.khuzzuk.wfrp.helper.service.determinant.DeterminantService;
+
+import java.util.EnumMap;
+
+import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.BATTLE;
+import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.SPEED;
 
 @Tag("person-determinants")
 public class PersonDeterminantsField extends HorizontalLayout
         implements HasValue<HasValue.ValueChangeEvent<PersonDeterminants>, PersonDeterminants> {
+    private DeterminantService determinantService;
 
     private TextField speed = new TextField("Sp");
     private FlexLayout speedExtensions = new FlexLayout();
@@ -36,18 +48,35 @@ public class PersonDeterminantsField extends HorizontalLayout
     private TextField will = new TextField("W");
     private TextField charisma = new TextField("Ch");
 
-    {
-        add(speedGroup);
-    }
+    private EnumMap<DeterminantType, DeterminantGroupField> determinants = new EnumMap<>(DeterminantType.class);
 
-    public PersonDeterminantsField() {
-        add(speedGroup);
+    public void init(DeterminantService determinantService) {
+        this.determinantService = determinantService;
+        determinants.put(SPEED, new DeterminantGroupField("Sp"));
+        determinants.put(BATTLE, new DeterminantGroupField("B"));
+
+        determinants.values().stream()
+                .peek(field -> field.getBaseValue().setLabel(field.getName()))
+                .map(DeterminantGroupField::getGroup)
+                .forEach(this::add);
     }
 
     @Override
     public void setValue(PersonDeterminants value) {
+        determinants.entrySet().stream()
+                .forEach(entry -> setValueForBasicDeterminant(
+                        determinantService.findDeterminantByType(value, entry.getKey()), entry.getValue()));
     }
 
+    private void setValueForBasicDeterminant(Determinant determinant, DeterminantGroupField determinantGroupField) {
+        String baseValue = String.valueOf(determinant.getValue());
+        String professionExtensionLimit = "+" + determinantService.getProfessionExtensionsLimit(determinant);
+        String finalValue = String.valueOf(determinantService.calculateFinalValue(determinant));
+
+        determinantGroupField.getBaseValue().setValue(baseValue);
+        determinantGroupField.getExtensionsLimit().setText(professionExtensionLimit);
+        determinantGroupField.getFinalValue().setText(finalValue);
+    }
 
     @Override
     public PersonDeterminants getValue() {
@@ -79,4 +108,19 @@ public class PersonDeterminantsField extends HorizontalLayout
         return false;
     }
 
+    @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+    @Getter(AccessLevel.PRIVATE)
+    private class DeterminantGroupField {
+        private final String name;
+        private TextField baseValue = new TextField();
+        private FlexLayout extensionLayout = new FlexLayout();
+        private Label extensionsLimit = new Label();
+        private Div extensionGroup = new Div(extensionLayout, extensionsLimit);
+        private Label finalValue = new Label();
+        private VerticalLayout group = new VerticalLayout(baseValue, extensionGroup, finalValue);
+
+        private void addToPanel() {
+            add(group);
+        }
+    }
 }
