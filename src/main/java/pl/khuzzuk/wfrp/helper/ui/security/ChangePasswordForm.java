@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import pl.khuzzuk.wfrp.helper.security.CurrentUserService;
 import pl.khuzzuk.wfrp.helper.security.User;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;

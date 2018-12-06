@@ -1,14 +1,14 @@
-package pl.khuzzuk.wfrp.helper.ui.security;
+package pl.khuzzuk.wfrp.helper.security;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
-import pl.khuzzuk.wfrp.helper.security.User;
 
 @Component
-@SessionScope
+@SessionScope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @Setter(AccessLevel.PACKAGE)
 @Getter
 public class CurrentUserService {

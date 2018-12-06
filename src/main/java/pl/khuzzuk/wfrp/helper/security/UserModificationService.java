@@ -7,7 +7,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
-import pl.khuzzuk.wfrp.helper.ui.security.CurrentUserService;
 
 @Slf4j
 @RequiredArgsConstructor

@@ -1,8 +1,6 @@
 package pl.khuzzuk.wfrp.helper.util
 
 
-import org.springframework.test.context.jdbc.Sql
-
 import java.lang.annotation.*
 
 @Retention(RetentionPolicy.RUNTIME)

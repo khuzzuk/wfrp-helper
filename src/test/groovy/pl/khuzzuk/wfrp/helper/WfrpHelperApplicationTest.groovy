@@ -3,7 +3,7 @@ package pl.khuzzuk.wfrp.helper
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase
 import org.openqa.selenium.support.PageFactory
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.jdbc.Sql
+import org.springframework.test.context.TestPropertySource
 import pl.khuzzuk.wfrp.helper.ui.HomePageView
 import pl.khuzzuk.wfrp.helper.ui.security.ChangeOneTimePasswordPopupView
 import pl.khuzzuk.wfrp.helper.ui.security.LoginPageView
@@ -12,13 +12,11 @@ import pl.khuzzuk.wfrp.helper.util.SeleniumConfiguration
 import pl.khuzzuk.wfrp.helper.util.SeleniumSpec
 import pl.khuzzuk.wfrp.helper.util.SeleniumTest
 import spock.lang.Specification
-import spock.lang.Stepwise
 
 @SpringBootTest(classes = [SeleniumConfiguration, WfrpHelperApplication], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @SeleniumTest
 @AutoConfigureEmbeddedDatabase
-@Stepwise
-@Sql("/loginTest.sql")
+@TestPropertySource(properties = 'spring.flyway.locations=classpath:/db/migration,/db/data,db/test')
 class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, LoginTest {
 
     def setupSpec() {
@@ -53,12 +51,26 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, L
         homeView.isProperlyLoaded()
     }
 
-    def "check admin logout and login"() {
+    def "check user logout and login"() {
         when: "load home view"
-        login(webDriver)
-        def homeView = PageFactory.initElements(getWebDriver(), HomePageView.class)
+        def homeView = login(webDriver)
+
+        then: "I can see app page"
+        homeView.isProperlyLoaded()
+
+        and: "when I log out"
+        homeView.logout()
+        def newHomeView = login(webDriver)
 
         then:
-        homeView.isProperlyLoaded()
+        newHomeView.isProperlyLoaded()
+    }
+
+    def "check add entry for skill"() {
+        given: "load home page"
+        def homeView = login(webDriver)
+
+        when:
+
     }
 }

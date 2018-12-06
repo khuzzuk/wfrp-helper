@@ -15,10 +15,12 @@ import java.util.stream.Collectors;
 @Component
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepo userRepo;
+    private final CurrentUserService currentUserService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepo.findByName(username).orElseThrow(() -> new UsernameNotFoundException(username));
+        currentUserService.setCurrentUser(user);
         return new org.springframework.security.core.userdetails.User(user.getName(), user.getPassword(),
                 mapRoles(user.getRoles()));
     }

@@ -35,7 +35,7 @@ public class TopMenu extends WebComponent implements InitializingBean {
     private final UserModificationService userModificationService;
 
     @UIProperty
-    @CSS(classNames = {"button", "menu-button"})
+    @CSS(classNames = {"button", "menu-button"}, id = "logout-button")
     private final Button logoutButton;
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})

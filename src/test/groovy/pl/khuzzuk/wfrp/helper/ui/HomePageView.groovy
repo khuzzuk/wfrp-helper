@@ -7,7 +7,10 @@ import pl.khuzzuk.wfrp.helper.util.VaadinElement
 
 class HomePageView implements VaadinElement {
     @FindBy(tagName = "homeview")
-    private WebElement homeView;
+    private WebElement homeView
+
+    @FindBy(id = 'logout-button')
+    private WebElement logoutButton
 
     HomePageView(WebDriver webDriver) {
         setJavascriptExecutor(webDriver)
@@ -15,5 +18,10 @@ class HomePageView implements VaadinElement {
 
     boolean isProperlyLoaded() {
         homeView.tagName == 'homeview'
+    }
+
+    void logout() {
+        logoutButton.click()
+        waitForUi()
     }
 }
