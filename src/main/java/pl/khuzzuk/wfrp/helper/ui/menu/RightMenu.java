@@ -74,7 +74,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @CSS(classNames = {"button", "menu-button"})
     private Button blueprintsButton = new Button("Blueprints");
     @UIProperty
-    @CSS(classNames = {"button", "menu-button"})
+    @CSS(classNames = {"button", "menu-button"}, id = "knowledge-button")
     private Button knowledgeButton = new Button("Knowledge");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
@@ -88,7 +88,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @CSS(classNames = {"button", "menu-button"})
     private Button backToKnowledgeButton = new Button("Back");
 
-    @CSS(classNames = {"button", "menu-button"})
+    @CSS(classNames = {"button", "menu-button"}, id = "skill-button")
     private Button skillButton = new Button("Skills");
     @CSS(classNames = {"button", "menu-button"})
     private Button professionClassButton = new Button("Classes");

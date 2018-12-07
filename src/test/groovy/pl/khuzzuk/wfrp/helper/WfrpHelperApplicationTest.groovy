@@ -19,10 +19,6 @@ import spock.lang.Specification
 @TestPropertySource(properties = 'spring.flyway.locations=classpath:/db/migration,/db/data,db/test')
 class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, LoginTest {
 
-    def setupSpec() {
-        println '\n\ninit\n\n\n\n'
-    }
-
     def setup() {
         initSelenium()
     }
@@ -32,10 +28,10 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, L
     }
 
     def "check admin login"() {
-        when: "load application page"
+        when: 'load application page'
         def loginPageView = PageFactory.initElements(getWebDriver(), LoginPageView.class)
 
-        then: "login page shows up"
+        then: 'login page shows up'
         loginPageView.fillUsername(ADMIN_LOGIN)
         loginPageView.fillPassword(ADMIN_LOGIN)
         loginPageView.login()
@@ -52,13 +48,13 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, L
     }
 
     def "check user logout and login"() {
-        when: "load home view"
+        when: 'load home view'
         def homeView = login(webDriver)
 
-        then: "I can see app page"
+        then: 'I can see app page'
         homeView.isProperlyLoaded()
 
-        and: "when I log out"
+        and: 'when I log out'
         homeView.logout()
         def newHomeView = login(webDriver)
 
@@ -67,10 +63,14 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, L
     }
 
     def "check add entry for skill"() {
-        given: "load home page"
+        given: 'load home page'
         def homeView = login(webDriver)
 
-        when:
+        when: 'navigate to skill panel'
+        homeView.clickKnowledge()
+        homeView.clickSkill()
 
+        then:
+        homeView.isProperlyLoaded()
     }
 }
