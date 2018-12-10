@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.util
 
 import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.WebElement
 
 trait VaadinElement {
     private static final String WAIT_SCRIPT = """
@@ -30,5 +31,9 @@ trait VaadinElement {
         while (!javascriptExecutor.executeScript(WAIT_SCRIPT)) {
 
         }
+    }
+
+    WebElement searchShadowRoot(WebElement host) {
+        javascriptExecutor.executeScript("return arguments[0].shadowRoot", host) as WebElement
     }
 }

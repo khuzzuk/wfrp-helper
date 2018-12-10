@@ -71,6 +71,6 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, L
         homeView.clickSkill()
 
         then:
-        homeView.isProperlyLoaded()
+        homeView.hasElementsInCrud()
     }
 }
