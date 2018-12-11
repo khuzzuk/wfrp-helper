@@ -1,35 +1,25 @@
 package pl.khuzzuk.wfrp.helper
 
-import io.zonky.test.db.AutoConfigureEmbeddedDatabase
+import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.PageFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.test.context.TestPropertySource
 import pl.khuzzuk.wfrp.helper.ui.HomePageView
 import pl.khuzzuk.wfrp.helper.ui.security.ChangeOneTimePasswordPopupView
 import pl.khuzzuk.wfrp.helper.ui.security.LoginPageView
 import pl.khuzzuk.wfrp.helper.ui.util.LoginTest
-import pl.khuzzuk.wfrp.helper.util.SeleniumConfiguration
-import pl.khuzzuk.wfrp.helper.util.SeleniumSpec
 import pl.khuzzuk.wfrp.helper.util.SeleniumTest
 import spock.lang.Specification
 
-@SpringBootTest(classes = [SeleniumConfiguration, WfrpHelperApplication], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @SeleniumTest
-@AutoConfigureEmbeddedDatabase
-@TestPropertySource(properties = 'spring.flyway.locations=classpath:/db/migration,/db/data,db/test')
-class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, LoginTest {
-
-    def setup() {
-        initSelenium()
-    }
-
-    def closeSpec() {
-        closeSelenium()
-    }
+class SecuritySpecUI extends Specification implements LoginTest {
+    @Autowired
+    WebDriver webDriver
 
     def "check admin login"() {
         when: 'load application page'
-        def loginPageView = PageFactory.initElements(getWebDriver(), LoginPageView.class)
+        def loginPageView = PageFactory.initElements(webDriver, LoginPageView.class)
 
         then: 'login page shows up'
         loginPageView.fillUsername(ADMIN_LOGIN)
@@ -37,11 +27,11 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, L
         loginPageView.login()
 
         when:
-        def changePasswordPopup = PageFactory.initElements(getWebDriver(), ChangeOneTimePasswordPopupView.class)
+        def changePasswordPopup = PageFactory.initElements(webDriver, ChangeOneTimePasswordPopupView.class)
         changePasswordPopup.retypeOldPassword(ADMIN_LOGIN)
         changePasswordPopup.retypeNewPassword(ADMIN_PASSWORD)
         changePasswordPopup.approve()
-        def homeView = PageFactory.initElements(getWebDriver(), HomePageView.class)
+        def homeView = PageFactory.initElements(webDriver, HomePageView.class)
 
         then:
         homeView.isProperlyLoaded()
@@ -62,15 +52,4 @@ class WfrpHelperApplicationTest extends Specification implements SeleniumSpec, L
         newHomeView.isProperlyLoaded()
     }
 
-    def "check add entry for skill"() {
-        given: 'load home page'
-        def homeView = login(webDriver)
-
-        when: 'navigate to skill panel'
-        homeView.clickKnowledge()
-        homeView.clickSkill()
-
-        then:
-        homeView.hasElementsInCrud()
-    }
 }

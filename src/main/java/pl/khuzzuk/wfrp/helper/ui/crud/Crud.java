@@ -16,7 +16,6 @@ import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.crud.filter.FilterConfiguration;
 import pl.khuzzuk.wfrp.helper.ui.crud.form.CrudForm;
 import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
-import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.lang.invoke.MethodHandles;
@@ -42,11 +41,11 @@ public class Crud<T> extends WebComponent {
     private Collection<T> data = new ArrayList<>();
     private ListDataProvider<T> dataProvider;
 
-    @CSS(classNames = "button")
+    @CSS(classNames = "button", id = "create-button")
     private Button createButton = new Button(VaadinIcon.PLUS.create());
-    @CSS(classNames = "button")
+    @CSS(classNames = "button", id = "edit-button")
     private Button editButton = new Button(VaadinIcon.EDIT.create());
-    @CSS(classNames = "button")
+    @CSS(classNames = "button", id = "remove-button")
     private Button removeButton = new Button(VaadinIcon.MINUS.create());
     @CSS(classNames = "button-group")
     private HorizontalLayout crudButtons = new HorizontalLayout(createButton, editButton, removeButton);
