@@ -14,7 +14,12 @@ import java.util.Optional;
 @Component
 public class DeterminantService {
     public Determinant findDeterminantByType(PersonDeterminants personDeterminants, DeterminantType determinantType) {
-        return findDeterminant(personDeterminants.getDeterminants(), determinantType).orElseGet(() -> createEmpty(determinantType));
+        Optional<Determinant> queryResult = findDeterminant(personDeterminants.getDeterminants(), determinantType);
+        Determinant determinant = queryResult.orElseGet(() -> createEmpty(determinantType));
+        if (queryResult.isEmpty()) {
+            personDeterminants.getDeterminants().add(determinant);
+        }
+        return determinant;
     }
 
     public int calculateFinalValue(Determinant determinant) {

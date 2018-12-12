@@ -11,6 +11,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
@@ -50,11 +51,11 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Set;
 
 @HasCrud
 @UIScope
 @Component
+@Lazy
 @Tag("RightMenu")
 @RequiredArgsConstructor
 public class RightMenu extends WebComponent implements InitializingBean {
@@ -244,25 +245,29 @@ public class RightMenu extends WebComponent implements InitializingBean {
             if (data.getType().equals(Person.class)) {
                 personDataProvider.getItems().clear();
                 personDataProvider.getItems().addAll((Collection<Person>) data.getItems());
+                execute(() -> personDataProvider.refreshAll());
+                execute(() -> getUI().get().push());
             }
         }).subscribe();
         personButton.addClickListener(event -> showPersons());
         persons.getColumns().forEach(persons::removeColumn);
         persons.addColumn("name");
-        addPerson.addClickListener(e -> {
-            content.removeAll();
-            content.add(characterView);
-        });
-        editPerson.addClickListener(e -> showCharacter(persons.getSelectedItems()));
+        persons.addColumn("gender");
+        persons.setDataProvider(personDataProvider);
+        addPerson.addClickListener(e -> showCharacter(new Person()));
+        editPerson.addClickListener(e -> showCharacter(persons.getSelectedItems().iterator().next()));
+        editPerson.setEnabled(false);
+        persons.addSelectionListener(event -> editPerson.setEnabled(event.getFirstSelectedItem().isPresent()));
     }
 
-    private void showPersons() {
+    public void showPersons() {
         content.removeAll();
         content.add(personTableButtons, persons);
         bus.message(Event.FIND_ALL).withContent(Person.class).send();
     }
 
-    private void showCharacter(Set<Person> persons) {
+    private void showCharacter(Person person) {
+        characterView.load(person);
         content.removeAll();
         content.add(characterView);
     }

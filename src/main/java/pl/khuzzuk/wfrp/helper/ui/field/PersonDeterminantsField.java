@@ -16,6 +16,7 @@ import pl.khuzzuk.wfrp.helper.model.creature.PersonDeterminants;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.model.rule.DeterminantType;
 import pl.khuzzuk.wfrp.helper.service.determinant.DeterminantService;
+import pl.khuzzuk.wfrp.helper.service.determinant.ModifierService;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -28,6 +29,7 @@ import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.SPEED;
 public class PersonDeterminantsField extends HorizontalLayout
         implements HasValue<HasValue.ValueChangeEvent<PersonDeterminants>, PersonDeterminants> {
     private DeterminantService determinantService;
+    private ModifierService modifierService;
 
     private List<ValueChangeListener<? super ValueChangeEvent<PersonDeterminants>>> valueChangeListeners = new ArrayList<>();
 
@@ -52,21 +54,25 @@ public class PersonDeterminantsField extends HorizontalLayout
     private TextField will = new TextField("W");
     private TextField charisma = new TextField("Ch");
 
+    private PersonDeterminants personDeterminants = new PersonDeterminants();
+
     private EnumMap<DeterminantType, DeterminantGroupField> determinants = new EnumMap<>(DeterminantType.class);
 
-    public void init(DeterminantService determinantService) {
+    public void init(DeterminantService determinantService, ModifierService modifierService) {
         this.determinantService = determinantService;
-        determinants.put(SPEED, new DeterminantGroupField("Sp"));
-        determinants.put(BATTLE, new DeterminantGroupField("B"));
+        this.modifierService = modifierService;
+        determinants.put(SPEED, new DeterminantGroupField("Sp", SPEED));
+        determinants.put(BATTLE, new DeterminantGroupField("B", BATTLE));
 
         determinants.values().stream()
-                .peek(field -> field.getBaseValue().setLabel(field.getName()))
+                .peek(DeterminantGroupField::register)
                 .map(DeterminantGroupField::getGroup)
                 .forEach(this::add);
     }
 
     @Override
     public void setValue(PersonDeterminants value) {
+        this.personDeterminants = value;
         determinants.entrySet().stream()
                 .forEach(entry -> setValueForBasicDeterminant(
                         determinantService.findDeterminantByType(value, entry.getKey()), entry.getValue()));
@@ -84,7 +90,7 @@ public class PersonDeterminantsField extends HorizontalLayout
 
     @Override
     public PersonDeterminants getValue() {
-        return new PersonDeterminants();
+        return personDeterminants;
     }
 
     @Override
@@ -117,6 +123,7 @@ public class PersonDeterminantsField extends HorizontalLayout
     @Getter(AccessLevel.PRIVATE)
     private class DeterminantGroupField {
         private final String name;
+        private final DeterminantType determinantType;
         private TextField baseValue = new TextField();
         private FlexLayout extensionLayout = new FlexLayout();
         private Label extensionsLimit = new Label();
@@ -124,8 +131,21 @@ public class PersonDeterminantsField extends HorizontalLayout
         private Label finalValue = new Label();
         private VerticalLayout group = new VerticalLayout(baseValue, extensionGroup, finalValue);
 
-        private void addToPanel() {
-            add(group);
+        private void register() {
+            baseValue.setLabel(name);
+            baseValue.addValueChangeListener(event -> {
+                if (baseValue.isInvalid()) {
+                    return;
+                }
+
+                Determinant determinant = determinantService.findDeterminantByType(personDeterminants, determinantType);
+                determinant.setValue(Integer.valueOf(baseValue.getValue()));
+
+/* TODO in extensions and other
+                Modifier regularModifier = modifierService.getOrCreateRegularModifier(determinant);
+                regularModifier.setValue(Integer.valueOf(baseValue.getValue()));
+*/
+            });
         }
     }
 }

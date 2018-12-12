@@ -56,7 +56,7 @@ public class Person {
     private @Length(max = 4096) String history;
 
     @Embedded
-    private PersonDeterminants determinants;
+    private PersonDeterminants determinants = PersonDeterminants.empty();
 
     @ManyToMany
     private Set<Skill> skills;
