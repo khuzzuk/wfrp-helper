@@ -17,7 +17,9 @@ import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.model.rule.DeterminantType;
 import pl.khuzzuk.wfrp.helper.service.determinant.DeterminantService;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 
 import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.BATTLE;
 import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.SPEED;
@@ -26,6 +28,8 @@ import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.SPEED;
 public class PersonDeterminantsField extends HorizontalLayout
         implements HasValue<HasValue.ValueChangeEvent<PersonDeterminants>, PersonDeterminants> {
     private DeterminantService determinantService;
+
+    private List<ValueChangeListener<? super ValueChangeEvent<PersonDeterminants>>> valueChangeListeners = new ArrayList<>();
 
     private TextField speed = new TextField("Sp");
     private FlexLayout speedExtensions = new FlexLayout();
@@ -85,7 +89,8 @@ public class PersonDeterminantsField extends HorizontalLayout
 
     @Override
     public Registration addValueChangeListener(ValueChangeListener<? super ValueChangeEvent<PersonDeterminants>> listener) {
-        throw new UnsupportedOperationException();
+        valueChangeListeners.add(listener);
+        return () -> valueChangeListeners.remove(listener);
     }
 
     @Override

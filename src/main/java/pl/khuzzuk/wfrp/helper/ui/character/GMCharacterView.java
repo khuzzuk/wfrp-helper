@@ -26,6 +26,7 @@ import pl.khuzzuk.wfrp.helper.ui.field.PersonDeterminantsField;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -74,6 +75,9 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
         binder.forField(age).withConverter(new StringToIntegerConverter(NUMBER_INVALID_MESSAGE)).bind("age");
         binder.forField(height).withConverter(new StringToIntegerConverter(NUMBER_INVALID_MESSAGE)).bind("height");
         binder.forField(weight).withConverter(new StringToFloatConverter(NUMBER_INVALID_MESSAGE)).bind("weight");
+        binder.forField(hairColor).bind("hairColor");
+        binder.forField(eyeColor).bind("eyeColor");
+        binder.forField(determinantsField).bind("determinants");
     }
 
     private <T> void registerDataProvider(Class<T> type, HasDataProvider<T> field) {
@@ -88,6 +92,10 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
             ListDataProvider dataProvider = dataProviders.get(data.getType());
             dataProvider.getItems().clear();
             dataProvider.getItems().addAll(data.getItems());
+        }
+
+        if (data.getType().equals(EyeColor.class)) {
+            eyeColor.setItems((Collection<EyeColor>) data.getItems());
         }
     }
 }
