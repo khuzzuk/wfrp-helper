@@ -2,12 +2,7 @@ package pl.khuzzuk.wfrp.helper.ui.menu;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.data.provider.DataProvider;
-import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
@@ -39,18 +34,14 @@ import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.world.Language;
 import pl.khuzzuk.wfrp.helper.model.world.Nation;
-import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
-import pl.khuzzuk.wfrp.helper.ui.character.GMCharacterView;
+import pl.khuzzuk.wfrp.helper.ui.character.GMCharacterCrud;
 import pl.khuzzuk.wfrp.helper.ui.crud.Crud;
 import pl.khuzzuk.wfrp.helper.ui.initialize.CSS;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.CrudField;
 import pl.khuzzuk.wfrp.helper.ui.initialize.HasCrud;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
-
-import java.util.ArrayList;
-import java.util.Collection;
 
 @HasCrud
 @UIScope
@@ -61,6 +52,7 @@ import java.util.Collection;
 public class RightMenu extends WebComponent implements InitializingBean {
     private final Bus<Event> bus;
     private final Div content;
+    private final GMCharacterCrud characterView;
 
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
@@ -137,15 +129,6 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private Button languageButton = new Button("Languages");
     @CSS(classNames = {"button", "menu-button"})
     private Button currencyButton = new Button("Currencies");
-
-    @CSS(classNames = {"button"})
-    private Button addPerson = new Button(VaadinIcon.PLUS.create());
-    @CSS(classNames = {"button"})
-    private Button editPerson = new Button(VaadinIcon.EDIT.create());
-    private HorizontalLayout personTableButtons = new HorizontalLayout(addPerson, editPerson);
-    private Grid<Person> persons = new Grid<>(Person.class);
-    private ListDataProvider<Person> personDataProvider = DataProvider.ofCollection(new ArrayList<>());
-    private final GMCharacterView characterView;
 
     @CrudField
     private Crud<Race> raceCrud;
@@ -232,7 +215,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
         hairColorButton.addClickListener(event -> showCrud(hairColorCrud));
         physicalFeaturesButton.addClickListener(event -> showCrud(physicalFeatureCrud));
 
-        preparePersonsView();
+        personButton.addClickListener(event -> showPersons());
     }
 
     private void showCrud(Crud<?> crud) {
@@ -240,36 +223,10 @@ public class RightMenu extends WebComponent implements InitializingBean {
         content.add(crud);
     }
 
-    private void preparePersonsView() {
-        bus.subscribingFor(Event.DATA_ALL).accept((QueryAllResult data) -> {
-            if (data.getType().equals(Person.class)) {
-                personDataProvider.getItems().clear();
-                personDataProvider.getItems().addAll((Collection<Person>) data.getItems());
-                execute(() -> personDataProvider.refreshAll());
-                execute(() -> getUI().get().push());
-            }
-        }).subscribe();
-        personButton.addClickListener(event -> showPersons());
-        persons.getColumns().forEach(persons::removeColumn);
-        persons.addColumn("name");
-        persons.addColumn("gender");
-        persons.setDataProvider(personDataProvider);
-        addPerson.addClickListener(e -> showCharacter(new Person()));
-        editPerson.addClickListener(e -> showCharacter(persons.getSelectedItems().iterator().next()));
-        editPerson.setEnabled(false);
-        persons.addSelectionListener(event -> editPerson.setEnabled(event.getFirstSelectedItem().isPresent()));
-    }
-
     public void showPersons() {
         content.removeAll();
-        content.add(personTableButtons, persons);
-        bus.message(Event.FIND_ALL).withContent(Person.class).send();
-    }
-
-    private void showCharacter(Person person) {
-        characterView.load(person);
-        content.removeAll();
         content.add(characterView);
+        bus.message(Event.FIND_ALL).withContent(Person.class).send();
     }
 
     private void showBlueprints() {

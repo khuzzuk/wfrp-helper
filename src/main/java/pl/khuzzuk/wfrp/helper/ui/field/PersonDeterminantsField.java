@@ -72,7 +72,7 @@ public class PersonDeterminantsField extends HorizontalLayout
 
     @Override
     public void setValue(PersonDeterminants value) {
-        this.personDeterminants = value;
+        personDeterminants = value;
         determinants.entrySet().stream()
                 .forEach(entry -> setValueForBasicDeterminant(
                         determinantService.findDeterminantByType(value, entry.getKey()), entry.getValue()));

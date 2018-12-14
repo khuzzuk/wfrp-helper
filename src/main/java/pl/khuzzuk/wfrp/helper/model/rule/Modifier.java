@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Data
-@EqualsAndHashCode(of = "type")
+@EqualsAndHashCode(of = {"id", "type"})
 @Entity
 public class Modifier {
     @Id

@@ -6,12 +6,14 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.data.binder.HasDataProvider;
+import com.vaadin.flow.data.provider.DataProvider;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
-public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> {
+public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> implements HasDataProvider<T> {
     private Grid<T> list;
     public ListableEntityOneToManyField(
             Class<T> beanType,
@@ -51,5 +53,10 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> {
     @Override
     public boolean isRequiredIndicatorVisible() {
         return false;
+    }
+
+    @Override
+    public void setDataProvider(DataProvider<T, ?> dataProvider) {
+        list.setDataProvider(dataProvider);
     }
 }

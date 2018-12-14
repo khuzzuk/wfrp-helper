@@ -23,10 +23,12 @@ import pl.khuzzuk.wfrp.helper.model.creature.EyeColor;
 import pl.khuzzuk.wfrp.helper.model.creature.Gender;
 import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
+import pl.khuzzuk.wfrp.helper.model.creature.PhysicalFeature;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.service.determinant.DeterminantService;
 import pl.khuzzuk.wfrp.helper.service.determinant.ModifierService;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
+import pl.khuzzuk.wfrp.helper.ui.crud.field.ListableEntityOneToManyField;
 import pl.khuzzuk.wfrp.helper.ui.field.PersonDeterminantsField;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 import pl.khuzzuk.wfrp.helper.ui.menu.RightMenu;
@@ -66,6 +68,9 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     private ComboBox<EyeColor> eyeColor = new ComboBox<>("Eye color");
     @UIProperty
     private PersonDeterminantsField determinantsField = new PersonDeterminantsField();
+    @UIProperty
+    private ListableEntityOneToManyField<PhysicalFeature> physicalFeaturesField =
+            new ListableEntityOneToManyField<>(PhysicalFeature.class, new ArrayList<>(), new ArrayList<>(), ArrayList::new);
 
     @UIProperty
     private Button saveButton = new Button(VaadinIcon.ENTER.create());
@@ -82,6 +87,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
         bus.subscribingFor(Event.DATA_ALL).accept(this::refreshData).subscribe();
         registerDataProvider(HairColor.class, hairColor);
         registerDataProvider(EyeColor.class, eyeColor);
+        registerDataProvider(PhysicalFeature.class, physicalFeaturesField);
 
         binder.bind(name, "name");
         binder.forField(age).withConverter(new StringToIntegerConverter(NUMBER_INVALID_MESSAGE)).bind("age");
@@ -91,6 +97,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
         binder.bind(eyeColor, "eyeColor");
         binder.bind(gender, "gender");
         binder.forField(determinantsField).bind("determinants");
+        binder.bind(physicalFeaturesField, "physicalFeatures");
 
         saveButton.addClickListener(event -> save());
     }
