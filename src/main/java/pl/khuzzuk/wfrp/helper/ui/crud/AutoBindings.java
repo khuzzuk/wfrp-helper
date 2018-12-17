@@ -1,8 +1,8 @@
 package pl.khuzzuk.wfrp.helper.ui.crud;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.HasValue;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.BinderValidationStatus;
@@ -122,7 +122,7 @@ public class AutoBindings<T> {
         return validation.isOk();
     }
 
-    public void addFieldsTo(Dialog form) {
+    public void addFieldsTo(HasComponents form) {
         binder.getFields()
                 .filter(Component.class::isInstance)
                 .map(Component.class::cast)
