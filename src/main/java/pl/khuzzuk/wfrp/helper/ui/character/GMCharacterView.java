@@ -1,5 +1,6 @@
 package pl.khuzzuk.wfrp.helper.ui.character;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -9,6 +10,7 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.HasDataProvider;
 import com.vaadin.flow.data.converter.StringToFloatConverter;
 import com.vaadin.flow.data.converter.StringToIntegerConverter;
+import com.vaadin.flow.data.provider.AbstractDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.UIScope;
@@ -70,7 +72,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     private PersonDeterminantsField determinantsField = new PersonDeterminantsField();
     @UIProperty
     private ListableEntityOneToManyField<PhysicalFeature> physicalFeaturesField =
-            new ListableEntityOneToManyField<>(PhysicalFeature.class, new ArrayList<>(), new ArrayList<>(), ArrayList::new);
+            new ListableEntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), ArrayList::new);
 
     @UIProperty
     private Button saveButton = new Button(VaadinIcon.ENTER.create());
@@ -114,8 +116,13 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
             ListDataProvider dataProvider = dataProviders.get(data.getType());
             dataProvider.getItems().clear();
             dataProvider.getItems().addAll(data.getItems());
-            dataProvider.refreshAll();
         }
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        super.onAttach(attachEvent);
+        dataProviders.values().forEach(AbstractDataProvider::refreshAll);
     }
 
     public void load(Person person) {

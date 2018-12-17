@@ -29,7 +29,6 @@ import java.util.Iterator;
 public class Crud<T> extends WebComponent {
     private static final MethodHandles.Lookup LOOKUP = MethodHandles.publicLookup();
     private SaveListener<T> saveListener = SaveListener.EMTPY;
-    private UpdateListener<T> updateListener = UpdateListener.EMPTY;
     private DeleteListener<T> deleteListener = DeleteListener.EMPTY;
     private RefreshDataListener refreshDataListener = RefreshDataListener.EMPTY;
 
@@ -127,7 +126,7 @@ public class Crud<T> extends WebComponent {
         data.clear();
         data.addAll(newData);
         execute(() -> dataProvider.refreshAll());
-        execute(() -> getUI().get().push()  );
+        execute(() -> getUI().get().push());
     }
 
     private T getSelected() {
@@ -137,10 +136,6 @@ public class Crud<T> extends WebComponent {
 
     public void onSave(SaveListener<T> saveListener) {
         this.saveListener = saveListener;
-    }
-
-    public void onUpdate(UpdateListener<T> updateListener) {
-        this.updateListener = updateListener;
     }
 
     public void onDelete(DeleteListener<T> deleteListener) {

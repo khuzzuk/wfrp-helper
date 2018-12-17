@@ -20,7 +20,7 @@ import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(of = {"id", "name"})
+@EqualsAndHashCode(of = {"name"})
 @Entity
 public class PhysicalFeature {
     @Id

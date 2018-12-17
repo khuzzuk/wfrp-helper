@@ -14,9 +14,9 @@ import java.util.function.Supplier;
 public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> implements HasDataProvider<T> {
     @UIProperty
     private ListBuilder<T> listBuilder = ListBuilder.create();
+    private Collection<T> source;
 
     public ListableEntityOneToManyField(
-            Class<T> beanType,
             List<Component> components,
             List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> valueChangeListeners,
             Supplier<? extends Collection<T>> initialValuesProvider) {
@@ -29,6 +29,7 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> imp
     }
 
     public void refreshData(Collection<T> data) {
+        source = data;
         listBuilder.setItems(data);
     }
 
@@ -37,6 +38,9 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> imp
         removeAll();
         add(listBuilder);
         components.forEach(this::add);
+        if (source != null) {
+            listBuilder.reset(source);
+        }
     }
 
     @Override
@@ -57,7 +61,7 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> imp
     public void setValue(Collection<T> values) {
         current = values;
         assureDataInit();
-        listBuilder.setValue(current);
         refreshView();
+        listBuilder.setValue(current);
     }
 }

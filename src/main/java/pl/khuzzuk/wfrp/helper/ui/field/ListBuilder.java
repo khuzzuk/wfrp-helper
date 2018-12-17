@@ -31,20 +31,21 @@ public class ListBuilder<T> extends HorizontalLayout implements
     private Button toResult = new Button(VaadinIcon.ARROW_RIGHT.create());
     @CSS(classNames = {"button", "list-builder-button"}, id = "toSource")
     private Button toSource = new Button(VaadinIcon.ARROW_LEFT.create());
-
-    @UIProperty
-    @CSS(classNames = {"list-builder", "list"}, id = "source")
-    private ListBox<T> sourceList = new ListBox<>();
-    @UIProperty
     private VerticalLayout buttonGroup = new VerticalLayout(toResult, toSource);
-    @UIProperty
-    @CSS(classNames = {"list-builder", "list"}, id = "result")
-    private ListBox<T> resultList = new ListBox<>();
 
-    private DataProvider<T, ?> sourceDataProvider;
-    private DataProvider<T, ?> resultDataProvider;
-    private Collection<T> source;
-    private Collection<T> result;
+    @CSS(classNames = {"list-builder", "list"}, id = "source")
+    private ListBox<T> leftList = new ListBox<>();
+    @CSS(classNames = {"list-builder", "list"}, id = "result")
+    private ListBox<T> rightList = new ListBox<>();
+
+    @UIProperty
+    @CSS(classNames = "list-builder-layout")
+    private HorizontalLayout root = new HorizontalLayout(leftList, buttonGroup, rightList);
+
+    private DataProvider<T, ?> leftDataProvider;
+    private DataProvider<T, ?> rightDataProvider;
+    private Collection<T> left;
+    private Collection<T> right = new ArrayList<>();
 
     private List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> changeListeners = new ArrayList<>();
 
@@ -56,18 +57,18 @@ public class ListBuilder<T> extends HorizontalLayout implements
 
     private void init() {
         ComponentInitialization.initializeComponents(this);
-        sourceList.addValueChangeListener(event -> toResult.setEnabled(event.getValue() != null));
-        resultList.addValueChangeListener(event -> toSource.setEnabled(event.getValue() != null));
+        leftList.addValueChangeListener(event -> toResult.setEnabled(event.getValue() != null));
+        rightList.addValueChangeListener(event -> toSource.setEnabled(event.getValue() != null));
         toResult.addClickListener(event -> moveToResult());
         toSource.addClickListener(event -> moveToSource());
     }
 
     private void moveToResult() {
-        swapValue(sourceList, result, source);
+        swapValue(leftList, right, left);
     }
 
     private void moveToSource() {
-        swapValue(resultList, source, result);
+        swapValue(rightList, left, right);
     }
 
     private void swapValue(ListBox<T> listBox, Collection<T> to, Collection<T> from) {
@@ -75,14 +76,16 @@ public class ListBuilder<T> extends HorizontalLayout implements
         to.add(value);
         from.remove(value);
         listBox.setValue(null);
-        sourceDataProvider.refreshAll();
-        resultDataProvider.refreshAll();
+        leftDataProvider.refreshAll();
+        rightDataProvider.refreshAll();
         getUI().ifPresent(UI::push);
     }
 
-    public void reset() {
-        source.addAll(result);
-        result.clear();
+    public void reset(Collection<T> left) {
+        this.left.clear();
+        this.left.addAll(left);
+        leftDataProvider.refreshAll();
+        right.clear();
         getUI().ifPresent(UI::push);
     }
 
@@ -91,24 +94,31 @@ public class ListBuilder<T> extends HorizontalLayout implements
         setDataProvider((ListDataProvider<T>) dataProvider);
     }
 
-    public void setDataProvider(ListDataProvider<T> dataProvider) {
-        source = dataProvider.getItems();
-        this.sourceDataProvider = dataProvider;
-        sourceList.setDataProvider(dataProvider);
+    @Override
+    public void setItems(Collection<T> items) {
+        left = new ArrayList<>(items);
+        setDataProvider(DataProvider.ofCollection(left));
+    }
+
+    private void setDataProvider(ListDataProvider<T> dataProvider) {
+        left = dataProvider.getItems();
+        this.leftDataProvider = dataProvider;
+        leftList.setDataProvider(dataProvider);
     }
 
     @Override
     public void setValue(Collection<T> value) {
-        result = value;
-        resultDataProvider = DataProvider.ofCollection(value);
-        resultList.setDataProvider(resultDataProvider);
-        source.removeAll(value);
+        right = value;
+        rightDataProvider = DataProvider.ofCollection(value);
+        rightList.setDataProvider(rightDataProvider);
+        left.removeAll(value);
+        leftDataProvider.refreshAll();
         getUI().ifPresent(UI::push);
     }
 
     @Override
     public Collection<T> getValue() {
-        return result;
+        return right;
     }
 
     @Override

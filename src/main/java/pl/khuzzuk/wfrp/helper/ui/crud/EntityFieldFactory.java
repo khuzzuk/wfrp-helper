@@ -31,7 +31,7 @@ public class EntityFieldFactory {
         return entityField;
     }
 
-    public <T> EntityOneToOneField<T> createWithDelegatedEditor(Class<T> type, FormFieldFactory formFieldFactory) {
+    <T> EntityOneToOneField<T> createWithDelegatedEditor(Class<T> type, FormFieldFactory formFieldFactory) {
         AutoBindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
         EntityOneToOneField<T> field = new EntityOneToOneField<>();
         CrudForm<T> form = CrudForm.createFor(subEntityBindings, field::setValue);
@@ -42,7 +42,7 @@ public class EntityFieldFactory {
     public <T> ListableEntityOneToManyField<T> createListable(
             Class<T> type,
             Supplier<Collection<T>> initialValues) {
-        ListableEntityOneToManyField<T> field = new ListableEntityOneToManyField<>(type, new ArrayList<>(), new ArrayList<>(), initialValues);
+        ListableEntityOneToManyField<T> field = new ListableEntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), initialValues);
         field.refreshView();
         return field;
     }
