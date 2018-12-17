@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.binder.HasDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.shared.Registration;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -49,10 +50,7 @@ public class ListBuilder<T> extends HorizontalLayout implements
 
     public static <T> ListBuilder<T> create() {
         ListBuilder<T> listBuilder = new ListBuilder<>();
-        listBuilder.resultDataProvider = DataProvider.ofCollection(initialValues);
-        listBuilder.source = initialValues;
         listBuilder.init();
-
         return listBuilder;
     }
 
@@ -68,7 +66,6 @@ public class ListBuilder<T> extends HorizontalLayout implements
         swapValue(sourceList, result, source);
     }
 
-
     private void moveToSource() {
         swapValue(resultList, source, result);
     }
@@ -78,6 +75,8 @@ public class ListBuilder<T> extends HorizontalLayout implements
         to.add(value);
         from.remove(value);
         listBox.setValue(null);
+        sourceDataProvider.refreshAll();
+        resultDataProvider.refreshAll();
         getUI().ifPresent(UI::push);
     }
 
@@ -89,27 +88,27 @@ public class ListBuilder<T> extends HorizontalLayout implements
 
     @Override
     public void setDataProvider(DataProvider<T, ?> dataProvider) {
-        sourceDataProvider = dataProvider;
+        setDataProvider((ListDataProvider<T>) dataProvider);
     }
 
-    public void setSource(Collection<T> source) {
-        this.source = source;
-
+    public void setDataProvider(ListDataProvider<T> dataProvider) {
+        source = dataProvider.getItems();
+        this.sourceDataProvider = dataProvider;
+        sourceList.setDataProvider(dataProvider);
     }
 
     @Override
     public void setValue(Collection<T> value) {
         result = value;
+        resultDataProvider = DataProvider.ofCollection(value);
+        resultList.setDataProvider(resultDataProvider);
         source.removeAll(value);
         getUI().ifPresent(UI::push);
     }
 
     @Override
-    public List<T> getValue() {
-        ArrayList<T> value = new ArrayList<>(result);
-        source.addAll(result);
-        result.clear();
-        return value;
+    public Collection<T> getValue() {
+        return result;
     }
 
     @Override

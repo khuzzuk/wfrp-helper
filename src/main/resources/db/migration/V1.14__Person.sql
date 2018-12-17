@@ -1,26 +1,26 @@
 CREATE SEQUENCE person_seq;
 CREATE TABLE person (
-  id          BIGINT PRIMARY KEY DEFAULT nextval('person_seq' :: regclass),
-  name        VARCHAR(64) UNIQUE NOT NULL,
-  description VARCHAR(255),
-  gender INT NOT NULL,
-  age INT NOT NULL,
-  height INT NOT NULL,
-  weight REAL NOT NULL,
-  hair_color_id BIGINT NOT NULL REFERENCES hair_color,
-  eye_color_id BIGINT NOT NULL REFERENCES eye_color,
-  history     TEXT
+  id            BIGINT PRIMARY KEY DEFAULT nextval('person_seq' :: regclass),
+  name          VARCHAR(64) UNIQUE NOT NULL,
+  description   VARCHAR(255),
+  gender        INT                NOT NULL,
+  age           INT                NOT NULL,
+  height        INT                NOT NULL,
+  weight        REAL               NOT NULL,
+  hair_color_id BIGINT             NOT NULL REFERENCES hair_color,
+  eye_color_id  BIGINT             NOT NULL REFERENCES eye_color,
+  history       TEXT
 );
 
 CREATE TABLE person_physical_features (
-  person_id       BIGINT NOT NULL REFERENCES person,
-  physical_features_id BIGINT NOT NULL UNIQUE REFERENCES physical_feature,
+  person_id            BIGINT NOT NULL REFERENCES person,
+  physical_features_id BIGINT NOT NULL REFERENCES physical_feature,
   PRIMARY KEY (person_id, physical_features_id)
 );
 
 CREATE TABLE person_determinants (
   person_id       BIGINT NOT NULL REFERENCES person,
-  determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant,
+  determinants_id BIGINT NOT NULL REFERENCES determinant,
   PRIMARY KEY (person_id, determinants_id)
 );
 
@@ -65,9 +65,9 @@ CREATE TABLE person_armor (
 );
 
 CREATE TABLE person_spell_schools (
-  person_id BIGINT NOT NULL REFERENCES person,
+  person_id         BIGINT NOT NULL REFERENCES person,
   spell_schools_key BIGINT NOT NULL REFERENCES spell_school,
-  level     INT    NOT NULL DEFAULT 0,
+  level             INT    NOT NULL DEFAULT 0,
   PRIMARY KEY (person_id, spell_schools_key)
 );
 

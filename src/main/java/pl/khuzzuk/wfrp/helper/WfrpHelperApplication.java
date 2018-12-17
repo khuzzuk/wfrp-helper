@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import pl.khuzzuk.wfrp.helper.security.Role;
 import pl.khuzzuk.wfrp.helper.security.RoleRepo;
 import pl.khuzzuk.wfrp.helper.security.User;
@@ -13,6 +14,7 @@ import pl.khuzzuk.wfrp.helper.security.UserRepo;
 import java.util.Set;
 
 @SpringBootApplication
+@EnableTransactionManagement
 public class WfrpHelperApplication {
     public static void main(String[] args) {
         SpringApplication.run(WfrpHelperApplication.class, args);

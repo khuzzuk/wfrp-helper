@@ -6,5 +6,7 @@ public enum Event {
     SAVE,
     DELETE,
 
+    UPDATE,
+
     ERROR
 }

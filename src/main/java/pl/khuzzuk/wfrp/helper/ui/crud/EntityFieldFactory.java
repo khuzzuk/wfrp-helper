@@ -25,7 +25,7 @@ public class EntityFieldFactory {
 
         Button button = new Button(VaadinIcon.PLUS.create());
         button.addClickListener(e -> form.showForm());
-        entityField.addComponent(button);
+        entityField.addCustomComponent(button);
 
         entityField.refreshView();
         return entityField;

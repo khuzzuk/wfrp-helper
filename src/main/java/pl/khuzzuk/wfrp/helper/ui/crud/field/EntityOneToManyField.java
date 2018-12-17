@@ -27,7 +27,7 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
     @Setter
     Consumer<T> onEdit = any -> {};
 
-    public void addComponent(Component component) {
+    public void addCustomComponent(Component component) {
         components.add(component);
         refreshView();
     }
@@ -38,7 +38,7 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
 
     @Override
     public void setValue(Collection<T> values) {
-        current = values == null ? defaultValuesProvider.get() : values;
+        current = values;
         refreshView();
     }
 
@@ -52,13 +52,17 @@ public class EntityOneToManyField<T> extends VerticalLayout implements HasValue<
         refreshView();
     }
 
+    void assureDataInit() {
+        if (current == null) {
+            current = defaultValuesProvider.get();
+        }
+    }
+
     public void refreshView() {
         removeAll();
         add(name);
 
-        if (current == null) {
-            current = defaultValuesProvider.get();
-        }
+        assureDataInit();
 
         current.forEach(t -> {
             Button removeButton = new Button(VaadinIcon.MINUS.create());
