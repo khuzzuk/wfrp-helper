@@ -20,6 +20,7 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Tag("list-builder")
@@ -42,10 +43,10 @@ public class ListBuilder<T> extends HorizontalLayout implements
     @CSS(classNames = "list-builder-layout")
     private HorizontalLayout root = new HorizontalLayout(leftList, buttonGroup, rightList);
 
-    private DataProvider<T, ?> leftDataProvider;
-    private DataProvider<T, ?> rightDataProvider;
-    private Collection<T> left;
+    private Collection<T> left = new ArrayList<>();
     private Collection<T> right = new ArrayList<>();
+    private DataProvider<T, ?> leftDataProvider = DataProvider.ofCollection(left);
+    private DataProvider<T, ?> rightDataProvider;
 
     private List<ValueChangeListener<? super ValueChangeEvent<Collection<T>>>> changeListeners = new ArrayList<>();
 
@@ -61,6 +62,8 @@ public class ListBuilder<T> extends HorizontalLayout implements
         rightList.addValueChangeListener(event -> toSource.setEnabled(event.getValue() != null));
         toResult.addClickListener(event -> moveToResult());
         toSource.addClickListener(event -> moveToSource());
+        leftList.setDataProvider(leftDataProvider);
+        reset(Collections.emptyList());
     }
 
     private void moveToResult() {
@@ -84,26 +87,22 @@ public class ListBuilder<T> extends HorizontalLayout implements
     public void reset(Collection<T> left) {
         this.left.clear();
         this.left.addAll(left);
-        leftDataProvider.refreshAll();
-        right.clear();
-        getUI().ifPresent(UI::push);
+        setValue(new ArrayList<>());
+        toResult.setEnabled(false);
+        toSource.setEnabled(false);
     }
 
     @Override
     public void setDataProvider(DataProvider<T, ?> dataProvider) {
-        setDataProvider((ListDataProvider<T>) dataProvider);
+        Collection<T> items = ((ListDataProvider<T>) dataProvider).getItems();
+        reset(items);
     }
 
     @Override
     public void setItems(Collection<T> items) {
-        left = new ArrayList<>(items);
-        setDataProvider(DataProvider.ofCollection(left));
-    }
-
-    private void setDataProvider(ListDataProvider<T> dataProvider) {
-        left = dataProvider.getItems();
-        this.leftDataProvider = dataProvider;
-        leftList.setDataProvider(dataProvider);
+        left.clear();
+        left.addAll(items);
+        getUI().ifPresent(ui -> ui.access(() -> leftDataProvider.refreshAll()));
     }
 
     @Override

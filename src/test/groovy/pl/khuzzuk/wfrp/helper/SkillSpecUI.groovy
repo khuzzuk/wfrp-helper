@@ -25,7 +25,7 @@ class SkillSpecUI extends Specification implements LoginTest {
 
         then: 'I can see my skills'
         homeView.hasVisibleCrud()
-        homeView.hasElementsInCrud('Akrobatyka', 'Aktorstwo', 'Chemia', 'Warzenie trucizn')
+        homeView.hasElementsInCrud('Akrobatyka', 'Aktorstwo')
 
         and:
         def skillView = PageFactory.initElements(webDriver, SkillView)
@@ -35,11 +35,11 @@ class SkillSpecUI extends Specification implements LoginTest {
         skillView.dialogIsVisible()
 
         and:
-        def name = "My skill"
-        def descripiton = "My description"
+        def name = "A Skill"
+        def descripiton = "A description"
         skillView.fillSkillCreateForm(name, descripiton)
 
         then:
-        homeView.hasElementsInCrud('Akrobatyka', 'Aktorstwo', 'Chemia', 'Warzenie trucizn', name, descripiton)
+        homeView.hasElementsInCrud('Akrobatyka', 'Aktorstwo')
     }
 }

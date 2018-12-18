@@ -51,9 +51,10 @@ class HomePageView implements VaadinElement {
     }
 
     boolean hasElementsInCrud(String... elements) {
-        gridContent.stream()
+        def foundElements = gridContent.stream()
                 .map({ it.text })
-                .collect(Collectors.toList()).containsAll(elements)
+                .collect(Collectors.toList())
+        foundElements.containsAll(elements)
     }
 
     void logout() {

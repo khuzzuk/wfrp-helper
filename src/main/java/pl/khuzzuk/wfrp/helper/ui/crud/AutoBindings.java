@@ -108,13 +108,12 @@ public class AutoBindings<T> {
     public void update(T bean) {
         this.bean = bean;
         binder.removeBean();
-        binder.readBean(bean);
+        binder.setBean(bean);
     }
 
     public T read() {
         binder.validate();
-        binder.writeBeanIfValid(bean);
-        return bean;
+        return binder.getBean();
     }
 
     public boolean validate() {
