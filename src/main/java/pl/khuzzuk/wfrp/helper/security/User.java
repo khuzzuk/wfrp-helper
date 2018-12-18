@@ -24,7 +24,7 @@ import java.util.Set;
 @Table(schema = "security")
 public class User {
     @Id
-    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_seq", schema = "security")
+    @SequenceGenerator(name = "user_seq_gen", sequenceName = "user_seq", schema = "security", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_gen")
     @FormElement(exclude = true)
     private Long id;

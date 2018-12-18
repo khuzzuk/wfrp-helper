@@ -1,5 +1,6 @@
 package pl.khuzzuk.wfrp.helper.ui.field;
 
+import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
@@ -102,7 +103,21 @@ public class ListBuilder<T> extends HorizontalLayout implements
     public void setItems(Collection<T> items) {
         left.clear();
         left.addAll(items);
-        getUI().ifPresent(ui -> ui.access(() -> leftDataProvider.refreshAll()));
+        getUI().ifPresent(this::refreshLists);
+    }
+
+    @Override
+    protected void onAttach(AttachEvent attachEvent) {
+        getUI().ifPresent(this::refreshLists);
+    }
+
+    private void refreshLists(UI ui) {
+        ui.access(() -> {
+            leftDataProvider.refreshAll();
+            if (rightDataProvider != null) {
+                rightDataProvider.refreshAll();
+            }
+        });
     }
 
     @Override

@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class Resource {
     @Id
-    @SequenceGenerator(name = "resource_seq_gen", sequenceName = "resource_seq")
+    @SequenceGenerator(name = "resource_seq_gen", sequenceName = "resource_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resource_seq_gen")
     @FormElement(exclude = true)
     private Long id;

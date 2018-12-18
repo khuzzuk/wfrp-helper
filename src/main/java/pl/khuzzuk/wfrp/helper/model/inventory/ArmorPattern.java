@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 public class ArmorPattern {
     @Id
-    @SequenceGenerator(name = "armor_pattern_seq_gen", sequenceName = "armor_pattern_seq")
+    @SequenceGenerator(name = "armor_pattern_seq_gen", sequenceName = "armor_pattern_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "armor_pattern_seq_gen")
     @FormElement(exclude = true)
     private Long id;

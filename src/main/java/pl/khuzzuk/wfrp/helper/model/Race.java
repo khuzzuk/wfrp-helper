@@ -16,7 +16,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id", "name"})
 public class Race {
     @Id
-    @SequenceGenerator(name = "race_seq_gen", sequenceName = "race_seq")
+    @SequenceGenerator(name = "race_seq_gen", sequenceName = "race_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "race_seq_gen")
     @FormElement(exclude = true)
     private Long id;

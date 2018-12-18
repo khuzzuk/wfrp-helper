@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Table(schema = "security")
 public class Role {
     @Id
-    @SequenceGenerator(name = "role_seq_gen", sequenceName = "role_seq", schema = "security")
+    @SequenceGenerator(name = "role_seq_gen", sequenceName = "role_seq", schema = "security", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_seq_gen")
     @FormElement(exclude = true)
     private Long id;

@@ -22,7 +22,7 @@ import java.util.Set;
 @Entity
 public class Language {
     @Id
-    @SequenceGenerator(name = "language_seq_gen", sequenceName = "language_seq")
+    @SequenceGenerator(name = "language_seq_gen", sequenceName = "language_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "language_seq_gen")
     @FormElement(exclude = true)
     private Long id;

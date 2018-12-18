@@ -18,7 +18,7 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class Nation {
     @Id
-    @SequenceGenerator(name = "nation_seq_gen", sequenceName = "nation_seq")
+    @SequenceGenerator(name = "nation_seq_gen", sequenceName = "nation_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "nation_seq_gen")
     @FormElement(exclude = true)
     private Long id;

@@ -18,7 +18,7 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class HairColor {
     @Id
-    @SequenceGenerator(name = "hair_color_seq_gen", sequenceName = "hair_color_seq")
+    @SequenceGenerator(name = "hair_color_seq_gen", sequenceName = "hair_color_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hair_color_seq_gen")
     @FormElement(exclude = true)
     private Long id;

@@ -18,7 +18,7 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class Character {
     @Id
-    @SequenceGenerator(name = "character_seq_gen", sequenceName = "character_seq")
+    @SequenceGenerator(name = "character_seq_gen", sequenceName = "character_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "character_seq_gen")
     @FormElement(exclude = true)
     private Long id;

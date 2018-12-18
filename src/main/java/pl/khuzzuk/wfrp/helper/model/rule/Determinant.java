@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Entity
 public class Determinant {
     @Id
-    @SequenceGenerator(name = "determinant_seq_gen", sequenceName = "determinant_seq")
+    @SequenceGenerator(name = "determinant_seq_gen", sequenceName = "determinant_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "determinant_seq_gen")
     @FormElement(exclude = true)
     private Long id;

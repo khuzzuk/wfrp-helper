@@ -18,7 +18,7 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class EyeColor {
     @Id
-    @SequenceGenerator(name = "eye_color_seq_gen", sequenceName = "eye_color_seq")
+    @SequenceGenerator(name = "eye_color_seq_gen", sequenceName = "eye_color_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "eye_color_seq_gen")
     @FormElement(exclude = true)
     private Long id;

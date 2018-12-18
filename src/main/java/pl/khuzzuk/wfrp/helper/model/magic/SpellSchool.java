@@ -20,7 +20,7 @@ import javax.validation.constraints.Min;
 @Entity
 public class SpellSchool {
     @Id
-    @SequenceGenerator(name = "spell_school_seq_gen", sequenceName = "spell_school_seq")
+    @SequenceGenerator(name = "spell_school_seq_gen", sequenceName = "spell_school_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "spell_school_seq_gen")
     @FormElement(exclude = true)
     private Long id;

@@ -25,7 +25,7 @@ import java.util.Set;
 @Entity
 public class Animal {
     @Id
-    @SequenceGenerator(name = "animal_seq_gen", sequenceName = "animal_seq")
+    @SequenceGenerator(name = "animal_seq_gen", sequenceName = "animal_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_seq_gen")
     @FormElement(exclude = true)
     private Long id;

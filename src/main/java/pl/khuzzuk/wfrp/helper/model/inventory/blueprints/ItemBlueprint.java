@@ -27,7 +27,7 @@ import java.util.Set;
 @Entity
 public abstract class ItemBlueprint {
     @Id
-    @SequenceGenerator(name = "item_blueprint_seq_gen", sequenceName = "item_blueprint_seq")
+    @SequenceGenerator(name = "item_blueprint_seq_gen", sequenceName = "item_blueprint_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_blueprint_seq_gen")
     @FormElement(exclude = true)
     private Long id;

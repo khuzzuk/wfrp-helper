@@ -28,6 +28,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,7 +38,7 @@ import java.util.Set;
 @Entity
 public class Person {
     @Id
-    @SequenceGenerator(name = "person_seq_gen", sequenceName = "person_seq")
+    @SequenceGenerator(name = "person_seq_gen", sequenceName = "person_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq_gen")
     private Long id;
     @NaturalId
@@ -48,19 +49,19 @@ public class Person {
     private @Min(0) int height;
     private @Min(0) float weight;
     @ManyToOne(fetch = FetchType.EAGER)
-    private HairColor hairColor;
+    private @NotNull HairColor hairColor;
     @ManyToOne(fetch = FetchType.EAGER)
-    private EyeColor eyeColor;
+    private @NotNull EyeColor eyeColor;
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.DETACH})
     private List<PhysicalFeature> physicalFeatures;
     private @Length(max = 500) String description;
     private @Length(max = 4096) String history;
 
     @Embedded
-    private PersonDeterminants determinants = PersonDeterminants.empty();
+    private @NotNull PersonDeterminants determinants = PersonDeterminants.empty();
 
     @ManyToMany
-    private Set<Skill> skills;
+    private List<Skill> skills;
 
     @ManyToMany
     @JoinTable(name = "person_inventory",

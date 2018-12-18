@@ -33,7 +33,7 @@ import java.util.List;
 @Entity
 public class Spell {
     @Id
-    @SequenceGenerator(name = "spell_seq_gen", sequenceName = "spell_seq")
+    @SequenceGenerator(name = "spell_seq_gen", sequenceName = "spell_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "spell_seq_gen")
     @FormElement(exclude = true)
     private Long id;

@@ -24,7 +24,7 @@ import java.util.Set;
 @Entity
 public class Currency {
     @Id
-    @SequenceGenerator(name = "currency_seq_gen", sequenceName = "currency_seq")
+    @SequenceGenerator(name = "currency_seq_gen", sequenceName = "currency_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency_seq_gen")
     @FormElement(exclude = true)
     private Long id;

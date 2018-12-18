@@ -26,7 +26,7 @@ import javax.validation.constraints.NotNull;
 public abstract class Item {
     @FormElement(exclude = true)
     @Id
-    @SequenceGenerator(name = "item_seq_gen", sequenceName = "item_seq")
+    @SequenceGenerator(name = "item_seq_gen", sequenceName = "item_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq_gen")
     private Long id;
     @NaturalId

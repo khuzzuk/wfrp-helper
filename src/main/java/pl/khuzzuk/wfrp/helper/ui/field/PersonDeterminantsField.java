@@ -111,7 +111,6 @@ public class PersonDeterminantsField extends HorizontalLayout
 
     @Override
     public void setRequiredIndicatorVisible(boolean requiredIndicatorVisible) {
-        throw new UnsupportedOperationException();
     }
 
     @Override

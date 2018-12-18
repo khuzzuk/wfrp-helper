@@ -6,6 +6,7 @@ import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import pl.khuzzuk.messaging.Bus;
@@ -46,13 +47,14 @@ import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 @HasCrud
 @UIScope
 @Component
-@Lazy
 @Tag("RightMenu")
 @RequiredArgsConstructor
 public class RightMenu extends WebComponent implements InitializingBean {
     private final Bus<Event> bus;
     private final Div content;
-    private final GMCharacterCrud characterView;
+    @Lazy
+    @Autowired
+    private GMCharacterCrud characterView;
 
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})

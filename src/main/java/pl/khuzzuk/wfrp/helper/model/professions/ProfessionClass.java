@@ -26,7 +26,7 @@ import java.util.Set;
 @EqualsAndHashCode(of = {"id", "name"})
 public class ProfessionClass {
     @Id
-    @SequenceGenerator(name = "profession_class_seq_gen", sequenceName = "profession_class_seq")
+    @SequenceGenerator(name = "profession_class_seq_gen", sequenceName = "profession_class_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profession_class_seq_gen")
     @FormElement(exclude = true)
     private Long id;

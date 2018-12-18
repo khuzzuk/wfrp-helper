@@ -18,7 +18,7 @@ import javax.persistence.SequenceGenerator;
 @Entity
 public class Skill {
     @Id
-    @SequenceGenerator(name = "skill_seq_gen", sequenceName = "skill_seq")
+    @SequenceGenerator(name = "skill_seq_gen", sequenceName = "skill_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "skill_seq_gen")
     @FormElement(exclude = true)
     private Long id;

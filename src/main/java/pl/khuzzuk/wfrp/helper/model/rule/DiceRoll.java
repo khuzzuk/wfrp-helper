@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @EqualsAndHashCode(of = "id")
 public class DiceRoll {
-    @SequenceGenerator(name = "dice_roll_seq_gen", sequenceName = "dice_roll_seq")
+    @SequenceGenerator(name = "dice_roll_seq_gen", sequenceName = "dice_roll_seq", allocationSize = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dice_roll_seq_gen")
     @FormElement(exclude = true)

@@ -7,6 +7,7 @@ import pl.khuzzuk.wfrp.helper.ui.field.ListBuilder;
 import pl.khuzzuk.wfrp.helper.ui.initialize.ComponentInitialization;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
@@ -15,6 +16,10 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> imp
     @UIProperty
     private ListBuilder<T> listBuilder = ListBuilder.create();
     private Collection<T> source;
+
+    public ListableEntityOneToManyField() {
+        this(new ArrayList<>(), new ArrayList<>(), ArrayList::new);
+    }
 
     public ListableEntityOneToManyField(
             List<Component> components,
