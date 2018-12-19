@@ -66,7 +66,7 @@ public class Person {
     @JoinTable(name = "person_professions",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "profession_id"))
-    private @NotNull List<Profession> professions;
+    private List<Profession> professions;
 
     @ManyToMany
     @JoinTable(name = "person_skills",

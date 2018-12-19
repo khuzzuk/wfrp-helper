@@ -26,6 +26,7 @@ import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.creature.PhysicalFeature;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
+import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.repo.PersonLoader;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.service.determinant.DeterminantService;
@@ -65,14 +66,16 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     private TextArea description = new TextArea("Opis");
     private TextArea history = new TextArea("Historia");
     private PersonDeterminantsField determinantsField = new PersonDeterminantsField();
+    private ComboBox<Profession> currentProfession = new ComboBox<>("Obecna profesja");
 
     private ListableEntityOneToManyField<PhysicalFeature> physicalFeaturesField = new ListableEntityOneToManyField<>();
     private ListableEntityOneToManyField<Skill> skillsField = new ListableEntityOneToManyField<>();
+    private ListableEntityOneToManyField<Profession> professionHistoryField = new ListableEntityOneToManyField<>();
 
     @UIProperty
     private Div form = new Div(name, gender, age, height, weight, hairColor, eyeColor,
-            description, history,
-            determinantsField, physicalFeaturesField, skillsField);
+            description, history, currentProfession,
+            determinantsField, physicalFeaturesField, skillsField, professionHistoryField);
 
     @UIProperty
     private Button saveButton = new Button("Zapisz");
@@ -94,6 +97,16 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
         registerDataProvider(PhysicalFeature.class, new DataFieldWrapper<>(() -> {}, physicalFeaturesField::refreshData));
         registerDataProvider(Skill.class, new DataFieldWrapper<>(() -> {}, skillsField::refreshData));
 
+        ListDataProvider<Profession> professionDataProvider = DataProvider.ofCollection(new ArrayList<>());
+        currentProfession.setDataProvider(professionDataProvider);
+        registerDataProvider(Profession.class, new DataFieldWrapper<>(
+                () -> currentProfession.getDataProvider().refreshAll(),
+                data -> {
+                    professionDataProvider.getItems().clear();
+                    professionDataProvider.getItems().addAll(data);
+                    professionHistoryField.refreshData(data);
+                }));
+
         binder.bind(name, "name");
         binder.forField(age).withConverter(new StringToIntegerConverter(NUMBER_INVALID_MESSAGE)).bind("age");
         binder.forField(height).withConverter(new StringToIntegerConverter(NUMBER_INVALID_MESSAGE)).bind("height");
@@ -103,9 +116,11 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
         binder.bind(gender, "gender");
         binder.bind(description, "description");
         binder.bind(history, "history");
+        binder.bind(currentProfession, "currentProfession");
         binder.forField(determinantsField).bind("determinants");
         binder.bind(physicalFeaturesField, "physicalFeatures");
         binder.bind(skillsField, "skills");
+        binder.bind(professionHistoryField, "professions");
 
         saveButton.addClickListener(event -> save());
         cancelButton.addClickListener(event -> rightMenu.showPersons());
