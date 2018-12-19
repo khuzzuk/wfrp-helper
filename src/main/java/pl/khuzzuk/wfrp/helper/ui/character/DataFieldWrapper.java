@@ -28,7 +28,6 @@ public class DataFieldWrapper<T> {
     }
 
     public void setData(Collection<T> data) {
-        System.out.println("process data " + data);
         process.accept(data);
     }
 }

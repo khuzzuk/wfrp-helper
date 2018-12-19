@@ -26,6 +26,7 @@ import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.creature.PhysicalFeature;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
+import pl.khuzzuk.wfrp.helper.repo.PersonLoader;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 import pl.khuzzuk.wfrp.helper.service.determinant.DeterminantService;
 import pl.khuzzuk.wfrp.helper.service.determinant.ModifierService;
@@ -52,6 +53,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     private final DeterminantService determinantService;
     private final ModifierService modifierService;
     private final RightMenu rightMenu;
+    private final PersonLoader personLoader;
 
     private TextField name = new TextField("Imię");
     private ComboBox<Gender> gender = new ComboBox<>("Płeć");
@@ -117,12 +119,10 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
 
     private <T> void registerDataProvider(Class<T> type, DataFieldWrapper<T> wrapper) {
         dataProviders.put(type, wrapper);
-        System.out.println("request for data " + type);
         bus.message(Event.FIND_ALL).withContent(type).send();
     }
 
     private void refreshData(QueryAllResult<?> data) {
-        System.out.println("received data " + data.getType());
         if (dataProviders.containsKey(data.getType())) {
             DataFieldWrapper dataFieldWrapper = dataProviders.get(data.getType());
             dataFieldWrapper.setData(data.getItems());
@@ -133,12 +133,14 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
-        dataProviders.values().forEach(wrapper -> execute(wrapper.getRefresher()));
+        refreshState();
     }
 
     public void load(Person person) {
-        this.person = person;
-        binder.setBean(person);
+        dataProviders.values().forEach(wrapper -> execute(wrapper.getRefresher()));
+        Person toLoad = person.getId() != null ? personLoader.load(person) : person;
+        this.person = toLoad;
+        binder.setBean(toLoad);
     }
 
     private void save() {
@@ -147,5 +149,9 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
             bus.message(Event.SAVE).withContent(person).send();
             rightMenu.showPersons();
         }
+    }
+
+    private void refreshState() {
+        dataProviders.values().forEach(wrapper -> execute(wrapper.getRefresher()));
     }
 }

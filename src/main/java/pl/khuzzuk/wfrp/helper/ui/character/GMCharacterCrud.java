@@ -72,7 +72,6 @@ public class GMCharacterCrud extends WebComponent {
         removePerson.addClickListener(e -> removeSelection());
 
         content.removeAll();
-        content.add(characterView);
     }
 
     private void load(Person person) {

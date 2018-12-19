@@ -13,7 +13,6 @@ import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.magic.Spell;
 import pl.khuzzuk.wfrp.helper.model.magic.SpellSchool;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
@@ -52,7 +51,7 @@ public class Person {
     private @NotNull HairColor hairColor;
     @ManyToOne(fetch = FetchType.EAGER)
     private @NotNull EyeColor eyeColor;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.REFRESH, CascadeType.MERGE, CascadeType.DETACH, CascadeType.DETACH})
+    @ManyToMany
     private List<PhysicalFeature> physicalFeatures;
     private @Length(max = 500) String description;
     private @Length(max = 4096) String history;
