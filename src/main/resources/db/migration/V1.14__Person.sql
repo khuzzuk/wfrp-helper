@@ -9,7 +9,8 @@ CREATE TABLE person (
   weight        REAL               NOT NULL,
   hair_color_id BIGINT             NOT NULL REFERENCES hair_color,
   eye_color_id  BIGINT             NOT NULL REFERENCES eye_color,
-  history       TEXT
+  history       TEXT,
+  current_profession_id BIGINT NOT NULL REFERENCES profession
 );
 
 CREATE TABLE person_physical_features (
@@ -28,6 +29,12 @@ CREATE TABLE person_skills (
   person_id BIGINT NOT NULL REFERENCES person,
   skills_id BIGINT NOT NULL REFERENCES skill,
   PRIMARY KEY (person_id, skills_id)
+);
+
+CREATE TABLE person_professions (
+  person_id BIGINT NOT NULL REFERENCES person,
+  profession_id BIGINT NOT NULL REFERENCES profession,
+  PRIMARY KEY (person_id, profession_id)
 );
 
 CREATE TABLE person_animals (

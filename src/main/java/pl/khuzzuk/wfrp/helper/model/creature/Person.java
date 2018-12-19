@@ -12,6 +12,7 @@ import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.magic.Spell;
 import pl.khuzzuk.wfrp.helper.model.magic.SpellSchool;
+import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -59,7 +60,18 @@ public class Person {
     @Embedded
     private @NotNull PersonDeterminants determinants = PersonDeterminants.empty();
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    private @NotNull Profession currentProfession;
     @ManyToMany
+    @JoinTable(name = "person_professions",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "profession_id"))
+    private @NotNull List<Profession> professions;
+
+    @ManyToMany
+    @JoinTable(name = "person_skills",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "skills_id"))
     private List<Skill> skills;
 
     @ManyToMany

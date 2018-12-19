@@ -14,10 +14,9 @@ public class PersonLoader {
     @Transactional
     public Person load(Person person) {
         Person result = personRepo.findById(person.getId()).get();
-        result.getHairColor();
-        result.getEyeColor();
         result.getPhysicalFeatures().forEach(e -> {});
         result.getSkills().forEach(e -> {});
+        result.getProfessions().forEach(e -> {});
         return result;
     }
 }

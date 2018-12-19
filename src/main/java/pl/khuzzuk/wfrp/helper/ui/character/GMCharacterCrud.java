@@ -35,7 +35,7 @@ public class GMCharacterCrud extends WebComponent {
     @CSS(classNames = {"button"}, id = "editPerson")
     private Button editPerson = new Button(VaadinIcon.EDIT.create());
     @CSS(classNames = {"button"}, id = "removePerson")
-    private Button removePerson = new Button(VaadinIcon.DEL.create());
+    private Button removePerson = new Button(VaadinIcon.MINUS.create());
 
     @UIProperty
     private HorizontalLayout personTableButtons = new HorizontalLayout(addPerson, editPerson, removePerson);

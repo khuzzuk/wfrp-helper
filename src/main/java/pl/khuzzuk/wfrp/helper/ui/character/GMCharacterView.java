@@ -92,6 +92,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
         registerDataProvider(HairColor.class, hairColor);
         registerDataProvider(EyeColor.class, eyeColor);
         registerDataProvider(PhysicalFeature.class, new DataFieldWrapper<>(() -> {}, physicalFeaturesField::refreshData));
+        registerDataProvider(Skill.class, new DataFieldWrapper<>(() -> {}, skillsField::refreshData));
 
         binder.bind(name, "name");
         binder.forField(age).withConverter(new StringToIntegerConverter(NUMBER_INVALID_MESSAGE)).bind("age");
@@ -133,14 +134,12 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     @Override
     protected void onAttach(AttachEvent attachEvent) {
         super.onAttach(attachEvent);
-        refreshState();
+        dataProviders.values().forEach(dataFieldWrapper -> dataFieldWrapper.getRefresher().execute());
+        binder.setBean(person);
     }
 
     public void load(Person person) {
-        dataProviders.values().forEach(wrapper -> execute(wrapper.getRefresher()));
-        Person toLoad = person.getId() != null ? personLoader.load(person) : person;
-        this.person = toLoad;
-        binder.setBean(toLoad);
+        this.person = person.getId() != null ? personLoader.load(person) : person;
     }
 
     private void save() {
@@ -149,9 +148,5 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
             bus.message(Event.SAVE).withContent(person).send();
             rightMenu.showPersons();
         }
-    }
-
-    private void refreshState() {
-        dataProviders.values().forEach(wrapper -> execute(wrapper.getRefresher()));
     }
 }
