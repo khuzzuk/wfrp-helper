@@ -16,7 +16,7 @@ import java.util.function.Supplier;
 @Component
 @AllArgsConstructor
 public class EntityFieldFactory {
-    public <T> EntityOneToManyField<T> createWithDelegatedEditor(Class<T> type, Supplier<Collection<T>> initialValues, FormFieldFactory formFieldFactory) {
+    public <T> EntityOneToManyField<T> createWithDelegatedEditor(Class<T> type, Supplier<? extends Collection<T>> initialValues, FormFieldFactory formFieldFactory) {
         AutoBindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
         EntityOneToManyField<T> entityField = new EntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), initialValues);
         CrudForm<T> form = CrudForm.createFor(subEntityBindings, entityField::addEntity);
@@ -41,7 +41,7 @@ public class EntityFieldFactory {
 
     public <T> ListableEntityOneToManyField<T> createListable(
             Class<T> type,
-            Supplier<Collection<T>> initialValues) {
+            Supplier<? extends Collection<T>> initialValues) {
         ListableEntityOneToManyField<T> field = new ListableEntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), initialValues);
         field.refreshView();
         return field;

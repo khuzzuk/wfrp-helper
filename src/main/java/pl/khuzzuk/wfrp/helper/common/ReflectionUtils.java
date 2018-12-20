@@ -1,4 +1,6 @@
-package pl.khuzzuk.wfrp.helper.ui.crud;
+package pl.khuzzuk.wfrp.helper.common;
+
+import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -14,9 +16,11 @@ import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
+@UtilityClass
 public class ReflectionUtils {
-    public static Class getGenericParameterType(Field field) {
-        ParameterizedType genericType = (ParameterizedType) field.getGenericType(); //collections should be parametrized, otherwise it's not possible to bind by crud
+    public static Class<?> getGenericParameterType(Field field) {
+        //collections should be parametrized, otherwise it's not possible to bind by crud
+        ParameterizedType genericType = (ParameterizedType) field.getGenericType();
         Type[] actualTypeArguments = genericType.getActualTypeArguments();
         if (actualTypeArguments.length != 1) {
             throw new IllegalArgumentException(String.format("Field do not have 1 generic parameter: %s", field));
@@ -24,7 +28,7 @@ public class ReflectionUtils {
         return (Class<?>) actualTypeArguments[0];
     }
 
-    public static <V> Supplier<Collection<V>> collectionFromFieldTypeProvider(Class<V> type) {
+    public static <E, V extends Collection<E>> Supplier<? extends Collection<E>> collectionFromFieldTypeProvider(Class<V> type) {
         if (Set.class.isAssignableFrom(type)) {
             return HashSet::new;
         }
@@ -48,12 +52,12 @@ public class ReflectionUtils {
                 .collect(Collectors.toList());
     }
 
-    static Field getFieldByName(Class<?> type, String name) throws NoSuchFieldException {
+    public static Field getFieldByName(Class<?> type, String name) throws NoSuchFieldException {
         Class<?> currentType = type;
         while (!Object.class.equals(type)) {
             try {
                 return currentType.getDeclaredField(name);
-            } catch (NoSuchFieldException e) {
+            } catch (NoSuchFieldException ignored) {
                 currentType = currentType.getSuperclass();
             }
         }

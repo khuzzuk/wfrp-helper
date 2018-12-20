@@ -10,12 +10,14 @@ import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToManyField;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.ListableEntityOneToManyField;
 
 import javax.persistence.Entity;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.function.Supplier;
 
-import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.collectionFromFieldTypeProvider;
-import static pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils.getGenericParameterType;
+import static pl.khuzzuk.wfrp.helper.common.ReflectionUtils.collectionFromFieldTypeProvider;
+import static pl.khuzzuk.wfrp.helper.common.ReflectionUtils.getGenericParameterType;
 
 @Component
 @AllArgsConstructor
@@ -40,26 +42,32 @@ public class CollectionFormFieldFactory {
         }
     }
 
-    private void putChooseFromExisting(Field field, AutoBindings<?> bindings) {
-        Class listableType = getGenericParameterType(field);
-        ListableEntityOneToManyField<?> listable = entityFieldFactory.createListable(
-                listableType, collectionFromFieldTypeProvider(field.getType()));
+    @SuppressWarnings("unchecked")
+    private <T> void putChooseFromExisting(Field field, AutoBindings<?> bindings) {
+        Class<T> listableType = (Class<T>) getGenericParameterType(field);
+        Class<? extends Collection<T>> type = (Class<? extends Collection<T>>) field.getType();
+
+        Supplier<? extends Collection<T>> collectionSupplier = collectionFromFieldTypeProvider(type);
+        ListableEntityOneToManyField<T> listable = entityFieldFactory.createListable(listableType, collectionSupplier);
+
         bindings.bind(listable, field.getName());
         bindings.registerDataListener(data -> {
             if (data.getType().equals(listableType)) {
-                Collection items = data.getItems();
+                Collection<T> items = (Collection<T>) data.getItems();
                 listable.refreshData(items);
             }
         });
     }
 
-    private void putDelegatedEditor(Field field, AutoBindings<?> bindings, FormFieldFactory formFieldFactory) {
+    @SuppressWarnings("unchecked")
+    private <T> void putDelegatedEditor(Field field, AutoBindings<?> bindings, FormFieldFactory formFieldFactory) {
         String name = field.getName();
-        Class<?> type = field.getType();
+        Class<? extends Collection<T>> type = (Class<? extends Collection<T>>) field.getType();
 
-        if (canHaveEditor(getGenericParameterType(field))) {
-            EntityOneToManyField<?> entityField = entityFieldFactory.createWithDelegatedEditor(
-                    getGenericParameterType(field), collectionFromFieldTypeProvider(type), formFieldFactory);
+        Class<T> genericParameterType = (Class<T>) getGenericParameterType(field);
+        if (canHaveEditor(genericParameterType)) {
+            EntityOneToManyField<T> entityField = entityFieldFactory.createWithDelegatedEditor(
+                    genericParameterType, collectionFromFieldTypeProvider(type), formFieldFactory);
             bindings.bind(entityField, name);
         } else {
             throw new IllegalArgumentException(String.format("Field cannot have delegated editor: %s", field));
@@ -67,6 +75,6 @@ public class CollectionFormFieldFactory {
     }
 
     private static boolean canHaveEditor(Type type) {
-        return ((Class<?>) type).isAnnotationPresent(Entity.class);
+        return ((AnnotatedElement) type).isAnnotationPresent(Entity.class);
     }
 }

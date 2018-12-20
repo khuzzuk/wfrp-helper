@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import pl.khuzzuk.wfrp.helper.ui.CrudsDataListenerList;
 import pl.khuzzuk.wfrp.helper.ui.crud.DeleteListener;
 import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
-import pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils;
+import pl.khuzzuk.wfrp.helper.common.ReflectionUtils;
 import pl.khuzzuk.wfrp.helper.ui.crud.RefreshDataListener;
 import pl.khuzzuk.wfrp.helper.ui.crud.SaveListener;
 

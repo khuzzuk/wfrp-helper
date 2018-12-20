@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
+import pl.khuzzuk.wfrp.helper.common.ReflectionUtils;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityManyToOneField;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.EntityOneToOneField;

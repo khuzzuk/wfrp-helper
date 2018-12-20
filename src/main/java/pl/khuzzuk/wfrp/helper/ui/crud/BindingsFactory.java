@@ -3,6 +3,7 @@ package pl.khuzzuk.wfrp.helper.ui.crud;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import pl.khuzzuk.wfrp.helper.common.ReflectionUtils;
 
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Field;

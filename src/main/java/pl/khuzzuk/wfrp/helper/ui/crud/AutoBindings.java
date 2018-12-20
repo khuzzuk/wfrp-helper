@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import pl.khuzzuk.wfrp.helper.common.ReflectionUtils;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 
 import java.lang.invoke.MethodHandle;

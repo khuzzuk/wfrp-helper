@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
-import pl.khuzzuk.wfrp.helper.ui.crud.ReflectionUtils;
+import pl.khuzzuk.wfrp.helper.common.ReflectionUtils;
 
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
