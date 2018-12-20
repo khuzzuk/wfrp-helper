@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -26,6 +27,40 @@ public class ReflectionUtils {
             throw new IllegalArgumentException(String.format("Field do not have 1 generic parameter: %s", field));
         }
         return (Class<?>) actualTypeArguments[0];
+    }
+
+    public static Class<?> getGenericParameterFromInterfaces(Class<?> actualType, Class<?> onInterface, int parameterPosition) {
+        ParameterizedType parametrizedInterface = findParametrizedInterface(actualType, onInterface);
+        if (parametrizedInterface == null) {
+            throw new IllegalArgumentException(String.format("No parametrized interface on: %s -> %s", actualType, onInterface));
+        }
+        return (Class<?>) parametrizedInterface.getActualTypeArguments()[parameterPosition];
+    }
+
+    private static ParameterizedType findParametrizedInterface(Class<?> actualTypes, Class<?> parametrizedType) {
+        List<Class<?>> interfaces = Arrays.stream(actualTypes.getInterfaces())
+                .filter(parametrizedType::isAssignableFrom)
+                .collect(Collectors.toList());
+
+        if (interfaces.contains(parametrizedType)) {
+            return findParametrizedTypeOnInterface(actualTypes, parametrizedType);
+        }
+
+        return interfaces.stream()
+                .map(c -> findParametrizedInterface(c, parametrizedType))
+                .filter(Objects::nonNull)
+                .findAny().orElse(null);
+    }
+
+    private ParameterizedType findParametrizedTypeOnInterface(Class<?> type, Class<?> toFind) {
+        Class<?>[] implementedInterfaces = type.getInterfaces();
+        Type[] implementedTypes = type.getGenericInterfaces();
+        for (int i = 0; i < implementedInterfaces.length; i++) {
+            if (implementedInterfaces[i].equals(toFind)) {
+                return (ParameterizedType) implementedTypes[i];
+            }
+        }
+        throw new IllegalArgumentException("No generic interface was found");
     }
 
     public static <E, V extends Collection<E>> Supplier<? extends Collection<E>> collectionFromFieldTypeProvider(Class<V> type) {

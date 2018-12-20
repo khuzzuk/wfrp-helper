@@ -1,29 +1,30 @@
 package pl.khuzzuk.wfrp.helper.repo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
+import pl.khuzzuk.wfrp.helper.common.ReflectionUtils;
 
-import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 @SuppressWarnings("ClassIndependentOfModule")
+@Slf4j
 @RequiredArgsConstructor
-@Component
-class RepoDispatcherConfigurer implements BeanPostProcessor {
+@Configuration
+class RepoDispatcherConfigurer {
     private final RepoDispatcher repoDispatcher;
 
-    @Override
     @SuppressWarnings({"unchecked", "RawTypeCanBeGeneric"})
-    public Object postProcessAfterInitialization(@NonNull Object bean, String beanName) {
-        if (bean instanceof JpaRepository) {
-            //noinspection rawtypes
-            ParameterizedType genericInterface = (ParameterizedType) bean.getClass().getGenericInterfaces()[0];
-
-            Class entityType = (Class) genericInterface.getActualTypeArguments()[0];
-            repoDispatcher.registerDispatching(entityType, (JpaRepository<?, Long>) bean);
+    @Autowired
+    void registerRepositories(@NonNull List<JpaRepository<?, Long>> repositories) {
+        for (JpaRepository<?, Long> repository : repositories) {
+            Class entityType = ReflectionUtils.getGenericParameterFromInterfaces(repository.getClass(), JpaRepository.class, 0);
+            log.info("Registering repository for entity: {}", entityType);
+            repoDispatcher.registerDispatching(entityType, repository);
         }
-        return bean;
     }
 }
