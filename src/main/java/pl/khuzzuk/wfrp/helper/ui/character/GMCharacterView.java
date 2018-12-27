@@ -15,6 +15,8 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.spring.annotation.UIScope;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
@@ -25,7 +27,12 @@ import pl.khuzzuk.wfrp.helper.model.creature.Gender;
 import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.creature.PhysicalFeature;
+import pl.khuzzuk.wfrp.helper.model.inventory.Armor;
+import pl.khuzzuk.wfrp.helper.model.inventory.MeleeWeapon;
+import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
+import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
+import pl.khuzzuk.wfrp.helper.model.magic.SpellSchool;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.repo.PersonLoader;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
@@ -33,6 +40,7 @@ import pl.khuzzuk.wfrp.helper.service.determinant.DeterminantService;
 import pl.khuzzuk.wfrp.helper.service.determinant.ModifierService;
 import pl.khuzzuk.wfrp.helper.ui.WebComponent;
 import pl.khuzzuk.wfrp.helper.ui.crud.field.ListableEntityOneToManyField;
+import pl.khuzzuk.wfrp.helper.ui.crud.field.MapEntityValueField;
 import pl.khuzzuk.wfrp.helper.ui.field.PersonDeterminantsField;
 import pl.khuzzuk.wfrp.helper.ui.initialize.UIProperty;
 import pl.khuzzuk.wfrp.helper.ui.menu.RightMenu;
@@ -68,14 +76,23 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     private PersonDeterminantsField determinantsField = new PersonDeterminantsField();
     private ComboBox<Profession> currentProfession = new ComboBox<>("Obecna profesja");
 
-    private ListableEntityOneToManyField<PhysicalFeature> physicalFeaturesField = new ListableEntityOneToManyField<>();
-    private ListableEntityOneToManyField<Skill> skillsField = new ListableEntityOneToManyField<>();
-    private ListableEntityOneToManyField<Profession> professionHistoryField = new ListableEntityOneToManyField<>();
+    private ListableEntityOneToManyField<PhysicalFeature> physicalFeaturesField = new ListableEntityOneToManyField<>("Wygląd");
+    private ListableEntityOneToManyField<Skill> skillsField = new ListableEntityOneToManyField<>("Umiejętności");
+    private ListableEntityOneToManyField<Profession> professionHistoryField = new ListableEntityOneToManyField<>("Historia profesji");
+    private ListableEntityOneToManyField<MiscItem> inventoryField = new ListableEntityOneToManyField<>("Ekwipunek");
+    private ListableEntityOneToManyField<MeleeWeapon> meleeWeaponsField = new ListableEntityOneToManyField<>("Broń ręczna");
+    private ListableEntityOneToManyField<RangedWeapon> rangedWeaponsField = new ListableEntityOneToManyField<>("Broń strzelecka");
+    private ListableEntityOneToManyField<Armor> armorField = new ListableEntityOneToManyField<>("Pancerz");
+
+    private MapEntityValueField<SpellSchool, Integer> spellSchoolField = new MapEntityValueField<>("Szkoły magii", 0,
+            s -> StringUtils.isNumeric(s) ? NumberUtils.toInt(s) : 0);
 
     @UIProperty
     private Div form = new Div(name, gender, age, height, weight, hairColor, eyeColor,
             description, history, currentProfession,
-            determinantsField, physicalFeaturesField, skillsField, professionHistoryField);
+            determinantsField, physicalFeaturesField, skillsField, professionHistoryField,
+            inventoryField, meleeWeaponsField, rangedWeaponsField, armorField,
+            spellSchoolField);
 
     @UIProperty
     private Button saveButton = new Button("Zapisz");
@@ -96,6 +113,11 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
         registerDataProvider(EyeColor.class, eyeColor);
         registerDataProvider(PhysicalFeature.class, new DataFieldWrapper<>(() -> {}, physicalFeaturesField::refreshData));
         registerDataProvider(Skill.class, new DataFieldWrapper<>(() -> {}, skillsField::refreshData));
+        registerDataProvider(MiscItem.class, new DataFieldWrapper<>(() -> {}, inventoryField::refreshData));
+        registerDataProvider(MeleeWeapon.class, new DataFieldWrapper<>(() -> {}, meleeWeaponsField::refreshData));
+        registerDataProvider(RangedWeapon.class, new DataFieldWrapper<>(() -> {}, rangedWeaponsField::refreshData));
+        registerDataProvider(Armor.class, new DataFieldWrapper<>(() -> {}, armorField::refreshData));
+        registerDataProvider(SpellSchool.class, spellSchoolField);
 
         ListDataProvider<Profession> professionDataProvider = DataProvider.ofCollection(new ArrayList<>());
         currentProfession.setDataProvider(professionDataProvider);

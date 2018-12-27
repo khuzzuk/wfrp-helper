@@ -3,7 +3,9 @@ package pl.khuzzuk.wfrp.helper.model.inventory;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.money.Price;
@@ -36,6 +38,7 @@ public abstract class Item {
     @Embedded
     @FormElement(editor = EditorType.EMBEDDED)
     private Price price;
+    @Type(type = EnumType.DEF)
     private @NotNull Accessibility accessibility = Accessibility.COMMON;
 
     @Override

@@ -2,7 +2,9 @@ package pl.khuzzuk.wfrp.helper.model.inventory;
 
 import lombok.Data;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
@@ -28,5 +30,6 @@ public class ArmorPattern {
     private float priceMultiplier = 1;
     private float weight;
     private float strength;
+    @Type(type = EnumType.DEF)
     private @NotNull Accessibility accessibility = Accessibility.COMMON;
 }

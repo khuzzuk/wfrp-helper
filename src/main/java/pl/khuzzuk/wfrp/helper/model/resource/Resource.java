@@ -2,7 +2,9 @@ package pl.khuzzuk.wfrp.helper.model.resource;
 
 import lombok.Data;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.inventory.Accessibility;
@@ -28,6 +30,8 @@ public class Resource {
     private @Length(max = 500) String description;
     private float priceMultiplier = 1;
     private float weight;
+    private float durability;
     private float strength;
+    @Type(type = EnumType.DEF)
     private @NotNull Accessibility accessibility = Accessibility.COMMON;
 }

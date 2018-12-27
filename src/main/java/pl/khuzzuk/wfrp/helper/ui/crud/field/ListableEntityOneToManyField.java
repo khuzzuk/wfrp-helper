@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.ui.crud.field;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.data.binder.HasDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import pl.khuzzuk.wfrp.helper.ui.field.ListBuilder;
@@ -19,6 +20,11 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> imp
 
     public ListableEntityOneToManyField() {
         this(new ArrayList<>(), new ArrayList<>(), ArrayList::new);
+    }
+
+    public ListableEntityOneToManyField(String label) {
+        this(new ArrayList<>(), new ArrayList<>(), ArrayList::new);
+        addCustomComponent(new Label(label));
     }
 
     public ListableEntityOneToManyField(
@@ -41,8 +47,8 @@ public class ListableEntityOneToManyField<T> extends EntityOneToManyField<T> imp
     @Override
     public void refreshView() {
         removeAll();
-        add(listBuilder);
         components.forEach(this::add);
+        add(listBuilder);
         if (source != null) {
             listBuilder.reset(source);
         }

@@ -19,9 +19,9 @@ import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.creature.PhysicalFeature;
 import pl.khuzzuk.wfrp.helper.model.inventory.Armor;
 import pl.khuzzuk.wfrp.helper.model.inventory.ArmorPattern;
-import pl.khuzzuk.wfrp.helper.model.inventory.Item;
 import pl.khuzzuk.wfrp.helper.model.inventory.Jewelry;
 import pl.khuzzuk.wfrp.helper.model.inventory.MeleeWeapon;
+import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
 import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.ArmorBlueprint;
 import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.MeleeWeaponBlueprint;
@@ -58,41 +58,41 @@ public class RightMenu extends WebComponent implements InitializingBean {
 
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
-    private Button personButton = new Button("Persons");
+    private Button personButton = new Button("Postaci");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
-    private Button raceButton = new Button("Race");
+    private Button raceButton = new Button("Rasy");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
-    private Button inventoryButton = new Button("Inventory");
+    private Button inventoryButton = new Button("Przedmioty");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
-    private Button blueprintsButton = new Button("Blueprints");
+    private Button blueprintsButton = new Button("Typy");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"}, id = "knowledge-button")
-    private Button knowledgeButton = new Button("Knowledge");
+    private Button knowledgeButton = new Button("Wiedza");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
-    private Button lookButton = new Button("Look");
+    private Button lookButton = new Button("Wygląd");
 
     @CSS(classNames = {"button", "menu-button"})
-    private Button worldButton = new Button("World");
+    private Button worldButton = new Button("Świat");
 
     @CSS(classNames = {"button", "menu-button"})
-    private Button backButton = new Button("Back");
+    private Button backButton = new Button("Wstecz");
     @CSS(classNames = {"button", "menu-button"})
-    private Button backToKnowledgeButton = new Button("Back");
+    private Button backToKnowledgeButton = new Button("Wstecz");
 
     @CSS(classNames = {"button", "menu-button"}, id = "skill-button")
-    private Button skillButton = new Button("Skills");
+    private Button skillButton = new Button("Umiejętności");
     @CSS(classNames = {"button", "menu-button"})
-    private Button professionClassButton = new Button("Classes");
+    private Button professionClassButton = new Button("Klasy");
     @CSS(classNames = {"button", "menu-button"})
-    private Button professionButton = new Button("Professions");
+    private Button professionButton = new Button("Profesje");
     @CSS(classNames = {"button", "menu-button"})
-    private Button spellSchoolButton = new Button("Magic school");
+    private Button spellSchoolButton = new Button("Szkoły magii");
     @CSS(classNames = {"button", "menu-button"})
-    private Button spellButton = new Button("Spells");
+    private Button spellButton = new Button("Czary");
 
     @CSS(classNames = {"button", "menu-button"})
     private Button armorPatternButton = new Button("Patterns");
@@ -149,7 +149,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @CrudField
     private Crud<ArmorPattern> armorPatternCrud;
     @CrudField
-    private Crud<Item> itemCrud;
+    private Crud<MiscItem> itemCrud;
     @CrudField
     private Crud<MeleeWeaponBlueprint> meleeWeaponBlueprintCrud;
     @CrudField
@@ -234,14 +234,14 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private void showBlueprints() {
         content.removeAll();
         removeAll();
-        add(weaponBlueprintsButton, rangedWeaponBlueprintsButton, armorBlueprintsButton,
+        add(weaponBlueprintsButton, rangedWeaponBlueprintsButton, armorBlueprintsButton, armorPatternButton,
                 backButton);
     }
 
     private void showInventory() {
         content.removeAll();
         removeAll();
-        add(resourceButton, armorPatternButton, itemButton, meleeWeaponButton, rangedWeaponButton, armorButton, jewelryButton, backButton);
+        add(resourceButton, itemButton, meleeWeaponButton, rangedWeaponButton, armorButton, jewelryButton, backButton);
     }
 
     private void showKnowledge() {

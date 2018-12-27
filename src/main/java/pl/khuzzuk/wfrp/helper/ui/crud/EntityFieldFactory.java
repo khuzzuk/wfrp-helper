@@ -39,9 +39,7 @@ public class EntityFieldFactory {
         return field;
     }
 
-    public <T> ListableEntityOneToManyField<T> createListable(
-            Class<T> type,
-            Supplier<? extends Collection<T>> initialValues) {
+    public <T> ListableEntityOneToManyField<T> createListable(Supplier<? extends Collection<T>> initialValues) {
         ListableEntityOneToManyField<T> field = new ListableEntityOneToManyField<>(new ArrayList<>(), new ArrayList<>(), initialValues);
         field.refreshView();
         return field;

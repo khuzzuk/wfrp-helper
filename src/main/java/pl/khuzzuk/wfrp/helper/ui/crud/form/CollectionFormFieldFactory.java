@@ -48,7 +48,7 @@ public class CollectionFormFieldFactory {
         Class<? extends Collection<T>> type = (Class<? extends Collection<T>>) field.getType();
 
         Supplier<? extends Collection<T>> collectionSupplier = collectionFromFieldTypeProvider(type);
-        ListableEntityOneToManyField<T> listable = entityFieldFactory.createListable(listableType, collectionSupplier);
+        ListableEntityOneToManyField<T> listable = entityFieldFactory.createListable(collectionSupplier);
 
         bindings.bind(listable, field.getName());
         bindings.registerDataListener(data -> {

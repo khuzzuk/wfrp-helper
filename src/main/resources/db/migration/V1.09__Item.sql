@@ -1,6 +1,7 @@
 CREATE SEQUENCE item_seq;
 
-CREATE TABLE item (
+CREATE TABLE item
+(
   id                    BIGINT PRIMARY KEY DEFAULT nextval('item_seq' :: regclass),
   dtype                 VARCHAR(255)       NOT NULL,
   name                  VARCHAR(64) UNIQUE NOT NULL,
@@ -13,14 +14,15 @@ CREATE TABLE item (
   maximum_range         INT,
   medium_range          INT,
   minimum_range         INT,
-  placement             INT                NOT NULL,
+  placement             INT,
   item_blueprint_id     BIGINT REFERENCES item_blueprint (id),
-  accessibility         INT                NOT NULL,
+  accessibility         accessibility      NOT NULL,
   primary_resource_id   BIGINT REFERENCES resource (id),
   secondary_resource_id BIGINT REFERENCES resource (id)
 );
 
-CREATE TABLE item_determinants (
+CREATE TABLE item_determinants
+(
   item_id         BIGINT NOT NULL REFERENCES item (id),
   determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant (id),
   PRIMARY KEY (item_id, determinants_id)
