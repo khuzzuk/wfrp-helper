@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import pl.khuzzuk.messaging.Bus;
 import pl.khuzzuk.wfrp.helper.event.Event;
 import pl.khuzzuk.wfrp.helper.model.Race;
+import pl.khuzzuk.wfrp.helper.model.creature.Animal;
+import pl.khuzzuk.wfrp.helper.model.creature.AnimalKind;
 import pl.khuzzuk.wfrp.helper.model.creature.Character;
 import pl.khuzzuk.wfrp.helper.model.creature.EyeColor;
 import pl.khuzzuk.wfrp.helper.model.creature.HairColor;
@@ -59,6 +61,13 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
     private Button personButton = new Button("Postaci");
+    @UIProperty
+    @CSS(classNames = {"button", "menu-button"})
+    private Button animalsSectionButton = new Button("Zwierzęta");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button animalsButton = new Button("Zwierzęta");
+    @CSS(classNames = {"button", "menu-button"})
+    private Button animalKindsButton = new Button("Gatunki");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"})
     private Button raceButton = new Button("Rasy");
@@ -178,6 +187,10 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private Crud<Language> languageCrud;
     @CrudField
     private Crud<Currency> currencyCrud;
+    @CrudField
+    private Crud<Animal> animalCrud;
+    @CrudField
+    private Crud<AnimalKind> animalKindCrud;
 
     @Override
     public void afterPropertiesSet() {
@@ -186,6 +199,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
         knowledgeButton.addClickListener(event -> showKnowledge());
         lookButton.addClickListener(event -> showLook());
         worldButton.addClickListener(event -> showWorld());
+        animalsSectionButton.addClickListener(event -> showAnimalSection());
         backButton.addClickListener(event -> {
             removeAll();
             content.removeAll();
@@ -193,6 +207,8 @@ public class RightMenu extends WebComponent implements InitializingBean {
         });
         backToKnowledgeButton.addClickListener(event -> showKnowledge());
 
+        animalsButton.addClickListener(event -> showCrud(animalCrud));
+        animalKindsButton.addClickListener(event -> showCrud(animalKindCrud));
         raceButton.addClickListener(event -> showCrud(raceCrud));
         skillButton.addClickListener(event -> showCrud(skillCrud));
         professionClassButton.addClickListener(event -> showCrud(professionClassCrud));
@@ -229,6 +245,12 @@ public class RightMenu extends WebComponent implements InitializingBean {
         content.removeAll();
         content.add(characterView);
         bus.message(Event.FIND_ALL).withContent(Person.class).send();
+    }
+
+    private void showAnimalSection() {
+        content.removeAll();
+        removeAll();
+        add(animalsButton, animalKindsButton, backButton);
     }
 
     private void showBlueprints() {
