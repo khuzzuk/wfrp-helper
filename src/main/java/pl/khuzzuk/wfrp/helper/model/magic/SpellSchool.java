@@ -29,4 +29,9 @@ public class SpellSchool {
     private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
     private @Min(1) @Max(99) int levels = 1;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -34,6 +34,7 @@ public class MapEntityValueField<E, V> extends WebComponent implements
     private Map<E, V> value = new HashMap<>();
     private V defaultValue;
     private Function<String, V> converter;
+    private String pattern;
 
     private List<ValueChangeListener<? super ValueChangeEvent<Map<E, V>>>> changeListeners = new ArrayList<>();
 
@@ -48,10 +49,11 @@ public class MapEntityValueField<E, V> extends WebComponent implements
     @Setter
     private boolean readOnly;
 
-    public MapEntityValueField(String name, V defaultValue, Function<String, V> converter) {
+    public MapEntityValueField(String name, V defaultValue, Function<String, V> converter, String pattern) {
         label = new Label(name);
         this.defaultValue = defaultValue;
         this.converter = converter;
+        this.pattern = pattern;
         add(label, items, addButton);
         addButton.addClickListener(event -> showElementSelector());
     }
@@ -66,6 +68,7 @@ public class MapEntityValueField<E, V> extends WebComponent implements
             E item = items.getValue();
             value.put(item, defaultValue);
             refreshView();
+            dialog.close();
         });
 
         Button cancelButton = new Button("Anuluj");
@@ -82,6 +85,9 @@ public class MapEntityValueField<E, V> extends WebComponent implements
 
     private void addItemView(E item, V value) {
         TextField textField = new TextField(item.toString());
+        textField.setValue(value.toString());
+        textField.setPattern(pattern);
+        textField.setPreventInvalidInput(true);
         textField.addValueChangeListener(event -> changeValueMapping(item, converter.apply(event.getValue())));
 
         Button removeItemButton = new Button(VaadinIcon.MINUS.create());

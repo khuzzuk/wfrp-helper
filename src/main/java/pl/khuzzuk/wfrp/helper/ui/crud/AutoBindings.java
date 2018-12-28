@@ -11,6 +11,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.BeanUtils;
 import pl.khuzzuk.wfrp.helper.common.ReflectionUtils;
 import pl.khuzzuk.wfrp.helper.repo.QueryAllResult;
 
@@ -66,6 +67,14 @@ public class AutoBindings<T> {
                 .bind(name);
     }
 
+    public <E, P> void bind(HasValue<?, P> component, String name, Converter<P, E> converter, P nullRepresentation) {
+        registerInnerFieldInitializer(name);
+        binder.forField(component)
+                .withNullRepresentation(nullRepresentation)
+                .withConverter(converter)
+                .bind(name);
+    }
+
     private void registerInnerFieldInitializer(String name) {
         try {
             if (name.contains(".")) {
@@ -95,7 +104,7 @@ public class AutoBindings<T> {
     @SuppressWarnings("unchecked")
     public T createNewInstance() {
         try {
-            Object newBean = constructorHandle.invoke();
+            Object newBean = BeanUtils.instantiateClass(beanType);
             for (InnerFieldInitializer initializer : innerFieldInitializers.values()) {
                 initializer.initializeField(newBean);
             }

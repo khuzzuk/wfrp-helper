@@ -85,7 +85,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
     private ListableEntityOneToManyField<Armor> armorField = new ListableEntityOneToManyField<>("Pancerz");
 
     private MapEntityValueField<SpellSchool, Integer> spellSchoolField = new MapEntityValueField<>("Szkoły magii", 0,
-            s -> StringUtils.isNumeric(s) ? NumberUtils.toInt(s) : 0);
+            s -> StringUtils.isNumeric(s) ? NumberUtils.toInt(s) : 0, "[0-9]*");
 
     @UIProperty
     private Div form = new Div(name, gender, age, height, weight, hairColor, eyeColor,
@@ -143,6 +143,7 @@ public class GMCharacterView extends WebComponent implements InitializingBean {
         binder.bind(physicalFeaturesField, "physicalFeatures");
         binder.bind(skillsField, "skills");
         binder.bind(professionHistoryField, "professions");
+        binder.bind(spellSchoolField, "spellSchools");
 
         saveButton.addClickListener(event -> save());
         cancelButton.addClickListener(event -> rightMenu.showPersons());

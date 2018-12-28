@@ -14,8 +14,9 @@ public class DoubleTypeFieldApplier implements TypeFieldApplier<Double> {
 
     @Override
     public void apply(Field field, AutoBindings<?> bindings, String propertyPath) {
-        bindings.bind(new TextField(field.getName()),
-                propertyPath,
-                new StringToDoubleConverter("Please enter a number"));
+        TextField textField = new TextField(field.getName());
+        textField.setPattern("[+-]?([0-9]*)(,?[0-9]*)");
+        textField.setPreventInvalidInput(true);
+        bindings.bind(textField, propertyPath, new StringToDoubleConverter(0.0D, "Please enter a number"));
     }
 }

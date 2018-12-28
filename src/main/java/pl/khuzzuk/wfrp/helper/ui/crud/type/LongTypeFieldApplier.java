@@ -14,8 +14,9 @@ public class LongTypeFieldApplier implements TypeFieldApplier<Long> {
 
     @Override
     public void apply(Field field, AutoBindings<?> bindings, String propertyPath) {
-        bindings.bind(new TextField(field.getName()),
-                propertyPath,
-                new StringToLongConverter("Please enter a natural number"));
+        TextField textField = new TextField(field.getName());
+        textField.setPattern("[+-]?[0-9]*");
+        textField.setPreventInvalidInput(true);
+        bindings.bind(textField, propertyPath, new StringToLongConverter(0L, "Please enter a natural number"));
     }
 }

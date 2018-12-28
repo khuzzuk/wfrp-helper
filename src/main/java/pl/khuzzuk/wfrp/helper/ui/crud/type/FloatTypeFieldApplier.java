@@ -14,8 +14,9 @@ public class FloatTypeFieldApplier implements TypeFieldApplier<Float> {
 
     @Override
     public void apply(Field field, AutoBindings<?> bindings, String propertyPath) {
-        bindings.bind(new TextField(field.getName()),
-                propertyPath,
-                new StringToFloatConverter("Please enter a number"));
+        TextField textField = new TextField(field.getName());
+        textField.setPattern("[+-]?([0-9]*)(,?[0-9]*)");
+        textField.setPreventInvalidInput(true);
+        bindings.bind(textField, propertyPath, new StringToFloatConverter(0.0F, "Please enter a number"));
     }
 }

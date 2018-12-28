@@ -41,7 +41,6 @@ public class CrudForm<T> extends Dialog {
 
     public void showForm() {
         bean = bindings.createNewInstance();
-        bindings.update(bean);
         open();
     }
 

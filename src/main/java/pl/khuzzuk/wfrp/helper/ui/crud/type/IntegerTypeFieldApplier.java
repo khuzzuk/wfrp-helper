@@ -14,8 +14,9 @@ public class IntegerTypeFieldApplier implements TypeFieldApplier<Integer> {
 
     @Override
     public void apply(Field field, AutoBindings<?> bindings, String propertyPath) {
-        bindings.bind(new TextField(field.getName()),
-                propertyPath,
-                new StringToIntegerConverter("Please enter a natural number"));
+        TextField textField = new TextField(field.getName());
+        textField.setPattern("[+-]?[0-9]*");
+        textField.setPreventInvalidInput(true);
+        bindings.bind(textField, propertyPath, new StringToIntegerConverter(0, "Please enter a natural number"));
     }
 }
