@@ -8,6 +8,7 @@ import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.inventory.ArmorPattern;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -15,6 +16,7 @@ import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
+@DiscriminatorValue("ARMOR")
 @Entity
 public class ArmorBlueprint extends ItemBlueprint {
     @EnumFilter({

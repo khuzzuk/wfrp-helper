@@ -8,6 +8,7 @@ import pl.khuzzuk.wfrp.helper.model.money.Price;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.CascadeType;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,10 +25,11 @@ import java.util.Set;
 
 @Data
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "type", length = 255)
 @Entity
 public abstract class ItemBlueprint {
     @Id
-    @SequenceGenerator(name = "item_blueprint_seq_gen", sequenceName = "item_blueprint_seq", allocationSize = 1)
+    @SequenceGenerator(name = "item_blueprint_seq_gen", sequenceName = "item_blueprint_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_blueprint_seq_gen")
     @FormElement(exclude = true)
     private Long id;
