@@ -18,7 +18,8 @@ CREATE TABLE item
   item_blueprint_id     BIGINT REFERENCES item_blueprint (id),
   accessibility         accessibility      NOT NULL,
   primary_resource_id   BIGINT REFERENCES resource (id),
-  secondary_resource_id BIGINT REFERENCES resource (id)
+  secondary_resource_id BIGINT REFERENCES resource (id),
+  armor_pattern_id      BIGINT REFERENCES armor_pattern (id)
 );
 
 CREATE TABLE item_determinants

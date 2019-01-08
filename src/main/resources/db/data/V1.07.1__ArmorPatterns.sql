@@ -4,4 +4,5 @@ VALUES ('Wyszywany', 0.1, 0.1, 0.1, 'COMMON'),
        ('Lamelkowy', 1.25, 1.2, 1.5, 'UNCOMMON'),
        ('Paskowany', 1.27, 1.5, 1.5, 'UNCOMMON'),
        ('Łuskowy', 1.2, 1.2, 1.5, 'UNCOMMON'),
+       ('Brygantyna', 1.2, 1.2, 1.5, 'UNCOMMON'),
        ('Płytowy', 2, 2, 3, 'UNCOMMON');

@@ -19,4 +19,9 @@ public class Armor extends Wearable {
     @JoinColumn(name = "item_blueprint_id")
     @FormElement(editor = EditorType.CHOOSE)
     private ArmorBlueprint type;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "armor_pattern_id")
+    @FormElement(editor = EditorType.CHOOSE)
+    private ArmorPattern armorPattern;
 }

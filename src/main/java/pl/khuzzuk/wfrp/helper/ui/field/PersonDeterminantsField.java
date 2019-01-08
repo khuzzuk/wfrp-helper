@@ -22,8 +22,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.BATTLE;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.SPEED;
+import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.*;
 
 @Tag("person-determinants")
 public class PersonDeterminantsField extends HorizontalLayout
@@ -61,8 +60,20 @@ public class PersonDeterminantsField extends HorizontalLayout
     public void init(DeterminantService determinantService, ModifierService modifierService) {
         this.determinantService = determinantService;
         this.modifierService = modifierService;
-        determinants.put(SPEED, new DeterminantGroupField("Sp", SPEED));
-        determinants.put(BATTLE, new DeterminantGroupField("B", BATTLE));
+        determinants.put(SPEED, new DeterminantGroupField("Sz", SPEED));
+        determinants.put(BATTLE, new DeterminantGroupField("WW", BATTLE));
+        determinants.put(SHOOTING, new DeterminantGroupField("US", SHOOTING));
+        determinants.put(STRENGTH, new DeterminantGroupField("S", STRENGTH));
+        determinants.put(DURABILITY, new DeterminantGroupField("Wt", DURABILITY));
+        determinants.put(HEALTH, new DeterminantGroupField("Żw", HEALTH));
+        determinants.put(INITIATIVE, new DeterminantGroupField("I", INITIATIVE));
+        determinants.put(ATTACK, new DeterminantGroupField("A", ATTACK));
+        determinants.put(DEXTERITY, new DeterminantGroupField("Zr", DEXTERITY));
+        determinants.put(LEADER_SKILLS, new DeterminantGroupField("Cp", LEADER_SKILLS));
+        determinants.put(INTELLIGENCE, new DeterminantGroupField("Int", INTELLIGENCE));
+        determinants.put(CONTROL, new DeterminantGroupField("Op", CONTROL));
+        determinants.put(WILL, new DeterminantGroupField("SW", WILL));
+        determinants.put(CHARISMA, new DeterminantGroupField("Ogł", CHARISMA));
 
         determinants.values().stream()
                 .peek(DeterminantGroupField::register)
@@ -139,11 +150,6 @@ public class PersonDeterminantsField extends HorizontalLayout
 
                 Determinant determinant = determinantService.findDeterminantByType(personDeterminants, determinantType);
                 determinant.setValue(Integer.valueOf(baseValue.getValue()));
-
-/* TODO in extensions and other
-                Modifier regularModifier = modifierService.getOrCreateRegularModifier(determinant);
-                regularModifier.setValue(Integer.valueOf(baseValue.getValue()));
-*/
             });
         }
     }

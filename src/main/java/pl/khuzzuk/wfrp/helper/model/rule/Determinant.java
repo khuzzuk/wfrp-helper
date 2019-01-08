@@ -45,4 +45,17 @@ public class Determinant {
                         .map(Modifier::toString)
                         .collect(Collectors.joining(" + ", " + ", "")));
     }
+
+    public static Determinant empty(DeterminantType type) {
+        Determinant determinant = new Determinant();
+        determinant.setType(type);
+
+        Modifier regularMod = new Modifier();
+        regularMod.setType(ModifierType.REGULAR);
+        Modifier experienceMod = new Modifier();
+        experienceMod.setType(ModifierType.EXPERIENCE);
+
+        determinant.setModifiers(Set.of(regularMod, experienceMod));
+        return determinant;
+    }
 }

@@ -2,6 +2,8 @@ package pl.khuzzuk.wfrp.helper.model.inventory.blueprints;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.EnumFilter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
@@ -26,6 +28,7 @@ public abstract class WeaponBlueprint extends ItemBlueprint {
     @FormElement(editor = EditorType.DELEGATED)
     private Modifier damage;
     @EnumFilter({"HAND", "BOTH_HANDS"})
+    @Type(type = EnumType.DEF)
     private Placement placement;
     @Embedded
     @AttributeOverrides({

@@ -32,4 +32,9 @@ public class ArmorPattern {
     private float strength;
     @Type(type = EnumType.DEF)
     private @NotNull Accessibility accessibility = Accessibility.COMMON;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
