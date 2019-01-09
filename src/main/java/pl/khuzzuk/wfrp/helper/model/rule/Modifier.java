@@ -2,6 +2,8 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.RelationTargetAuditMode;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
@@ -26,6 +28,7 @@ import java.util.stream.Collectors;
 @Data
 @EqualsAndHashCode(of = {"id", "type"})
 @Entity
+@Audited
 public class Modifier {
     @Id
     @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_seq", allocationSize = 1)
@@ -41,6 +44,7 @@ public class Modifier {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @FormElement(editor = EditorType.DELEGATED)
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private List<DiceRoll> rolls = new ArrayList<>();
 
     @Override

@@ -17,5 +17,9 @@ spring:
       hibernate:
         format_sql: false
         use_sql_comments: true
+      org:
+        hibernate:
+          envers:
+            audit_table_suffix: _history
   flyway:
     locations: classpath:/db/migration,/db/data

@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.model.creature;
 
 import lombok.Data;
+import org.hibernate.envers.Audited;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.*;
 
 @Data
 @Embeddable
+@Audited
 public class PersonDeterminants {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "person_determinants",
