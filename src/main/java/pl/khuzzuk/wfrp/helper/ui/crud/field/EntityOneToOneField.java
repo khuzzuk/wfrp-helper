@@ -3,14 +3,27 @@ package pl.khuzzuk.wfrp.helper.ui.crud.field;
 import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.shared.Registration;
 
 import java.util.LinkedList;
 import java.util.List;
 
-public class EntityOneToOneField<T> extends Button implements HasValue<HasValue.ValueChangeEvent<T>, T> {
+public class EntityOneToOneField<T> extends Div implements HasValue<HasValue.ValueChangeEvent<T>, T> {
+    private Button valueText = new Button();
+    private VerticalLayout root = new VerticalLayout(valueText);
     private T value;
     private List<ValueChangeListener<? super ValueChangeEvent<T>>> changeListeners = new LinkedList<>();
+
+    {
+        add(root);
+    }
+
+    public void setName(String name) {
+        root.add(new Label(name), valueText);
+    }
 
     @Override
     public void setValue(T value) {
@@ -18,7 +31,7 @@ public class EntityOneToOneField<T> extends Button implements HasValue<HasValue.
                 this, this, value, true);
         changeListeners.forEach(l -> l.valueChanged(changeEvent));
         this.value = value;
-        setText(value != null ? value.toString() : "Add");
+        valueText.setText(value != null ? value.toString() : "Add");
     }
 
     @Override

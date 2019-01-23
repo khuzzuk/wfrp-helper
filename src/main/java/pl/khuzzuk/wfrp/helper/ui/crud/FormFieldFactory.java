@@ -84,7 +84,7 @@ public class FormFieldFactory implements InitializingBean {
                     bindings.bind(entityChooseField, propertyPath);
                     break;
                 case DELEGATED:
-                    EntityOneToOneField<?> entityField = entityFieldFactory.createWithDelegatedEditor(type, this);
+                    EntityOneToOneField<?> entityField = entityFieldFactory.createWithDelegatedEditor(type, this, name);
                     bindings.bind(entityField, propertyPath);
                     bindings.registerFieldInitializer(field);
                     break;

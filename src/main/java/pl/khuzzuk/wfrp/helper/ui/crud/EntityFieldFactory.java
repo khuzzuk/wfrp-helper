@@ -31,9 +31,10 @@ public class EntityFieldFactory {
         return entityField;
     }
 
-    <T> EntityOneToOneField<T> createWithDelegatedEditor(Class<T> type, FormFieldFactory formFieldFactory) {
+    <T> EntityOneToOneField<T> createWithDelegatedEditor(Class<T> type, FormFieldFactory formFieldFactory, String name) {
         AutoBindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
         EntityOneToOneField<T> field = new EntityOneToOneField<>();
+        field.setName(name);
         CrudForm<T> form = CrudForm.createFor(subEntityBindings, field::setValue);
         field.addClickListener(e -> form.showForm(field.getValue()));
         return field;
