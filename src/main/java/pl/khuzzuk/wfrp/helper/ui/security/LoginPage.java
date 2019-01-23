@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import pl.khuzzuk.wfrp.helper.security.CurrentUserService;
 import pl.khuzzuk.wfrp.helper.security.User;
@@ -46,17 +47,21 @@ public class LoginPage extends WebComponent implements InitializingBean {
     @Override
     public void afterPropertiesSet() {
         loginButton.addClickListener(event -> {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username.getValue(), password.getValue()));
-            User user = currentUserService.getCurrentUser();
+            try {
+                Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username.getValue(), password.getValue()));
+                User user = currentUserService.getCurrentUser();
+                if (user.getDeleted()) {
+                    throw new AccountExpiredException("User not found");
+                }
 
-            if (user.getDeleted()) {
-                throw new AccountExpiredException("User not found");
-            }
-
-            if (user.isOneTimePassword()) {
-                showChangePasswordDialog(authentication);
-            } else {
-                performAuthentication(authentication);
+                if (user.isOneTimePassword()) {
+                    showChangePasswordDialog(authentication);
+                } else {
+                    performAuthentication(authentication);
+                }
+            } catch (AuthenticationException e) {
+                username.setInvalid(true);
+                password.setInvalid(true);
             }
         });
     }
