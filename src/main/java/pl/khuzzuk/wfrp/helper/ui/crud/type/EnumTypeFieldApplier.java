@@ -3,6 +3,7 @@ package pl.khuzzuk.wfrp.helper.ui.crud.type;
 import com.vaadin.flow.component.combobox.ComboBox;
 import pl.khuzzuk.wfrp.helper.edit.EnumFilter;
 import pl.khuzzuk.wfrp.helper.ui.crud.AutoBindings;
+import pl.khuzzuk.wfrp.helper.ui.crud.FormFieldFactory;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ public class EnumTypeFieldApplier implements TypeFieldApplier<Double> {
     public void apply(Field field, AutoBindings<?> bindings, String propertyPath) {
         Class type = field.getType();
         ComboBox<Enum> enumField = new ComboBox<>(field.getName());
+        enumField.setId(FormFieldFactory.ID_PREFIX + propertyPath);
 
         if (field.isAnnotationPresent(EnumFilter.class)) {
             enumField.setItems(Arrays.stream(field.getDeclaredAnnotation(EnumFilter.class).value())

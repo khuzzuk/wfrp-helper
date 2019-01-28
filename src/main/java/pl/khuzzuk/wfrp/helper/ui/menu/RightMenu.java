@@ -75,7 +75,7 @@ public class RightMenu extends WebComponent implements InitializingBean {
     @CSS(classNames = {"button", "menu-button"})
     private Button inventoryButton = new Button("Przedmioty");
     @UIProperty
-    @CSS(classNames = {"button", "menu-button"})
+    @CSS(classNames = {"button", "menu-button"}, id = "blueprints-button")
     private Button blueprintsButton = new Button("Typy");
     @UIProperty
     @CSS(classNames = {"button", "menu-button"}, id = "knowledge-button")
@@ -111,14 +111,14 @@ public class RightMenu extends WebComponent implements InitializingBean {
     private Button itemButton = new Button("Items");
     @CSS(classNames = {"button", "menu-button"})
     private Button jewelryButton = new Button("Jewelry");
-    @CSS(classNames = {"button", "menu-button"})
+    @CSS(classNames = {"button", "menu-button"}, id = "melee-weapon")
     private Button meleeWeaponButton = new Button("Weapons");
     @CSS(classNames = {"button", "menu-button"})
     private Button rangedWeaponButton = new Button("Guns");
     @CSS(classNames = {"button", "menu-button"})
     private Button armorButton = new Button("Armors");
 
-    @CSS(classNames = {"button", "menu-button"})
+    @CSS(classNames = {"button", "menu-button"}, id = "melee-weapon-blueprint-button")
     private Button weaponBlueprintsButton = new Button("Melee Weapon");
     @CSS(classNames = {"button", "menu-button"})
     private Button rangedWeaponBlueprintsButton = new Button("Ranged Weapon");

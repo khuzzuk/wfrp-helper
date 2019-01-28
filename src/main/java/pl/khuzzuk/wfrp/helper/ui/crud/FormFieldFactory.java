@@ -28,6 +28,8 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class FormFieldFactory implements InitializingBean {
+    public static final String ID_PREFIX = "form-field-";
+
     private final CollectionFormFieldFactory collectionFormFieldFactory;
     private final EntityFieldFactory entityFieldFactory;
     private List<TypeFieldApplier> typeFieldAppliers = new ArrayList<>();

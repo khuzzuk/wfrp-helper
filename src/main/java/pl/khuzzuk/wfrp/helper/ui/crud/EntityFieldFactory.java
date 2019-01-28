@@ -35,6 +35,7 @@ public class EntityFieldFactory {
         AutoBindings<T> subEntityBindings = BindingsFactory.create(type, formFieldFactory);
         EntityOneToOneField<T> field = new EntityOneToOneField<>();
         field.setName(name);
+        field.setId(FormFieldFactory.ID_PREFIX + name);
         CrudForm<T> form = CrudForm.createFor(subEntityBindings, field::setValue);
         field.addClickListener(e -> form.showForm(field.getValue()));
         return field;

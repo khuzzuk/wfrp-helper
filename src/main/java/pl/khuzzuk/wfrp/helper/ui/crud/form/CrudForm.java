@@ -13,6 +13,7 @@ import java.util.function.Consumer;
 
 @RequiredArgsConstructor
 public class CrudForm<T> extends Dialog {
+    public static final String CRUD_FORM_ADD_BUTTON_ID = "crud-form-add-button";
     private final AutoBindings<T> bindings;
     private T bean;
 
@@ -25,6 +26,7 @@ public class CrudForm<T> extends Dialog {
         bindings.addFieldsTo(form.root);
 
         Button addButton = new Button("Apply");
+        addButton.setId(CRUD_FORM_ADD_BUTTON_ID);
         addButton.addClickListener(e -> {
             if (bindings.validate()) afterFinish.accept(form.bindings.read());
         });

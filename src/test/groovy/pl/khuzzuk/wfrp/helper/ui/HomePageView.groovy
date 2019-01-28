@@ -28,6 +28,12 @@ class HomePageView implements VaadinElement {
     @FindBy(id = 'skill-button')
     private WebElement skillButton
 
+    @FindBy(id = "blueprints-button")
+    private WebElement blueprintsButton
+
+    @FindBy(id = "melee-weapon-blueprint-button")
+    private WebElement meleeBluepirntsButton
+
     @FindBy(className = 'crud-grid')
     private WebElement currentGrid
     @FindBy(tagName = 'vaadin-grid-cell-content')
@@ -69,6 +75,16 @@ class HomePageView implements VaadinElement {
 
     void clickSkill() {
         skillButton.click()
+        waitForUi()
+    }
+
+    void clickTypes() {
+        blueprintsButton.click()
+        waitForUi()
+    }
+
+    void clickMeleeType() {
+        meleeBluepirntsButton.click()
         waitForUi()
     }
 }
