@@ -8,24 +8,25 @@ import pl.khuzzuk.wfrp.helper.repo.crud.PersonRepo;
 
 import java.util.function.Consumer;
 
+@SuppressWarnings("unchecked")
 @RequiredArgsConstructor
 @Service
 public class PersonLoader {
-    private static final Consumer DO_NOTHING = o -> {};
+    private static final Consumer FETCH = o -> {};
     private final PersonRepo personRepo;
 
     @Transactional
     public Person load(Person person) {
-        Person result = personRepo.findById(person.getId()).get();
-        result.getPhysicalFeatures().forEach(DO_NOTHING);
-        result.getSkills().forEach(DO_NOTHING);
-        result.getProfessions().forEach(DO_NOTHING);
-        result.getInventory().forEach(DO_NOTHING);
-        result.getWeapons().forEach(DO_NOTHING);
-        result.getRangedWeapons().forEach(DO_NOTHING);
-        result.getArmors().forEach(DO_NOTHING);
+        Person result = personRepo.findById(person.getId()).orElseThrow();
+        result.getPhysicalFeatures().forEach(FETCH);
+        result.getSkills().forEach(FETCH);
+        result.getProfessions().forEach(FETCH);
+        result.getInventory().forEach(FETCH);
+        result.getWeapons().forEach(FETCH);
+        result.getRangedWeapons().forEach(FETCH);
+        result.getArmors().forEach(FETCH);
         result.getSpellSchools().forEach((spellSchool, integer) -> {});
-        result.getSpells().forEach(DO_NOTHING);
+        result.getSpells().forEach(FETCH);
         return result;
     }
 }
