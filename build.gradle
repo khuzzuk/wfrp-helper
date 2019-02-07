@@ -27,20 +27,27 @@ sourceCompatibility = 11
 
 repositories {
     mavenCentral()
-    maven { url "https://maven.vaadin.com/vaadin-prereleases" }
-    maven { url "http://maven.vaadin.com/vaadin-addons" }
     maven { url "https://raw.github.com/khuzzuk/MessageBus/mvn-repo/" }
 }
 
 dependencies {
-    compile group: 'pl.khuzzuk', name: 'message-bus', version: '2.0.1'
-    compile group: 'com.vaadin', name: 'vaadin-spring-boot-starter'
+    //spring
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
+
+    //db
+    compile('org.postgresql:postgresql')
     compile group: 'org.hibernate', name: 'hibernate-envers', version: '5.3.7.Final'
-    compile group: 'org.jooq', name: 'jool', version: '0.9.14'
     compile group: 'org.flywaydb', name: 'flyway-core', version: '5.2.0'
+
+    //utils
+    compile group: 'org.jooq', name: 'jool', version: '0.9.14'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
+    compile group: 'pl.khuzzuk', name: 'message-bus', version: '2.0.1'
 
     //jdk11 suppoort
     compile group: 'com.sun.xml.bind', name: 'jaxb-ri', version: '2.4.0-b180830.0438'
@@ -49,28 +56,19 @@ dependencies {
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
     compile group: 'javax.activation', name: 'activation', version: '1.1.1'
 
-    runtime('org.postgresql:postgresql')
-
+    //tests
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.5.4', ext: 'pom'
     testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test'
     testCompile group: 'org.spockframework', name: 'spock-core', version: '1.2-groovy-2.5'
     testCompile group: 'org.spockframework', name: 'spock-spring', version: '1.2-groovy-2.5'
     testCompile group: 'org.awaitility', name: 'awaitility', version: '3.1.2'
-    compile group: 'io.zonky.test', name: 'embedded-database-spring-test', version: '1.3.4'
+    testCompile group: 'io.zonky.test', name: 'embedded-database-spring-test', version: '1.3.4'
     testCompile group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.0'
     testCompile group: 'io.github.bonigarcia', name: 'webdrivermanager', version:'3.0.0'
 
+    //annotation processors
     compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
-    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
-    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
-
-    compile group: 'org.mapstruct', name: 'mapstruct-jdk8', version: '1.2.0.Final'
+    apt group: 'org.projectlombok', name: 'lombok', version: '1.18.2'
+    compileOnly group: 'org.mapstruct', name: 'mapstruct-jdk8', version: '1.2.0.Final'
     apt group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.2.0.Final'
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "com.vaadin:vaadin-spring-bom:11.0.1"
-    }
 }
