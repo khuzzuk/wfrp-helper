@@ -34,12 +34,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //.and()
                     .authorizeRequests()
                     .antMatchers(HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json").permitAll()
-                    .anyRequest().hasAnyRole("USER")
+                    .anyRequest().authenticated()//.hasAnyRole("USER")
                 .and()
-                    .formLogin().loginPage(LOGIN_URL).permitAll().loginProcessingUrl(LOGIN_PERFORM_URL)
-                    .failureUrl(LOGIN_FAILURE_URL)
+                    .formLogin()
+                        .loginPage(LOGIN_URL)
+                        .loginProcessingUrl(LOGIN_PERFORM_URL)
+                        .defaultSuccessUrl("/nation")
+                        .failureUrl(LOGIN_FAILURE_URL)
                 .and()
-                    .logout().logoutSuccessUrl("/nation");
+                    .logout().logoutSuccessUrl("/nation")
+                    .deleteCookies("JSESSIONID");
         //@formatter:on
     }
 }
