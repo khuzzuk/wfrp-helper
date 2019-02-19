@@ -9,9 +9,9 @@ class LoginForm extends Component {
     };
 
     handleSubmit = () => {
-        console.log('submit form');
         const authData = new FormData(this.form);
-        fetch("http:/localhost:1081/loginPerform", {
+        console.log(authData);
+        fetch("http:/loginPerform", {
             method: 'POST',
             body: new URLSearchParams(authData)
         }).then(v => {
@@ -30,10 +30,10 @@ class LoginForm extends Component {
 
     render() {
         return (
-            <form action={'/'} onSubmit={this.handleSubmit} ref={f => this.form = f}>
+            <form ref={f => this.form = f}>
                 <input key={'username'} name={'username'} id={'username'} placeholder={'Username'} type={'text'} value={this.state.username || ''} onChange={this.handleUsername}/>
                 <input key={'password'} name={'password'} id={'password'} placeholder={'Password'} type={'password'} value={this.state.password || ''} onChange={this.handlePassword}/>
-                <input key={'submit'} type={'submit'} value={'Submit'}/>
+                <input key={'submit'} type={'submit'} value={'Submit'} onClick={this.handleSubmit}/>
             </form>
         )
     }

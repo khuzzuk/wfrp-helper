@@ -8,10 +8,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-    private static final String LOGIN_URL = "/index.html";
+    private static final String LOGIN_URL = "/login.html";
     private static final String LOGIN_PERFORM_URL = "/loginPerform";
     private static final String LOGIN_FAILURE_URL = "/login?error=true";
 
@@ -29,12 +30,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-                    .csrf().disable()
-                    //.requestCache().requestCache(new HttpSessionRequestCache())
-                //.and()
+                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                .and()
                     .authorizeRequests()
-                    .antMatchers(HttpMethod.GET, "/index*", "/static/**", "/*.js", "/*.json").permitAll()
-                    .anyRequest().authenticated()//.hasAnyRole("USER")
+                    .antMatchers(HttpMethod.GET, "/login*", "/static/**", "/*.{js,html,css,json}").permitAll()
+                    .anyRequest().hasAnyRole("USER")
                 .and()
                     .formLogin()
                         .loginPage(LOGIN_URL)
@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         .defaultSuccessUrl("/nation")
                         .failureUrl(LOGIN_FAILURE_URL)
                 .and()
-                    .logout().logoutSuccessUrl("/nation")
+                    .logout().logoutSuccessUrl(LOGIN_URL)
                     .deleteCookies("JSESSIONID");
         //@formatter:on
     }
