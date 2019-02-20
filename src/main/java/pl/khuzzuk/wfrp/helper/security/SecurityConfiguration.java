@@ -8,7 +8,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -30,17 +29,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-                    .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .and()
+                    .csrf().disable()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                     .authorizeRequests()
                     .antMatchers(HttpMethod.GET, "/login*", "/static/**", "/*.{js,html,css,json}").permitAll()
                     .anyRequest().hasAnyRole("USER")
                 .and()
                     .formLogin()
-                        .loginPage(LOGIN_URL)
+                        //.loginPage(LOGIN_URL)
                         .loginProcessingUrl(LOGIN_PERFORM_URL)
-                        .defaultSuccessUrl("/nation")
-                        .failureUrl(LOGIN_FAILURE_URL)
+                        //.defaultSuccessUrl("/nation")
+                        //.failureUrl(LOGIN_FAILURE_URL)
                 .and()
                     .logout().logoutSuccessUrl(LOGIN_URL)
                     .deleteCookies("JSESSIONID");

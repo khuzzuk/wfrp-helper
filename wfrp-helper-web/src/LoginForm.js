@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {PropTypes} from 'prop-types';
 import {Button, TextField} from "@material-ui/core";
+import { withCookies } from 'react-cookie';
 
 class LoginForm extends Component {
     state = {
@@ -8,15 +9,34 @@ class LoginForm extends Component {
         password: ''
     };
 
+    constructor(props) {
+        super(props);
+        const {cookies} = props;
+        this.state.csrfToken = cookies.get('XSRF-TOKEN');
+    }
+
     handleSubmit = () => {
-        const authData = new FormData(this.form);
-        console.log(authData);
+        console.log(this.state.csrfToken);
+
+        const data = 'username=' + this.state.username + '&password=' + this.state.password + '&submit="loginPerform"';
         fetch("http:/loginPerform", {
             method: 'POST',
-            body: new URLSearchParams(authData)
+            mode: 'cors',
+            headers: {
+                'XSRF-TOKEN': this.state.csrfToken,
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: data
         }).then(v => {
-            if (v.redirected) {
-                window.location = v.url;
+            console.log(v);
+            if (v.status) {
+                fetch('http:/nation', {
+                    method: 'GET',
+                    mode: 'cors',
+                    credentials: 'include'
+                }).then(value => {
+                    console.log(value);
+                });
             }
         }).catch(e => console.warn(e));
     };
@@ -30,13 +50,18 @@ class LoginForm extends Component {
 
     render() {
         return (
-            <form ref={f => this.form = f}>
-                <input key={'username'} name={'username'} id={'username'} placeholder={'Username'} type={'text'} value={this.state.username || ''} onChange={this.handleUsername}/>
-                <input key={'password'} name={'password'} id={'password'} placeholder={'Password'} type={'password'} value={this.state.password || ''} onChange={this.handlePassword}/>
-                <input key={'submit'} type={'submit'} value={'Submit'} onClick={this.handleSubmit}/>
-            </form>
+            <div>
+                <TextField onChange={this.handleUsername} label={'UserName'} />
+                <TextField onChange={this.handlePassword} label={'Password'} type={'password'} />
+                <Button onClick={this.handleSubmit} label={'Submit'} />
+                <form action={'loginPerform'}>
+                    <input type={'text'} onChange={this.handleUsername}/>
+                    <input type={'password'} onChange={this.handlePassword}/>
+                    <input type={'submit'}/>
+                </form>
+            </div>
         )
     }
 }
 
-export default LoginForm
+export default withCookies(LoginForm)
