@@ -8,7 +8,7 @@ class Menu extends Component {
                 <AppBar position={"static"}>
                     <Toolbar>
                         <Typography variant={'title'}>
-                            typography
+                            Main Menu
                         </Typography>
                     </Toolbar>
                 </AppBar>
