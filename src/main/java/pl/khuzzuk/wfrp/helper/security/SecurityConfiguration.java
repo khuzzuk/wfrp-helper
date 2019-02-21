@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String LOGIN_URL = "/login.html";
+    private static final String LOGIN_SUCCESS_URL = "/frontend/index.html";
     private static final String LOGIN_PERFORM_URL = "/loginPerform";
     private static final String LOGIN_FAILURE_URL = "/login?error=true";
 
@@ -29,19 +30,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         // @formatter:off
         http
-                    .csrf().disable()//.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                     .authorizeRequests()
                     .antMatchers(HttpMethod.GET, "/login*", "/static/**", "/*.{js,html,css,json}").permitAll()
                     .anyRequest().hasAnyRole("USER")
                 .and()
                     .formLogin()
-                        //.loginPage(LOGIN_URL)
-                        .loginProcessingUrl(LOGIN_PERFORM_URL)
-                        //.defaultSuccessUrl("/nation")
-                        //.failureUrl(LOGIN_FAILURE_URL)
+                        .defaultSuccessUrl(LOGIN_SUCCESS_URL)
                 .and()
-                    .logout().logoutSuccessUrl(LOGIN_URL)
-                    .deleteCookies("JSESSIONID");
+                    .logout().logoutSuccessUrl(LOGIN_URL);
         //@formatter:on
     }
 }

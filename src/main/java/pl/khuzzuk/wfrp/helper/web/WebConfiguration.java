@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/frontend/build/");
-        registry.addResourceHandler("/login.html").addResourceLocations("classpath:/static/login.html");
+        //registry.addResourceHandler("/**").addResourceLocations("classpath:/static/frontend/");
+        //registry.addResourceHandler("/login.html").addResourceLocations("classpath:/static/login.html");
     }
 }
