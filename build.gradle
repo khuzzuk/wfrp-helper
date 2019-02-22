@@ -82,6 +82,5 @@ sourceSets {
 }
 
 bootRun {
-    res
     sourceResources sourceSets.main
 }
