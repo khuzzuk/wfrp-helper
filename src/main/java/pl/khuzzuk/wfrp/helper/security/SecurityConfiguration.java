@@ -31,12 +31,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                     .authorizeRequests()
                     //.antMatchers(HttpMethod.GET, "/login*", "/static/**", "/*.{js,html,css,json}").permitAll()
-                    .anyRequest().hasAnyRole("USER")
+                    .anyRequest().permitAll();//.hasAnyRole("USER")
+/*
                 .and()
                     .formLogin()
                         .defaultSuccessUrl(LOGIN_SUCCESS_URL)
                 .and()
                     .logout().logoutSuccessUrl(LOGIN_URL);
+*/
         //@formatter:on
     }
 }

@@ -1,22 +1,11 @@
 import React, {Component} from 'react';
 import {
     AppBar,
-    Button,
-    MenuItem,
-    MenuList,
-    Paper,
-    Toolbar,
-    Typography,
-    ClickAwayListener,
-    Popper, Grow
+    Toolbar
 } from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
-
-const styles = {
-    Toolbar: {
-        background: 'rgb(200, 200, 200)'
-    }
-};
+import AppToolsMenu from "./AppToolsMenu";
+import CrudWorldMenu from "./CrudWorldMenu";
+import CrudComponent from "../crud/CrudComponent";
 
 class AppMenu extends Component {
     state = {
@@ -35,35 +24,21 @@ class AppMenu extends Component {
 
     render() {
         const {classes} = this.props;
+        const columns = ['asd', 'bsd'];
+        const rows = [{asd: '1', bsd:'2'}, {asd:'2', bsd:'3'}];
+
         return (
             <div>
-                <AppBar position={"relative"} className={classes.Toolbar}>
+                <AppBar position={"relative"}>
                     <Toolbar>
-                        <Typography variant={'title'}>
-                            WFRP Helper
-                        </Typography>
-                        <Button buttonRef={i => this.anchorEl = i}
-                                onClick={this.handleToggle}>World</Button>
-                        <Popper open={this.state.open} anchorEl={this.anchorEl} transition disablePortal>
-                            {
-                                ({TransitionProps, placement}) => (
-                                    <Grow {...TransitionProps} id={"menu-list-grow"} style={{transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom'}}>
-                                        <Paper>
-                                            <ClickAwayListener onClickAway={this.handleClose}>
-                                                <MenuList>
-                                                    <MenuItem onClick={this.handleClose}>Nations</MenuItem>
-                                                </MenuList>
-                                            </ClickAwayListener>
-                                        </Paper>
-                                    </Grow>
-                                )
-                            }
-                        </Popper>
+                        <AppToolsMenu/>
+                        <CrudWorldMenu/>
                     </Toolbar>
                 </AppBar>
+                <CrudComponent columns={columns} rows={rows}/>
             </div>
         )
     }
 }
 
-export default withStyles(styles)(AppMenu);
+export default AppMenu;
