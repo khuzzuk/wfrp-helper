@@ -15,8 +15,11 @@ class CrudComponent extends Component {
                 <TableBody>
                     {rows.map(row => (
                         <TableRow>
-                            <TableCell>{row.asd}</TableCell>
-                            <TableCell>{row.bsd}</TableCell>
+                            {
+                                columns.map(col => {
+                                    return <TableCell>{row[col]}</TableCell>
+                                })
+                            }
                         </TableRow>
                     ))}
                 </TableBody>
