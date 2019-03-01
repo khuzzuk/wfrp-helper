@@ -23,9 +23,11 @@ class AppMenu extends Component {
     };
 
     render() {
-        const {classes} = this.props;
         const columns = ['asd', 'bsd'];
         const rows = [{asd: '1', bsd:'2'}, {asd:'2', bsd:'3'}];
+
+        let crudComponent = <CrudComponent/>;
+        crudComponent.setTableData(columns, rows);
 
         return (
             <div>
@@ -35,7 +37,7 @@ class AppMenu extends Component {
                         <CrudWorldMenu/>
                     </Toolbar>
                 </AppBar>
-                <CrudComponent columns={columns} rows={rows}/>
+                {crudComponent}
             </div>
         )
     }
