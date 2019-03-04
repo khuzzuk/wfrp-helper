@@ -9,6 +9,7 @@
     "react-dom": "^16.7.0",
     "react-redux": "^6.0.1",
     "react-scripts": "^2.1.5",
+    "react-table": "^6.9.2",
     "redux": "^4.0.1"
   },
   "scripts": {

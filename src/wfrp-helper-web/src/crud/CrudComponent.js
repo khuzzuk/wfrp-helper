@@ -2,29 +2,21 @@ import React, {Component} from 'react';
 import {Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
 
 class CrudComponent extends Component {
-    state = {
-        columns: [],
-        rows: []
-    };
-
-    setTableData = (columns, rows) => {
-        this.setState({columns: columns, rows: rows})
-    };
-
     render() {
+        const {columns, rows} = this.props;
         return <div>
             <Table>
                 <TableHead>
-                    {this.state.columns.map(columnName => (
-                        <TableCell align={'right'}>{columnName}</TableCell>
+                    {columns.map(column => (
+                        <TableCell align={'right'}>{column.header}</TableCell>
                     ))}
                 </TableHead>
                 <TableBody>
-                    {this.state.rows.map(row => (
+                    {rows.map(row => (
                         <TableRow>
                             {
-                                this.state.columns.map(col => {
-                                    return <TableCell>{row[col]}</TableCell>
+                                columns.map(col => {
+                                    return <TableCell>{row[col.field]}</TableCell>
                                 })
                             }
                         </TableRow>

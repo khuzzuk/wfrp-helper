@@ -14,11 +14,16 @@ class ConnectionService {
         });
     };
 
-    async retrieveData(component) {
-        const response = await fetch('http://' + this.uriPart);
-        const retrieved = await response.json();
-        component.setState({data: retrieved})
+    async retrieveData(action) {
+        fetch('http://localhost:1081/' + this.uriPart, {
+            mode: 'cors'
+        }).then(response => response.json())
+            .then(data => action(data))
     };
+
+    doSomething(action) {
+        action([{asd: '1', bsd:'2'}, {asd:'2', bsd:'3'}]);
+    }
 }
 
 export default ConnectionService;

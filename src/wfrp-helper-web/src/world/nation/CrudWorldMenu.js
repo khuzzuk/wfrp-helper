@@ -7,15 +7,20 @@ class CrudWorldMenu extends Component {
     state = {
         anchorEl: null
     };
-
+    columns = [{
+        header: 'Name',
+        field: 'name'
+    }, {
+        header: 'Description',
+        field: 'description'
+    }];
+    dataReceiver;
 
     constructor(props, context) {
         super(props, context);
-        const {crudComponent} = props;
-        this.state.crudComponent = crudComponent;
+        this.dataReceiver = this.props.dataReceiver;
+        this.nationService = new ConnectionService('nation');
     }
-
-    nationService = new ConnectionService('nation');
 
     handleClick = event => {
         this.setState({anchorEl: event.currentTarget})
@@ -27,7 +32,11 @@ class CrudWorldMenu extends Component {
 
     showNationCrud = () => {
         this.handleClose();
-        this.state.crudComponent.setState()
+        this.nationService.retrieveData(this.crudAction);
+    };
+
+    crudAction = (data) => {
+        this.dataReceiver(this.columns, data);
     };
 
     render() {

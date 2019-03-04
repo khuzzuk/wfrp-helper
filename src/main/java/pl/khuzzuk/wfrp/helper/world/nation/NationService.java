@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.world.nation;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @RequestMapping("nation")
+@CrossOrigin
 public class NationService implements RemoteService<NationDTO> {
     private NationRepo nationRepo;
     private Adapter<NationDTO, Nation> nationAdapter;

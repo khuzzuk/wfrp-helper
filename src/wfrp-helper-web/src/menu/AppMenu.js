@@ -10,6 +10,8 @@ import CrudComponent from "../crud/CrudComponent";
 class AppMenu extends Component {
     state = {
         open: false,
+        columns: [],
+        rows: []
     };
 
     handleToggle = () => {
@@ -22,22 +24,23 @@ class AppMenu extends Component {
         }
     };
 
-    render() {
-        const columns = ['asd', 'bsd'];
-        const rows = [{asd: '1', bsd:'2'}, {asd:'2', bsd:'3'}];
+    handleData = (columns, rows) => {
+        this.setState({columns: columns, rows: rows})
+    };
 
-        let crudComponent = <CrudComponent/>;
-        crudComponent.setTableData(columns, rows);
+    render() {
+        //const columns = ['asd', 'bsd'];
+        //const rows = [{asd: '1', bsd:'2'}, {asd:'2', bsd:'3'}];
 
         return (
             <div>
                 <AppBar position={"relative"}>
                     <Toolbar>
                         <AppToolsMenu/>
-                        <CrudWorldMenu/>
+                        <CrudWorldMenu dataReceiver={this.handleData}/>
                     </Toolbar>
                 </AppBar>
-                {crudComponent}
+                <CrudComponent columns={this.state.columns} rows={this.state.rows}/>
             </div>
         )
     }
