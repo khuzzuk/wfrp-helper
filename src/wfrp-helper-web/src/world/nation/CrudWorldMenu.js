@@ -1,12 +1,14 @@
 import {Component} from "react";
 import React from "react";
 import {Button, Menu, MenuItem} from "@material-ui/core";
-import ConnectionService from "../connection/ConnectionService";
+import ConnectionService from "../../connection/ConnectionService";
+import NationService from "./NationService";
 
 class CrudWorldMenu extends Component {
     state = {
         anchorEl: null
     };
+    nationService;
     columns = [{
         header: 'Name',
         field: 'name'
@@ -19,7 +21,7 @@ class CrudWorldMenu extends Component {
     constructor(props, context) {
         super(props, context);
         this.dataReceiver = this.props.dataReceiver;
-        this.nationService = new ConnectionService('nation');
+        this.nationService = new NationService(this.crudAction)
     }
 
     handleClick = event => {
@@ -35,7 +37,7 @@ class CrudWorldMenu extends Component {
         this.nationService.retrieveData(this.crudAction);
     };
 
-    crudAction = (data) => {
+    crudAction = (data: Array) => {
         this.dataReceiver(this.columns, data);
     };
 

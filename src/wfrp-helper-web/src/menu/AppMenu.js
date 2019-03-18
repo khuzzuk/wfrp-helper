@@ -4,7 +4,7 @@ import {
     Toolbar
 } from "@material-ui/core";
 import AppToolsMenu from "./AppToolsMenu";
-import CrudWorldMenu from "./CrudWorldMenu";
+import CrudWorldMenu from "../world/nation/CrudWorldMenu";
 import CrudComponent from "../crud/CrudComponent";
 
 class AppMenu extends Component {

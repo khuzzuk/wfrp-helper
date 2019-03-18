@@ -1,12 +1,19 @@
-class ConnectionService {
-    uriPart;
+import {func} from "prop-types";
 
-    constructor(uriPart) {
+class ConnectionService {
+    uriPart: string;
+    data: Array;
+    action;
+
+    constructor(uriPart, action) {
         this.uriPart = uriPart;
+        this.action = action;
+        console.log('connection service action:');
+        console.log(action);
     }
 
     register = (component, data) => {
-        const socket = new WebSocket('ws:///localhost:1081/' + data)
+        const socket = new WebSocket('ws:///localhost:1081/' + data);
         socket.addEventListener('message', async (event: any) => {
             const dataElement = JSON.parse(event.data);
             component.state.data.push(dataElement);
@@ -14,15 +21,24 @@ class ConnectionService {
         });
     };
 
-    async retrieveData(action) {
+    async retrieveData() {
         fetch('http://localhost:1081/' + this.uriPart, {
             mode: 'cors'
         }).then(response => response.json())
-            .then(data => action(data))
+            .then(data => {
+                this.setData(data);
+            })
     };
 
-    doSomething(action) {
-        action([{asd: '1', bsd:'2'}, {asd:'2', bsd:'3'}]);
+    setData(data: Array) {
+        console.warn('setData not implemented');
+        console.log('connection service setData action:');
+        console.log(this.action);
+        this.action(data)
+    };
+
+    getTableColumns(): Array {
+        return [];
     }
 }
 
