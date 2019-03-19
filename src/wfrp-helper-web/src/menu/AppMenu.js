@@ -6,13 +6,18 @@ import {
 import AppToolsMenu from "./AppToolsMenu";
 import CrudWorldMenu from "../world/nation/CrudWorldMenu";
 import CrudComponent from "../crud/CrudComponent";
+import NationEditor from "../world/nation/NationEditor";
+import type EntityEditor from "../crud/EntityEditor";
 
 class AppMenu extends Component {
     state = {
         open: false,
         columns: [],
-        rows: []
+        rows: [],
+        editor: null
     };
+
+    nationEditor = new NationEditor();
 
     handleToggle = () => {
         this.setState({open: !this.state.open})
@@ -24,23 +29,21 @@ class AppMenu extends Component {
         }
     };
 
-    handleData = (columns, rows) => {
-        this.setState({columns: columns, rows: rows})
+    handleData = (columns, rows, editor: EntityEditor) => {
+        this.setState({columns: columns, rows: rows, editor: editor})
     };
 
     render() {
-        //const columns = ['asd', 'bsd'];
-        //const rows = [{asd: '1', bsd:'2'}, {asd:'2', bsd:'3'}];
-
         return (
             <div>
                 <AppBar position={"relative"}>
                     <Toolbar>
                         <AppToolsMenu/>
-                        <CrudWorldMenu dataReceiver={this.handleData}/>
+                        <CrudWorldMenu dataReceiver={(columns, rows) => this.handleData(columns, rows, this.nationEditor)}
+                                       editor={this.nationEditor}/>
                     </Toolbar>
                 </AppBar>
-                <CrudComponent columns={this.state.columns} rows={this.state.rows}/>
+                <CrudComponent columns={this.state.columns} rows={this.state.rows} editor={this.state.editor}/>
             </div>
         )
     }

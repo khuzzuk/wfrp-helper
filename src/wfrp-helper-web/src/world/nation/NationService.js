@@ -9,20 +9,9 @@ class NationService extends ConnectionService {
         header: 'Description',
         field: 'description'
     }];
-    action;
 
     constructor(action) {
         super('nation', action);
-    }
-
-    receiveData = (data) => {
-        this.data = data;
-        this.action(data);
-    };
-
-    setData(data: Array) {
-        this.data = data;
-        this.action(data);
     }
 
     getTableColumns(): Array {

@@ -1,7 +1,6 @@
 import {Component} from "react";
 import React from "react";
 import {Button, Menu, MenuItem} from "@material-ui/core";
-import ConnectionService from "../../connection/ConnectionService";
 import NationService from "./NationService";
 
 class CrudWorldMenu extends Component {
@@ -21,7 +20,8 @@ class CrudWorldMenu extends Component {
     constructor(props, context) {
         super(props, context);
         this.dataReceiver = this.props.dataReceiver;
-        this.nationService = new NationService(this.crudAction)
+        this.nationService = new NationService(this.crudAction);
+        this.props.editor.nationService = this.nationService;
     }
 
     handleClick = event => {
@@ -47,7 +47,6 @@ class CrudWorldMenu extends Component {
                     onClick={this.handleClick}>
                 World
             </Button>
-
             <Menu id={'menu-nation-item'}
                   anchorEl={this.state.anchorEl}
                   open={this.state.anchorEl !== null}

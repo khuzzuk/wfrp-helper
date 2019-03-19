@@ -1,6 +1,7 @@
-import {func} from "prop-types";
+import {object} from "prop-types";
 
 class ConnectionService {
+    hostBase: string = 'http://localhost:1081/';
     uriPart: string;
     data: Array;
     action;
@@ -22,7 +23,7 @@ class ConnectionService {
     };
 
     async retrieveData() {
-        fetch('http://localhost:1081/' + this.uriPart, {
+        fetch(this.hostBase + this.uriPart, {
             mode: 'cors'
         }).then(response => response.json())
             .then(data => {
@@ -30,14 +31,22 @@ class ConnectionService {
             })
     };
 
+    async save(entity: object) {
+        fetch(this.hostBase + this.uriPart, {
+            method: 'post',
+            mode: 'cors',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(entity)
+        }).then(() => this.retrieveData())
+    }
+
     setData(data: Array) {
-        console.warn('setData not implemented');
-        console.log('connection service setData action:');
-        console.log(this.action);
+        this.data = data;
         this.action(data)
     };
 
     getTableColumns(): Array {
+        console.warn("getTableColumns not implemented");
         return [];
     }
 }
