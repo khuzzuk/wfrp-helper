@@ -10,13 +10,14 @@ class NationEditor implements EntityEditor {
     nation = new Nation();
 
     createNew(): Nation {
-        return new Nation();
+        this.nation = new Nation();
+        return this.nation;
     }
 
     edit(toEdit: *): Nation {
-        let nation = new Nation();
-        nation.updateWith(toEdit);
-        return nation;
+        this.nation = new Nation();
+        this.nation.updateWith(toEdit);
+        return this.nation;
     }
 
     update = (property, value) => {
@@ -33,10 +34,12 @@ class NationEditor implements EntityEditor {
         return [
             <TextField key={'name'}
                        label={"Name"}
-                       onChange={event => this.update('name', event.target.value)}/>,
+                       onChange={event => this.update('name', event.target.value)}
+                       value={this.nation.name}/>,
             <TextField key={'description'}
                        label={"Description"}
                        onChange={event => this.update('description', event.target.value)}
+                       value={this.nation.description}
                        multiline/>
         ];
     }
