@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Dialog, DialogTitle, TextField} from "@material-ui/core";
 import FormFieldData from "./FormFieldData";
+import FormFieldType from "./FormFieldData";
 
 class CrudEditForm extends Component {
     apply = () => {
@@ -13,12 +14,20 @@ class CrudEditForm extends Component {
             case FormFieldType.TEXT:
                 return <TextField key={fieldData.name}
                                   label={fieldData.label}
-                                  onChange={event => fieldData.onChange.onUpdate({[fieldData.name]: event.target.value})}/>
+                                  value={fieldData.value}
+                                  onChange={event => {
+                                      fieldData.onChange({[fieldData.name]: event.target.value});
+                                      this.setState({});
+                                  }}/>;
             case FormFieldType.TEXT_AREA:
                 return <TextField key={fieldData.name}
                                   label={fieldData.label}
                                   multiline
-                                  onChange={event => fieldData.onChange.onUpdate({[fieldData.name]: event.target.value})}/>
+                                  value={fieldData.value}
+                                  onChange={event => {
+                                      fieldData.onChange({[fieldData.name]: event.target.value});
+                                      this.setState({});
+                                  }}/>
         }
     }
 
@@ -28,7 +37,7 @@ class CrudEditForm extends Component {
         let content = <div/>;
         if (editor !== null) {
             content = <div>
-                {editor.getFields()}
+                {editor.getFormFields().map(formFieldData => this.generateField(formFieldData))}
             </div>;
         }
 

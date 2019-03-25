@@ -1,23 +1,23 @@
 import React, {Component} from 'react';
-import {
-    AppBar,
-    Toolbar
-} from "@material-ui/core";
+import {AppBar, Toolbar} from "@material-ui/core";
 import AppToolsMenu from "./AppToolsMenu";
 import CrudWorldMenu from "../world/nation/CrudWorldMenu";
-import CrudComponent from "../crud/CrudComponent";
-import NationEditor from "../world/nation/NationEditor";
 import type EntityEditor from "../crud/EntityEditor";
+import NationCrud from "../world/nation/NationCrud";
+import NationService from "../world/nation/NationService";
 
 class AppMenu extends Component {
     state = {
         open: false,
-        columns: [],
-        rows: [],
-        editor: null
+        data: [],
+        editor: () => {}
     };
 
-    nationEditor = new NationEditor();
+    nationService = new NationService((data) => this.updateData(data));
+
+    updateData = (data) => {
+        this.setState({data: data})
+    };
 
     handleToggle = () => {
         this.setState({open: !this.state.open})
@@ -33,17 +33,22 @@ class AppMenu extends Component {
         this.setState({columns: columns, rows: rows, editor: editor})
     };
 
+    getNationCrud = () => {
+        return <NationCrud rows={this.state.data} editor={this.nationService} onChange={this.setState}/>
+    };
+
     render() {
+        let panel = this.state.editor();
         return (
             <div>
                 <AppBar position={"relative"}>
                     <Toolbar>
                         <AppToolsMenu/>
-                        <CrudWorldMenu dataReceiver={(columns, rows) => this.handleData(columns, rows, this.nationEditor)}
-                                       editor={this.nationEditor}/>
+                        <CrudWorldMenu nationService={this.nationService}
+                                       onNation={() => this.setState({editor: this.getNationCrud})}/>
                     </Toolbar>
                 </AppBar>
-                <CrudComponent columns={this.state.columns} rows={this.state.rows} editor={this.state.editor}/>
+                {panel}
             </div>
         )
     }

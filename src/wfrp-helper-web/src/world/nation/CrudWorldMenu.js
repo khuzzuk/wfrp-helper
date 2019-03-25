@@ -1,28 +1,10 @@
-import {Component} from "react";
-import React from "react";
+import React, {Component} from "react";
 import {Button, Menu, MenuItem} from "@material-ui/core";
-import NationService from "./NationService";
 
 class CrudWorldMenu extends Component {
     state = {
         anchorEl: null
     };
-    nationService;
-    columns = [{
-        header: 'Name',
-        field: 'name'
-    }, {
-        header: 'Description',
-        field: 'description'
-    }];
-    dataReceiver;
-
-    constructor(props, context) {
-        super(props, context);
-        this.dataReceiver = this.props.dataReceiver;
-        this.nationService = new NationService(this.crudAction);
-        this.props.editor.nationService = this.nationService;
-    }
 
     handleClick = event => {
         this.setState({anchorEl: event.currentTarget})
@@ -34,11 +16,8 @@ class CrudWorldMenu extends Component {
 
     showNationCrud = () => {
         this.handleClose();
-        this.nationService.retrieveData(this.crudAction);
-    };
-
-    crudAction = (data: Array) => {
-        this.dataReceiver(this.columns, data);
+        this.props.onNation();
+        this.props.nationService.retrieveData();
     };
 
     render() {

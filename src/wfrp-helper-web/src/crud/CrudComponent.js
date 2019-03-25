@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
-import CrudEditForm from "./CrudEditForm";
 
 class CrudComponent extends Component {
     state = {
@@ -34,8 +33,17 @@ class CrudComponent extends Component {
         this.setState({showEditor: false});
     };
 
+    generateForm = () => {
+        console.warn('generateForm not implemented');
+    };
+
+    getColumns = () => {
+        console.warn('getColumns not implemented')
+    };
+
     render() {
-        const {columns, rows} = this.props;
+        const {rows} = this.props;
+        const columns = this.getColumns();
 
         let crudButtons = <div/>;
         if (columns.length > 0) {
@@ -71,10 +79,7 @@ class CrudComponent extends Component {
                     ))}
                 </TableBody>
             </Table>
-            <CrudEditForm open={this.state.showEditor}
-                          title={this.state.title}
-                          editor={this.props.editor}
-                          onClose={this.onEditorClose}/>
+            {this.generateForm()}
         </div>;
     }
 }
