@@ -25,8 +25,11 @@ class CrudComponent extends Component {
     };
 
     onEdit = () => {
-        this.props.editor.edit(this.getSelectedRow());
-        this.setState({showEditor: true, title: this.props.editor.title});
+        this.setState({
+            showEditor: true,
+            title: this.props.editor.title,
+            entity: this.props.editor.edit(this.getSelectedRow())
+        });
     };
 
     onEditorClose = () => {

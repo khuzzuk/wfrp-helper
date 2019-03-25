@@ -3,7 +3,7 @@ interface EntityEditor {
 
     edit(toEdit: any): any;
 
-    save(): any;
+    save(toSave: any): any;
 }
 
 export default EntityEditor;

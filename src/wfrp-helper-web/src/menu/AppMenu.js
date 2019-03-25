@@ -10,7 +10,7 @@ class AppMenu extends Component {
     state = {
         open: false,
         data: [],
-        editor: () => {}
+        panelSupplier: () => {}
     };
 
     nationService = new NationService((data) => this.updateData(data));
@@ -38,14 +38,14 @@ class AppMenu extends Component {
     };
 
     render() {
-        let panel = this.state.editor();
+        let panel = this.state.panelSupplier();
         return (
             <div>
                 <AppBar position={"relative"}>
                     <Toolbar>
                         <AppToolsMenu/>
                         <CrudWorldMenu nationService={this.nationService}
-                                       onNation={() => this.setState({editor: this.getNationCrud})}/>
+                                       onNation={() => this.setState({panelSupplier: this.getNationCrud})}/>
                     </Toolbar>
                 </AppBar>
                 {panel}

@@ -1,6 +1,6 @@
 import CrudComponent from "../../crud/CrudComponent";
 import React from 'react';
-import {Button, Dialog, DialogTitle, TextField} from "@material-ui/core";
+import NationEditor from "./NationEditor";
 
 class NationCrud extends CrudComponent {
     tableColumns = [{
@@ -15,27 +15,17 @@ class NationCrud extends CrudComponent {
         return this.tableColumns;
     };
 
-    update = (editor, data) => {
-        editor.update(data);
+    update = (data) => {
+        this.props.service.update(data);
         this.props.onChange();
     };
 
-    generateForm = () => {
-        const {editor} = this.props;
+    apply = () => {
 
-        return <Dialog open={this.state.showEditor}>
-            <DialogTitle>Nation editor</DialogTitle>
-            <TextField key={'name'}
-                       label={"Name"}
-                       onChange={event => this.update(editor, {name: event.target.value})}
-                       value={editor.nation.name}/>,
-            <TextField key={'description'}
-                       label={"Description"}
-                       onChange={event => this.update(editor, {description: event.target.value})}
-                       value={editor.nation.description}
-                       multiline/>
-            <Button onClick={this.apply}>Apply</Button>
-        </Dialog>;
+    };
+
+    generateForm = () => {
+        return <NationEditor open={this.state.showEditor} getEntity={() => this.state.entity} onApply={this.update}/>;
     };
 
     render(): * {
