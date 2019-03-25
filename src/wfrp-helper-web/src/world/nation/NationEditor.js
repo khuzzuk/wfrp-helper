@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import {Button, Dialog, DialogTitle, TextField} from "@material-ui/core";
 
 class NationEditor extends Component {
@@ -7,8 +7,8 @@ class NationEditor extends Component {
     };
 
     update = (updates) => {
-        this.props.getEntity().updateWith(updates);
-        this.setState({entity: this.state.entity});
+        this.props.entity.updateWith(updates);
+        this.setState({entity: this.props.entity});
     };
 
     apply = () => {
@@ -17,7 +17,7 @@ class NationEditor extends Component {
 
     render(): React.ReactNode {
         const {...other} = this.props;
-        const entity = this.props.getEntity();
+        const entity = this.props.entity;
 
         return <Dialog {...other}>
             <DialogTitle>Nation editor</DialogTitle>

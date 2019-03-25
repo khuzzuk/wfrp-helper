@@ -40,6 +40,15 @@ class ConnectionService {
         }).then(() => this.retrieveData())
     }
 
+    async remove(entity: object) {
+        fetch(this.hostBase + this.uriPart, {
+            method: 'delete',
+            mode: 'cors',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(entity)
+        }).then(() => this.retrieveData())
+    }
+
     setData(data: Array) {
         this.data = data;
         this.action(data)

@@ -20,15 +20,25 @@ class CrudComponent extends Component {
     };
 
     onAdd = () => {
-        this.props.editor.createNew();
-        this.setState({showEditor: true, title: this.props.editor.title});
+        this.setState({
+            showEditor: true,
+            title: this.props.service.title,
+            entity: this.props.service.createNew()
+        });
     };
 
     onEdit = () => {
         this.setState({
             showEditor: true,
-            title: this.props.editor.title,
-            entity: this.props.editor.edit(this.getSelectedRow())
+            title: this.props.service.title,
+            entity: this.props.service.edit(this.getSelectedRow())
+        });
+    };
+
+    onRemove = () => {
+        this.props.service.remove(this.getSelectedRow());
+        this.setState({
+            entity: null
         });
     };
 
@@ -54,7 +64,7 @@ class CrudComponent extends Component {
                 <div>
                     <Button onClick={this.onAdd}>Add</Button>
                     <Button onClick={this.onEdit} disabled={this.state.selectedId === null}>Edit</Button>
-                    <Button disabled={this.state.selectedId === null}>Remove</Button>
+                    <Button onClick={this.onRemove} disabled={this.state.selectedId === null}>Remove</Button>
                 </div>
         }
 

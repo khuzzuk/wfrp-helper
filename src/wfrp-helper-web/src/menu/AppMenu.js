@@ -34,7 +34,7 @@ class AppMenu extends Component {
     };
 
     getNationCrud = () => {
-        return <NationCrud rows={this.state.data} editor={this.nationService} onChange={this.setState}/>
+        return <NationCrud rows={this.state.data} service={this.nationService} onChange={this.setState}/>
     };
 
     render() {

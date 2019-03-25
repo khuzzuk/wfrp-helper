@@ -35,12 +35,6 @@ class NationService extends ConnectionService {
     update = (property, value) => {
         this.nation.updateWith({[property]: value});
     };
-
-    save = () => {
-        this.nationService.save(this.nation);
-        console.log(this.nation);
-        return this.nation;
-    };
 }
 
 export default NationService;

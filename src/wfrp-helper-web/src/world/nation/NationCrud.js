@@ -16,8 +16,8 @@ class NationCrud extends CrudComponent {
     };
 
     update = (data) => {
-        this.props.service.update(data);
-        this.props.onChange();
+        this.props.service.save(data);
+        this.onEditorClose()
     };
 
     apply = () => {
@@ -25,7 +25,10 @@ class NationCrud extends CrudComponent {
     };
 
     generateForm = () => {
-        return <NationEditor open={this.state.showEditor} getEntity={() => this.state.entity} onApply={this.update}/>;
+        return <NationEditor open={this.state.showEditor}
+                             onClose={this.onEditorClose}
+                             entity={this.state.entity}
+                             onApply={this.update}/>;
     };
 
     render(): * {

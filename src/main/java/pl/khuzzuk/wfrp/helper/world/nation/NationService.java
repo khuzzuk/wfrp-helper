@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.world.nation;
 
 import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,13 @@ public class NationService implements RemoteService<NationDTO> {
         Nation nation = nationAdapter.map(nationDTO);
         Nation persisted = nationRepo.save(nation);
         return nationDTOAdapter.map(persisted);
+    }
+
+    @DeleteMapping
+    @Override
+    public void delete(@Valid @RequestBody NationDTO nationDTO) {
+        Nation nation = nationAdapter.map(nationDTO);
+        nationRepo.delete(nation);
     }
 
     @GetMapping
