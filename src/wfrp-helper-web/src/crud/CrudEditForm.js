@@ -1,43 +1,46 @@
 import React, {Component} from 'react';
 import {Button, Dialog, DialogTitle, TextField} from "@material-ui/core";
 import FormFieldData from "./FormFieldData";
-import FormFieldType from "./FormFieldData";
+import ConnectionService from '../connection/ConnectionService'
 
 class CrudEditForm extends Component {
+    state = {
+        entity: null
+    };
+
+    update = (updates) => {
+        this.props.entity.updateWith(updates);
+        this.setState({entity: this.props.entity});
+    };
+
     apply = () => {
-        this.props.editor.save();
-        this.props.onClose();
+        this.props.onApply(this.state.entity);
     };
 
     generateField(fieldData: FormFieldData) {
-        switch (fieldData.type) {
-            case FormFieldType.TEXT:
-                return <TextField key={fieldData.name}
-                                  label={fieldData.label}
-                                  value={fieldData.value}
-                                  onChange={event => {
-                                      fieldData.onChange({[fieldData.name]: event.target.value});
-                                      this.setState({});
-                                  }}/>;
-            case FormFieldType.TEXT_AREA:
-                return <TextField key={fieldData.name}
-                                  label={fieldData.label}
+        const {name, label, type} = fieldData;
+        switch (type) {
+            case ConnectionService.FormFieldType.TEXT:
+                return <TextField key={name}
+                                  label={label}
+                                  value={this.props.entity[name]}
+                                  onChange={event => {this.update({[name]: event.target.value});}}/>;
+            case ConnectionService.FormFieldType.TEXT_AREA:
+                return <TextField key={name}
+                                  label={label}
                                   multiline
-                                  value={fieldData.value}
-                                  onChange={event => {
-                                      fieldData.onChange({[fieldData.name]: event.target.value});
-                                      this.setState({});
-                                  }}/>
+                                  value={this.props.entity[name]}
+                                  onChange={event => {this.update({[name]: event.target.value});}}/>;
         }
     }
 
     render(): React.ReactNode {
-        const {editor, ...other} = this.props;
+        const {service, entity, ...other} = this.props;
 
         let content = <div/>;
-        if (editor !== null) {
+        if (entity !== null) {
             content = <div>
-                {editor.getFormFields().map(formFieldData => this.generateField(formFieldData))}
+                {service.tableColumns.map(formFieldData => this.generateField(formFieldData))}
             </div>;
         }
 

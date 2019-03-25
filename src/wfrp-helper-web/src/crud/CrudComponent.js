@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
+import FormFieldData from "./FormFieldData";
+import CrudEditForm from "./CrudEditForm";
 
 class CrudComponent extends Component {
     state = {
@@ -42,21 +44,18 @@ class CrudComponent extends Component {
         });
     };
 
+    update = (data) => {
+        this.props.service.save(data);
+        this.onEditorClose()
+    };
+
     onEditorClose = () => {
         this.setState({showEditor: false});
     };
 
-    generateForm = () => {
-        console.warn('generateForm not implemented');
-    };
-
-    getColumns = () => {
-        console.warn('getColumns not implemented')
-    };
-
     render() {
         const {rows} = this.props;
-        const columns = this.getColumns();
+        const columns: FormFieldData[] = this.props.service.tableColumns;
 
         let crudButtons = <div/>;
         if (columns.length > 0) {
@@ -74,7 +73,7 @@ class CrudComponent extends Component {
                 <TableHead>
                     <TableRow>
                         {columns.map(column => (
-                            <TableCell key={column.header} align={'right'}>{column.header}</TableCell>
+                            <TableCell key={column.name} align={'right'}>{column.label}</TableCell>
                         ))}
                     </TableRow>
                 </TableHead>
@@ -85,14 +84,18 @@ class CrudComponent extends Component {
                                   selected={this.state.selectedId === row.id}>
                             {
                                 columns.map(col => {
-                                    return <TableCell key={row.id + '_' + col.field}>{row[col.field]}</TableCell>
+                                    return <TableCell key={row.id + '_' + col.name}>{row[col.name]}</TableCell>
                                 })
                             }
                         </TableRow>
                     ))}
                 </TableBody>
             </Table>
-            {this.generateForm()}
+            <CrudEditForm open={this.state.showEditor}
+                          onClose={this.onEditorClose}
+                          entity={this.state.entity}
+                          onApply={this.update}
+                          service={this.props.service}/>
         </div>;
     }
 }

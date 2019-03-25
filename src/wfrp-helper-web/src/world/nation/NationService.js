@@ -1,14 +1,18 @@
 import ConnectionService from "../../connection/ConnectionService";
 import Nation from "./Nation";
+import FormFieldData from "../../crud/FormFieldData";
 
 class NationService extends ConnectionService {
+    title = 'Nation';
     data = [];
-    tableColumns = [{
-        header: 'Name',
-        field: 'name'
+    tableColumns: FormFieldData[] = [{
+        label: 'Name',
+        name: 'name',
+        type: NationService.FormFieldType.TEXT
     }, {
-        header: 'Description',
-        field: 'description'
+        label: 'Description',
+        name: 'description',
+        type: NationService.FormFieldType.TEXT_AREA
     }];
 
     nation = new Nation();

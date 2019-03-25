@@ -1,6 +1,12 @@
 import {object} from "prop-types";
 
 class ConnectionService {
+    static FormFieldType = {
+        TEXT: 'text',
+        TEXT_AREA: 'text_area',
+        BOOLEAN: 'boolean'
+    };
+
     hostBase: string = 'http://localhost:1081/';
     uriPart: string;
     data: Array;

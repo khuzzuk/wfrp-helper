@@ -3,25 +3,9 @@ import React from 'react';
 import NationEditor from "./NationEditor";
 
 class NationCrud extends CrudComponent {
-    tableColumns = [{
-        header: 'Name',
-        field: 'name'
-    }, {
-        header: 'Description',
-        field: 'description'
-    }];
-
-    getColumns = () => {
-        return this.tableColumns;
-    };
-
     update = (data) => {
         this.props.service.save(data);
         this.onEditorClose()
-    };
-
-    apply = () => {
-
     };
 
     generateForm = () => {
@@ -30,10 +14,6 @@ class NationCrud extends CrudComponent {
                              entity={this.state.entity}
                              onApply={this.update}/>;
     };
-
-    render(): * {
-        return super.render();
-    }
 }
 
 export default NationCrud;
