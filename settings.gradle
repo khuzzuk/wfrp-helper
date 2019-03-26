@@ -1,2 +1,3 @@
 rootProject.name = 'wfrp-helper'
+include 'remote-common'
 

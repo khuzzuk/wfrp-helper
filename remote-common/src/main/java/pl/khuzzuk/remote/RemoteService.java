@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.remote;
+package pl.khuzzuk.remote;
 
 import java.util.List;
 

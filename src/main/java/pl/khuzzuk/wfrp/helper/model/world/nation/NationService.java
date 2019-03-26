@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.world.nation;
+package pl.khuzzuk.wfrp.helper.model.world.nation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.khuzzuk.wfrp.helper.remote.RemoteService;
+import pl.khuzzuk.remote.RemoteService;
 import pl.khuzzuk.wfrp.helper.repo.Adapter;
 
 import javax.validation.Valid;

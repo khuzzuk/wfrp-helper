@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
-import pl.khuzzuk.wfrp.helper.world.nation.Nation;
+import pl.khuzzuk.wfrp.helper.model.world.nation.Nation;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

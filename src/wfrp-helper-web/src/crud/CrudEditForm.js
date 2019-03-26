@@ -31,6 +31,9 @@ class CrudEditForm extends Component {
                                   multiline
                                   value={this.props.entity[name]}
                                   onChange={event => {this.update({[name]: event.target.value});}}/>;
+            default:
+                console.error('field type has no form component');
+                console.error(fieldData)
         }
     }
 

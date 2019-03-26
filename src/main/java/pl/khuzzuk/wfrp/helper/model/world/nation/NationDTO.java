@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.world.nation;
+package pl.khuzzuk.wfrp.helper.model.world.nation;
 
 import lombok.Getter;
 import lombok.Setter;
