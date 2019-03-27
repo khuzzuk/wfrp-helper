@@ -33,8 +33,6 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
-    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
-    compile group: 'org.springframework.boot', name: 'spring-boot-devtools'
 
     //db
     compile('org.postgresql:postgresql')
@@ -47,13 +45,11 @@ dependencies {
     compile group: 'pl.khuzzuk', name: 'message-bus', version: '2.0.1'
 
     //jdk11 suppoort
-/*
     compile group: 'com.sun.xml.bind', name: 'jaxb-ri', version: '2.4.0-b180830.0438'
     compile group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.3.0.1'
     compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.3.0.1'
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
     compile group: 'javax.activation', name: 'activation', version: '1.1.1'
-*/
 
     //tests
     compile group: 'org.codehaus.groovy', name: 'groovy-all', version: '2.5.4', ext: 'pom'
@@ -71,7 +67,7 @@ dependencies {
     compileOnly group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
     compileOnly group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
-    compileOnly project(':remote-common')
+    compile project(':remote-common')
     annotationProcessor project(':remote-common')
 }
 

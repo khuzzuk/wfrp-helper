@@ -12,6 +12,7 @@ repositories {
 }
 
 dependencies {
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
     compile group: 'com.google.auto.service', name: 'auto-service', version: '1.0-rc5'
     annotationProcessor group: 'com.google.auto.service', name: 'auto-service', version: '1.0-rc5'
 }

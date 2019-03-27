@@ -1,11 +1,12 @@
 package pl.khuzzuk.remote.processor;
 
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import java.io.PrintWriter;
 
 class JpaRepoGenerator extends AbstractFileGenerator {
-    JpaRepoGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription) {
-        super(roundEnv, sourceFileDescription);
+    JpaRepoGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription, ProcessingEnvironment processingEnvironment) {
+        super(roundEnv, sourceFileDescription, processingEnvironment);
     }
 
     @Override
@@ -23,8 +24,11 @@ class JpaRepoGenerator extends AbstractFileGenerator {
 
         printPackage(writer, packageName);
 
-        printImports(writer, "org.springframework.data.jpa.repository.JpaRepository");
+        printImports(writer,
+                "org.springframework.data.jpa.repository.JpaRepository",
+                "org.springframework.stereotype.Repository");
 
+        writer.println("@Repository");
         writer.println(String.format("public interface %s extends JpaRepository<%s, Long> {", repoClassName, sourceFileDescription.getElement()));
         writer.println("}");
     }

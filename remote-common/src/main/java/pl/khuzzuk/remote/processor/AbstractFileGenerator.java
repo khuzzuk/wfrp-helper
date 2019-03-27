@@ -2,19 +2,33 @@ package pl.khuzzuk.remote.processor;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.Element;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Set;
 
 abstract class AbstractFileGenerator {
+    private static final Set<String> DEFAULT_TYPES = Set.of(
+            " int ", "java.lang.Integer",
+            " long ", "java.lang.Long",
+            " float ", "java.lang.Float",
+            " double ", "java.lang.Double",
+            " booolean ", "java.lang.Boolean",
+            "java.lang.String",
+            "java.util.Date", "java.sql.Date", "java.sql.Timestamp", "java.sql.Time"
+    );
+
     RoundEnvironment roundEnv;
     SourceFileDescription sourceFileDescription;
+    ProcessingEnvironment processingEnvironment;
 
-    AbstractFileGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription) {
+    AbstractFileGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription, ProcessingEnvironment processingEnvironment) {
         this.roundEnv = roundEnv;
         this.sourceFileDescription = sourceFileDescription;
+        this.processingEnvironment = processingEnvironment;
     }
 
-    void writeFile(ProcessingEnvironment processingEnvironment) {
+    void writeFile() {
         try (PrintWriter writer = new PrintWriter(processingEnvironment.getFiler()
                 .createSourceFile(getGeneratedClassName()).openWriter())) {
             generateContent(writer);
@@ -37,5 +51,10 @@ abstract class AbstractFileGenerator {
             printWriter.println(String.format("import %s;", importPackage));
         }
         printWriter.println();
+    }
+
+    static boolean isEntity(Element field) {
+        String fieldType = field.asType().toString();
+        return DEFAULT_TYPES.stream().noneMatch(fieldType::contains);
     }
 }

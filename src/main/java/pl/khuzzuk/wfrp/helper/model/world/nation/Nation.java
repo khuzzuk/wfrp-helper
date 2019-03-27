@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
 
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.SequenceGenerator;
 @Getter
 @Setter
 @Entity
+@RemoteEntity
 public class Nation extends ListableEntity {
     @Id
     @SequenceGenerator(name = "nation_seq_gen", sequenceName = "nation_seq", allocationSize = 1)

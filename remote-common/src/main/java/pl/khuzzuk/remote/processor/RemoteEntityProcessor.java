@@ -28,11 +28,19 @@ public class RemoteEntityProcessor extends AbstractProcessor {
                 sourceFileDescription.setPackageElement(processingEnv.getElementUtils().getPackageOf(element));
                 sourceFileDescription.setMembers(processingEnv.getElementUtils().getAllMembers((TypeElement) element));
 
-                JpaRepoGenerator jpaRepoGenerator = new JpaRepoGenerator(roundEnv, sourceFileDescription);
-                jpaRepoGenerator.writeFile(processingEnv);
+                JpaRepoGenerator jpaRepoGenerator = new JpaRepoGenerator(roundEnv, sourceFileDescription, processingEnv);
+                jpaRepoGenerator.writeFile();
 
-                DtoGenerator dtoGenerator = new DtoGenerator(roundEnv, sourceFileDescription);
-                dtoGenerator.writeFile(processingEnv);
+                DtoGenerator dtoGenerator = new DtoGenerator(roundEnv, sourceFileDescription, processingEnv);
+                dtoGenerator.writeFile();
+
+                AdapterToDtoGenerator adapterToDtoGenerator = new AdapterToDtoGenerator(roundEnv, sourceFileDescription, processingEnv);
+                adapterToDtoGenerator.writeFile();
+                AdapterToEntityGenerator adapterToEntityGenerator  = new AdapterToEntityGenerator(roundEnv, sourceFileDescription, processingEnv);
+                adapterToEntityGenerator.writeFile();
+
+                RemoteServiceGenerator remoteServiceGenerator = new RemoteServiceGenerator(roundEnv, sourceFileDescription, processingEnv);
+                remoteServiceGenerator.writeFile();
             }
 
             if (!elements.isEmpty()) {
