@@ -4,7 +4,8 @@ class ConnectionService {
     static FormFieldType = {
         TEXT: 'text',
         TEXT_AREA: 'text_area',
-        BOOLEAN: 'boolean'
+        BOOLEAN: 'boolean',
+        ENTITY_COMBOBOX: 'entity_combobox'
     };
 
     hostBase: string = 'http://localhost:1081/';

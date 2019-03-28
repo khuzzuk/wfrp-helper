@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dialog, DialogTitle, TextField} from "@material-ui/core";
+import {Button, Dialog, DialogTitle, Select, TextField} from "@material-ui/core";
 import FormFieldData from "./FormFieldData";
 import ConnectionService from '../connection/ConnectionService'
 
@@ -21,16 +21,21 @@ class CrudEditForm extends Component {
         const {name, label, type} = fieldData;
         switch (type) {
             case ConnectionService.FormFieldType.TEXT:
-                return <TextField key={name}
-                                  label={label}
+                return <TextField key={name} label={label}
                                   value={this.props.entity[name]}
                                   onChange={event => {this.update({[name]: event.target.value});}}/>;
             case ConnectionService.FormFieldType.TEXT_AREA:
-                return <TextField key={name}
-                                  label={label}
+                return <TextField key={name} label={label}
                                   multiline
                                   value={this.props.entity[name]}
                                   onChange={event => {this.update({[name]: event.target.value});}}/>;
+            case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
+                return <Select key={name} label={label}
+                               options={fieldData.suggestions}
+                               value={this.props.entity[name]}
+                               onChange={event => {this.update({[name]: event.target.value})}}
+                               isMulti
+                               isClearable/>;
             default:
                 console.error('field type has no form component');
                 console.error(fieldData)
@@ -48,7 +53,7 @@ class CrudEditForm extends Component {
         }
 
         return <Dialog {...other}>
-            <DialogTitle>{this.props.title}</DialogTitle>
+            <DialogTitle>{this.props.service.title}</DialogTitle>
             {content}
             <Button onClick={this.apply}>Apply</Button>
 

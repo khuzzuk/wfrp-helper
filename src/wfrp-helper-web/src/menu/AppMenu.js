@@ -1,26 +1,24 @@
 import React, {Component} from 'react';
 import {AppBar, Toolbar} from "@material-ui/core";
 import AppToolsMenu from "./AppToolsMenu";
-import CrudWorldMenu from "../world/nation/CrudWorldMenu";
-import type EntityEditor from "../crud/EntityEditor";
-import NationCrud from "../world/nation/NationCrud";
+import CrudWorldMenu from "../world/CrudWorldMenu";
 import NationService from "../world/nation/NationService";
+import CrudComponent from "../crud/CrudComponent";
+import LanguageService from "../world/language/LanguageService";
 
 class AppMenu extends Component {
     state = {
         open: false,
         data: [],
-        panelSupplier: () => {}
+        panelSupplier: () => {
+        }
     };
 
     nationService = new NationService((data) => this.updateData(data));
+    languageService = new LanguageService((data) => this.updateData(data));
 
     updateData = (data) => {
         this.setState({data: data})
-    };
-
-    handleToggle = () => {
-        this.setState({open: !this.state.open})
     };
 
     handleClose = event => {
@@ -29,12 +27,17 @@ class AppMenu extends Component {
         }
     };
 
-    handleData = (columns, rows, editor: EntityEditor) => {
-        this.setState({columns: columns, rows: rows, editor: editor})
+    getCrud = (service) => () => {
+        this.setState({
+            panelSupplier: () => {
+                return <CrudComponent rows={this.state.data} service={service} onChange={this.setState}/>
+            }
+        });
+
     };
 
     getNationCrud = () => {
-        return <NationCrud rows={this.state.data} service={this.nationService} onChange={this.setState}/>
+        return <CrudComponent rows={this.state.data} service={this.nationService} onChange={this.setState}/>
     };
 
     render() {
@@ -45,7 +48,9 @@ class AppMenu extends Component {
                     <Toolbar>
                         <AppToolsMenu/>
                         <CrudWorldMenu nationService={this.nationService}
-                                       onNation={() => this.setState({panelSupplier: this.getNationCrud})}/>
+                                       onNation={this.getCrud(this.nationService)}
+                                       languageService={this.languageService}
+                                       onLanguage={this.getCrud(this.languageService)}/>
                     </Toolbar>
                 </AppBar>
                 {panel}
