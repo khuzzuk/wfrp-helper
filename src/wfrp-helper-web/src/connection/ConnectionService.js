@@ -1,4 +1,5 @@
 import {object} from "prop-types";
+import Nation from "../world/nation/Nation";
 
 class ConnectionService {
     static FormFieldType = {
@@ -12,12 +13,11 @@ class ConnectionService {
     uriPart: string;
     data: Array;
     action;
+    entity;
 
     constructor(uriPart, action) {
         this.uriPart = uriPart;
         this.action = action;
-        console.log('connection service action:');
-        console.log(action);
     }
 
     register = (component, data) => {
@@ -29,7 +29,7 @@ class ConnectionService {
         });
     };
 
-    async retrieveData() {
+    retrieveData() {
         fetch(this.hostBase + this.uriPart, {
             mode: 'cors'
         }).then(response => response.json())
@@ -61,10 +61,16 @@ class ConnectionService {
         this.action(data)
     };
 
-    getTableColumns(): Array {
-        console.warn("getTableColumns not implemented");
-        return [];
+    edit(toEdit: *): Nation {
+        this.entity = this.createNew();
+        this.entity.updateWith(toEdit);
+        return this.entity;
     }
+
+    update = (property, value) => {
+        this.entity.updateWith({[property]: value});
+    };
+
 }
 
 export default ConnectionService;

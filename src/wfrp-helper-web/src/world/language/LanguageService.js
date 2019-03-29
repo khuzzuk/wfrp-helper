@@ -1,7 +1,6 @@
 import ConnectionService from "../../connection/ConnectionService";
 import FormFieldData from "../../crud/FormFieldData";
 import Language from "./Language";
-import Nation from "../nation/Nation";
 import NationService from "../nation/NationService";
 
 class LanguageService extends ConnectionService {
@@ -9,6 +8,15 @@ class LanguageService extends ConnectionService {
     data = [];
     nations = [];
     tableColumns: FormFieldData[] = [{
+        label: 'Name',
+        name: 'name',
+        type: NationService.FormFieldType.TEXT
+    }, {
+        label: 'Description',
+        name: 'description',
+        type: NationService.FormFieldType.TEXT_AREA
+    }];
+    formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
         type: NationService.FormFieldType.TEXT
@@ -24,20 +32,17 @@ class LanguageService extends ConnectionService {
     }];
 
     nationService = new NationService((data) => this.refreshNations(data));
-    language = new Language();
 
     refreshNations = (data) => {
         this.nations.length = 0;
         data.forEach(d => {
-            this.nations.push({
-                value: d.id,
-                label: d.name
-            });
+            this.nations.push(d);
         });
     };
 
     constructor(action) {
         super('worldLanguage', action);
+        this.nationService.retrieveData();
     }
 
     getTableColumns(): Array {
@@ -46,19 +51,14 @@ class LanguageService extends ConnectionService {
 
     createNew(): Language {
         this.nationService.retrieveData();
-        this.language = new Nation();
-        return this.language;
+        this.entity = new Language();
+        return this.entity;
     }
 
     edit(toEdit: *): Language {
-        this.language = new Nation();
-        this.language.updateWith(toEdit);
-        return this.language;
+        this.nationService.retrieveData();
+        return super.edit(toEdit);
     }
-
-    update = (property, value) => {
-        this.language.updateWith({[property]: value});
-    };
 }
 
 export default LanguageService;

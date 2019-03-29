@@ -8,17 +8,24 @@ class NationService extends ConnectionService {
     tableColumns: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
+    }, {
+        label: 'Description',
+        name: 'description',
+    }];
+    formFields: FormFieldData[] = [{
+        label: 'Name',
+        name: 'name',
         type: NationService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
         type: NationService.FormFieldType.TEXT_AREA
-    }];
 
-    nation = new Nation();
+    }];
 
     constructor(action) {
         super('nation', action);
+        this.entity = new Nation();
     }
 
     getTableColumns(): Array {
@@ -26,19 +33,10 @@ class NationService extends ConnectionService {
     }
 
     createNew(): Nation {
-        this.nation = new Nation();
-        return this.nation;
+        this.entity = new Nation();
+        return this.entity;
     }
 
-    edit(toEdit: *): Nation {
-        this.nation = new Nation();
-        this.nation.updateWith(toEdit);
-        return this.nation;
-    }
-
-    update = (property, value) => {
-        this.nation.updateWith({[property]: value});
-    };
 }
 
 export default NationService;

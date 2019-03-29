@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
-import {Button, Dialog, DialogTitle, Select, TextField} from "@material-ui/core";
+import {Button, Dialog, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core";
 import FormFieldData from "./FormFieldData";
 import ConnectionService from '../connection/ConnectionService'
+import EntityCombobox from "./field/EntityCombobox";
+
+const styles = theme => ({
+    dialogPaper: {
+        overflow: "visible",
+    }
+});
 
 class CrudEditForm extends Component {
     state = {
@@ -23,42 +30,45 @@ class CrudEditForm extends Component {
             case ConnectionService.FormFieldType.TEXT:
                 return <TextField key={name} label={label}
                                   value={this.props.entity[name]}
-                                  onChange={event => {this.update({[name]: event.target.value});}}/>;
+                                  onChange={event => {
+                                      this.update({[name]: event.target.value});
+                                  }}/>;
             case ConnectionService.FormFieldType.TEXT_AREA:
                 return <TextField key={name} label={label}
                                   multiline
                                   value={this.props.entity[name]}
-                                  onChange={event => {this.update({[name]: event.target.value});}}/>;
+                                  onChange={event => {
+                                      this.update({[name]: event.target.value});
+                                  }}/>;
             case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
-                return <Select key={name} label={label}
-                               options={fieldData.suggestions}
-                               value={this.props.entity[name]}
-                               onChange={event => {this.update({[name]: event.target.value})}}
-                               isMulti
-                               isClearable/>;
+                return <EntityCombobox label={fieldData.label}
+                                       data={fieldData.suggestions}
+                                       value={this.props.entity[name]}
+                                       onChange={data => this.update({[name]: data})}/>;
             default:
                 console.error('field type has no form component');
                 console.error(fieldData)
         }
     }
 
-    render(): React.ReactNode {
-        const {service, entity, ...other} = this.props;
+    render() {
+        const {service, entity, classes, ...other} = this.props;
 
         let content = <div/>;
         if (entity !== null) {
             content = <div>
-                {service.tableColumns.map(formFieldData => this.generateField(formFieldData))}
+                {service.formFields.map(formFieldData => this.generateField(formFieldData))}
             </div>;
         }
 
-        return <Dialog {...other}>
+        return <Dialog classes={{paperScrollPaper: classes.dialogPaper}} PaperProps={{classNames: classes.dialogPaper}} {...other}>
             <DialogTitle>{this.props.service.title}</DialogTitle>
-            {content}
+            <DialogContent className={classes.dialogPaper}>
+                {content}
+            </DialogContent>
             <Button onClick={this.apply}>Apply</Button>
-
         </Dialog>;
     }
 }
 
-export default CrudEditForm;
+export default withStyles(styles)(CrudEditForm);

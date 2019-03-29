@@ -36,10 +36,6 @@ class AppMenu extends Component {
 
     };
 
-    getNationCrud = () => {
-        return <CrudComponent rows={this.state.data} service={this.nationService} onChange={this.setState}/>
-    };
-
     render() {
         let panel = this.state.panelSupplier();
         return (
