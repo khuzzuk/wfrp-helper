@@ -1,4 +1,4 @@
-import {object} from "prop-types";
+import {func, object} from "prop-types";
 import Nation from "../world/nation/Nation";
 
 class ConnectionService {
@@ -32,28 +32,39 @@ class ConnectionService {
     retrieveData() {
         fetch(this.hostBase + this.uriPart, {
             mode: 'cors'
-        }).then(response => response.json())
+        })
+            .then(response => response.json())
             .then(data => {
                 this.setData(data);
             })
+            .catch(this.handleErrors)
     };
 
-    async save(entity: object) {
+    save(entity: object, onSuccess: func) {
         fetch(this.hostBase + this.uriPart, {
             method: 'post',
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(entity)
-        }).then(() => this.retrieveData())
+        })
+            .then(response => {
+                this.handleErrors(response);
+                this.retrieveData();
+                this.onSuccess(response, onSuccess);
+            })
+            .catch(this.handleErrors);
     }
 
-    async remove(entity: object) {
+    remove(entity: object) {
         fetch(this.hostBase + this.uriPart, {
             method: 'delete',
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(entity)
-        }).then(() => this.retrieveData())
+        })
+            .then(this.handleErrors)
+            .then(() => this.retrieveData())
+            .catch(this.handleErrors)
     }
 
     setData(data: Array) {
@@ -71,6 +82,32 @@ class ConnectionService {
         this.entity.updateWith({[property]: value});
     };
 
+    onSuccess = (response, onSuccess) => {
+        if (response.status === 200) {
+            onSuccess();
+        }
+    };
+
+    handleErrors = (response) => {
+        if (response.status !== 200) {
+            let message = response.json();
+
+            if (response.status === 400) {
+                message.then(value => {
+                    console.log(value);
+                    window.confirm(Array.from(new Set(value.errors
+                        .map(e => 'cannot set field ' + e.field + ' with ' + e.rejectedValue + ', ' + e.message)))
+                        .join('\n'));
+                });
+            } else if (response.status === 409) {
+                message.then(value => {
+                    console.log(value);
+                    window.confirm(value.message);
+                });
+            }
+        }
+        return response;
+    };
 }
 
 export default ConnectionService;

@@ -45,8 +45,7 @@ class CrudComponent extends Component {
     };
 
     update = (data) => {
-        this.props.service.save(data);
-        this.onEditorClose()
+        this.props.service.save(data, this.onEditorClose);
     };
 
     onEditorClose = () => {
