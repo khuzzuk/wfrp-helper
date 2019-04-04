@@ -1,9 +1,10 @@
-package pl.khuzzuk.wfrp.helper.model.magic;
+package pl.khuzzuk.wfrp.helper.model.knowledge.magic;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
@@ -18,6 +19,7 @@ import javax.validation.constraints.Min;
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
+@RemoteEntity
 public class SpellSchool {
     @Id
     @SequenceGenerator(name = "spell_school_seq_gen", sequenceName = "spell_school_seq", allocationSize = 1)

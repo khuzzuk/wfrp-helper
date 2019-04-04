@@ -1,5 +1,5 @@
-import ConnectionService from "../../connection/ConnectionService";
-import FormFieldData from "../../crud/FormFieldData";
+import ConnectionService from "../../../connection/ConnectionService";
+import FormFieldData from "../../../crud/FormFieldData";
 import Language from "./Language";
 import NationService from "../nation/NationService";
 

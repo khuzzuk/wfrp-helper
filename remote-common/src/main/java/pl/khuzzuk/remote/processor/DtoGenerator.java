@@ -1,9 +1,11 @@
 package pl.khuzzuk.remote.processor;
 
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
@@ -58,6 +60,18 @@ class DtoGenerator extends AbstractFileGenerator {
                 type = type + "DTO";
             }
         }
+
+        if (type.startsWith("@")) {
+            for (AnnotationMirror annotation : field.asType().getAnnotationMirrors()) {
+                type = RegExUtils.removeFirst(type, annotation.toString());
+                if (type.startsWith(",")) {
+                    type = type.substring(1);
+                }
+                type = annotation + " " + type;
+            }
+        }
+
+        List<? extends AnnotationMirror> annotationMirrors = field.getAnnotationMirrors();
 
         writer.println(String.format("private %s %s;", type, fieldName));
         writer.println();

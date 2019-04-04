@@ -23,8 +23,7 @@ class ValidationErrorHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        ApiError apiError = new ApiError();
-        apiError.setOccurredAt(currentDateTimeService.now());
+        ApiError apiError = createApiError();
 
         List<ValidationError> validationErrors = ex.getBindingResult().getFieldErrors().stream()
                 .map(ValidationErrorHandler::getValidationError)
@@ -37,7 +36,19 @@ class ValidationErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<Object> handleDataAccessExceptions(DataAccessException exception) {
-        return new ResponseEntity<>(exception.getMostSpecificCause().getLocalizedMessage(), HttpStatus.CONFLICT);
+        ApiError apiError = createApiError();
+
+        SqlError sqlError = new SqlError();
+        sqlError.setMessage(exception.getMostSpecificCause().getLocalizedMessage());
+        apiError.setErrors(List.of(sqlError));
+
+        return new ResponseEntity<>(apiError, HttpStatus.CONFLICT);
+    }
+
+    private ApiError createApiError() {
+        ApiError apiError = new ApiError();
+        apiError.setOccurredAt(currentDateTimeService.now());
+        return apiError;
     }
 
     private static ValidationError getValidationError(FieldError error) {

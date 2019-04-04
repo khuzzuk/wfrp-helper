@@ -1,6 +1,6 @@
-import ConnectionService from "../../connection/ConnectionService";
+import ConnectionService from "../../../connection/ConnectionService";
 import Nation from "./Nation";
-import FormFieldData from "../../crud/FormFieldData";
+import FormFieldData from "../../../crud/FormFieldData";
 
 class NationService extends ConnectionService {
     title = 'Nation';

@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import {AppBar, Toolbar} from "@material-ui/core";
 import AppToolsMenu from "./AppToolsMenu";
-import CrudWorldMenu from "../world/CrudWorldMenu";
-import NationService from "../world/nation/NationService";
+import CrudWorldMenu from "../data/world/CrudWorldMenu";
+import NationService from "../data/world/nation/NationService";
 import CrudComponent from "../crud/CrudComponent";
-import LanguageService from "../world/language/LanguageService";
+import LanguageService from "../data/world/language/LanguageService";
+import KnowledgeMenu from "../data/knowledge/KnowledgeMenu";
+import SkillService from "../data/knowledge/skill/SkillService";
 
 class AppMenu extends Component {
     state = {
@@ -16,6 +18,7 @@ class AppMenu extends Component {
 
     nationService = new NationService((data) => this.updateData(data));
     languageService = new LanguageService((data) => this.updateData(data));
+    skillService = new SkillService((data) => this.updateData(data));
 
     updateData = (data) => {
         this.setState({data: data})
@@ -43,10 +46,9 @@ class AppMenu extends Component {
                 <AppBar position={"relative"}>
                     <Toolbar>
                         <AppToolsMenu/>
-                        <CrudWorldMenu nationService={this.nationService}
-                                       onNation={this.getCrud(this.nationService)}
-                                       languageService={this.languageService}
-                                       onLanguage={this.getCrud(this.languageService)}/>
+                        <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
+                                       languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}/>
+                        <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}/>
                     </Toolbar>
                 </AppBar>
                 {panel}

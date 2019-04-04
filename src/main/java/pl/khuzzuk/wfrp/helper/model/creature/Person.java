@@ -12,8 +12,8 @@ import pl.khuzzuk.wfrp.helper.model.inventory.MeleeWeapon;
 import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
 import pl.khuzzuk.wfrp.helper.model.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
-import pl.khuzzuk.wfrp.helper.model.magic.Spell;
-import pl.khuzzuk.wfrp.helper.model.magic.SpellSchool;
+import pl.khuzzuk.wfrp.helper.model.knowledge.magic.Spell;
+import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 
 import javax.persistence.*;

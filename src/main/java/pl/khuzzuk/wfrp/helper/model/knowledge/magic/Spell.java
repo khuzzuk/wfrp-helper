@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.magic;
+package pl.khuzzuk.wfrp.helper.model.knowledge.magic;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

@@ -1,4 +1,4 @@
-import Entity from "../../crud/Entity";
+import Entity from "../../../crud/Entity";
 
 class Nation extends Entity {
     name: string;

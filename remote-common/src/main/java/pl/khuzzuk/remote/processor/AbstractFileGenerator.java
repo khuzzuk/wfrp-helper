@@ -9,11 +9,11 @@ import java.util.Set;
 
 abstract class AbstractFileGenerator {
     private static final Set<String> DEFAULT_TYPES = Set.of(
-            " int ", "java.lang.Integer",
-            " long ", "java.lang.Long",
-            " float ", "java.lang.Float",
-            " double ", "java.lang.Double",
-            " booolean ", "java.lang.Boolean",
+            " int", "java.lang.Integer",
+            " long", "java.lang.Long",
+            " float", "java.lang.Float",
+            " double", "java.lang.Double",
+            " booolean", "java.lang.Boolean",
             "java.lang.String",
             "java.util.Date", "java.sql.Date", "java.sql.Timestamp", "java.sql.Time"
     );

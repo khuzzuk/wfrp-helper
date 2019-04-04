@@ -1,4 +1,4 @@
-import Entity from "../../crud/Entity";
+import Entity from "../../../crud/Entity";
 import Nation from "../nation/Nation";
 
 class Language extends Entity {

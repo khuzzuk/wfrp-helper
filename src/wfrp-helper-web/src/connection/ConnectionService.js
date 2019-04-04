@@ -1,5 +1,5 @@
 import {func, object} from "prop-types";
-import Nation from "../world/nation/Nation";
+import Entity from "../crud/Entity";
 
 class ConnectionService {
     static FormFieldType = {
@@ -72,7 +72,7 @@ class ConnectionService {
         this.action(data)
     };
 
-    edit(toEdit: *): Nation {
+    edit(toEdit: *): Entity {
         this.entity = this.createNew();
         this.entity.updateWith(toEdit);
         return this.entity;
@@ -102,7 +102,7 @@ class ConnectionService {
             } else if (response.status === 409) {
                 message.then(value => {
                     console.log(value);
-                    window.confirm(value.message);
+                    window.confirm(value.errors[0].message);
                 });
             }
         }
