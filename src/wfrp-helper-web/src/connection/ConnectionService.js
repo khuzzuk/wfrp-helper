@@ -6,6 +6,7 @@ class ConnectionService {
         TEXT: 'text',
         TEXT_AREA: 'text_area',
         BOOLEAN: 'boolean',
+        INTEGER: 'integer',
         ENTITY_COMBOBOX: 'entity_combobox'
     };
 

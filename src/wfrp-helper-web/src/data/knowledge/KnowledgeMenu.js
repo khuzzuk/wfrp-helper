@@ -11,9 +11,23 @@ class KnowledgeMenu extends MenuComponent {
         this.props.skillService.retrieveData();
     };
 
+    showSpellSchool = () => {
+        this.handleClose();
+        this.props.onSpellSchool();
+        this.props.spellSchoolService.retrieveData();
+    };
+
+    showSpell = () => {
+        this.handleClose();
+        this.props.onSpellSchool();
+        this.props.spellSchoolService.retrieveData();
+    };
+
     getMenuItems = () => {
         return [
-            <MenuItem onClick={this.showSkillCrud}>Skill</MenuItem>
+            <MenuItem onClick={this.showSkillCrud}>Skill</MenuItem>,
+            <MenuItem onClick={this.showSpellSchool}>Spell School</MenuItem>,
+            <MenuItem onClick={this.showSpell}>Spell</MenuItem>
         ];
     };
 }

@@ -13,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import pl.khuzzuk.wfrp.helper.common.date.CurrentDateTimeService;
 
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,14 +23,19 @@ class ValidationErrorHandler extends ResponseEntityExceptionHandler {
     private final CurrentDateTimeService currentDateTimeService;
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(@Nullable MethodArgumentNotValidException ex,
+                                                                  @Nullable HttpHeaders headers,
+                                                                  @Nullable HttpStatus status,
+                                                                  @Nullable WebRequest request) {
         ApiError apiError = createApiError();
 
-        List<ValidationError> validationErrors = ex.getBindingResult().getFieldErrors().stream()
-                .map(ValidationErrorHandler::getValidationError)
-                .collect(Collectors.toList());
-        validationErrors.forEach(validationError -> validationError.setEntity(ex.getBindingResult().getTarget()));
-        apiError.setErrors(validationErrors);
+        if (ex != null) {
+            List<ValidationError> validationErrors = ex.getBindingResult().getFieldErrors().stream()
+                    .map(ValidationErrorHandler::getValidationError)
+                    .collect(Collectors.toList());
+            validationErrors.forEach(validationError -> validationError.setEntity(ex.getBindingResult().getTarget()));
+            apiError.setErrors(validationErrors);
+        }
 
         return new ResponseEntity<>(apiError, headers, HttpStatus.BAD_REQUEST);
     }

@@ -3,6 +3,7 @@ import {Button, Dialog, DialogContent, DialogTitle, TextField, withStyles} from 
 import FormFieldData from "./FormFieldData";
 import ConnectionService from '../connection/ConnectionService'
 import EntityCombobox from "./field/EntityCombobox";
+import IntegerField from "./field/IntegerField";
 
 const styles = theme => ({
     dialogPaper: {
@@ -40,6 +41,12 @@ class CrudEditForm extends Component {
                                   onChange={event => {
                                       this.update({[name]: event.target.value});
                                   }}/>;
+            case ConnectionService.FormFieldType.INTEGER:
+                return <IntegerField label={fieldData.label}
+                                     value={this.props.entity[name]}
+                                     onChange={event => {
+                                         this.update({[name]: event.target.value});
+                                     }}/>;
             case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
                 return <EntityCombobox label={fieldData.label}
                                        data={fieldData.suggestions}
@@ -61,7 +68,8 @@ class CrudEditForm extends Component {
             </div>;
         }
 
-        return <Dialog classes={{paperScrollPaper: classes.dialogPaper}} PaperProps={{classNames: classes.dialogPaper}} {...other}>
+        return <Dialog classes={{paperScrollPaper: classes.dialogPaper}}
+                       PaperProps={{classNames: classes.dialogPaper}} {...other}>
             <DialogTitle>{this.props.service.title}</DialogTitle>
             <DialogContent className={classes.dialogPaper}>
                 {content}

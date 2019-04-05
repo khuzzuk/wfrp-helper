@@ -7,18 +7,19 @@ import CrudComponent from "../crud/CrudComponent";
 import LanguageService from "../data/world/language/LanguageService";
 import KnowledgeMenu from "../data/knowledge/KnowledgeMenu";
 import SkillService from "../data/knowledge/skill/SkillService";
+import SpellSchoolService from "../data/knowledge/magic/spellSchool/SpellSchoolService";
 
 class AppMenu extends Component {
     state = {
         open: false,
         data: [],
-        panelSupplier: () => {
-        }
+        panelSupplier: () => {}
     };
 
     nationService = new NationService((data) => this.updateData(data));
     languageService = new LanguageService((data) => this.updateData(data));
     skillService = new SkillService((data) => this.updateData(data));
+    spellSchoolService = new SpellSchoolService((data) => this.updateData(data));
 
     updateData = (data) => {
         this.setState({data: data})
@@ -48,7 +49,8 @@ class AppMenu extends Component {
                         <AppToolsMenu/>
                         <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
                                        languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}/>
-                        <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}/>
+                        <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
+                                       spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}/>
                     </Toolbar>
                 </AppBar>
                 {panel}

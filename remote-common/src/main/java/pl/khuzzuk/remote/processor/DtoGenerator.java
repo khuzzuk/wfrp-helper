@@ -1,6 +1,5 @@
 package pl.khuzzuk.remote.processor;
 
-import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -11,6 +10,7 @@ import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.regex.Pattern;
 
 class DtoGenerator extends AbstractFileGenerator {
     DtoGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription, ProcessingEnvironment processingEnvironment) {
@@ -63,7 +63,7 @@ class DtoGenerator extends AbstractFileGenerator {
 
         if (type.startsWith("@")) {
             for (AnnotationMirror annotation : field.asType().getAnnotationMirrors()) {
-                type = RegExUtils.removeFirst(type, annotation.toString());
+                type = type.replaceFirst(Pattern.quote(annotation.toString()), "");
                 if (type.startsWith(",")) {
                     type = type.substring(1);
                 }

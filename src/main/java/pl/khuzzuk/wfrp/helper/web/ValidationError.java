@@ -1,10 +1,11 @@
 package pl.khuzzuk.wfrp.helper.web;
 
 import lombok.Data;
-import pl.khuzzuk.wfrp.helper.web.ApiError.Reason;
+import lombok.EqualsAndHashCode;
 
 @Data
-class ValidationError extends Reason {
+@EqualsAndHashCode(callSuper = false)
+class ValidationError extends ApiError.Reason {
     private Object entity;
     private String message;
     private String field;
