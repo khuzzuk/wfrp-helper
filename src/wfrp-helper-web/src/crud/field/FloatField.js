@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {TextField} from "@material-ui/core";
 
-class IntegerField extends Component {
+class FloatField extends Component {
     updateInt = onChange => event => {
-        let number = parseInt(event.target.value);
+        let number = parseFloat(event.target.value);
         if (number) onChange(number)
     };
 
@@ -14,4 +14,4 @@ class IntegerField extends Component {
     }
 }
 
-export default IntegerField;
+export default FloatField;

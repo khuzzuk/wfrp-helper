@@ -13,6 +13,9 @@ class SpellSchoolService extends ConnectionService {
         }, {
             label: 'Description',
             name: 'description',
+        }, {
+            label: 'Levels',
+            name: 'levels',
         }
     ];
 

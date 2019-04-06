@@ -1,9 +1,12 @@
 import React, {Component} from 'react';
 import {Button, Dialog, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core";
+import Select from 'react-select';
 import FormFieldData from "./FormFieldData";
 import ConnectionService from '../connection/ConnectionService'
 import EntityCombobox from "./field/EntityCombobox";
 import IntegerField from "./field/IntegerField";
+import FloatField from "./field/FloatField";
+import EnumSelect from "./field/EnumSelect";
 
 const styles = theme => ({
     dialogPaper: {
@@ -44,14 +47,21 @@ class CrudEditForm extends Component {
             case ConnectionService.FormFieldType.INTEGER:
                 return <IntegerField label={fieldData.label}
                                      value={this.props.entity[name]}
-                                     onChange={event => {
-                                         this.update({[name]: event.target.value});
-                                     }}/>;
+                                     onChange={number => {this.update({[name]: number})}}/>;
+            case ConnectionService.FormFieldType.FLOAT:
+                return <FloatField label={fieldData.label}
+                                     value={this.props.entity[name]}
+                                     onChange={number => {this.update({[name]: number})}}/>;
             case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
                 return <EntityCombobox label={fieldData.label}
                                        data={fieldData.suggestions}
                                        value={this.props.entity[name]}
                                        onChange={data => this.update({[name]: data})}/>;
+            case ConnectionService.FormFieldType.ENUM_SELECT:
+                return <EnumSelect label={fieldData.label}
+                               data={fieldData.suggestions}
+                               value={this.props.entity[name]}
+                               onChange={data => this.update({[name]: data})}/>;
             default:
                 console.error('field type has no form component');
                 console.error(fieldData)

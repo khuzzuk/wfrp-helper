@@ -3,17 +3,20 @@ package pl.khuzzuk.remote.processor;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.ElementKind;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeKind;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Set;
 
 abstract class AbstractFileGenerator {
     private static final Set<String> DEFAULT_TYPES = Set.of(
-            " int", "java.lang.Integer",
-            " long", "java.lang.Long",
-            " float", "java.lang.Float",
-            " double", "java.lang.Double",
-            " booolean", "java.lang.Boolean",
+            "int", "java.lang.Integer",
+            "long", "java.lang.Long",
+            "float", "java.lang.Float",
+            "double", "java.lang.Double",
+            "boolean", "java.lang.Boolean",
             "java.lang.String",
             "java.util.Date", "java.sql.Date", "java.sql.Timestamp", "java.sql.Time"
     );
@@ -54,7 +57,14 @@ abstract class AbstractFileGenerator {
     }
 
     static boolean isEntity(Element field) {
+        if (field.asType().getKind().equals(TypeKind.DECLARED)) {
+            DeclaredType type = (DeclaredType) field.asType();
+            if (type.asElement().getKind().equals(ElementKind.ENUM)) {
+                return false;
+            }
+        }
+
         String fieldType = field.asType().toString();
-        return DEFAULT_TYPES.stream().noneMatch(fieldType::contains);
+        return DEFAULT_TYPES.stream().noneMatch(fieldType::endsWith);
     }
 }

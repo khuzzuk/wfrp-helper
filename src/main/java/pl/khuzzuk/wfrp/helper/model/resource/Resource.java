@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
+@RemoteEntity
 public class Resource {
     @Id
     @SequenceGenerator(name = "resource_seq_gen", sequenceName = "resource_seq", allocationSize = 1)

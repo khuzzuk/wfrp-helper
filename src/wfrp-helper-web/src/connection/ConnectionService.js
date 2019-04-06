@@ -7,6 +7,8 @@ class ConnectionService {
         TEXT_AREA: 'text_area',
         BOOLEAN: 'boolean',
         INTEGER: 'integer',
+        FLOAT: 'float',
+        ENUM_SELECT: 'enum_select',
         ENTITY_COMBOBOX: 'entity_combobox'
     };
 
