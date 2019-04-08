@@ -48,16 +48,16 @@ class CrudEditForm extends Component {
                                      value={this.props.entity[name]}
                                      onChange={number => {this.update({[name]: number})}}/>;
             case ConnectionService.FormFieldType.FLOAT:
-                return <FloatField label={fieldData.label}
+                return <FloatField key={name} label={fieldData.label}
                                      value={this.props.entity[name]}
                                      onChange={number => {this.update({[name]: number})}}/>;
             case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
-                return <EntityCombobox label={fieldData.label}
+                return <EntityCombobox key={name} label={fieldData.label}
                                        data={fieldData.suggestions}
                                        value={this.props.entity[name]}
                                        onChange={data => this.update({[name]: data})}/>;
             case ConnectionService.FormFieldType.ENUM_SELECT:
-                return <EnumSelect label={fieldData.label}
+                return <EnumSelect key={name} label={fieldData.label}
                                data={fieldData.suggestions}
                                value={this.props.entity[name]}
                                onChange={data => this.update({[name]: data})}/>;
@@ -68,7 +68,7 @@ class CrudEditForm extends Component {
     }
 
     render() {
-        const {service, entity, classes, ...other} = this.props;
+        const {service, entity, classes, open} = this.props;
 
         let content = <div/>;
         if (entity !== null) {
@@ -78,7 +78,7 @@ class CrudEditForm extends Component {
         }
 
         return <Dialog classes={{paperScrollPaper: classes.dialogPaper}}
-                       PaperProps={{classNames: classes.dialogPaper}} {...other}>
+                       PaperProps={{classNames: classes.dialogPaper}} open={open}>
             <DialogTitle>{this.props.service.title}</DialogTitle>
             <DialogContent className={classes.dialogPaper}>
                 {content}

@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.inventory;
+package pl.khuzzuk.wfrp.helper.model.crafting.inventory;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,10 +1,10 @@
-package pl.khuzzuk.wfrp.helper.model.inventory;
+package pl.khuzzuk.wfrp.helper.model.crafting.inventory;
 
 import lombok.Getter;
 import lombok.Setter;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
-import pl.khuzzuk.wfrp.helper.model.resource.Resource;
+import pl.khuzzuk.wfrp.helper.model.crafting.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.CascadeType;

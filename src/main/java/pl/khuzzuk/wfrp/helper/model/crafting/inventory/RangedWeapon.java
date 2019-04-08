@@ -1,10 +1,10 @@
-package pl.khuzzuk.wfrp.helper.model.inventory;
+package pl.khuzzuk.wfrp.helper.model.crafting.inventory;
 
 import lombok.Getter;
 import lombok.Setter;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
-import pl.khuzzuk.wfrp.helper.model.inventory.blueprints.ArmorBlueprint;
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.RangedWeaponBlueprint;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,14 +14,9 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 @Entity
-public class Armor extends Wearable {
+public class RangedWeapon extends Wearable {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "item_blueprint_id")
     @FormElement(editor = EditorType.CHOOSE)
-    private ArmorBlueprint type;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "armor_pattern_id")
-    @FormElement(editor = EditorType.CHOOSE)
-    private ArmorPattern armorPattern;
+    private RangedWeaponBlueprint type;
 }

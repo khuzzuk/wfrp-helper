@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.inventory.blueprints;
+package pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

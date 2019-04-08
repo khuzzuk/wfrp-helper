@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.model.inventory.blueprints;
+package pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints;
 
 import javax.persistence.Entity;
 

@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
-import pl.khuzzuk.wfrp.helper.model.inventory.MiscItem;
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MiscItem;
 import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 
 import javax.persistence.AttributeOverride;

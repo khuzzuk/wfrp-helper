@@ -6,6 +6,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.element.TypeElement;
 import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import java.io.PrintWriter;
@@ -13,8 +14,11 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 class DtoGenerator extends AbstractFileGenerator {
+    private TypeElement objectType;
+
     DtoGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription, ProcessingEnvironment processingEnvironment) {
         super(roundEnv, sourceFileDescription, processingEnvironment);
+        objectType = processingEnvironment.getElementUtils().getTypeElement("java.lang.Object");
     }
 
     @Override
