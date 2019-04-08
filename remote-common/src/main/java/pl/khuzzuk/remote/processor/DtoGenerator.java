@@ -7,7 +7,6 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeKind;
 import javax.lang.model.type.TypeMirror;
 import java.io.PrintWriter;
 import java.util.List;
@@ -58,7 +57,7 @@ class DtoGenerator extends AbstractFileGenerator {
         String methodSuffix = StringUtils.capitalize(fieldName);
 
         if (isEntity(field)) {
-            if (field.asType().getKind().equals(TypeKind.DECLARED)) {
+            if (type.endsWith(">")) {
                 type = StringUtils.substringBeforeLast(type, ">") + "DTO>";
             } else {
                 type = type + "DTO";
