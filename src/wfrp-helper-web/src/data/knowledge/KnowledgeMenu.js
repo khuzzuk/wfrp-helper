@@ -25,9 +25,9 @@ class KnowledgeMenu extends MenuComponent {
 
     getMenuItems = () => {
         return [
-            <MenuItem onClick={this.showSkillCrud}>Skill</MenuItem>,
-            <MenuItem onClick={this.showSpellSchool}>Spell School</MenuItem>,
-            <MenuItem onClick={this.showSpell}>Spell</MenuItem>
+            <MenuItem key={'skill'} onClick={this.showSkillCrud}>Skill</MenuItem>,
+            <MenuItem key={'spellSchool'} onClick={this.showSpellSchool}>Spell School</MenuItem>,
+            <MenuItem key={'spell'} onClick={this.showSpell}>Spell</MenuItem>
         ];
     };
 }

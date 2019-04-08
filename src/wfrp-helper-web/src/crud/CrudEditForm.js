@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Button, Dialog, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core";
-import Select from 'react-select';
 import FormFieldData from "./FormFieldData";
 import ConnectionService from '../connection/ConnectionService'
 import EntityCombobox from "./field/EntityCombobox";

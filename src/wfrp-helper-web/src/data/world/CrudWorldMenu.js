@@ -19,8 +19,8 @@ class CrudWorldMenu extends MenuComponent {
 
     getMenuItems = () => {
         return [
-            <MenuItem onClick={this.showNationCrud}>Nations</MenuItem>,
-            <MenuItem onClick={this.showLanguagesCrud}>Languages</MenuItem>
+            <MenuItem key={'nation'} onClick={this.showNationCrud}>Nation</MenuItem>,
+            <MenuItem key={'language'} onClick={this.showLanguagesCrud}>Language</MenuItem>
         ];
     };
 }

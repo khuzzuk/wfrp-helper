@@ -3,14 +3,24 @@ import makeAnimated from 'react-select/lib/animated';
 import Select from 'react-select';
 
 export default class EnumSelect extends Component {
+    getData = source => {
+        return source.map(e => {
+            return {label: e, value: e};
+        });
+    };
+
+    onSelected = selected => {
+        this.props.onChange(selected && selected.value)
+    };
+
     render() {
-        const {label, data, value, onChange} = this.props;
+        const {label, data, value} = this.props;
         return <Select textFieldProps={{label: label, InputLabelProps: {shrink: false}}}
-                       options={data}
+                       options={this.getData(data)}
                        components={makeAnimated()}
-                       getOptionLabel={option => { return <div>{option}</div>}}
-                       getOptionValue={option => { return option}}
-                       onChange={onChange}
-                       value={value}/>;
+                       onChange={this.onSelected}
+                       value={{label: value, value: value}}
+                       isSearchable
+                       isClearable/>;
     }
 }

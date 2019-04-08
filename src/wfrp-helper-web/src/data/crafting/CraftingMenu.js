@@ -13,7 +13,7 @@ class CraftingMenu extends MenuComponent {
 
     getMenuItems = () => {
         return [
-            <MenuItem onClick={this.showResourceCrud}>Resource</MenuItem>,
+            <MenuItem key={'resource'} onClick={this.showResourceCrud}>Resource</MenuItem>,
         ];
     };
 }
