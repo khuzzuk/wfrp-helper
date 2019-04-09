@@ -83,7 +83,9 @@ class CrudComponent extends Component {
                                   selected={this.state.selectedId === row.id}>
                             {
                                 columns.map(col => {
-                                    return <TableCell key={row.id + '_' + col.name}>{row[col.name]}</TableCell>
+                                    return <TableCell key={row.id + '_' + col.name}>
+                                        {(col.getter || (arg => arg))(row[col.name])}
+                                    </TableCell>
                                 })
                             }
                         </TableRow>

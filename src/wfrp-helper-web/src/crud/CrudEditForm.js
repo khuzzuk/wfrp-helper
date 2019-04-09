@@ -6,6 +6,7 @@ import EntityCombobox from "./field/EntityCombobox";
 import IntegerField from "./field/IntegerField";
 import FloatField from "./field/FloatField";
 import EnumSelect from "./field/EnumSelect";
+import PriceField from "./field/PriceField";
 
 const styles = theme => ({
     dialogPaper: {
@@ -61,6 +62,10 @@ class CrudEditForm extends Component {
                                data={fieldData.suggestions}
                                value={this.props.entity[name]}
                                onChange={data => this.update({[name]: data})}/>;
+            case ConnectionService.FormFieldType.PRICE:
+                return <PriceField key={name} label={fieldData.label}
+                                   value={this.props.entity[name]}
+                                   onChange={price => this.update({[name]: price})}/>;
             default:
                 console.error('field type has no form component');
                 console.error(fieldData)

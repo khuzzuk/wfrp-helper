@@ -10,6 +10,7 @@ import SkillService from "../data/knowledge/skill/SkillService";
 import SpellSchoolService from "../data/knowledge/magic/spellSchool/SpellSchoolService";
 import ResourceService from "../data/crafting/resource/ResourceService";
 import CraftingMenu from "../data/crafting/CraftingMenu";
+import ItemService from "../data/crafting/item/ItemService";
 
 class AppMenu extends Component {
     state = {
@@ -26,6 +27,7 @@ class AppMenu extends Component {
 
     //crafting services
     resourceService = new ResourceService((data) => this.updateData(data));
+    itemService = new ItemService((data) => this.updateData(data));
 
     updateData = (data) => {
         this.setState({data: data})
@@ -56,7 +58,8 @@ class AppMenu extends Component {
                         <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
                                        languageService={this.languageService}
                                        onLanguage={this.getCrud(this.languageService)}/>
-                        <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}/>
+                        <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
+                                      itemService={this.itemService} onItem={this.getCrud(this.itemService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}/>
                     </Toolbar>

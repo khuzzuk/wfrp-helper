@@ -11,9 +11,16 @@ class CraftingMenu extends MenuComponent {
         this.props.resourceService.retrieveData();
     };
 
+    showItemCrud = () => {
+        this.handleClose();
+        this.props.onItem();
+        this.props.itemService.retrieveData();
+    };
+
     getMenuItems = () => {
         return [
             <MenuItem key={'resource'} onClick={this.showResourceCrud}>Resource</MenuItem>,
+            <MenuItem key={'item'} onClick={this.showItemCrud}>Item</MenuItem>,
         ];
     };
 }

@@ -9,7 +9,8 @@ class ConnectionService {
         INTEGER: 'integer',
         FLOAT: 'float',
         ENUM_SELECT: 'enum_select',
-        ENTITY_COMBOBOX: 'entity_combobox'
+        ENTITY_COMBOBOX: 'entity_combobox',
+        PRICE: 'price'
     };
 
     hostBase: string = 'http://localhost:1081/';
@@ -40,7 +41,7 @@ class ConnectionService {
             .then(data => {
                 this.setData(data);
             })
-            .catch(this.handleErrors)
+            .catch(this.handleInternalErrors)
     };
 
     save(entity: object, onSuccess: func) {
@@ -55,7 +56,7 @@ class ConnectionService {
                 this.retrieveData();
                 this.onSuccess(response, onSuccess);
             })
-            .catch(this.handleErrors);
+            .catch(this.handleInternalErrors);
     }
 
     remove(entity: object) {
@@ -67,7 +68,7 @@ class ConnectionService {
         })
             .then(this.handleErrors)
             .then(() => this.retrieveData())
-            .catch(this.handleErrors)
+            .catch(this.handleInternalErrors)
     }
 
     setData(data: Array) {
@@ -110,6 +111,10 @@ class ConnectionService {
             }
         }
         return response;
+    };
+
+    handleInternalErrors = (error) => {
+        console.error(error);
     };
 }
 

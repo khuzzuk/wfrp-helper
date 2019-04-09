@@ -1,13 +1,12 @@
 import Entity from "../../../crud/Entity";
+import Price from "../../world/money/Price";
 
-class Resource extends Entity {
+class Item extends Entity {
     name: string;
     description: string;
-    priceMultiplier: number;
     weight: number;
-    durability: number;
-    strength: number;
+    price: Price = new Price();
     accessibility: string = 'COMMON';
 }
 
-export default Resource;
+export default Item;
