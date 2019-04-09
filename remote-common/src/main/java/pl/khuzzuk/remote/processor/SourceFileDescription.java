@@ -79,4 +79,10 @@ class SourceFileDescription {
     public void setMembers(List<? extends Element> members) {
         this.members = members;
     }
+
+    public boolean isEntity() {
+        return element.getAnnotationMirrors().stream()
+                .map(Object::toString)
+                .anyMatch("javax.persistence.Entity"::contains);
+    }
 }

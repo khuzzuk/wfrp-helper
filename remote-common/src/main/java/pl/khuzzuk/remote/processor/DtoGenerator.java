@@ -6,18 +6,13 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
-import javax.lang.model.type.TypeMirror;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.regex.Pattern;
 
 class DtoGenerator extends AbstractFileGenerator {
-    private TypeElement objectType;
-
     DtoGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription, ProcessingEnvironment processingEnvironment) {
         super(roundEnv, sourceFileDescription, processingEnvironment);
-        objectType = processingEnvironment.getElementUtils().getTypeElement("java.lang.Object");
     }
 
     @Override
@@ -31,16 +26,7 @@ class DtoGenerator extends AbstractFileGenerator {
     @Override
     void generateContent(PrintWriter writer) {
         printPackage(writer, sourceFileDescription.getPackageElement().getQualifiedName().toString());
-
-        String extender = "pl.khuzzuk.remote.BaseDTO";
-        List<? extends TypeMirror> directSupertypes = processingEnvironment.getTypeUtils().directSupertypes(sourceFileDescription.getElement().asType());
-        if (directSupertypes.stream().anyMatch(t -> t.toString().endsWith("ListableEntity"))) {
-            extender = "pl.khuzzuk.remote.ListableDTO";
-        }
-
-        writer.println(String.format("public class %sDTO extends %s {",
-                sourceFileDescription.getElement().getSimpleName(), extender));
-        writer.println();
+        writeClassDeclaration(writer);
 
         for (Element element : sourceFileDescription.getFields()) {
             writeFields(writer, element);
@@ -48,6 +34,12 @@ class DtoGenerator extends AbstractFileGenerator {
 
         writer.println();
         writer.println("}");
+    }
+
+    void writeClassDeclaration(PrintWriter writer) {
+        writer.println(String.format("public class %sDTO {",
+                sourceFileDescription.getElement().getSimpleName()));
+        writer.println();
     }
 
     private void writeFields(PrintWriter writer, Element field) {

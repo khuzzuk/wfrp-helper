@@ -60,7 +60,7 @@ public class RemoteEntityProcessor extends AbstractProcessor {
             JpaRepoGenerator jpaRepoGenerator = new JpaRepoGenerator(roundEnv, sourceFileDescription, processingEnv);
             jpaRepoGenerator.writeFile();
 
-            DtoGenerator dtoGenerator = new DtoGenerator(roundEnv, sourceFileDescription, processingEnv);
+            DtoEntityGenerator dtoGenerator = new DtoEntityGenerator(roundEnv, sourceFileDescription, processingEnv);
             dtoGenerator.writeFile();
 
             AdapterToDtoGenerator adapterToDtoGenerator = new AdapterToDtoGenerator(roundEnv, sourceFileDescription, processingEnv);
