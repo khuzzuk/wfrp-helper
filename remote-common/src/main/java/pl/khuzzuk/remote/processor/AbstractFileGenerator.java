@@ -21,7 +21,7 @@ abstract class AbstractFileGenerator {
             "java.util.Date", "java.sql.Date", "java.sql.Timestamp", "java.sql.Time"
     );
 
-    RoundEnvironment roundEnv;
+    private RoundEnvironment roundEnv;
     SourceFileDescription sourceFileDescription;
     ProcessingEnvironment processingEnvironment;
 
@@ -36,10 +36,15 @@ abstract class AbstractFileGenerator {
                 .createSourceFile(getGeneratedClassName()).openWriter())) {
             generateContent(writer);
         } catch (IOException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
 
+    /**
+     * returns class name to use as a file name on classpath, i.e. it has to contain full package name separated by dots.
+     * @return class name with full package separated with dots.
+     */
     abstract String getGeneratedClassName();
 
     abstract void generateContent(PrintWriter printWriter);

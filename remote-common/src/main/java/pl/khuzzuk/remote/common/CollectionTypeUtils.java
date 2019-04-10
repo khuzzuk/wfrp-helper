@@ -1,9 +1,10 @@
 package pl.khuzzuk.remote.common;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
+import javax.lang.model.type.DeclaredType;
+import javax.lang.model.type.TypeMirror;
+import java.util.List;
 import java.util.Set;
 
 public class CollectionTypeUtils {
@@ -20,9 +21,13 @@ public class CollectionTypeUtils {
     }
 
     public static Element getTypeFromCollectionField(Element field, ProcessingEnvironment processingEnvironment) {
-        String typeText = field.asType().toString();
-        typeText = StringUtils.substringAfterLast(typeText.replaceAll(">", ""), "<");
+        DeclaredType declaredType = (DeclaredType) field.asType();
+        List<? extends TypeMirror> typeArguments = declaredType.getTypeArguments();
 
-        return processingEnvironment.getElementUtils().getTypeElement(typeText);
+        if (typeArguments.size() != 1) {
+            throw new IllegalArgumentException(String.format("Collection is not parametrized or field is not Collection type: %s", field.toString()));
+        }
+
+        return processingEnvironment.getTypeUtils().asElement(typeArguments.get(0));
     }
 }
