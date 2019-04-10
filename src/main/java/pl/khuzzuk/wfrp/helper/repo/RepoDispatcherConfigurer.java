@@ -3,7 +3,6 @@ package pl.khuzzuk.wfrp.helper.repo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
@@ -23,7 +22,7 @@ class RepoDispatcherConfigurer {
     void registerRepositories(@NonNull List<JpaRepository<?, Long>> repositories) {
         for (JpaRepository<?, Long> repository : repositories) {
             Class entityType = ReflectionUtils.getGenericParameterFromInterfaces(repository.getClass(), JpaRepository.class, 0);
-            log.info("Registering repository for entity: {}", entityType);
+            log.info("Registering repository for entity: {}, {}", entityType, repository);
             repoDispatcher.registerDispatching(entityType, repository);
         }
     }

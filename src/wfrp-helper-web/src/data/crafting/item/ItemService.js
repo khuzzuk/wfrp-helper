@@ -17,7 +17,7 @@ class ItemService extends ConnectionService {
         }, {
             label: 'Price',
             name: 'price',
-            getter: price => price.gold + 'g, ' + price.silver + 's, ' + price.lead + 'l'
+            getter: price => price && (price.gold + 'g, ' + price.silver + 's, ' + price.lead + 'l')
         }, {
             label: 'Accessibility',
             name: 'accessibility',

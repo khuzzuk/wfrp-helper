@@ -25,7 +25,7 @@ class CrudEditForm extends Component {
     };
 
     apply = () => {
-        this.props.onApply(this.state.entity);
+        this.props.onApply(this.props.entity);
     };
 
     generateField(fieldData: FormFieldData) {
@@ -73,7 +73,7 @@ class CrudEditForm extends Component {
     }
 
     render() {
-        const {service, entity, classes, open} = this.props;
+        const {service, entity, classes, open, onClose} = this.props;
 
         let content = <div/>;
         if (entity !== null) {
@@ -83,7 +83,8 @@ class CrudEditForm extends Component {
         }
 
         return <Dialog classes={{paperScrollPaper: classes.dialogPaper}}
-                       PaperProps={{classNames: classes.dialogPaper}} open={open}>
+                       PaperProps={{classNames: classes.dialogPaper}}
+                       open={open} onClose={onClose}>
             <DialogTitle>{this.props.service.title}</DialogTitle>
             <DialogContent className={classes.dialogPaper}>
                 {content}

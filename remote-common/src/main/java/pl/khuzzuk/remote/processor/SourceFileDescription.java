@@ -1,6 +1,9 @@
 package pl.khuzzuk.remote.processor;
 
+import pl.khuzzuk.remote.common.CollectionTypeUtils;
+
 import javax.annotation.processing.ProcessingEnvironment;
+import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.PackageElement;
@@ -10,6 +13,7 @@ import javax.lang.model.type.TypeMirror;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Stream;
 
 class SourceFileDescription {
@@ -52,6 +56,42 @@ class SourceFileDescription {
                 .filter(el -> ElementKind.FIELD == el.getKind());
     }
 
+    boolean hasField(String name) {
+        return getFields().stream().map(Element::getSimpleName).map(Objects::toString).anyMatch(name::equals);
+    }
+
+    public boolean isEntity() {
+        return hasAnnotation(element, "javax.persistence.Entity");
+    }
+
+    List<Element> getEntityWithOwnMappers(ProcessingEnvironment processingEnvironment) {
+        List<Element> entities = new ArrayList<>();
+
+        for (Element field : fields) {
+            if (field.asType().getKind().isPrimitive()) continue;
+
+            Element fieldType = CollectionTypeUtils.isFieldCollection(field)
+                    ? CollectionTypeUtils.getTypeFromCollectionField(field, processingEnvironment)
+                    : processingEnvironment.getTypeUtils().asElement(field.asType());
+
+            if (hasAnnotation(fieldType, "pl.khuzzuk.remote.RemoteEntity")) {
+                entities.add(fieldType);
+            }
+        }
+
+        return entities;
+    }
+
+    private boolean hasAnnotation(Element element, String annotationName) {
+        for (AnnotationMirror annotation : element.getAnnotationMirrors()) {
+            String annotationValue = annotation.toString();
+            if (annotationValue.contains(annotationName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     List<Element> getFields() {
         return fields;
     }
@@ -80,9 +120,4 @@ class SourceFileDescription {
         this.members = members;
     }
 
-    public boolean isEntity() {
-        return element.getAnnotationMirrors().stream()
-                .map(Object::toString)
-                .anyMatch("javax.persistence.Entity"::contains);
-    }
 }

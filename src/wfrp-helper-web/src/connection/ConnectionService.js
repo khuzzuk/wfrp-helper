@@ -45,6 +45,7 @@ class ConnectionService {
     };
 
     save(entity: object, onSuccess: func) {
+        console.log(JSON.stringify(entity));
         fetch(this.hostBase + this.uriPart, {
             method: 'post',
             mode: 'cors',

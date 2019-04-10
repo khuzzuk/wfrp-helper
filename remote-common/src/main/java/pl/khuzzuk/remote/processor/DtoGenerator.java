@@ -7,10 +7,14 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 class DtoGenerator extends AbstractFileGenerator {
+    private final Set<String> excludedFields = new HashSet<>();
+
     DtoGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription, ProcessingEnvironment processingEnvironment) {
         super(roundEnv, sourceFileDescription, processingEnvironment);
     }
@@ -29,7 +33,9 @@ class DtoGenerator extends AbstractFileGenerator {
         writeClassDeclaration(writer);
 
         for (Element element : sourceFileDescription.getFields()) {
-            writeFields(writer, element);
+            if (!excludedFields.contains(element.getSimpleName().toString())) {
+                writeFields(writer, element);
+            }
         }
 
         writer.println();
@@ -37,8 +43,23 @@ class DtoGenerator extends AbstractFileGenerator {
     }
 
     void writeClassDeclaration(PrintWriter writer) {
-        writer.println(String.format("public class %sDTO {",
-                sourceFileDescription.getElement().getSimpleName()));
+        StringBuilder classDeclaration = new StringBuilder()
+                .append("public class ")
+                .append(sourceFileDescription.getElement().getSimpleName())
+                .append("DTO");
+
+        if (sourceFileDescription.hasField("uuid")) {
+            classDeclaration.append(" extends pl.khuzzuk.remote.ListableDTO");
+            excludedFields.add("uuid");
+            excludedFields.add("id");
+        } else if (sourceFileDescription.hasField("id")) {
+            classDeclaration.append(" extends pl.khuzzuk.remote.BaseDTO");
+            excludedFields.add("id");
+        }
+
+        classDeclaration.append("{");
+
+        writer.println(classDeclaration);
         writer.println();
     }
 
