@@ -12,37 +12,31 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
 import java.util.Set;
 
-@SupportedAnnotationTypes({"pl.khuzzuk.remote.RemoteEntity"})
+@SupportedAnnotationTypes({"pl.khuzzuk.remote.DTO"})
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 @AutoService(Processor.class)
-public class RemoteEntityProcessor extends AbstractProcessor {
+public class DtoProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (TypeElement annotation : annotations) {
-
             Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
 
             for (Element element : elements) {
                 SourceFileDescription sourceFileDescription = SourceFileDescription.create(element, processingEnv);
 
-                JpaRepoGenerator jpaRepoGenerator = new JpaRepoGenerator(roundEnv, sourceFileDescription, processingEnv);
-                jpaRepoGenerator.writeFile();
-
                 DtoGenerator dtoGenerator = new DtoGenerator(roundEnv, sourceFileDescription, processingEnv);
                 dtoGenerator.writeFile();
 
-                AdapterToDtoGenerator adapterToDtoGenerator = new AdapterToDtoGenerator(roundEnv, sourceFileDescription, processingEnv);
-                adapterToDtoGenerator.writeFile();
-                AdapterToEntityGenerator adapterToEntityGenerator = new AdapterToEntityGenerator(roundEnv, sourceFileDescription, processingEnv);
-                adapterToEntityGenerator.writeFile();
+            AdapterToDtoGenerator adapterToDtoGenerator = new AdapterToDtoGenerator(roundEnv, sourceFileDescription, processingEnv);
+            adapterToDtoGenerator.writeFile();
 
-                RemoteServiceGenerator remoteServiceGenerator = new RemoteServiceGenerator(roundEnv, sourceFileDescription, processingEnv);
-                remoteServiceGenerator.writeFile();
+            AdapterToEntityGenerator adapterToEntityGenerator = new AdapterToEntityGenerator(roundEnv, sourceFileDescription, processingEnv);
+            adapterToEntityGenerator.writeFile();
             }
-
             return !elements.isEmpty();
         }
 
         return false;
+
     }
 }

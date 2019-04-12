@@ -1,15 +1,8 @@
 package pl.khuzzuk.remote.processor;
 
-import org.apache.commons.lang3.StringUtils;
-
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.element.Element;
-import javax.lang.model.type.DeclaredType;
-import javax.lang.model.type.TypeKind;
-import javax.lang.model.type.TypeMirror;
 import java.io.PrintWriter;
-import java.util.stream.Stream;
 
 class AdapterToDtoGenerator extends AbstractAdapterGenerator {
     AdapterToDtoGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription, ProcessingEnvironment processingEnvironment) {

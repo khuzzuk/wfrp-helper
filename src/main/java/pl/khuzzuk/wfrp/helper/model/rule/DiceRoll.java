@@ -2,6 +2,7 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pl.khuzzuk.remote.DTO;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
 import javax.persistence.Column;
@@ -14,6 +15,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+@DTO
 @Data
 @Entity
 @EqualsAndHashCode(of = "id")

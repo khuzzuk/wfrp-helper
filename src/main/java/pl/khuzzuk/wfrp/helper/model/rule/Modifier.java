@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
+import pl.khuzzuk.remote.DTO;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
@@ -29,6 +30,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = {"id", "type"})
 @Entity
 @Audited
+@DTO
 public class Modifier {
     @Id
     @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_seq", allocationSize = 1)

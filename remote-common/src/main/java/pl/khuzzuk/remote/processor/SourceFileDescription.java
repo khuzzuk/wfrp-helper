@@ -74,7 +74,8 @@ class SourceFileDescription {
                     ? CollectionTypeUtils.getTypeFromCollectionField(field, processingEnvironment)
                     : processingEnvironment.getTypeUtils().asElement(field.asType());
 
-            if (hasAnnotation(fieldType, "pl.khuzzuk.remote.RemoteEntity")) {
+            if (hasAnnotation(fieldType, "pl.khuzzuk.remote.RemoteEntity")
+                    || hasAnnotation(fieldType, "pl.khuzzuk.remote.DTO")) {
                 entities.add(fieldType);
             }
         }

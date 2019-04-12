@@ -3,6 +3,7 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
+import pl.khuzzuk.remote.DTO;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 @EqualsAndHashCode(of = "type")
 @Entity
 @Audited
+@DTO
 public class Determinant {
     @Id
     @SequenceGenerator(name = "determinant_seq_gen", sequenceName = "determinant_seq", allocationSize = 1)
