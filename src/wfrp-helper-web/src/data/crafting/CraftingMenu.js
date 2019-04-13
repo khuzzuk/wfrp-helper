@@ -1,6 +1,7 @@
 import MenuComponent from "../../menu/MenuComponent";
 import {MenuItem} from "@material-ui/core";
 import React from "react";
+import BlueprintMenu from "./blueprint/BlueprintMenu";
 
 class CraftingMenu extends MenuComponent {
     title = 'Crafting';
@@ -19,6 +20,8 @@ class CraftingMenu extends MenuComponent {
 
     getMenuItems = () => {
         return [
+            <BlueprintMenu key={'blueprint'} onClick={this.handleClose}
+                           armorBlueprintService={this.props.armorBlueprintService} onArmorBlueprint={this.props.onArmorBlueprint}/>,
             <MenuItem key={'resource'} onClick={this.showResourceCrud}>Resource</MenuItem>,
             <MenuItem key={'item'} onClick={this.showItemCrud}>Item</MenuItem>,
         ];

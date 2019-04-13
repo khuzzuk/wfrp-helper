@@ -2,9 +2,9 @@ import Entity from "../../crud/Entity";
 import Modifier from "./Modifier";
 
 class Determinant extends  Entity {
-    type: DeterminantType;
+    type: string;
     value: number;
-    modifiers: Modifier;
+    modifiers: Modifier = [];
 }
 
 export default Determinant;

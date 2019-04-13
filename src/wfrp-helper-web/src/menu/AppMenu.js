@@ -11,6 +11,7 @@ import SpellSchoolService from "../data/knowledge/magic/spellSchool/SpellSchoolS
 import ResourceService from "../data/crafting/resource/ResourceService";
 import CraftingMenu from "../data/crafting/CraftingMenu";
 import ItemService from "../data/crafting/item/ItemService";
+import ArmorBlueprintService from "../data/crafting/blueprint/ArmorBlueprintService";
 
 class AppMenu extends Component {
     state = {
@@ -20,18 +21,19 @@ class AppMenu extends Component {
         }
     };
 
-    nationService = new NationService((data) => this.updateData(data));
-    languageService = new LanguageService((data) => this.updateData(data));
-    skillService = new SkillService((data) => this.updateData(data));
-    spellSchoolService = new SpellSchoolService((data) => this.updateData(data));
-
-    //crafting services
-    resourceService = new ResourceService((data) => this.updateData(data));
-    itemService = new ItemService((data) => this.updateData(data));
-
     updateData = (data) => {
         this.setState({data: data})
     };
+
+    nationService = new NationService(this.updateData);
+    languageService = new LanguageService(this.updateData);
+    skillService = new SkillService(this.updateData);
+    spellSchoolService = new SpellSchoolService(this.updateData);
+
+    //crafting services
+    resourceService = new ResourceService(this.updateData);
+    itemService = new ItemService(this.updateData);
+    armorBlueprintService = new ArmorBlueprintService(this.updateData);
 
     handleClose = event => {
         if (!this.anchorEl.contains(event.target)) {
@@ -59,7 +61,8 @@ class AppMenu extends Component {
                                        languageService={this.languageService}
                                        onLanguage={this.getCrud(this.languageService)}/>
                         <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
-                                      itemService={this.itemService} onItem={this.getCrud(this.itemService)}/>
+                                      itemService={this.itemService} onItem={this.getCrud(this.itemService)}
+                                      armorBlueprintService={this.armorBlueprintService} onArmorBlueprint={this.getCrud(this.armorBlueprintService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}/>
                     </Toolbar>

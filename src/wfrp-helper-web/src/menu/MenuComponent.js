@@ -16,11 +16,11 @@ class MenuComponent extends Component {
 
     render() {
         return <div>
-            <Button id={'menu-world-button'}
+            <Button id={'menu-button'}
                     onClick={this.handleClick}>
                 {this.title}
             </Button>
-            <Menu id={'menu-nation-item'}
+            <Menu id={'menu-item'}
                   anchorEl={this.state.anchorEl}
                   open={this.state.anchorEl !== null}
                   onClose={this.handleClose}>

@@ -15,12 +15,15 @@ export default class EnumSelect extends Component {
 
     render() {
         const {label, data, value} = this.props;
-        return <Select textFieldProps={{label: label, InputLabelProps: {shrink: false}}}
+        return <div>
+            {label}
+            <Select textFieldProps={{label: label, InputLabelProps: {shrink: false}}}
                        options={this.getData(data)}
                        components={makeAnimated()}
                        onChange={this.onSelected}
                        value={{label: value, value: value}}
                        isSearchable
-                       isClearable/>;
+                       isClearable/>
+        </div>;
     }
 }
