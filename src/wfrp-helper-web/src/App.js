@@ -9,7 +9,7 @@ import { createStore } from "redux"
 const theme = createMuiTheme({
     palette: {
         primary: grey
-    }
+    },
 });
 
 const wfrpStore = createStore((state, action) => {

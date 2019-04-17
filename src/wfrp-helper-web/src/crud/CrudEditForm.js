@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Button, Dialog, DialogContent, DialogTitle, TextField, withStyles} from "@material-ui/core";
+import {Button, FormControl, FormGroup, TextField, withStyles} from "@material-ui/core";
 import FormFieldData from "./FormFieldData";
 import ConnectionService from '../connection/ConnectionService'
 import EntityCombobox from "./field/EntityCombobox";
@@ -8,6 +8,7 @@ import FloatField from "./field/FloatField";
 import EnumSelect from "./field/EnumSelect";
 import PriceField from "./field/PriceField";
 import DeterminantField from "./field/DeterminantField";
+import ModifierField from "./field/ModifierField";
 
 const styles = theme => ({
     dialogPaper: {
@@ -50,11 +51,15 @@ class CrudEditForm extends Component {
             case ConnectionService.FormFieldType.INTEGER:
                 return <IntegerField label={fieldData.label}
                                      value={value}
-                                     onChange={number => {this.update({[name]: number})}}/>;
+                                     onChange={number => {
+                                         this.update({[name]: number})
+                                     }}/>;
             case ConnectionService.FormFieldType.FLOAT:
                 return <FloatField key={name} label={label}
-                                     value={value}
-                                     onChange={number => {this.update({[name]: number})}}/>;
+                                   value={value}
+                                   onChange={number => {
+                                       this.update({[name]: number})
+                                   }}/>;
             case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
                 return <EntityCombobox key={name} label={label}
                                        data={fieldData.suggestions}
@@ -62,16 +67,21 @@ class CrudEditForm extends Component {
                                        onChange={data => this.update({[name]: data})}/>;
             case ConnectionService.FormFieldType.ENUM_SELECT:
                 return <EnumSelect key={name} label={label}
-                               data={fieldData.suggestions}
-                               value={value}
-                               onChange={data => this.update({[name]: data})}/>;
+                                   data={fieldData.suggestions}
+                                   value={value}
+                                   onChange={data => this.update({[name]: data})}/>;
             case ConnectionService.FormFieldType.PRICE:
                 return <PriceField key={name} label={label}
                                    value={value}
                                    onChange={price => this.update({[name]: price})}/>;
             case ConnectionService.FormFieldType.DETERMINANT:
                 return <DeterminantField key={name}
-                                         value={value} onChange={data => this.update({[name]: data})}/>;
+                                         value={value}
+                                         onChange={data => this.update({[name]: data})}/>;
+            case ConnectionService.FormFieldType.MODIFIER:
+                return <ModifierField key={name}
+                                      value={value}
+                                      onChange={data => this.update({[name]: data})}/>;
             default:
                 console.error('field type has no form component');
                 console.error(fieldData)
@@ -79,7 +89,7 @@ class CrudEditForm extends Component {
     }
 
     render() {
-        const {service, entity, classes, open, onClose} = this.props;
+        const {service, entity, onClose} = this.props;
 
         let content = <div/>;
         if (entity !== null) {
@@ -88,15 +98,17 @@ class CrudEditForm extends Component {
             </div>;
         }
 
-        return <Dialog classes={{paperScrollPaper: classes.dialogPaper}}
-                       PaperProps={{classNames: classes.dialogPaper}}
-                       open={open} onClose={onClose}>
-            <DialogTitle>{this.props.service.title}</DialogTitle>
-            <DialogContent className={classes.dialogPaper}>
+        return <FormControl margin={'dense'}
+                            component={'fieldset'}
+                            fullWidth>
+            <FormGroup row>
                 {content}
-            </DialogContent>
-            <Button onClick={this.apply}>Apply</Button>
-        </Dialog>;
+            </FormGroup>
+            <FormGroup row>
+                <Button onClick={onClose}>Cancel</Button>
+                <Button onClick={this.apply}>Apply</Button>
+            </FormGroup>
+        </FormControl>;
     }
 }
 

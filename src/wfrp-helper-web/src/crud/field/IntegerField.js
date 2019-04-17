@@ -4,7 +4,7 @@ import {TextField} from "@material-ui/core";
 class IntegerField extends Component {
     updateInt = onChange => event => {
         let number = parseInt(event.target.value);
-        if (number) onChange(number)
+        if (number || number === 0) onChange(number)
     };
 
     render() {

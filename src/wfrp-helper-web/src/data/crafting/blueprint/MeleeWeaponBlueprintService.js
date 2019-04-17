@@ -1,12 +1,13 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
 import NationService from "../../world/nation/NationService";
-import ArmorBlueprint from "./ArmorBlueprint";
 import {Placement} from "../Placement";
+import MeleeWeaponBlueprint from "./MeleeWeaponBlueprint";
 
-export default class ArmorBlueprintService extends ConnectionService {
-    title = 'Armor blueprint';
+export default class MeleeWeaponBlueprintService extends ConnectionService {
+    title = 'Melee weapon blueprint';
     data = [];
+
     tableColumns: FormFieldData[] = [
         {
             label: 'Name',
@@ -44,19 +45,23 @@ export default class ArmorBlueprintService extends ConnectionService {
         label: 'Placement',
         name: 'placement',
         type: NationService.FormFieldType.ENUM_SELECT,
-        suggestions: Placement.armor()
+        suggestions: Placement.weapon()
     }, {
         label: 'Determinants',
         name: 'determinants',
         type: NationService.FormFieldType.DETERMINANT,
+    }, {
+        label: 'Damage',
+        name: 'damage',
+        type: NationService.FormFieldType.MODIFIER,
     }];
 
     constructor(action) {
-        super('armorBlueprint', action);
+        super('meleeWeaponBlueprint', action);
     }
 
-    createNew(): ArmorBlueprint {
-        this.entity = new ArmorBlueprint();
+    createNew(): MeleeWeaponBlueprint {
+        this.entity = new MeleeWeaponBlueprint();
         return this.entity;
     }
 }

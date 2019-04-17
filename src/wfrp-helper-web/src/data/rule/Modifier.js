@@ -6,6 +6,15 @@ export const ModifierType = {
     PROFESSION: 'PROFESSION',
     EXPERIENCE: 'EXPERIENCE',
     DICE: 'DICE',
+
+    allOf() {
+        return [
+            this.REGULAR,
+            this.PROFESSION,
+            this.EXPERIENCE,
+            this.DICE,
+        ];
+    }
 };
 
 class Modifier extends Entity {

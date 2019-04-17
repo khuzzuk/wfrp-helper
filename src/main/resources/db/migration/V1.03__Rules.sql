@@ -25,8 +25,8 @@ CREATE TABLE modifier_history (
   rev     BIGINT REFERENCES revinfo,
   revtype SMALLINT,
   id      BIGINT,
-  type    VARCHAR(255) NOT NULL,
-  value   INT          NOT NULL,
+  type    VARCHAR(255),
+  value   INT,
   PRIMARY KEY (rev, id)
 );
 

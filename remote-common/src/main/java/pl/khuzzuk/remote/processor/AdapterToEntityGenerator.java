@@ -2,7 +2,11 @@ package pl.khuzzuk.remote.processor;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.element.Element;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 class AdapterToEntityGenerator extends AbstractAdapterGenerator {
     AdapterToEntityGenerator(RoundEnvironment roundEnv, SourceFileDescription sourceFileDescription, ProcessingEnvironment processingEnvironment) {
@@ -33,9 +37,16 @@ class AdapterToEntityGenerator extends AbstractAdapterGenerator {
         writer.println(String.format("public interface %sAdapter extends Adapter<%sDTO, %s> {",
                 sourceSimpleName, sourceSimpleName, sourceSimpleName));
 
-        if (sourceFileDescription.hasField("uuid")) {
+        List<String> mappings = sourceFileDescription.getNullCheckRequiringFields().stream()
+                .map(Element::getSimpleName)
+                .map(Objects::toString)
+                .map(fieldName -> String.format(
+                        "@Mapping(target = \"%s\", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)", fieldName))
+                .collect(Collectors.toList());
+
+        if (!mappings.isEmpty()) {
             writer.println("@Override");
-            writer.println("@Mapping(target = \"uuid\", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)");
+            mappings.forEach(writer::println);
             writer.println(String.format("%s map(%sDTO source);", sourceSimpleName, sourceSimpleName));
         }
 

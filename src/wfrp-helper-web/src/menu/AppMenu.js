@@ -12,14 +12,20 @@ import ResourceService from "../data/crafting/resource/ResourceService";
 import CraftingMenu from "../data/crafting/CraftingMenu";
 import ItemService from "../data/crafting/item/ItemService";
 import ArmorBlueprintService from "../data/crafting/blueprint/ArmorBlueprintService";
+import MeleeWeaponBlueprintService from "../data/crafting/blueprint/MeleeWeaponBlueprintService";
 
 class AppMenu extends Component {
     state = {
-        open: false,
+        showEditor: false,
         data: [],
-        panelSupplier: () => {
-        }
+        entity: null,
+        currentService: null,
     };
+
+    constructor(props) {
+        super(props);
+        console.log('new crud')
+    }
 
     updateData = (data) => {
         this.setState({data: data})
@@ -34,24 +40,21 @@ class AppMenu extends Component {
     resourceService = new ResourceService(this.updateData);
     itemService = new ItemService(this.updateData);
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
+    armorBlueprintService = new ArmorBlueprintService(this.updateData);
+    meleeWeaponBlueprintService = new MeleeWeaponBlueprintService(this.updateData);
 
-    handleClose = event => {
-        if (!this.anchorEl.contains(event.target)) {
-            this.setState({open: false});
-        }
+    onApply = (newState) => {
+        this.setState({...newState});
     };
 
     getCrud = (service) => () => {
         this.setState({
-            panelSupplier: () => {
-                return <CrudComponent rows={this.state.data} service={service} onChange={this.setState}/>
-            }
+            showEditor:false,
+            currentService: service,
         });
-
     };
 
     render() {
-        let panel = this.state.panelSupplier();
         return (
             <div>
                 <AppBar position={"relative"}>
@@ -60,14 +63,26 @@ class AppMenu extends Component {
                         <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
                                        languageService={this.languageService}
                                        onLanguage={this.getCrud(this.languageService)}/>
-                        <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
+                        <CraftingMenu resourceService={this.resourceService}
+                                      onResource={this.getCrud(this.resourceService)}
                                       itemService={this.itemService} onItem={this.getCrud(this.itemService)}
-                                      armorBlueprintService={this.armorBlueprintService} onArmorBlueprint={this.getCrud(this.armorBlueprintService)}/>
+                                      armorBlueprintService={this.armorBlueprintService}
+                                      onArmorBlueprint={this.getCrud(this.armorBlueprintService)}
+                                      meleeWeaponBlueprintService={this.meleeWeaponBlueprintService}
+                                      onMeleeWeaponBlueprint={this.getCrud(this.meleeWeaponBlueprintService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
-                                       spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}/>
+                                       spellSchoolService={this.spellSchoolService}
+                                       onSpellSchool={this.getCrud(this.spellSchoolService)}/>
                     </Toolbar>
                 </AppBar>
-                {panel}
+                {this.state.currentService
+                    ?
+                    <CrudComponent rows={this.state.data}
+                                   entity={this.state.entity}
+                                   service={this.state.currentService}
+                                   onChange={this.onApply}
+                                   showEditor={this.state.showEditor}/>
+                    : null}
             </div>
         )
     }

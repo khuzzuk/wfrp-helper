@@ -29,7 +29,6 @@ public class Determinant {
     @Id
     @SequenceGenerator(name = "determinant_seq_gen", sequenceName = "determinant_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "determinant_seq_gen")
-    @FormElement(exclude = true)
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -38,7 +37,6 @@ public class Determinant {
     private int value;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @FormElement(editor = EditorType.DELEGATED)
     private Set<Modifier> modifiers;
 
     @Override

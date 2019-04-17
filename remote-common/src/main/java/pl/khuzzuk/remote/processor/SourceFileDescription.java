@@ -83,6 +83,21 @@ class SourceFileDescription {
         return entities;
     }
 
+    List<Element> getNullCheckRequiringFields() {
+        List<Element> nullCheckFields = new ArrayList<>();
+
+        fields.stream()
+                .filter(field -> !field.asType().getKind().isPrimitive())
+                .filter(CollectionTypeUtils::isFieldCollection)
+                .forEach(nullCheckFields::add);
+
+        fields.stream()
+                .filter(field -> "uuid".equals(field.getSimpleName().toString()))
+                .findAny().ifPresent(nullCheckFields::add);
+
+        return nullCheckFields;
+    }
+
     private boolean hasAnnotation(Element element, String annotationName) {
         for (AnnotationMirror annotation : element.getAnnotationMirrors()) {
             String annotationValue = annotation.toString();

@@ -9,4 +9,17 @@ export default class ArmorBlueprint extends Entity {
     suggestedWeight: number;
     determinants: Determinant[];
     placement: string;
+
+    updateWith(entity: *) {
+        super.updateWith(entity);
+
+        if (entity.determinants) {
+            this.determinants = entity.determinants
+                .map(value => {
+                    const det = new Determinant();
+                    det.updateWith(value);
+                    return det;
+                })
+        }
+    }
 }

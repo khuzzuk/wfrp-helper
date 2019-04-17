@@ -5,6 +5,16 @@ class Determinant extends  Entity {
     type: string;
     value: number;
     modifiers: Modifier = [];
+
+    updateWith(entity: Determinant) {
+        super.updateWith(entity);
+        this.modifiers = entity.modifiers && entity.modifiers
+            .map(modifier => {
+                const mod = new Modifier();
+                mod.updateWith(modifier);
+                return mod;
+            });
+    }
 }
 
 export default Determinant;

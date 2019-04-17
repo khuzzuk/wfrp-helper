@@ -11,7 +11,8 @@ class ConnectionService {
         ENUM_SELECT: 'enum_select',
         ENTITY_COMBOBOX: 'entity_combobox',
         PRICE: 'price',
-        DETERMINANT: 'determinant'
+        DETERMINANT: 'determinant',
+        MODIFIER: 'modifier',
     };
 
     hostBase: string = 'http://localhost:1081/';

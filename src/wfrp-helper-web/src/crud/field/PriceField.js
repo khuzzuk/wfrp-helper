@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {TextField} from "@material-ui/core";
+import {FormLabel, TextField} from "@material-ui/core";
 
 class PriceField extends Component {
 
@@ -10,8 +10,8 @@ class PriceField extends Component {
 
     render() {
         const {onChange, value, label} = this.props;
-        return <div>
-            {label}
+        return <div style={{display: 'inline-flex'}}>
+            <FormLabel style={{marginRight: 10}}>{label}</FormLabel>
             <TextField label={'Gold'}
                        type='number'
                        value={value.gold}

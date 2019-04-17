@@ -21,7 +21,8 @@ class CraftingMenu extends MenuComponent {
     getMenuItems = () => {
         return [
             <BlueprintMenu key={'blueprint'} onClick={this.handleClose}
-                           armorBlueprintService={this.props.armorBlueprintService} onArmorBlueprint={this.props.onArmorBlueprint}/>,
+                           armorBlueprintService={this.props.armorBlueprintService} onArmorBlueprint={this.props.onArmorBlueprint}
+                           meleeWeaponBlueprintService={this.props.meleeWeaponBlueprintService} onMeleeWeaponBlueprint={this.props.onMeleeWeaponBlueprint}/>,
             <MenuItem key={'resource'} onClick={this.showResourceCrud}>Resource</MenuItem>,
             <MenuItem key={'item'} onClick={this.showItemCrud}>Item</MenuItem>,
         ];

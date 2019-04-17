@@ -12,9 +12,17 @@ export default class BlueprintMenu extends MenuComponent {
         this.props.armorBlueprintService.retrieveData();
     };
 
+    showMeleeWeaponBlueprintCrud = () => {
+        this.handleClose();
+        this.props.onClick();
+        this.props.onMeleeWeaponBlueprint();
+        this.props.meleeWeaponBlueprintService.retrieveData();
+    };
+
     getMenuItems = () => {
         return [
-            <MenuItem key={'armorBlueprint'} onClick={this.showArmorBlueprintCrud}>Armor</MenuItem>
+            <MenuItem key={'armorBlueprint'} onClick={this.showArmorBlueprintCrud}>Armor</MenuItem>,
+            <MenuItem key={'meleeWeaponBlueprint'} onClick={this.showMeleeWeaponBlueprintCrud}>Melee weapon</MenuItem>
         ];
     };
 }

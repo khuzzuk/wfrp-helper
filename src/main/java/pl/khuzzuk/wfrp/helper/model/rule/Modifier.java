@@ -5,8 +5,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import pl.khuzzuk.remote.DTO;
-import pl.khuzzuk.wfrp.helper.edit.EditorType;
-import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,7 +33,6 @@ public class Modifier {
     @Id
     @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "modifier_seq_gen")
-    @FormElement(exclude = true)
     private Long id;
 
     private @Min(-100) @Max(100) int value;
@@ -45,7 +42,6 @@ public class Modifier {
     private @NotNull ModifierType type = ModifierType.REGULAR;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @FormElement(editor = EditorType.DELEGATED)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private List<DiceRoll> rolls = new ArrayList<>();
 

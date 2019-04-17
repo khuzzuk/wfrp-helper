@@ -11,6 +11,5 @@ import javax.persistence.Entity;
 @Setter
 @Entity
 public class Jewelry extends Wearable {
-    @EnumFilter({"NECK", "FINGER"})
     private Placement placement;
 }

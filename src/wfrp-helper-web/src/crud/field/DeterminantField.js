@@ -36,6 +36,7 @@ class DeterminantField extends Component {
                                     data={types} value={determinant.type}
                                     onChange={selected => this.update(determinant, {type: selected})}/>,
                         <IntegerField key={determinant.id + 'value'} label={'value'}
+                                      value={determinant.value}
                                       onChange={number => this.update(determinant, {value: number})}/>
                     ]
                 ))

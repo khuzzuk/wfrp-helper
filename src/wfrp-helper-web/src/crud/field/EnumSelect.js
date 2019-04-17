@@ -1,8 +1,16 @@
 import React, {Component} from "react";
 import makeAnimated from 'react-select/lib/animated';
 import Select from 'react-select';
+import {FormLabel} from "@material-ui/core";
 
 export default class EnumSelect extends Component {
+    static style = {
+        control: (provided, state) => ({...provided,
+            width: 400,
+            marginLeft: 10
+        })
+    };
+
     getData = source => {
         return source.map(e => {
             return {label: e, value: e};
@@ -15,15 +23,16 @@ export default class EnumSelect extends Component {
 
     render() {
         const {label, data, value} = this.props;
-        return <div>
-            {label}
+        return <div style={{display: 'inline-flex'}}>
+            <FormLabel>{label}</FormLabel>
             <Select textFieldProps={{label: label, InputLabelProps: {shrink: false}}}
-                       options={this.getData(data)}
-                       components={makeAnimated()}
-                       onChange={this.onSelected}
-                       value={{label: value, value: value}}
-                       isSearchable
-                       isClearable/>
+                    styles={EnumSelect.style}
+                    options={this.getData(data)}
+                    components={makeAnimated()}
+                    onChange={this.onSelected}
+                    value={{label: value, value: value}}
+                    isSearchable
+                    isClearable/>
         </div>;
     }
 }

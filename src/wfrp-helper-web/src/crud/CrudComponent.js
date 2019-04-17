@@ -8,7 +8,6 @@ class CrudComponent extends Component {
         selectedId: null,
         entity: null,
         showEditor: false,
-        title: ''
     };
 
     onRowSelect = id => {
@@ -22,24 +21,23 @@ class CrudComponent extends Component {
     };
 
     onAdd = () => {
-        this.setState({
+        this.props.onChange({
             showEditor: true,
-            title: this.props.service.title,
             entity: this.props.service.createNew()
         });
     };
 
     onEdit = () => {
-        this.setState({
+        this.props.onChange({
             showEditor: true,
-            title: this.props.service.title,
             entity: this.props.service.edit(this.getSelectedRow())
         });
     };
 
     onRemove = () => {
         this.props.service.remove(this.getSelectedRow());
-        this.setState({
+        this.props.onChange({
+            showEditor: false,
             entity: null
         });
     };
@@ -49,7 +47,7 @@ class CrudComponent extends Component {
     };
 
     onEditorClose = () => {
-        this.setState({showEditor: false});
+        this.props.onChange({showEditor: false});
     };
 
     render() {
@@ -66,38 +64,40 @@ class CrudComponent extends Component {
                 </div>
         }
 
-        return <div>
-            {crudButtons}
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        {columns.map(column => (
-                            <TableCell key={column.name} align={'right'}>{column.label}</TableCell>
-                        ))}
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.id} hover
-                                  onClick={() => this.onRowSelect(row.id)}
-                                  selected={this.state.selectedId === row.id}>
-                            {
-                                columns.map(col => {
-                                    return <TableCell key={row.id + '_' + col.name}>
-                                        {(col.getter || (arg => arg))(row[col.name])}
-                                    </TableCell>
-                                })
-                            }
+        if (this.props.showEditor) {
+            return <CrudEditForm onClose={this.onEditorClose}
+                                 entity={this.props.entity}
+                                 onApply={this.update}
+                                 service={this.props.service}/>
+        } else {
+            return <div>
+                {crudButtons}
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            {columns.map(column => (
+                                <TableCell key={column.name} align={'right'}>{column.label}</TableCell>
+                            ))}
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-            <CrudEditForm open={this.state.showEditor}
-                          onClose={this.onEditorClose}
-                          entity={this.state.entity}
-                          onApply={this.update}
-                          service={this.props.service}/>
-        </div>;
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <TableRow key={row.id} hover
+                                      onClick={() => this.onRowSelect(row.id)}
+                                      selected={this.state.selectedId === row.id}>
+                                {
+                                    columns.map(col => {
+                                        return <TableCell key={row.id + '_' + col.name}>
+                                            {(col.getter || (arg => arg))(row[col.name])}
+                                        </TableCell>
+                                    })
+                                }
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </div>
+        }
     }
 }
 

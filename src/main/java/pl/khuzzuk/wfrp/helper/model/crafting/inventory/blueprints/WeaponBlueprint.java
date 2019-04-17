@@ -4,12 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
-import pl.khuzzuk.wfrp.helper.edit.EditorType;
-import pl.khuzzuk.wfrp.helper.edit.EnumFilter;
-import pl.khuzzuk.wfrp.helper.edit.FormElement;
+import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
-import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
@@ -25,9 +22,7 @@ import javax.persistence.OneToOne;
 @Entity
 public abstract class WeaponBlueprint extends ItemBlueprint {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @FormElement(editor = EditorType.DELEGATED)
     private Modifier damage;
-    @EnumFilter({"HAND", "BOTH_HANDS"})
     @Type(type = EnumType.DEF)
     private Placement placement;
     @Embedded

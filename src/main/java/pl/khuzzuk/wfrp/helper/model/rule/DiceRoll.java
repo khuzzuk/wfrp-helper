@@ -3,7 +3,6 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import pl.khuzzuk.remote.DTO;
-import pl.khuzzuk.wfrp.helper.edit.FormElement;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -23,7 +22,6 @@ public class DiceRoll {
     @SequenceGenerator(name = "dice_roll_seq_gen", sequenceName = "dice_roll_seq", allocationSize = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dice_roll_seq_gen")
-    @FormElement(exclude = true)
     private Long id;
 
     @Column(nullable = false)
