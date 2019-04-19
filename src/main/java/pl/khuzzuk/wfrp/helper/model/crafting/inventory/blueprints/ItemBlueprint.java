@@ -18,9 +18,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @EqualsAndHashCode(of = "id")
@@ -37,11 +37,11 @@ public abstract class ItemBlueprint {
     @Embedded
     private Price suggestedPrice;
     private float suggestedWeight;
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "item_blueprint_determinants",
             joinColumns = @JoinColumn(name = "item_blueprint_id"),
             inverseJoinColumns = @JoinColumn(name = "determinant_id"))
-    private Set<Determinant> determinants;
+    private List<Determinant> determinants;
 
     @Override
     public String toString() {

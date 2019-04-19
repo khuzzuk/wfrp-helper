@@ -1,8 +1,9 @@
 package pl.khuzzuk.wfrp.helper.model.rule;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import pl.khuzzuk.remote.DTO;
+import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,11 +15,11 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
 @DTO
-@Data
 @Entity
-@EqualsAndHashCode(of = "id")
-public class DiceRoll {
+public class DiceRoll extends ListableEntity {
     @SequenceGenerator(name = "dice_roll_seq_gen", sequenceName = "dice_roll_seq", allocationSize = 1)
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dice_roll_seq_gen")
@@ -28,9 +29,4 @@ public class DiceRoll {
     private @NotNull Dice dice;
 
     private @Min(1) @Max(10) int rolls;
-
-    @Override
-    public String toString() {
-        return rolls + dice.name();
-    }
 }

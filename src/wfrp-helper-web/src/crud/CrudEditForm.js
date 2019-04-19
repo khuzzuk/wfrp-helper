@@ -11,9 +11,10 @@ import DeterminantField from "./field/DeterminantField";
 import ModifierField from "./field/ModifierField";
 
 const styles = theme => ({
+    ...theme,
     dialogPaper: {
         overflow: "visible",
-    }
+    },
 });
 
 class CrudEditForm extends Component {
@@ -89,7 +90,7 @@ class CrudEditForm extends Component {
     }
 
     render() {
-        const {service, entity, onClose} = this.props;
+        const {service, entity, onClose, classes} = this.props;
 
         let content = <div/>;
         if (entity !== null) {
@@ -100,11 +101,12 @@ class CrudEditForm extends Component {
 
         return <FormControl margin={'dense'}
                             component={'fieldset'}
+                            className={classes.form}
                             fullWidth>
-            <FormGroup row>
+            <FormGroup className={classes.formContent} row>
                 {content}
             </FormGroup>
-            <FormGroup row>
+            <FormGroup className={classes.formButtons} row>
                 <Button onClick={onClose}>Cancel</Button>
                 <Button onClick={this.apply}>Apply</Button>
             </FormGroup>

@@ -1,8 +1,10 @@
 import React, {Component} from "react";
-import {Button} from "@material-ui/core";
+import {Button, List, ListItem} from "@material-ui/core";
 import Determinant, {DeterminantType} from "../../data/rule/Determinant";
 import EnumSelect from "./EnumSelect";
 import IntegerField from "./IntegerField";
+import ModifierField from "./ModifierField";
+import Modifier from "../../data/rule/Modifier";
 
 class DeterminantField extends Component {
 
@@ -25,24 +27,50 @@ class DeterminantField extends Component {
         }
     };
 
+    addModifierToDeterminant = (determinant) => () => {
+        determinant.modifiers.push(new Modifier());
+        this.props.onChange(this.props.value);
+    };
+
+    updateModifier = modifier => newModifier => {
+        modifier.updateWith(newModifier);
+        this.props.onChange(this.props.value);
+    };
+
     render() {
         const {value} = this.props;
         const types = DeterminantType.allOf();
 
-        return <div>
+        return <List>
             {
-                value && value.map(determinant => ([
-                        <EnumSelect key={determinant.id} label={'Determinant ' + determinant.id}
+                value && value.map(determinant => (
+                    <ListItem>
+                        <EnumSelect key={determinant.id + determinant.type} label={'Determinant ' + determinant.id}
                                     data={types} value={determinant.type}
-                                    onChange={selected => this.update(determinant, {type: selected})}/>,
+                                    onChange={selected => this.update(determinant, {type: selected})}/>
                         <IntegerField key={determinant.id + 'value'} label={'value'}
                                       value={determinant.value}
                                       onChange={number => this.update(determinant, {value: number})}/>
-                    ]
+                        {
+                            <List>
+                                {determinant.modifiers && determinant.modifiers.map(currentModifier => (
+                                    <ListItem>
+                                        <ModifierField
+                                            key={determinant.id + determinant.type + currentModifier.id + currentModifier.type}
+                                            value={currentModifier}
+                                            onChange={this.updateModifier(currentModifier)}/>
+                                    </ListItem>
+                                ))}
+                                <ListItem>
+                                    <Button onClick={this.addModifierToDeterminant(determinant)}>Add</Button>
+                                </ListItem>
+                            </List>
+                        }
+                    </ListItem>
                 ))
             }
             <Button onClick={this.addDeterminant}>Add</Button>
-        </div>;
+        </List>;
     }
 }
 

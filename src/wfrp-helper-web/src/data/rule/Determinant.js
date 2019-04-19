@@ -1,23 +1,23 @@
 import Entity from "../../crud/Entity";
 import Modifier from "./Modifier";
 
-class Determinant extends  Entity {
+export default class Determinant extends Entity {
     type: string;
     value: number;
     modifiers: Modifier = [];
 
     updateWith(entity: Determinant) {
         super.updateWith(entity);
-        this.modifiers = entity.modifiers && entity.modifiers
-            .map(modifier => {
-                const mod = new Modifier();
-                mod.updateWith(modifier);
-                return mod;
-            });
+        if (entity.modifiers) {
+            this.modifiers = entity.modifiers
+                .map(modifier => {
+                    const mod = new Modifier();
+                    mod.updateWith(modifier);
+                    return mod;
+                });
+        }
     }
 }
-
-export default Determinant;
 
 export const DeterminantType = {
     SPEED: 'SPEED',
@@ -37,7 +37,7 @@ export const DeterminantType = {
     PARRY: 'PARRY',
     OPPONENT_PARRY: 'OPPONENT_PARRY',
 
-    allOf() : string[] {
+    allOf(): string[] {
         return [
             this.SPEED,
             this.BATTLE,

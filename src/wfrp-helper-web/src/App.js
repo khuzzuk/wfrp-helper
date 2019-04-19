@@ -3,27 +3,28 @@ import './App.css';
 import AppMenu from "./menu/AppMenu";
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles";
 import {grey} from "@material-ui/core/colors";
-import {Provider} from "react-redux";
-import { createStore } from "redux"
 
 const theme = createMuiTheme({
     palette: {
         primary: grey
     },
-});
-
-const wfrpStore = createStore((state, action) => {
-    return state;
+    form: {
+        justifyContent: 'space-around'
+    },
+    formContent: {
+        justifyContent: 'space-around'
+    },
+    formButtons: {
+        justifyContent: 'flex-end'
+    }
 });
 
 class App extends Component {
     render() {
         return (
-            <Provider store={wfrpStore}>
-                <MuiThemeProvider theme={theme}>
-                    <AppMenu/>
-                </MuiThemeProvider>
-            </Provider>
+            <MuiThemeProvider theme={theme}>
+                <AppMenu/>
+            </MuiThemeProvider>
         );
     }
 }

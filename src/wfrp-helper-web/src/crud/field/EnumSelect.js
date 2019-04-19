@@ -23,7 +23,7 @@ export default class EnumSelect extends Component {
 
     render() {
         const {label, data, value} = this.props;
-        return <div style={{display: 'inline-flex'}}>
+        return <div style={{display: 'inline-flex', justifyContent: 'space-around'}}>
             <FormLabel>{label}</FormLabel>
             <Select textFieldProps={{label: label, InputLabelProps: {shrink: false}}}
                     styles={EnumSelect.style}
