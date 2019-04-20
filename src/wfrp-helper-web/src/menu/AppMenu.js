@@ -14,6 +14,7 @@ import ItemService from "../data/crafting/item/ItemService";
 import ArmorBlueprintService from "../data/crafting/blueprint/ArmorBlueprintService";
 import MeleeWeaponBlueprintService from "../data/crafting/blueprint/MeleeWeaponBlueprintService";
 import RangedWeaponBlueprintService from "../data/crafting/blueprint/RangedWeaponBlueprintService";
+import ArmorPatternService from "../data/crafting/item/armor/ArmorPatternService";
 
 class AppMenu extends Component {
     state = {
@@ -40,6 +41,8 @@ class AppMenu extends Component {
     //crafting services
     resourceService = new ResourceService(this.updateData);
     itemService = new ItemService(this.updateData);
+    armorPatternService = new ArmorPatternService(this.updateData);
+
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
     meleeWeaponBlueprintService = new MeleeWeaponBlueprintService(this.updateData);
@@ -73,7 +76,9 @@ class AppMenu extends Component {
                                       meleeWeaponBlueprintService={this.meleeWeaponBlueprintService}
                                       onMeleeWeaponBlueprint={this.getCrud(this.meleeWeaponBlueprintService)}
                                       rangedWeaponBlueprintService={this.rangedWeaponBlueprintService}
-                                      onRangedWeaponBlueprint={this.getCrud(this.rangedWeaponBlueprintService)}/>
+                                      onRangedWeaponBlueprint={this.getCrud(this.rangedWeaponBlueprintService)}
+                                      armorPatternService={this.armorPatternService}
+                                      onArmorPattern={this.getCrud(this.armorPatternService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService}
                                        onSpellSchool={this.getCrud(this.spellSchoolService)}/>

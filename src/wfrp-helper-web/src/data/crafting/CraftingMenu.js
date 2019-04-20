@@ -17,6 +17,11 @@ class CraftingMenu extends MenuComponent {
         this.props.onItem();
         this.props.itemService.retrieveData();
     };
+    showArmorPatternCrud = () => {
+        this.handleClose();
+        this.props.onArmorPattern();
+        this.props.armorPatternService.retrieveData();
+    };
 
     getMenuItems = () => {
         return [
@@ -26,6 +31,7 @@ class CraftingMenu extends MenuComponent {
                            rangedWeaponBlueprintService={this.props.rangedWeaponBlueprintService} onRangedWeaponBlueprint={this.props.onRangedWeaponBlueprint}/>,
             <MenuItem key={'resource'} onClick={this.showResourceCrud}>Resource</MenuItem>,
             <MenuItem key={'item'} onClick={this.showItemCrud}>Item</MenuItem>,
+            <MenuItem key={'armorPattern'} onClick={this.showArmorPatternCrud}>Armor pattern</MenuItem>,
         ];
     };
 }

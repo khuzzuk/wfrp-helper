@@ -1,9 +1,12 @@
 package pl.khuzzuk.wfrp.helper.model.crafting.inventory;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
@@ -15,8 +18,11 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "name")
 @Entity
+@RemoteEntity
 public class ArmorPattern {
     @Id
     @SequenceGenerator(name = "armor_pattern_seq_gen", sequenceName = "armor_pattern_seq", allocationSize = 1)
@@ -32,9 +38,4 @@ public class ArmorPattern {
     private float strength;
     @Type(type = EnumType.DEF)
     private @NotNull Accessibility accessibility = Accessibility.COMMON;
-
-    @Override
-    public String toString() {
-        return name;
-    }
 }
