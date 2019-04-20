@@ -2,8 +2,6 @@ package pl.khuzzuk.wfrp.helper.model.crafting.inventory;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.khuzzuk.wfrp.helper.edit.EditorType;
-import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.crafting.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
@@ -24,14 +22,11 @@ abstract class Wearable extends Item {
     @JoinTable(name = "item_determinants",
             joinColumns = @JoinColumn(name = "item_id"),
             inverseJoinColumns = @JoinColumn(name = "determinants_id"))
-    @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> determinants;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "primary_resource_id")
-    @FormElement(editor = EditorType.CHOOSE)
     private Resource primaryResource;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "secondary_resource_id")
-    @FormElement(editor = EditorType.CHOOSE)
     private Resource secondaryResource;
 }

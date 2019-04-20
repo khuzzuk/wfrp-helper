@@ -42,11 +42,8 @@ class LanguageService extends ConnectionService {
 
     constructor(action) {
         super('worldLanguage', action);
-        this.nationService.retrieveData();
-    }
-
-    getTableColumns(): Array {
-        return this.tableColumns;
+        const nationService = new NationService(this.onRetrieveRelatedData(this.nations));
+        this.registerRelatedServices([nationService]);
     }
 
     createNew(): Language {

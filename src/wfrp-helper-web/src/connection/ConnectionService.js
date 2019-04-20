@@ -9,6 +9,7 @@ class ConnectionService {
         INTEGER: 'integer',
         FLOAT: 'float',
         ENUM_SELECT: 'enum_select',
+        ENTITY_SELECT: 'entity_select',
         ENTITY_COMBOBOX: 'entity_combobox',
         PRICE: 'price',
         DETERMINANT: 'determinant',
@@ -20,11 +21,17 @@ class ConnectionService {
     data: Array;
     action;
     entity;
+    relatedServices: ConnectionService[];
 
     constructor(uriPart, action) {
         this.uriPart = uriPart;
         this.action = action;
     }
+
+    registerRelatedServices = (services: ConnectionService[]) => {
+        this.relatedServices = services;
+        this.relatedServices.forEach(service => service.retrieveData());
+    };
 
     register = (component, data) => {
         const socket = new WebSocket('ws:///localhost:1081/' + data);
@@ -44,6 +51,11 @@ class ConnectionService {
                 this.setData(data);
             })
             .catch(this.handleInternalErrors)
+    };
+
+    onRetrieveRelatedData = container => data => {
+        container.length = 0;
+        data.forEach(d => container.push(d));
     };
 
     save(entity: object, onSuccess: func) {
@@ -80,6 +92,7 @@ class ConnectionService {
     };
 
     edit(toEdit: *): Entity {
+        this.relatedServices.forEach(service => service.retrieveData());
         this.entity = this.createNew();
         this.entity.updateWith(toEdit);
         return this.entity;

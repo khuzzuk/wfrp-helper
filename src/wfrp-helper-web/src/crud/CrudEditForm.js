@@ -9,6 +9,7 @@ import EnumSelect from "./field/EnumSelect";
 import PriceField from "./field/PriceField";
 import DeterminantField from "./field/DeterminantField";
 import ModifierField from "./field/ModifierField";
+import EntitySelect from "./field/EntitySelect";
 
 const styles = theme => ({
     ...theme,
@@ -61,6 +62,11 @@ class CrudEditForm extends Component {
                                    onChange={number => {
                                        this.update({[name]: number})
                                    }}/>;
+            case ConnectionService.FormFieldType.ENTITY_SELECT:
+                return <EntitySelect key={name} label={label}
+                                       data={fieldData.suggestions}
+                                       value={value}
+                                       onChange={data => this.update({[name]: data})}/>;
             case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
                 return <EntityCombobox key={name} label={label}
                                        data={fieldData.suggestions}

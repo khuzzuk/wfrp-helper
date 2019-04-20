@@ -15,6 +15,7 @@ import ArmorBlueprintService from "../data/crafting/blueprint/ArmorBlueprintServ
 import MeleeWeaponBlueprintService from "../data/crafting/blueprint/MeleeWeaponBlueprintService";
 import RangedWeaponBlueprintService from "../data/crafting/blueprint/RangedWeaponBlueprintService";
 import ArmorPatternService from "../data/crafting/item/armor/ArmorPatternService";
+import ArmorService from "../data/crafting/item/armor/ArmorService";
 
 class AppMenu extends Component {
     state = {
@@ -42,6 +43,7 @@ class AppMenu extends Component {
     resourceService = new ResourceService(this.updateData);
     itemService = new ItemService(this.updateData);
     armorPatternService = new ArmorPatternService(this.updateData);
+    armorService = new ArmorService(this.updateData);
 
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
@@ -78,7 +80,8 @@ class AppMenu extends Component {
                                       rangedWeaponBlueprintService={this.rangedWeaponBlueprintService}
                                       onRangedWeaponBlueprint={this.getCrud(this.rangedWeaponBlueprintService)}
                                       armorPatternService={this.armorPatternService}
-                                      onArmorPattern={this.getCrud(this.armorPatternService)}/>
+                                      onArmorPattern={this.getCrud(this.armorPatternService)}
+                                      armorService={this.armorService} onArmor={this.getCrud(this.armorService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService}
                                        onSpellSchool={this.getCrud(this.spellSchoolService)}/>
