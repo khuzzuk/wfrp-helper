@@ -4,13 +4,14 @@ import Determinant, {DeterminantType} from "../../data/rule/Determinant";
 import EnumSelect from "./EnumSelect";
 import IntegerField from "./IntegerField";
 import ModifierField from "./ModifierField";
-import Modifier from "../../data/rule/Modifier";
+import Modifier, {ModifierType} from "../../data/rule/Modifier";
 
 class DeterminantField extends Component {
 
     deleteItem = (item) => {
         const value = this.props.value;
         value.splice(value.indexOf(item), 1);
+        this.props.onChange(this.props.value);
     };
 
     update = (determinant, updates) => {
@@ -38,7 +39,10 @@ class DeterminantField extends Component {
     };
 
     render() {
-        const {value} = this.props;
+        const {
+            value,
+            modifierTypes = ModifierType.allOf()
+        } = this.props;
         const types = DeterminantType.allOf();
 
         return <List>
@@ -58,6 +62,7 @@ class DeterminantField extends Component {
                                         <ModifierField
                                             key={determinant.id + determinant.type + currentModifier.id + currentModifier.type}
                                             value={currentModifier}
+                                            types={modifierTypes}
                                             onChange={this.updateModifier(currentModifier)}/>
                                     </ListItem>
                                 ))}
@@ -66,10 +71,12 @@ class DeterminantField extends Component {
                                 </ListItem>
                             </List>
                         }
+                        <Button key={determinant.id + determinant.type + 'remove'}
+                                onClick={() => this.deleteItem(determinant)}>Remove</Button>
                     </ListItem>
                 ))
             }
-            <Button onClick={this.addDeterminant}>Add</Button>
+            <Button onClick={this.addDeterminant}>New Determinant</Button>
         </List>;
     }
 }

@@ -13,6 +13,7 @@ import CraftingMenu from "../data/crafting/CraftingMenu";
 import ItemService from "../data/crafting/item/ItemService";
 import ArmorBlueprintService from "../data/crafting/blueprint/ArmorBlueprintService";
 import MeleeWeaponBlueprintService from "../data/crafting/blueprint/MeleeWeaponBlueprintService";
+import RangedWeaponBlueprintService from "../data/crafting/blueprint/RangedWeaponBlueprintService";
 
 class AppMenu extends Component {
     state = {
@@ -42,6 +43,7 @@ class AppMenu extends Component {
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
     meleeWeaponBlueprintService = new MeleeWeaponBlueprintService(this.updateData);
+    rangedWeaponBlueprintService = new RangedWeaponBlueprintService(this.updateData);
 
     onApply = (newState) => {
         this.setState({...newState});
@@ -49,7 +51,7 @@ class AppMenu extends Component {
 
     getCrud = (service) => () => {
         this.setState({
-            showEditor:false,
+            showEditor: false,
             currentService: service,
         });
     };
@@ -69,7 +71,9 @@ class AppMenu extends Component {
                                       armorBlueprintService={this.armorBlueprintService}
                                       onArmorBlueprint={this.getCrud(this.armorBlueprintService)}
                                       meleeWeaponBlueprintService={this.meleeWeaponBlueprintService}
-                                      onMeleeWeaponBlueprint={this.getCrud(this.meleeWeaponBlueprintService)}/>
+                                      onMeleeWeaponBlueprint={this.getCrud(this.meleeWeaponBlueprintService)}
+                                      rangedWeaponBlueprintService={this.rangedWeaponBlueprintService}
+                                      onRangedWeaponBlueprint={this.getCrud(this.rangedWeaponBlueprintService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService}
                                        onSpellSchool={this.getCrud(this.spellSchoolService)}/>

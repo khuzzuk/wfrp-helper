@@ -1,12 +1,13 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
 import NationService from "../../world/nation/NationService";
-import ArmorBlueprint from "./ArmorBlueprint";
 import {Placement} from "../Placement";
+import RangedWeaponBlueprint from "./RangedWeaponBlueprint";
 
-export default class ArmorBlueprintService extends ConnectionService {
-    title = 'Armor blueprint';
+export default class RangedWeaponBlueprintService extends ConnectionService {
+    title = 'Ranged weapon blueprint';
     data = [];
+
     tableColumns: FormFieldData[] = [
         {
             label: 'Name',
@@ -19,8 +20,14 @@ export default class ArmorBlueprintService extends ConnectionService {
             name: 'suggestedPrice',
             getter: price => price && (price.gold + 'g, ' + price.silver + 's, ' + price.lead + 'l')
         }, {
-            label: 'Placement',
-            name: 'placement',
+            label: 'Min',
+            name: 'minimumRange',
+        }, {
+            label: 'Med',
+            name: 'mediumRange',
+        }, {
+            label: 'Max',
+            name: 'maximumRange',
         }
     ];
 
@@ -33,30 +40,46 @@ export default class ArmorBlueprintService extends ConnectionService {
         name: 'description',
         type: NationService.FormFieldType.TEXT_AREA
     }, {
-        label: 'Suggested weight',
-        name: 'suggestedWeight',
+        label: 'Weight',
+        name: 'weight',
         type: NationService.FormFieldType.FLOAT
     }, {
         label: 'Suggested price',
         name: 'suggestedPrice',
         type: NationService.FormFieldType.PRICE
     }, {
+        label: 'Minimum range',
+        name: 'minimumRange',
+        type: NationService.FormFieldType.INTEGER
+    }, {
+        label: 'Medium range',
+        name: 'mediumRange',
+        type: NationService.FormFieldType.INTEGER
+    }, {
+        label: 'Maximum range',
+        name: 'maximumRange',
+        type: NationService.FormFieldType.INTEGER
+    }, {
         label: 'Placement',
         name: 'placement',
         type: NationService.FormFieldType.ENUM_SELECT,
-        suggestions: Placement.armor()
+        suggestions: Placement.weapon()
     }, {
         label: 'Determinants',
         name: 'determinants',
         type: NationService.FormFieldType.DETERMINANT,
+    }, {
+        label: 'Damage',
+        name: 'damage',
+        type: NationService.FormFieldType.MODIFIER,
     }];
 
     constructor(action) {
-        super('armorBlueprint', action);
+        super('rangedWeaponBlueprint', action);
     }
 
-    createNew(): ArmorBlueprint {
-        this.entity = new ArmorBlueprint();
+    createNew(): RangedWeaponBlueprint {
+        this.entity = new RangedWeaponBlueprint();
         return this.entity;
     }
 }
