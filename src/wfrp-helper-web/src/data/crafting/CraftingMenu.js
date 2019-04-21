@@ -30,6 +30,18 @@ class CraftingMenu extends MenuComponent {
         this.props.armorService.retrieveData();
     };
 
+    showMeleeWeaponCrud = () => {
+        this.handleClose();
+        this.props.onMeleeWeapon();
+        this.props.meleeWeaponService.retrieveData();
+    };
+
+    showRangedWeaponCrud = () => {
+        this.handleClose();
+        this.props.onRangedWeapon();
+        this.props.rangedWeaponService.retrieveData();
+    };
+
     getMenuItems = () => {
         return [
             <BlueprintMenu key={'blueprint'} onClick={this.handleClose}
@@ -40,6 +52,8 @@ class CraftingMenu extends MenuComponent {
             <MenuItem key={'item'} onClick={this.showItemCrud}>Item</MenuItem>,
             <MenuItem key={'armorPattern'} onClick={this.showArmorPatternCrud}>Armor pattern</MenuItem>,
             <MenuItem key={'armor'} onClick={this.showArmorCrud}>Armor</MenuItem>,
+            <MenuItem key={'meleeWeapon'} onClick={this.showMeleeWeaponCrud}>Melee weapon</MenuItem>,
+            <MenuItem key={'rangedWeapon'} onClick={this.showRangedWeaponCrud}>Ranged weapon</MenuItem>,
         ];
     };
 }

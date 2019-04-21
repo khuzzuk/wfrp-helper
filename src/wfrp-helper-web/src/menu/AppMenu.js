@@ -16,6 +16,8 @@ import MeleeWeaponBlueprintService from "../data/crafting/blueprint/MeleeWeaponB
 import RangedWeaponBlueprintService from "../data/crafting/blueprint/RangedWeaponBlueprintService";
 import ArmorPatternService from "../data/crafting/item/armor/ArmorPatternService";
 import ArmorService from "../data/crafting/item/armor/ArmorService";
+import MeleeWeaponService from "../data/crafting/item/armor/MeleeWeaponService";
+import RangedWeaponService from "../data/crafting/item/rangedWeapon/RangedWeaponService";
 
 class AppMenu extends Component {
     state = {
@@ -44,6 +46,8 @@ class AppMenu extends Component {
     itemService = new ItemService(this.updateData);
     armorPatternService = new ArmorPatternService(this.updateData);
     armorService = new ArmorService(this.updateData);
+    meleeWeaponService = new MeleeWeaponService(this.updateData);
+    rangedWeaponService = new RangedWeaponService(this.updateData);
 
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
@@ -81,7 +85,11 @@ class AppMenu extends Component {
                                       onRangedWeaponBlueprint={this.getCrud(this.rangedWeaponBlueprintService)}
                                       armorPatternService={this.armorPatternService}
                                       onArmorPattern={this.getCrud(this.armorPatternService)}
-                                      armorService={this.armorService} onArmor={this.getCrud(this.armorService)}/>
+                                      armorService={this.armorService} onArmor={this.getCrud(this.armorService)}
+                                      meleeWeaponService={this.meleeWeaponService}
+                                      onMeleeWeapon={this.getCrud(this.meleeWeaponService)}
+                                      rangedWeaponService={this.rangedWeaponService}
+                                      onRangedWeapon={this.getCrud(this.rangedWeaponService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService}
                                        onSpellSchool={this.getCrud(this.spellSchoolService)}/>

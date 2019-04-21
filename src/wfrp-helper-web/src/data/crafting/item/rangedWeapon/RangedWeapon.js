@@ -2,10 +2,10 @@ import Entity from "../../../../crud/Entity";
 import Price from "../../../world/money/Price";
 import Determinant from "../../../rule/Determinant";
 import Resource from "../../resource/Resource";
-import ArmorBlueprint from "../../blueprint/ArmorBlueprint";
-import ArmorPattern from "./ArmorPattern";
+import MeleeWeaponBlueprint from "../../blueprint/MeleeWeaponBlueprint";
+import RangedWeaponBlueprint from "../../blueprint/RangedWeaponBlueprint";
 
-export default class Armor extends Entity {
+export default class RangedWeapon extends Entity {
     name: string;
     description: string;
     weight: number;
@@ -14,10 +14,9 @@ export default class Armor extends Entity {
     determinants: Determinant[];
     primaryResource: Resource;
     secondaryResource: Resource;
-    type: ArmorBlueprint;
-    armorPattern: ArmorPattern;
+    type: RangedWeaponBlueprint;
 
-    updateWith(entity: *) {
+    updateWith(entity: RangedWeapon) {
         super.updateWith(entity);
 
         if (entity.determinants) {
@@ -38,12 +37,8 @@ export default class Armor extends Entity {
             this.secondaryResource.updateWith(entity.secondaryResource);
         }
         if (entity.type) {
-            this.type = new ArmorBlueprint();
+            this.type = new RangedWeaponBlueprint();
             this.type.updateWith(entity.type);
-        }
-        if (entity.armorPattern) {
-            this.armorPattern = new ArmorPattern();
-            this.armorPattern.updateWith(entity.armorPattern);
         }
     }
 }

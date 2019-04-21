@@ -4,8 +4,9 @@ import Determinant from "../../../rule/Determinant";
 import Resource from "../../resource/Resource";
 import ArmorBlueprint from "../../blueprint/ArmorBlueprint";
 import ArmorPattern from "./ArmorPattern";
+import MeleeWeaponBlueprint from "../../blueprint/MeleeWeaponBlueprint";
 
-export default class Armor extends Entity {
+export default class MeleeWeapon extends Entity {
     name: string;
     description: string;
     weight: number;
@@ -14,8 +15,7 @@ export default class Armor extends Entity {
     determinants: Determinant[];
     primaryResource: Resource;
     secondaryResource: Resource;
-    type: ArmorBlueprint;
-    armorPattern: ArmorPattern;
+    type: MeleeWeaponBlueprint;
 
     updateWith(entity: *) {
         super.updateWith(entity);
@@ -38,12 +38,8 @@ export default class Armor extends Entity {
             this.secondaryResource.updateWith(entity.secondaryResource);
         }
         if (entity.type) {
-            this.type = new ArmorBlueprint();
+            this.type = new MeleeWeaponBlueprint();
             this.type.updateWith(entity.type);
-        }
-        if (entity.armorPattern) {
-            this.armorPattern = new ArmorPattern();
-            this.armorPattern.updateWith(entity.armorPattern);
         }
     }
 }
