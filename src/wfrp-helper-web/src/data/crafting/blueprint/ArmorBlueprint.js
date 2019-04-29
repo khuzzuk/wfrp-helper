@@ -1,6 +1,7 @@
 import Entity from "../../../crud/Entity";
 import Price from "../../world/money/Price";
 import Determinant from "../../rule/Determinant";
+import {Placement} from "../Placement";
 
 export default class ArmorBlueprint extends Entity {
     name: string;
@@ -8,7 +9,7 @@ export default class ArmorBlueprint extends Entity {
     suggestedPrice: Price = new Price();
     suggestedWeight: number;
     determinants: Determinant[];
-    placement: string;
+    placement: string = Placement.BODY;
 
     updateWith(entity: *) {
         super.updateWith(entity);

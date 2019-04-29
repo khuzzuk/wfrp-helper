@@ -6,7 +6,7 @@ import ResourceService from "../../resource/ResourceService";
 import MeleeWeaponBlueprintService from "../../blueprint/MeleeWeaponBlueprintService";
 import MeleeWeapon from "./MeleeWeapon";
 
-export default class ArmorService extends ConnectionService {
+export default class MeleeWeaponService extends ConnectionService {
     title = 'Melee weapon';
     data = [];
     resources = [];

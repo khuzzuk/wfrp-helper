@@ -54,6 +54,7 @@ class CraftingMenu extends MenuComponent {
             <MenuItem key={'armor'} onClick={this.showArmorCrud}>Armor</MenuItem>,
             <MenuItem key={'meleeWeapon'} onClick={this.showMeleeWeaponCrud}>Melee weapon</MenuItem>,
             <MenuItem key={'rangedWeapon'} onClick={this.showRangedWeaponCrud}>Ranged weapon</MenuItem>,
+            <MenuItem key={'jewelry'} onClick={this.showCrudAction(this.props.onJewelry, this.props.jewelryService)}>Jewelry</MenuItem>,
         ];
     };
 }

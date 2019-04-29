@@ -50,7 +50,8 @@ class ConnectionService {
             .then(data => {
                 this.setData(data);
             })
-            .catch(this.handleInternalErrors)
+            .catch(this.handleInternalErrors);
+        this.relatedServices && this.relatedServices.forEach(service => service.retrieveData());
     };
 
     onRetrieveRelatedData = container => data => {

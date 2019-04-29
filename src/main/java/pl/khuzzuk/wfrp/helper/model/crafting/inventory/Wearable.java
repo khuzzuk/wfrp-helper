@@ -17,7 +17,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-abstract class Wearable extends Item {
+public abstract class Wearable extends Item {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "item_determinants",
             joinColumns = @JoinColumn(name = "item_id"),

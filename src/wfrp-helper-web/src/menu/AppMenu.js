@@ -16,8 +16,9 @@ import MeleeWeaponBlueprintService from "../data/crafting/blueprint/MeleeWeaponB
 import RangedWeaponBlueprintService from "../data/crafting/blueprint/RangedWeaponBlueprintService";
 import ArmorPatternService from "../data/crafting/item/armor/ArmorPatternService";
 import ArmorService from "../data/crafting/item/armor/ArmorService";
-import MeleeWeaponService from "../data/crafting/item/armor/MeleeWeaponService";
-import RangedWeaponService from "../data/crafting/item/rangedWeapon/RangedWeaponService";
+import MeleeWeaponService from "../data/crafting/item/melee/MeleeWeaponService";
+import RangedWeaponService from "../data/crafting/item/ranged/RangedWeaponService";
+import JewelryService from "../data/crafting/item/jewelry/JewelryService";
 
 class AppMenu extends Component {
     state = {
@@ -48,6 +49,7 @@ class AppMenu extends Component {
     armorService = new ArmorService(this.updateData);
     meleeWeaponService = new MeleeWeaponService(this.updateData);
     rangedWeaponService = new RangedWeaponService(this.updateData);
+    jewelryService = new JewelryService(this.updateData);
 
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
     armorBlueprintService = new ArmorBlueprintService(this.updateData);
@@ -72,27 +74,19 @@ class AppMenu extends Component {
                     <Toolbar>
                         <AppToolsMenu/>
                         <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
-                                       languageService={this.languageService}
-                                       onLanguage={this.getCrud(this.languageService)}/>
-                        <CraftingMenu resourceService={this.resourceService}
-                                      onResource={this.getCrud(this.resourceService)}
+                                       languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}/>
+                        <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
                                       itemService={this.itemService} onItem={this.getCrud(this.itemService)}
-                                      armorBlueprintService={this.armorBlueprintService}
-                                      onArmorBlueprint={this.getCrud(this.armorBlueprintService)}
-                                      meleeWeaponBlueprintService={this.meleeWeaponBlueprintService}
-                                      onMeleeWeaponBlueprint={this.getCrud(this.meleeWeaponBlueprintService)}
-                                      rangedWeaponBlueprintService={this.rangedWeaponBlueprintService}
-                                      onRangedWeaponBlueprint={this.getCrud(this.rangedWeaponBlueprintService)}
-                                      armorPatternService={this.armorPatternService}
-                                      onArmorPattern={this.getCrud(this.armorPatternService)}
+                                      armorBlueprintService={this.armorBlueprintService} onArmorBlueprint={this.getCrud(this.armorBlueprintService)}
+                                      meleeWeaponBlueprintService={this.meleeWeaponBlueprintService} onMeleeWeaponBlueprint={this.getCrud(this.meleeWeaponBlueprintService)}
+                                      rangedWeaponBlueprintService={this.rangedWeaponBlueprintService} onRangedWeaponBlueprint={this.getCrud(this.rangedWeaponBlueprintService)}
+                                      armorPatternService={this.armorPatternService} onArmorPattern={this.getCrud(this.armorPatternService)}
                                       armorService={this.armorService} onArmor={this.getCrud(this.armorService)}
-                                      meleeWeaponService={this.meleeWeaponService}
-                                      onMeleeWeapon={this.getCrud(this.meleeWeaponService)}
-                                      rangedWeaponService={this.rangedWeaponService}
-                                      onRangedWeapon={this.getCrud(this.rangedWeaponService)}/>
+                                      meleeWeaponService={this.meleeWeaponService} onMeleeWeapon={this.getCrud(this.meleeWeaponService)}
+                                      rangedWeaponService={this.rangedWeaponService} onRangedWeapon={this.getCrud(this.rangedWeaponService)}
+                                      jewelryService={this.jewelryService} onJewelry={this.getCrud(this.jewelryService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
-                                       spellSchoolService={this.spellSchoolService}
-                                       onSpellSchool={this.getCrud(this.spellSchoolService)}/>
+                                       spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.currentService

@@ -2,20 +2,18 @@ import Entity from "../../../../crud/Entity";
 import Price from "../../../world/money/Price";
 import Determinant from "../../../rule/Determinant";
 import Resource from "../../resource/Resource";
-import ArmorBlueprint from "../../blueprint/ArmorBlueprint";
-import ArmorPattern from "./ArmorPattern";
-import MeleeWeaponBlueprint from "../../blueprint/MeleeWeaponBlueprint";
+import {Placement} from "../../Placement";
 
-export default class MeleeWeapon extends Entity {
+export default class Jewelry extends Entity {
     name: string;
     description: string;
     weight: number;
     price: Price = new Price();
     accessibility: string = 'COMMON';
-    determinants: Determinant[];
+    determinants: Determinant[] = [];
     primaryResource: Resource;
     secondaryResource: Resource;
-    type: MeleeWeaponBlueprint;
+    placement: string = Placement.NECK;
 
     updateWith(entity: *) {
         super.updateWith(entity);
@@ -36,10 +34,6 @@ export default class MeleeWeapon extends Entity {
         if (entity.secondaryResource) {
             this.secondaryResource = new Resource();
             this.secondaryResource.updateWith(entity.secondaryResource);
-        }
-        if (entity.type) {
-            this.type = new MeleeWeaponBlueprint();
-            this.type.updateWith(entity.type);
         }
     }
 }

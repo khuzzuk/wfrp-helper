@@ -2,7 +2,6 @@ import Entity from "../../../../crud/Entity";
 import Price from "../../../world/money/Price";
 import Determinant from "../../../rule/Determinant";
 import Resource from "../../resource/Resource";
-import MeleeWeaponBlueprint from "../../blueprint/MeleeWeaponBlueprint";
 import RangedWeaponBlueprint from "../../blueprint/RangedWeaponBlueprint";
 
 export default class RangedWeapon extends Entity {

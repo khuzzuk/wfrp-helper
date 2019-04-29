@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Button, Menu} from "@material-ui/core";
+import ConnectionService from "../connection/ConnectionService";
 
 class MenuComponent extends Component {
     state = {
@@ -12,6 +13,12 @@ class MenuComponent extends Component {
 
     handleClose = () => {
         this.setState({anchorEl: null})
+    };
+
+    showCrudAction = (action, service: ConnectionService) => () => {
+        this.handleClose();
+        action();
+        service.retrieveData();
     };
 
     render() {
