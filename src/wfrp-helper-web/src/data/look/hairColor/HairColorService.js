@@ -1,9 +1,9 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
-import PhysicalFeature from "./PhysicalFeature";
+import HairColor from "./HairColor";
 
-export default class PhysicalFeatureService extends ConnectionService {
-    title = 'Armor';
+export default class HairColorService extends ConnectionService {
+    title = 'Hair color';
     data = [];
 
     tableColumns: FormFieldData[] = [
@@ -24,18 +24,14 @@ export default class PhysicalFeatureService extends ConnectionService {
         label: 'Description',
         name: 'description',
         type: ConnectionService.FormFieldType.TEXT_AREA
-    }, {
-        label: 'Determinants',
-        name: 'determinants',
-        type: ConnectionService.FormFieldType.DETERMINANT,
     }];
 
     constructor(action) {
-        super('physicalFeature', action);
+        super('hairColor', action);
     }
 
-    createNew(): PhysicalFeature {
-        this.entity = new PhysicalFeature();
+    createNew(): HairColor {
+        this.entity = new HairColor();
         return this.entity;
     }
 }

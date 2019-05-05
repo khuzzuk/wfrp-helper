@@ -26,6 +26,9 @@ import ProfessionClassService from "../data/knowledge/profession/ProfessionClass
 import ProfessionService from "../data/knowledge/profession/ProfessionService";
 import CurrencyService from "../data/world/money/CurrencyService";
 import SpellService from "../data/knowledge/magic/spell/SpellService";
+import CharacterService from "../data/look/character/CharacterService";
+import EyeColorService from "../data/look/eyeColor/EyeColorService";
+import HairColorService from "../data/look/hairColor/HairColorService";
 
 class AppMenu extends Component {
     state = {
@@ -72,6 +75,9 @@ class AppMenu extends Component {
     rangedWeaponBlueprintService = new RangedWeaponBlueprintService(this.updateData);
 
     //Look
+    characterService = new CharacterService(this.updateData);
+    eyeColorService = new EyeColorService(this.updateData);
+    hairColorService = new HairColorService(this.updateData);
     physicalFeatureService = new PhysicalFeatureService(this.updateData);
 
     onApply = (newState) => {
@@ -110,7 +116,10 @@ class AppMenu extends Component {
                                        spellService={this.spellService} onSpell={this.getCrud(this.spellService)}
                                        professionClassService={this.professionClassService} onProfessionClass={this.getCrud(this.professionClassService)}
                                        professionService={this.professionService} onProfession={this.getCrud(this.professionService)}/>
-                        <LookMenu physicalFeatureService={this.physicalFeatureService} onPhysicalFeature={this.getCrud(this.physicalFeatureService)}/>
+                        <LookMenu characterService={this.characterService} onCharacter={this.getCrud(this.characterService)}
+                                  eyeColorService={this.eyeColorService} onEyeColor={this.getCrud(this.eyeColorService)}
+                                  hairColorService={this.hairColorService} onHairColor={this.getCrud(this.hairColorService)}
+                                  physicalFeatureService={this.physicalFeatureService} onPhysicalFeature={this.getCrud(this.physicalFeatureService)}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.currentService
