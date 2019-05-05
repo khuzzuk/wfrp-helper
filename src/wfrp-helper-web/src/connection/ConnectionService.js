@@ -19,13 +19,17 @@ class ConnectionService {
     hostBase: string = 'http://localhost:1081/';
     uriPart: string;
     data: Array;
-    action;
+    actions = [];
     entity;
     relatedServices: ConnectionService[] = [];
 
     constructor(uriPart, action) {
         this.uriPart = uriPart;
-        this.action = action;
+        this.actions.push(action);
+    }
+
+    addDataListener(action) {
+        this.actions.push(action);
     }
 
     registerRelatedServices = (services: ConnectionService[]) => {
@@ -43,6 +47,8 @@ class ConnectionService {
     };
 
     retrieveData() {
+        console.log(this.uriPart);
+        console.log(this.title);
         fetch(this.hostBase + this.uriPart, {
             mode: 'cors'
         })
@@ -89,7 +95,7 @@ class ConnectionService {
 
     setData(data: Array) {
         this.data = data;
-        this.action(data)
+        this.actions.forEach(action => action(data));
     };
 
     edit(toEdit: *): Entity {

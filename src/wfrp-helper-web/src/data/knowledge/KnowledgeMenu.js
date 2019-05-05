@@ -5,18 +5,6 @@ import {MenuItem} from "@material-ui/core";
 class KnowledgeMenu extends MenuComponent {
     title = 'Knowledge';
 
-    showSkillCrud = () => {
-        this.handleClose();
-        this.props.onSkill();
-        this.props.skillService.retrieveData();
-    };
-
-    showSpellSchool = () => {
-        this.handleClose();
-        this.props.onSpellSchool();
-        this.props.spellSchoolService.retrieveData();
-    };
-
     showSpell = () => {
         this.handleClose();
         this.props.onSpellSchool();
@@ -24,10 +12,18 @@ class KnowledgeMenu extends MenuComponent {
     };
 
     getMenuItems = () => {
+        const {
+            onSpellSchool, spellSchoolService,
+            onSkill, skillService,
+            onProfessionClass, professionClassService,
+            onProfession, professionService} = this.props;
+
         return [
-            <MenuItem key={'skill'} onClick={this.showSkillCrud}>Skill</MenuItem>,
-            <MenuItem key={'spellSchool'} onClick={this.showSpellSchool}>Spell School</MenuItem>,
-            <MenuItem key={'spell'} onClick={this.showSpell}>Spell</MenuItem>
+            <MenuItem key={'skill'} onClick={this.showCrudAction(onSkill, skillService)}>Skill</MenuItem>,
+            <MenuItem key={'spellSchool'} onClick={this.showCrudAction(onSpellSchool, spellSchoolService)}>Spell School</MenuItem>,
+            <MenuItem key={'spell'} onClick={this.showSpell}>Spell</MenuItem>,
+            <MenuItem key={'professionClass'} onClick={this.showCrudAction(onProfessionClass, professionClassService)}>Class</MenuItem>,
+            <MenuItem key={'profession'} onClick={this.showCrudAction(onProfession, professionService)}>Profession</MenuItem>,
         ];
     };
 }

@@ -22,6 +22,8 @@ import JewelryService from "../data/crafting/item/jewelry/JewelryService";
 import PhysicalFeatureService from "../data/look/physicalFeatures/PhysicalFeatureService";
 import LookMenu from "../data/look/LookMenu";
 import RaceService from "../data/world/race/RaceService";
+import ProfessionClassService from "../data/knowledge/profession/ProfessionClassService";
+import ProfessionService from "../data/knowledge/profession/ProfessionService";
 
 class AppMenu extends Component {
     state = {
@@ -48,6 +50,8 @@ class AppMenu extends Component {
     //knowledge
     skillService = new SkillService(this.updateData);
     spellSchoolService = new SpellSchoolService(this.updateData);
+    professionClassService = new ProfessionClassService(this.updateData);
+    professionService = new ProfessionService(this.updateData);
 
     //crafting services
     resourceService = new ResourceService(this.updateData);
@@ -97,7 +101,9 @@ class AppMenu extends Component {
                                       rangedWeaponService={this.rangedWeaponService} onRangedWeapon={this.getCrud(this.rangedWeaponService)}
                                       jewelryService={this.jewelryService} onJewelry={this.getCrud(this.jewelryService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
-                                       spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}/>
+                                       spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}
+                                       professionClassService={this.professionClassService} onProfessionClass={this.getCrud(this.professionClassService)}
+                                       professionService={this.professionService} onProfession={this.getCrud(this.professionService)}/>
                         <LookMenu physicalFeatureService={this.physicalFeatureService} onPhysicalFeature={this.getCrud(this.physicalFeatureService)}/>
                     </Toolbar>
                 </AppBar>

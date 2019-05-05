@@ -4,7 +4,7 @@ import Determinant from "../../rule/Determinant";
 export default class Race extends Entity {
     name: string;
     specialFeature: string;
-    determinants: Determinant[];
+    determinants: Determinant[] = [];
 
     updateWith(entity: Race) {
         super.updateWith(entity);

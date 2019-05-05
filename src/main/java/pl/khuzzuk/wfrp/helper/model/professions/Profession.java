@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
@@ -22,8 +23,9 @@ import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(of = {"name"})
 @Entity
-@EqualsAndHashCode(of = {"id", "name"})
+@RemoteEntity
 public class Profession {
     @Id
     @SequenceGenerator(name = "profession_seq_gen", sequenceName = "profession_seq", allocationSize = 1)
