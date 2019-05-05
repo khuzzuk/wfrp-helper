@@ -19,6 +19,8 @@ import ArmorService from "../data/crafting/item/armor/ArmorService";
 import MeleeWeaponService from "../data/crafting/item/melee/MeleeWeaponService";
 import RangedWeaponService from "../data/crafting/item/ranged/RangedWeaponService";
 import JewelryService from "../data/crafting/item/jewelry/JewelryService";
+import PhysicalFeatureService from "../data/look/physicalFeatures/PhysicalFeatureService";
+import LookMenu from "../data/look/LookMenu";
 
 class AppMenu extends Component {
     state = {
@@ -56,6 +58,9 @@ class AppMenu extends Component {
     meleeWeaponBlueprintService = new MeleeWeaponBlueprintService(this.updateData);
     rangedWeaponBlueprintService = new RangedWeaponBlueprintService(this.updateData);
 
+    //Look
+    physicalFeatureService = new PhysicalFeatureService(this.updateData);
+
     onApply = (newState) => {
         this.setState({...newState});
     };
@@ -87,6 +92,7 @@ class AppMenu extends Component {
                                       jewelryService={this.jewelryService} onJewelry={this.getCrud(this.jewelryService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}/>
+                        <LookMenu physicalFeatureService={this.physicalFeatureService} onPhysicalFeature={this.getCrud(this.physicalFeatureService)}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.currentService

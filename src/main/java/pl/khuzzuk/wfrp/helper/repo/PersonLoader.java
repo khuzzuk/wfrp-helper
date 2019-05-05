@@ -1,10 +1,10 @@
 package pl.khuzzuk.wfrp.helper.repo;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
-import pl.khuzzuk.wfrp.helper.repo.crud.PersonRepo;
 
 import java.util.function.Consumer;
 
@@ -13,7 +13,7 @@ import java.util.function.Consumer;
 @Service
 public class PersonLoader {
     private static final Consumer FETCH = o -> {};
-    private final PersonRepo personRepo;
+    private final JpaRepository<Person, Long> personRepo;
 
     @Transactional
     public Person load(Person person) {

@@ -11,7 +11,7 @@ export default class Armor extends Entity {
     weight: number;
     price: Price = new Price();
     accessibility: string = 'COMMON';
-    determinants: Determinant[];
+    determinants: Determinant[] = [];
     primaryResource: Resource;
     secondaryResource: Resource;
     type: ArmorBlueprint;

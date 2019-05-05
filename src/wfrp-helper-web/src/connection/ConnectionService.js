@@ -21,7 +21,7 @@ class ConnectionService {
     data: Array;
     action;
     entity;
-    relatedServices: ConnectionService[];
+    relatedServices: ConnectionService[] = [];
 
     constructor(uriPart, action) {
         this.uriPart = uriPart;
