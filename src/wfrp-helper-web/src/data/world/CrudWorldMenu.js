@@ -18,9 +18,12 @@ class CrudWorldMenu extends MenuComponent {
     };
 
     getMenuItems = () => {
+        const {raceService, onRace} = this.props;
+
         return [
             <MenuItem key={'nation'} onClick={this.showNationCrud}>Nation</MenuItem>,
-            <MenuItem key={'language'} onClick={this.showLanguagesCrud}>Language</MenuItem>
+            <MenuItem key={'language'} onClick={this.showLanguagesCrud}>Language</MenuItem>,
+            <MenuItem key={'race'} onClick={this.showCrudAction(onRace, raceService)}>Race</MenuItem>
         ];
     };
 }

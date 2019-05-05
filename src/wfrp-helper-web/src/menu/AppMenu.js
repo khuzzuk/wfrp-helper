@@ -21,6 +21,7 @@ import RangedWeaponService from "../data/crafting/item/ranged/RangedWeaponServic
 import JewelryService from "../data/crafting/item/jewelry/JewelryService";
 import PhysicalFeatureService from "../data/look/physicalFeatures/PhysicalFeatureService";
 import LookMenu from "../data/look/LookMenu";
+import RaceService from "../data/world/race/RaceService";
 
 class AppMenu extends Component {
     state = {
@@ -39,8 +40,12 @@ class AppMenu extends Component {
         this.setState({data: data})
     };
 
+    //world
     nationService = new NationService(this.updateData);
     languageService = new LanguageService(this.updateData);
+    raceService = new RaceService(this.updateData);
+
+    //knowledge
     skillService = new SkillService(this.updateData);
     spellSchoolService = new SpellSchoolService(this.updateData);
 
@@ -79,7 +84,8 @@ class AppMenu extends Component {
                     <Toolbar>
                         <AppToolsMenu/>
                         <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
-                                       languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}/>
+                                       languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}
+                                       raceService={this.raceService} onRace={this.getCrud(this.raceService)}/>
                         <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
                                       itemService={this.itemService} onItem={this.getCrud(this.itemService)}
                                       armorBlueprintService={this.armorBlueprintService} onArmorBlueprint={this.getCrud(this.armorBlueprintService)}

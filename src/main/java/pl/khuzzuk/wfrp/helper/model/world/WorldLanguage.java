@@ -1,10 +1,9 @@
-package pl.khuzzuk.wfrp.helper.model.world.language;
+package pl.khuzzuk.wfrp.helper.model.world;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import pl.khuzzuk.remote.RemoteEntity;
-import pl.khuzzuk.wfrp.helper.model.world.nation.Nation;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
