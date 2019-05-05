@@ -72,6 +72,10 @@ export default class RangedWeaponBlueprintService extends ConnectionService {
         label: 'Damage',
         name: 'damage',
         type: NationService.FormFieldType.MODIFIER,
+    }, {
+        label: 'Prepare time',
+        name: 'prepareTime',
+        type: NationService.FormFieldType.ACTION_TIME,
     }];
 
     constructor(action) {

@@ -24,6 +24,8 @@ import LookMenu from "../data/look/LookMenu";
 import RaceService from "../data/world/race/RaceService";
 import ProfessionClassService from "../data/knowledge/profession/ProfessionClassService";
 import ProfessionService from "../data/knowledge/profession/ProfessionService";
+import CurrencyService from "../data/world/money/CurrencyService";
+import SpellService from "../data/knowledge/magic/spell/SpellService";
 
 class AppMenu extends Component {
     state = {
@@ -46,10 +48,12 @@ class AppMenu extends Component {
     nationService = new NationService(this.updateData);
     languageService = new LanguageService(this.updateData);
     raceService = new RaceService(this.updateData);
+    currencyService = new CurrencyService(this.updateData);
 
     //knowledge
     skillService = new SkillService(this.updateData);
     spellSchoolService = new SpellSchoolService(this.updateData);
+    spellService = new SpellService(this.updateData);
     professionClassService = new ProfessionClassService(this.updateData);
     professionService = new ProfessionService(this.updateData);
 
@@ -89,7 +93,8 @@ class AppMenu extends Component {
                         <AppToolsMenu/>
                         <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
                                        languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}
-                                       raceService={this.raceService} onRace={this.getCrud(this.raceService)}/>
+                                       raceService={this.raceService} onRace={this.getCrud(this.raceService)}
+                                       currencyService={this.currencyService} onCurrency={this.getCrud(this.currencyService)}/>
                         <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
                                       itemService={this.itemService} onItem={this.getCrud(this.itemService)}
                                       armorBlueprintService={this.armorBlueprintService} onArmorBlueprint={this.getCrud(this.armorBlueprintService)}
@@ -102,6 +107,7 @@ class AppMenu extends Component {
                                       jewelryService={this.jewelryService} onJewelry={this.getCrud(this.jewelryService)}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}
+                                       spellService={this.spellService} onSpell={this.getCrud(this.spellService)}
                                        professionClassService={this.professionClassService} onProfessionClass={this.getCrud(this.professionClassService)}
                                        professionService={this.professionService} onProfession={this.getCrud(this.professionService)}/>
                         <LookMenu physicalFeatureService={this.physicalFeatureService} onPhysicalFeature={this.getCrud(this.physicalFeatureService)}/>

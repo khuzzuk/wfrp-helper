@@ -5,25 +5,18 @@ import MenuComponent from "../../menu/MenuComponent";
 class CrudWorldMenu extends MenuComponent {
     title = 'World';
 
-    showNationCrud = () => {
-        this.handleClose();
-        this.props.onNation();
-        this.props.nationService.retrieveData();
-    };
-
-    showLanguagesCrud = () => {
-        this.handleClose();
-        this.props.onLanguage();
-        this.props.languageService.retrieveData();
-    };
-
     getMenuItems = () => {
-        const {raceService, onRace} = this.props;
+        const {
+            nationService, onNation,
+            languageService, onLanguage,
+            raceService, onRace,
+            currencyService, onCurrency} = this.props;
 
         return [
-            <MenuItem key={'nation'} onClick={this.showNationCrud}>Nation</MenuItem>,
-            <MenuItem key={'language'} onClick={this.showLanguagesCrud}>Language</MenuItem>,
-            <MenuItem key={'race'} onClick={this.showCrudAction(onRace, raceService)}>Race</MenuItem>
+            <MenuItem key={'nation'} onClick={this.showCrudAction(onNation, nationService)}>Nation</MenuItem>,
+            <MenuItem key={'language'} onClick={this.showCrudAction(onLanguage, languageService)}>Language</MenuItem>,
+            <MenuItem key={'race'} onClick={this.showCrudAction(onRace, raceService)}>Race</MenuItem>,
+            <MenuItem key={'currency'} onClick={this.showCrudAction(onCurrency, currencyService)}>Currency</MenuItem>,
         ];
     };
 }

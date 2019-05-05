@@ -4,9 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
-import pl.khuzzuk.wfrp.helper.edit.EditorType;
-import pl.khuzzuk.wfrp.helper.edit.Filter;
-import pl.khuzzuk.wfrp.helper.edit.FormElement;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.model.world.Nation;
 
 import javax.persistence.Entity;
@@ -22,18 +20,16 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
+@RemoteEntity
 public class Currency {
     @Id
     @SequenceGenerator(name = "currency_seq_gen", sequenceName = "currency_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "currency_seq_gen")
-    @FormElement(exclude = true)
     private Long id;
     @NaturalId
-    @Filter
     private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
     private @Min(0) float valueMultiplier;
     @ManyToMany(fetch = FetchType.EAGER)
-    @FormElement(editor = EditorType.CHOOSE)
     private Set<Nation> nations;
 }

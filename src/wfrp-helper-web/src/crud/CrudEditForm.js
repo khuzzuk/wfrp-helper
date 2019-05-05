@@ -10,6 +10,7 @@ import PriceField from "./field/PriceField";
 import DeterminantField from "./field/DeterminantField";
 import ModifierField from "./field/ModifierField";
 import EntitySelect from "./field/EntitySelect";
+import ActionTimeField from "./field/ActionTimeField";
 
 const styles = theme => ({
     ...theme,
@@ -81,6 +82,10 @@ class CrudEditForm extends Component {
                 return <PriceField key={name} label={label}
                                    value={value}
                                    onChange={price => this.update({[name]: price})}/>;
+            case ConnectionService.FormFieldType.ACTION_TIME:
+                return <ActionTimeField key={name} label={label}
+                                        value={value}
+                                        onChange={actionTime => this.update({[name]: actionTime})}/>;
             case ConnectionService.FormFieldType.DETERMINANT:
                 return <DeterminantField key={name}
                                          value={value}

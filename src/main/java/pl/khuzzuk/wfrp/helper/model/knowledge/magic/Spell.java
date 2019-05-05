@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
@@ -31,14 +32,13 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
+@RemoteEntity
 public class Spell {
     @Id
     @SequenceGenerator(name = "spell_seq_gen", sequenceName = "spell_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "spell_seq_gen")
-    @FormElement(exclude = true)
     private Long id;
     @NaturalId
-    @Filter
     private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
     private @NotNull @Length(min = 3, max = 500) String effect;
@@ -61,13 +61,11 @@ public class Spell {
     private ActionTime durationTime;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @FormElement(editor = EditorType.CHOOSE)
     private SpellSchool spellSchool;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "spell_ingredients",
             joinColumns = @JoinColumn(name = "spell_id"),
             inverseJoinColumns = @JoinColumn(name = "ingrediend_id"))
-    @FormElement(editor = EditorType.CHOOSE)
     private List<MiscItem> ingredients;
 }

@@ -12,6 +12,7 @@ class ConnectionService {
         ENTITY_SELECT: 'entity_select',
         ENTITY_COMBOBOX: 'entity_combobox',
         PRICE: 'price',
+        ACTION_TIME: 'action_time',
         DETERMINANT: 'determinant',
         MODIFIER: 'modifier',
     };

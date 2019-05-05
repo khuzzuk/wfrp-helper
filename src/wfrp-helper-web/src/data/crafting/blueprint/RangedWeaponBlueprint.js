@@ -18,6 +18,7 @@ export default class RangedWeaponBlueprint extends Entity {
 
     updateWith(entity: RangedWeaponBlueprint) {
         super.updateWith(entity);
+
         this.determinants = entity.determinants
             ? entity.determinants
                 .map(value => {
