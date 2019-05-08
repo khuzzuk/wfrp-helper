@@ -1,6 +1,9 @@
 package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.envers.Audited;
 import pl.khuzzuk.remote.DTO;
 import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
@@ -17,7 +20,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Audited
 @DTO

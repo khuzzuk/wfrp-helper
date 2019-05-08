@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
@@ -22,18 +23,16 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
+@RemoteEntity
 public class AnimalKind {
     @Id
     @SequenceGenerator(name = "animal_kind_seq_gen", sequenceName = "animal_kind_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_kind_seq_gen")
-    @FormElement(exclude = true)
     private Long id;
     @NaturalId
-    @Filter
     private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> determinants;
 
     @Override

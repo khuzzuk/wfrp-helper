@@ -2,8 +2,11 @@ package pl.khuzzuk.wfrp.helper.model.creature;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.edit.EditorType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
@@ -20,17 +23,17 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
-@Data
-@EqualsAndHashCode(of = "id")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "name")
 @Entity
+@RemoteEntity
 public class Animal {
     @Id
     @SequenceGenerator(name = "animal_seq_gen", sequenceName = "animal_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_seq_gen")
-    @FormElement(exclude = true)
     private Long id;
     @NaturalId
-    @Filter
     private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
     @ManyToOne(fetch = FetchType.EAGER)

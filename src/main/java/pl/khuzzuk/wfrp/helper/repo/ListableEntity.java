@@ -14,10 +14,4 @@ import java.util.UUID;
 @MappedSuperclass
 public abstract class ListableEntity {
     private @NotNull String uuid = UUID.randomUUID().toString();
-
-/*
-    public void setUuid(String uuid) {
-        this.uuid = uuid != null ? uuid : this.uuid;
-    }
-*/
 }

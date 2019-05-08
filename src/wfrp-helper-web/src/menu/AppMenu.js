@@ -29,6 +29,9 @@ import SpellService from "../data/knowledge/magic/spell/SpellService";
 import CharacterService from "../data/look/character/CharacterService";
 import EyeColorService from "../data/look/eyeColor/EyeColorService";
 import HairColorService from "../data/look/hairColor/HairColorService";
+import AnimalKindService from "../data/creature/AnimalKindService";
+import CreatureMenu from "../data/creature/CreatureMenu";
+import AnimalService from "../data/creature/AnimalService";
 
 class AppMenu extends Component {
     state = {
@@ -80,6 +83,10 @@ class AppMenu extends Component {
     hairColorService = new HairColorService(this.updateData);
     physicalFeatureService = new PhysicalFeatureService(this.updateData);
 
+    //creatures
+    animalService = new AnimalService(this.updateData);
+    animalKindService = new AnimalKindService(this.updateData);
+
     onApply = (newState) => {
         this.setState({...newState});
     };
@@ -120,6 +127,8 @@ class AppMenu extends Component {
                                   eyeColorService={this.eyeColorService} onEyeColor={this.getCrud(this.eyeColorService)}
                                   hairColorService={this.hairColorService} onHairColor={this.getCrud(this.hairColorService)}
                                   physicalFeatureService={this.physicalFeatureService} onPhysicalFeature={this.getCrud(this.physicalFeatureService)}/>
+                        <CreatureMenu animalService={this.animalService} onAnimal={this.getCrud(this.animalService)}
+                            animalKindService={this.animalKindService} onAnimalKind={this.getCrud(this.animalKindService)}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.currentService
