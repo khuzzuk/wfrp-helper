@@ -1,17 +1,15 @@
-import Entity from "../../../../crud/Entity";
 import Price from "../../../world/money/Price";
-import Determinant from "../../../rule/Determinant";
 import Resource from "../../resource/Resource";
 import ArmorBlueprint from "../../blueprint/ArmorBlueprint";
 import ArmorPattern from "./ArmorPattern";
+import DeterminantConteiner from "../../../../crud/DeterminantConteiner";
 
-export default class Armor extends Entity {
+export default class Armor extends DeterminantConteiner {
     name: string;
     description: string;
     weight: number;
     price: Price = new Price();
     accessibility: string = 'COMMON';
-    determinants: Determinant[] = [];
     primaryResource: Resource;
     secondaryResource: Resource;
     type: ArmorBlueprint;
@@ -19,15 +17,6 @@ export default class Armor extends Entity {
 
     updateWith(entity: *) {
         super.updateWith(entity);
-
-        if (entity.determinants) {
-            this.determinants = entity.determinants
-                .map(value => {
-                    const det = new Determinant();
-                    det.updateWith(value);
-                    return det;
-                })
-        }
 
         if (entity.primaryResource) {
             this.primaryResource = new Resource();

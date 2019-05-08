@@ -1,13 +1,11 @@
-import Entity from "../../../crud/Entity";
 import Skill from "../skill/Skill";
-import Determinant from "../../rule/Determinant";
 import ProfessionClass from "./ProfessionClass";
+import DeterminantConteiner from "../../../crud/DeterminantConteiner";
 
-export default class Profession extends Entity {
+export default class Profession extends DeterminantConteiner {
     name: string;
     description: string;
     professionClass: ProfessionClass;
-    determinants: Determinant[] = [];
     skills: Skill[] = [];
 
     updateWith(entity: Profession) {
@@ -16,16 +14,6 @@ export default class Profession extends Entity {
         if (entity.professionClass) {
             this.professionClass = new ProfessionClass();
             this.professionClass.updateWith(entity.professionClass);
-        }
-
-        if (entity.determinants) {
-
-            this.determinants = entity.determinants
-                .map(value => {
-                    const det = new Determinant();
-                    det.updateWith(value);
-                    return det;
-                });
         }
 
         if (entity.skills) {

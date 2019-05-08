@@ -1,21 +1,6 @@
-import Entity from "../../../crud/Entity";
-import Determinant from "../../rule/Determinant";
+import DeterminantConteiner from "../../../crud/DeterminantConteiner";
 
-export default class PhysicalFeature extends Entity {
+export default class PhysicalFeature extends DeterminantConteiner {
     name: string;
     description: string;
-    determinants: Determinant[] = [];
-
-    updateWith(entity: *) {
-        super.updateWith(entity);
-
-        if (entity.determinants) {
-            this.determinants = entity.determinants
-                .map(value => {
-                    const det = new Determinant();
-                    det.updateWith(value);
-                    return det;
-                })
-        }
-    }
 }

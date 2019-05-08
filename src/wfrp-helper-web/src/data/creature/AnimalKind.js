@@ -1,22 +1,6 @@
-import Entity from "../../crud/Entity";
-import Determinant from "../rule/Determinant";
+import DeterminantConteiner from "../../crud/DeterminantConteiner";
 
-export default class AnimalKind extends Entity {
+export default class AnimalKind extends DeterminantConteiner {
     name: string;
     description: string;
-    determinants: Determinant[] = [];
-
-
-    updateWith(entity: AnimalKind) {
-        super.updateWith(entity);
-
-        if (entity.determinants) {
-            this.determinants = entity.determinants
-                .map(value => {
-                    const det = new Determinant();
-                    det.updateWith(value);
-                    return det;
-                })
-        }
-    }
 };

@@ -1,26 +1,11 @@
-import Entity from "../../../crud/Entity";
 import Price from "../../world/money/Price";
-import Determinant from "../../rule/Determinant";
 import {Placement} from "../Placement";
+import DeterminantConteiner from "../../../crud/DeterminantConteiner";
 
-export default class ArmorBlueprint extends Entity {
+export default class ArmorBlueprint extends DeterminantConteiner {
     name: string;
     description: string;
     suggestedPrice: Price = new Price();
     suggestedWeight: number;
-    determinants: Determinant[];
     placement: string = Placement.BODY;
-
-    updateWith(entity: ArmorBlueprint) {
-        super.updateWith(entity);
-
-        if (entity.determinants) {
-            this.determinants = entity.determinants
-                .map(value => {
-                    const det = new Determinant();
-                    det.updateWith(value);
-                    return det;
-                })
-        }
-    }
 }
