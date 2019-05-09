@@ -1,5 +1,7 @@
 package pl.khuzzuk.remote.common;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.element.Element;
 import javax.lang.model.type.DeclaredType;
@@ -29,5 +31,14 @@ public class CollectionTypeUtils {
         }
 
         return processingEnvironment.getTypeUtils().asElement(typeArguments.get(0));
+    }
+
+    public static boolean isMap(Element field) {
+        return field.asType().toString().startsWith("java.util.Map<");
+    }
+
+    public static Pair<TypeMirror, TypeMirror> extractTypesFromMap(Element field, ProcessingEnvironment pe) {
+        DeclaredType declaredType = (DeclaredType) field.asType();
+        return Pair.of(declaredType.getTypeArguments().get(0), declaredType.getTypeArguments().get(1));
     }
 }

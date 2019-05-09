@@ -72,4 +72,5 @@ abstract class AbstractFileGenerator {
         String fieldType = field.asType().toString();
         return DEFAULT_TYPES.stream().noneMatch(fieldType::endsWith);
     }
+
 }

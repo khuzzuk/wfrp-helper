@@ -1,14 +1,16 @@
 package pl.khuzzuk.remote.processor;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.Pair;
+import pl.khuzzuk.remote.common.CollectionTypeUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.element.Element;
+import javax.lang.model.type.TypeMirror;
 import java.io.PrintWriter;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -34,7 +36,7 @@ class DtoGenerator extends AbstractFileGenerator {
 
         for (Element element : sourceFileDescription.getFields()) {
             if (!excludedFields.contains(element.getSimpleName().toString())) {
-                writeFields(writer, element);
+                writeField(writer, element);
             }
         }
 
@@ -63,13 +65,25 @@ class DtoGenerator extends AbstractFileGenerator {
         writer.println();
     }
 
-    private void writeFields(PrintWriter writer, Element field) {
+    private void writeField(PrintWriter writer, Element field) {
 
         String fieldName = field.getSimpleName().toString();
         String type = field.asType().toString();
         String methodSuffix = StringUtils.capitalize(fieldName);
 
-        if (isEntity(field)) {
+        if (CollectionTypeUtils.isMap(field)) {
+            Pair<TypeMirror, TypeMirror> mapTypes = CollectionTypeUtils.extractTypesFromMap(field, processingEnvironment);
+            String keyType = mapTypes.getKey().toString();
+            String valueType = mapTypes.getValue().toString();
+            if (isEntity(processingEnvironment.getTypeUtils().asElement(mapTypes.getKey()))) {
+                keyType = keyType + "DTO";
+            }
+            if (isEntity(processingEnvironment.getTypeUtils().asElement(mapTypes.getValue()))) {
+                valueType = valueType + "DTO";
+            }
+
+            type = "java.util.Map<" + keyType + ", " + valueType + ">";
+        } else if (isEntity(field)) {
             if (type.endsWith(">")) {
                 type = StringUtils.substringBeforeLast(type, ">") + "DTO>";
             } else {
@@ -86,8 +100,6 @@ class DtoGenerator extends AbstractFileGenerator {
                 type = annotation + " " + type;
             }
         }
-
-        List<? extends AnnotationMirror> annotationMirrors = field.getAnnotationMirrors();
 
         writer.println(String.format("private %s %s;", type, fieldName));
         writer.println();

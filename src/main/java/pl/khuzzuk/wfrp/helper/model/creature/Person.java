@@ -1,11 +1,13 @@
 package pl.khuzzuk.wfrp.helper.model.creature;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Armor;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MeleeWeapon;
@@ -16,17 +18,31 @@ import pl.khuzzuk.wfrp.helper.model.knowledge.magic.Spell;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @EqualsAndHashCode(of = "name")
 @Entity
 @Audited
+@RemoteEntity
 public class Person {
     @Id
     @SequenceGenerator(name = "person_seq_gen", sequenceName = "person_seq", allocationSize = 1)
