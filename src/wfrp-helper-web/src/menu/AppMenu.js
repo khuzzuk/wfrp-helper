@@ -32,6 +32,8 @@ import HairColorService from "../data/look/hairColor/HairColorService";
 import AnimalKindService from "../data/creature/AnimalKindService";
 import CreatureMenu from "../data/creature/CreatureMenu";
 import AnimalService from "../data/creature/AnimalService";
+import PersonService from "../data/creature/PersonService";
+import CharacterSheetForm from "../characterSheet/CharacterSheetForm";
 
 class AppMenu extends Component {
     state = {
@@ -39,6 +41,7 @@ class AppMenu extends Component {
         data: [],
         entity: null,
         currentService: null,
+        customEditor: null
     };
 
     constructor(props) {
@@ -47,7 +50,7 @@ class AppMenu extends Component {
     }
 
     updateData = (data) => {
-        this.setState({data: data})
+        this.setState({data: data, customEditor: null})
     };
 
     //world
@@ -86,6 +89,9 @@ class AppMenu extends Component {
     //creatures
     animalService = new AnimalService(this.updateData);
     animalKindService = new AnimalKindService(this.updateData);
+
+    personEditor = new CharacterSheetForm();
+    personService = new PersonService(data => {this.setState({data: data, customEditor: this.personEditor})});
 
     onApply = (newState) => {
         this.setState({...newState});
@@ -137,6 +143,7 @@ class AppMenu extends Component {
                                    entity={this.state.entity}
                                    service={this.state.currentService}
                                    onChange={this.onApply}
+                                   customEditor={this.state.customEditor || null}
                                    showEditor={this.state.showEditor}/>
                     : null}
             </div>

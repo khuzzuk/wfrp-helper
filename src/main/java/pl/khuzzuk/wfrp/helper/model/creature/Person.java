@@ -17,6 +17,7 @@ import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.Spell;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
+import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -73,6 +74,10 @@ public class Person {
 
     @Embedded
     private @NotNull PersonDeterminants determinants = PersonDeterminants.empty();
+
+    @ManyToOne
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    private @NotNull ProfessionClass professionClass;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)

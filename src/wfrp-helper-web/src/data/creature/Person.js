@@ -1,0 +1,40 @@
+import Entity from "../../crud/Entity";
+import HairColor from "../look/hairColor/HairColor";
+import EyeColor from "../look/eyeColor/EyeColor";
+import PhysicalFeature from "../look/physicalFeatures/PhysicalFeature";
+import PersonDeterminants from "./PersonDeterminants";
+import Profession from "../knowledge/profession/Profession";
+import ProfessionClass from "../knowledge/profession/ProfessionClass";
+import Skill from "../knowledge/skill/Skill";
+import Item from "../crafting/item/Item";
+import MeleeWeapon from "../crafting/item/melee/MeleeWeapon";
+import RangedWeapon from "../crafting/item/ranged/RangedWeapon";
+import Armor from "../crafting/item/armor/Armor";
+import SpellSchool from "../knowledge/magic/spellSchool/SpellSchool";
+import Spell from "../knowledge/magic/spell/Spell";
+import Animal from "./Animal";
+
+export default class Person extends Entity {
+    name: string;
+    gender: string;
+    age: number;
+    height: number;
+    weight: number;
+    hairColor: HairColor;
+    eyeColor: EyeColor;
+    physicalFeatures: PhysicalFeature[] = [];
+    description: string;
+    history: string;
+    determinants: PersonDeterminants = new PersonDeterminants();
+    professionClass: ProfessionClass;
+    currentProfession: Profession;
+    professions: Profession[] = [];
+    skills: Skill[] = [];
+    inventory: Map<Item, number> = new Map();
+    meleeWeapons: MeleeWeapon[] = [];
+    rangedWeapons: RangedWeapon[] = [];
+    armor: Armor[] = [];
+    spellSchools: Map<SpellSchool, number> = new Map();
+    spells: Spell[] = [];
+    animals: Animal[] = [];
+}

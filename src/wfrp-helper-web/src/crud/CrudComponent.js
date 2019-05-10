@@ -51,7 +51,7 @@ class CrudComponent extends Component {
     };
 
     render() {
-        const {rows} = this.props;
+        const {rows, customEditor} = this.props;
         const columns: FormFieldData[] = this.props.service.tableColumns;
 
         let crudButtons = <div/>;
@@ -65,10 +65,10 @@ class CrudComponent extends Component {
         }
 
         if (this.props.showEditor) {
-            return <CrudEditForm onClose={this.onEditorClose}
-                                 entity={this.props.entity}
-                                 onApply={this.update}
-                                 service={this.props.service}/>
+            return customEditor ? customEditor() : <CrudEditForm onClose={this.onEditorClose}
+                                                                 entity={this.props.entity}
+                                                                 onApply={this.update}
+                                                                 service={this.props.service}/>
         } else {
             return <div>
                 {crudButtons}

@@ -12,6 +12,7 @@ CREATE TABLE creature.person
   hair_color_id         BIGINT             NOT NULL REFERENCES hair_color,
   eye_color_id          BIGINT             NOT NULL REFERENCES eye_color,
   history               TEXT,
+  profession_class_id   BIGINT             NOT NULL REFERENCES profession_class,
   current_profession_id BIGINT             NOT NULL REFERENCES profession
 );
 CREATE TABLE creature.person_history
@@ -28,6 +29,7 @@ CREATE TABLE creature.person_history
   hair_color_id         BIGINT,
   eye_color_id          BIGINT,
   history               TEXT,
+  profession_class_id   BIGINT,
   current_profession_id BIGINT,
   PRIMARY KEY (rev, id)
 );
