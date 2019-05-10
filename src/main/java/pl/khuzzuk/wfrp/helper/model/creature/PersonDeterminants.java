@@ -38,6 +38,7 @@ import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.WILL;
 public class PersonDeterminants {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "person_determinants",
+            schema = "creature",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "determinants_id"))
     private Set<Determinant> determinants = new HashSet<>();
