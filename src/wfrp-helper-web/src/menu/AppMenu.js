@@ -90,7 +90,7 @@ class AppMenu extends Component {
     animalService = new AnimalService(this.updateData);
     animalKindService = new AnimalKindService(this.updateData);
 
-    personEditor = new CharacterSheetForm();
+    personEditor = (entity) => <CharacterSheetForm entity={entity} onChange={this.onApply}/>;
     personService = new PersonService(data => {this.setState({data: data, customEditor: this.personEditor})});
 
     onApply = (newState) => {
@@ -101,7 +101,12 @@ class AppMenu extends Component {
         this.setState({
             showEditor: false,
             currentService: service,
+            customEditor: null
         });
+    };
+
+    onPerson = () => {
+        this.setState({showEditor: false, currentService: this.personService, customEditor: this.personEditor})
     };
 
     render() {
@@ -134,7 +139,8 @@ class AppMenu extends Component {
                                   hairColorService={this.hairColorService} onHairColor={this.getCrud(this.hairColorService)}
                                   physicalFeatureService={this.physicalFeatureService} onPhysicalFeature={this.getCrud(this.physicalFeatureService)}/>
                         <CreatureMenu animalService={this.animalService} onAnimal={this.getCrud(this.animalService)}
-                            animalKindService={this.animalKindService} onAnimalKind={this.getCrud(this.animalKindService)}/>
+                                      animalKindService={this.animalKindService} onAnimalKind={this.getCrud(this.animalKindService)}
+                                      personService={this.personService} onPerson={this.onPerson}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.currentService

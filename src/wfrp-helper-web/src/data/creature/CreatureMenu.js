@@ -7,9 +7,11 @@ export default class CreatureMenu extends MenuComponent {
 
     getMenuItems = () => {
         const {
+            personService, onPerson,
             animalService, onAnimal,
             animalKindService, onAnimalKind} = this.props;
         return [
+            <MenuItem key={'person'} onClick={this.showCrudAction(onPerson, personService)}>BN</MenuItem>,
             <MenuItem key={'animal'} onClick={this.showCrudAction(onAnimal, animalService)}>Animal</MenuItem>,
             <MenuItem key={'animalKind'} onClick={this.showCrudAction(onAnimalKind, animalKindService)}>Animal Kind</MenuItem>,
         ];

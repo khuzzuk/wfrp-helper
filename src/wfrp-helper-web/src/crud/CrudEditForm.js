@@ -101,13 +101,17 @@ class CrudEditForm extends Component {
     }
 
     render() {
-        const {service, entity, onClose, classes} = this.props;
+        const {service, entity, onClose, classes, customEditor} = this.props;
 
         let content = <div/>;
-        if (entity !== null) {
-            content = <div>
-                {service.formFields.map(formFieldData => this.generateField(formFieldData))}
-            </div>;
+        if (entity) {
+            if (customEditor) {
+                content = customEditor(entity);
+            } else {
+                content = <div>
+                    {service.formFields.map(formFieldData => this.generateField(formFieldData))}
+                </div>;
+            }
         }
 
         return <FormControl margin={'dense'}

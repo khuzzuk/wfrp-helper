@@ -65,10 +65,11 @@ class CrudComponent extends Component {
         }
 
         if (this.props.showEditor) {
-            return customEditor ? customEditor() : <CrudEditForm onClose={this.onEditorClose}
-                                                                 entity={this.props.entity}
-                                                                 onApply={this.update}
-                                                                 service={this.props.service}/>
+            return <CrudEditForm onClose={this.onEditorClose}
+                                 entity={this.props.entity}
+                                 onApply={this.update}
+                                 service={this.props.service}
+                                 customEditor={customEditor}/>
         } else {
             return <div>
                 {crudButtons}
