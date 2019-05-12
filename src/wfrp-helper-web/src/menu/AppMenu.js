@@ -90,7 +90,7 @@ class AppMenu extends Component {
     animalService = new AnimalService(this.updateData);
     animalKindService = new AnimalKindService(this.updateData);
 
-    personEditor = (entity) => <CharacterSheetForm entity={entity} onChange={this.onApply}/>;
+    personEditor = (entity) => <CharacterSheetForm entity={entity} onChange={this.onApply} personService={this.personService}/>;
     personService = new PersonService(data => {this.setState({data: data, customEditor: this.personEditor})});
 
     onApply = (newState) => {

@@ -1,7 +1,6 @@
 CREATE SCHEMA creature;
 
-CREATE TABLE creature.person
-(
+CREATE TABLE creature.person (
   id                    BIGSERIAL PRIMARY KEY,
   name                  VARCHAR(64) UNIQUE NOT NULL,
   description           VARCHAR(255),
@@ -13,10 +12,11 @@ CREATE TABLE creature.person
   eye_color_id          BIGINT             NOT NULL REFERENCES eye_color,
   history               TEXT,
   profession_class_id   BIGINT             NOT NULL REFERENCES profession_class,
-  current_profession_id BIGINT             NOT NULL REFERENCES profession
+  current_profession_id BIGINT             NOT NULL REFERENCES profession,
+  personality_id        BIGINT             NOT NULL REFERENCES character
 );
-CREATE TABLE creature.person_history
-(
+
+CREATE TABLE creature.person_history (
   rev                   BIGINT,
   revtype               SMALLINT,
   id                    BIGINT NOT NULL,
@@ -31,17 +31,16 @@ CREATE TABLE creature.person_history
   history               TEXT,
   profession_class_id   BIGINT,
   current_profession_id BIGINT,
+  personality_id        BIGINT,
   PRIMARY KEY (rev, id)
 );
 
-CREATE TABLE creature.person_physical_features
-(
+CREATE TABLE creature.person_physical_features (
   person_id            BIGINT NOT NULL REFERENCES creature.person,
   physical_features_id BIGINT NOT NULL REFERENCES physical_feature,
   PRIMARY KEY (person_id, physical_features_id)
 );
-CREATE TABLE creature.person_physical_features_history
-(
+CREATE TABLE creature.person_physical_features_history (
   rev                  BIGINT,
   revtype              SMALLINT,
   person_id            BIGINT,
@@ -49,14 +48,12 @@ CREATE TABLE creature.person_physical_features_history
   PRIMARY KEY (person_id, physical_features_id, rev)
 );
 
-CREATE TABLE creature.person_determinants
-(
+CREATE TABLE creature.person_determinants (
   person_id       BIGINT NOT NULL REFERENCES creature.person,
   determinants_id BIGINT NOT NULL REFERENCES determinant,
   PRIMARY KEY (person_id, determinants_id)
 );
-CREATE TABLE creature.person_determinants_history
-(
+CREATE TABLE creature.person_determinants_history (
   rev             BIGINT,
   revtype         SMALLINT,
   person_id       BIGINT,
@@ -64,14 +61,12 @@ CREATE TABLE creature.person_determinants_history
   PRIMARY KEY (person_id, determinants_id, rev)
 );
 
-CREATE TABLE creature.person_skills
-(
+CREATE TABLE creature.person_skills (
   person_id BIGINT NOT NULL REFERENCES creature.person,
   skills_id BIGINT NOT NULL REFERENCES skill,
   PRIMARY KEY (person_id, skills_id)
 );
-CREATE TABLE creature.person_skills_history
-(
+CREATE TABLE creature.person_skills_history (
   rev       BIGINT,
   revtype   SMALLINT,
   person_id BIGINT,
@@ -79,14 +74,12 @@ CREATE TABLE creature.person_skills_history
   PRIMARY KEY (person_id, skills_id, rev)
 );
 
-CREATE TABLE creature.person_professions
-(
+CREATE TABLE creature.person_professions (
   person_id     BIGINT NOT NULL REFERENCES creature.person,
   profession_id BIGINT NOT NULL REFERENCES profession,
   PRIMARY KEY (person_id, profession_id)
 );
-CREATE TABLE creature.person_professions_history
-(
+CREATE TABLE creature.person_professions_history (
   rev           BIGINT,
   revtype       SMALLINT,
   person_id     BIGINT,
@@ -94,14 +87,12 @@ CREATE TABLE creature.person_professions_history
   PRIMARY KEY (person_id, profession_id, rev)
 );
 
-CREATE TABLE creature.person_animals
-(
+CREATE TABLE creature.person_animals (
   person_id  BIGINT NOT NULL REFERENCES creature.person,
   animals_id BIGINT NOT NULL REFERENCES animal,
   PRIMARY KEY (person_id, animals_id)
 );
-CREATE TABLE creature.person_animals_history
-(
+CREATE TABLE creature.person_animals_history (
   rev        BIGINT,
   revtype    SMALLINT,
   person_id  BIGINT,
@@ -109,15 +100,13 @@ CREATE TABLE creature.person_animals_history
   PRIMARY KEY (person_id, animals_id, rev)
 );
 
-CREATE TABLE creature.person_inventory
-(
+CREATE TABLE creature.person_inventory (
   id        BIGSERIAL PRIMARY KEY,
   amount    INT,
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
 );
-CREATE TABLE creature.person_inventory_history
-(
+CREATE TABLE creature.person_inventory_history (
   rev       BIGINT,
   revtype   SMALLINT,
   id        BIGINT NOT NULL,
@@ -127,14 +116,12 @@ CREATE TABLE creature.person_inventory_history
   PRIMARY KEY (rev, id)
 );
 
-CREATE TABLE creature.person_melee_weapons
-(
+CREATE TABLE creature.person_melee_weapons (
   id        BIGSERIAL PRIMARY KEY,
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
 );
-CREATE TABLE creature.person_melee_weapons_history
-(
+CREATE TABLE creature.person_melee_weapons_history (
   rev       BIGINT,
   revtype   SMALLINT,
   id        BIGINT NOT NULL,
@@ -143,14 +130,12 @@ CREATE TABLE creature.person_melee_weapons_history
   PRIMARY KEY (rev, id)
 );
 
-CREATE TABLE creature.person_ranged_weapons
-(
+CREATE TABLE creature.person_ranged_weapons (
   id        BIGSERIAL PRIMARY KEY,
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
 );
-CREATE TABLE creature.person_ranged_weapons_history
-(
+CREATE TABLE creature.person_ranged_weapons_history (
   rev       BIGINT,
   revtype   SMALLINT,
   id        BIGINT NOT NULL,
@@ -159,14 +144,12 @@ CREATE TABLE creature.person_ranged_weapons_history
   PRIMARY KEY (rev, id)
 );
 
-CREATE TABLE creature.person_armor
-(
+CREATE TABLE creature.person_armor (
   id        BIGSERIAL PRIMARY KEY,
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
 );
-CREATE TABLE creature.person_armor_history
-(
+CREATE TABLE creature.person_armor_history (
   rev       BIGINT,
   revtype   SMALLINT,
   id        BIGINT NOT NULL,
@@ -175,15 +158,13 @@ CREATE TABLE creature.person_armor_history
   PRIMARY KEY (rev, id)
 );
 
-CREATE TABLE creature.person_spell_schools
-(
+CREATE TABLE creature.person_spell_schools (
   person_id         BIGINT NOT NULL REFERENCES creature.person,
   spell_schools_key BIGINT NOT NULL REFERENCES spell_school,
   level             INT    NOT NULL DEFAULT 0,
   PRIMARY KEY (person_id, spell_schools_key)
 );
-CREATE TABLE creature.person_spell_schools_history
-(
+CREATE TABLE creature.person_spell_schools_history (
   rev               BIGINT,
   revtype           SMALLINT,
   person_id         BIGINT NOT NULL REFERENCES creature.person,
@@ -192,14 +173,12 @@ CREATE TABLE creature.person_spell_schools_history
   PRIMARY KEY (person_id, spell_schools_key, rev)
 );
 
-CREATE TABLE creature.person_spells
-(
+CREATE TABLE creature.person_spells (
   person_id BIGINT NOT NULL REFERENCES creature.person,
   spells_id BIGINT NOT NULL REFERENCES spell,
   PRIMARY KEY (person_id, spells_id)
 );
-CREATE TABLE creature.person_spells_history
-(
+CREATE TABLE creature.person_spells_history (
   rev       BIGINT,
   revtype   SMALLINT,
   person_id BIGINT NOT NULL REFERENCES creature.person,

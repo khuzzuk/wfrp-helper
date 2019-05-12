@@ -7,7 +7,7 @@ export default class EntitySelect extends Component {
     render() {
         const {label, data, value, onChange} = this.props;
         return <div>
-            <FormLabel>{label}</FormLabel>
+            {label && <FormLabel>{label}</FormLabel>}
             <Select textFieldProps={{label: label, InputLabelProps: {shrink: false}}}
                     options={data}
                     components={makeAnimated()}

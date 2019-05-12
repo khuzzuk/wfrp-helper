@@ -48,8 +48,6 @@ class ConnectionService {
     };
 
     retrieveData() {
-        console.log(this.uriPart);
-        console.log(this.title);
         fetch(this.hostBase + this.uriPart, {
             mode: 'cors'
         })
@@ -67,7 +65,6 @@ class ConnectionService {
     };
 
     save(entity: object, onSuccess: func) {
-        console.log(JSON.stringify(entity));
         fetch(this.hostBase + this.uriPart, {
             method: 'post',
             mode: 'cors',

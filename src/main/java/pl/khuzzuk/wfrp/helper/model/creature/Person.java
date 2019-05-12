@@ -69,6 +69,9 @@ public class Person {
     @JoinTable(schema = "creature")
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private List<PhysicalFeature> physicalFeatures;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    private Character personality;
     private @Length(max = 500) String description;
     private @Length(max = 4096) String history;
 

@@ -13,6 +13,7 @@ import Armor from "../crafting/item/armor/Armor";
 import SpellSchool from "../knowledge/magic/spellSchool/SpellSchool";
 import Spell from "../knowledge/magic/spell/Spell";
 import Animal from "./Animal";
+import Character from "../look/character/Character";
 
 export default class Person extends Entity {
     name: string;
@@ -23,6 +24,7 @@ export default class Person extends Entity {
     hairColor: HairColor;
     eyeColor: EyeColor;
     physicalFeatures: PhysicalFeature[] = [];
+    character: Character;
     description: string;
     history: string;
     determinants: PersonDeterminants = new PersonDeterminants();

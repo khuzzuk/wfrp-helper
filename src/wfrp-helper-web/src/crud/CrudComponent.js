@@ -12,8 +12,6 @@ class CrudComponent extends Component {
 
     onRowSelect = id => {
         this.setState({selectedId: id});
-        let row = this.props.rows.find(row => row.id === id);
-        console.log(row);
     };
 
     getSelectedRow = () => {

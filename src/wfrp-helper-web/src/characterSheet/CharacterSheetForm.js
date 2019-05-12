@@ -2,28 +2,84 @@ import React, {Component} from "react";
 import FrontCharacterSheet from "../img/A.png";
 import {TextField} from "@material-ui/core";
 import {withStyles} from '@material-ui/styles';
+import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
+import SimpleEnumSelect from "../crud/field/SimpleEnumSelect";
+import {Gender} from "../data/creature/Gender";
+import SimpleEntityCombobox from "../crud/field/SimpleEntityCombobox";
+import SuffixedInputField from "../crud/field/SuffixedInputField";
 
 const formStyles = {
     backgroundStyle: {
         background: `url(${FrontCharacterSheet})`,
         fontFamily: 'wfrp',
+        fontSize: '24px',
         backgroundSize: 'cover',
         height: '1231px',
-        //width: '100%'
         width: '1800px'
     },
 
     input: {
-        fontFamily: 'wfrp'
+        fontFamily: 'wfrp',
+        fontSize: '24px',
     },
 
     nameField: {
         left: '35px',
-        top: '35px',
+        width: '200px'
     },
     raceField: {
-        left: '35px',
-        top: '35px',
+        left: '45px',
+        width: '130px',
+        display: 'inline-flex'
+    },
+    genderField: {
+        left: '55px',
+        width: '80px',
+        display: 'inline-flex',
+        fontSize: '18px',
+    },
+    professionClassField: {
+        left: '55px',
+        width: '235px',
+        display: 'inline-flex',
+    },
+    characterField: {
+        left: '65px',
+        width: '150px',
+        display: 'inline-flex',
+    },
+
+    ageField: {
+        left: '45px',
+        width: '60px'
+    },
+    heightField: {
+        left: '80px',
+        width: '70px',
+    },
+    weightField: {
+        left: '120px',
+        width: '70px',
+    },
+    hairColorField: {
+        left: '140px',
+        width: '100px',
+        display: 'inline-flex',
+        fontSize: '16px',
+    },
+    eyeColorField: {
+        left: '150px',
+        width: '100px',
+        display: 'inline-flex',
+        fontSize: '16px',
+    },
+    physicalFeaturesField: {
+        top: '-30px',
+        width: '280px',
+        maxHeight: '60px',
+        minHeight: '60px',
+        display: 'inline-flex',
+        fontSize: '16px',
     },
 };
 
@@ -32,15 +88,62 @@ class CharacterSheetForm extends Component {
         person: undefined
     };
 
-    updatePerson = field => updates => {
-        this.props.entity.updateWith({[field]: updates.target.value});
+    createOnUpdatePerson = field => updates => {
+        this.updatePerson({[field]: updates.target.value});
+    };
+
+    updateEntity = field => data => {
+        this.updatePerson({[field]: data});
+    };
+
+    updatePerson = updates => {
+        this.props.entity.updateWith(updates);
         this.props.onChange(this.props.entity);
     };
 
     render() {
-        const {classes} = this.props;
+        const {classes, personService} = this.props;
         return <div className={classes.backgroundStyle}>
-            <TextField className={classes.nameField} inputProps={{className: classes.input}} onChange={this.updatePerson('name')}/>
+            <div style={{top: '30px', position: 'relative', width: '900px'}}>
+                <TextField className={classes.nameField} inputProps={{className: classes.input}}
+                           onChange={this.createOnUpdatePerson('name')}/>
+                <SimpleEntitySelect customStyle={classes.raceField}
+                                    options={personService.races} onChange={this.updateEntity('race')}
+                                    value={this.props.entity.race}/>
+                <SimpleEnumSelect customStyle={classes.genderField}
+                                  options={Gender.allOf()} onChange={this.updateEntity('gender')}
+                                  value={this.props.entity.gender}/>
+                <SimpleEntitySelect customStyle={classes.professionClassField}
+                                    options={personService.professionClasses}
+                                    onChange={this.updateEntity('professionClass')}
+                                    value={this.props.entity.professionClass}/>
+                <SimpleEntitySelect customStyle={classes.characterField}
+                                    options={personService.characters} onChange={this.updateEntity('character')}
+                                    value={this.props.entity.character}/>
+            </div>
+            <div style={{top: '65px', position: 'relative', display: 'inline-flex', width: '900px'}}>
+                <div style={{width: '700px'}}>
+                    <SuffixedInputField className={classes.ageField} value={this.props.entity.age}
+                                        onChange={this.updateEntity('age')} suffixClass={classes.input} suffix={'lat'}
+                                        inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
+                    <SuffixedInputField className={classes.heightField} value={this.props.entity.height}
+                                        onChange={this.updateEntity('height')} suffixClass={classes.input} suffix={'cm'}
+                                        inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
+                    <SuffixedInputField className={classes.weightField} value={this.props.entity.weight}
+                                        onChange={this.updateEntity('weight')} suffixClass={classes.input} suffix={'kg'}
+                                        inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
+                    <SimpleEntitySelect customStyle={classes.hairColorField} options={personService.hairColors}
+                                        onChange={this.updateEntity('hairColor')} value={this.props.entity.hairColor}/>
+                    <SimpleEntitySelect customStyle={classes.eyeColorField} options={personService.eyeColors}
+                                        onChange={this.updateEntity('eyeColor')} value={this.props.entity.eyeColor}/>
+                </div>
+                <div>
+                    <SimpleEntityCombobox customStyle={classes.physicalFeaturesField}
+                                          options={personService.physicalFeatures}
+                                          onChange={this.updateEntity('physicalFeatures')}
+                                          value={this.props.entity.physicalFeatures}/>
+                </div>
+            </div>
         </div>;
     }
 }
