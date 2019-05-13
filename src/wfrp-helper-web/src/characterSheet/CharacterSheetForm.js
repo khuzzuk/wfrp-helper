@@ -7,6 +7,7 @@ import SimpleEnumSelect from "../crud/field/SimpleEnumSelect";
 import {Gender} from "../data/creature/Gender";
 import SimpleEntityCombobox from "../crud/field/SimpleEntityCombobox";
 import SuffixedInputField from "../crud/field/SuffixedInputField";
+import SimpleList from "../crud/field/SimpleList";
 
 const formStyles = {
     backgroundStyle: {
@@ -15,7 +16,8 @@ const formStyles = {
         fontSize: '24px',
         backgroundSize: 'cover',
         height: '1231px',
-        width: '1800px'
+        width: '1800px',
+        display: 'inline-flex'
     },
 
     input: {
@@ -81,6 +83,21 @@ const formStyles = {
         display: 'inline-flex',
         fontSize: '16px',
     },
+
+    currentProfessionField: {
+        left: '30px',
+        width: '230px',
+        display: 'inline-flex',
+    },
+    professionsField: {
+        left: '30px',
+        maxWidth: '300px',
+        minWidth: '300px',
+        maxHeight: '60px',
+        minHeight: '60px',
+        display: 'flex',
+        fontSize: '16px',
+    },
 };
 
 class CharacterSheetForm extends Component {
@@ -96,53 +113,77 @@ class CharacterSheetForm extends Component {
         this.updatePerson({[field]: data});
     };
 
+    updateProfession = profession => {
+        const professions = this.props.entity.professions;
+        this.updatePerson({
+            currentProfession: profession,
+            professions: professions.includes(profession) ? professions : [...this.props.entity.professions, profession]
+        })
+    };
+
     updatePerson = updates => {
         this.props.entity.updateWith(updates);
         this.props.onChange(this.props.entity);
     };
 
     render() {
-        const {classes, personService} = this.props;
+        const {classes, personService, entity} = this.props;
         return <div className={classes.backgroundStyle}>
-            <div style={{top: '30px', position: 'relative', width: '900px'}}>
-                <TextField className={classes.nameField} inputProps={{className: classes.input}}
-                           onChange={this.createOnUpdatePerson('name')}/>
-                <SimpleEntitySelect customStyle={classes.raceField}
-                                    options={personService.races} onChange={this.updateEntity('race')}
-                                    value={this.props.entity.race}/>
-                <SimpleEnumSelect customStyle={classes.genderField}
-                                  options={Gender.allOf()} onChange={this.updateEntity('gender')}
-                                  value={this.props.entity.gender}/>
-                <SimpleEntitySelect customStyle={classes.professionClassField}
-                                    options={personService.professionClasses}
-                                    onChange={this.updateEntity('professionClass')}
-                                    value={this.props.entity.professionClass}/>
-                <SimpleEntitySelect customStyle={classes.characterField}
-                                    options={personService.characters} onChange={this.updateEntity('character')}
-                                    value={this.props.entity.character}/>
+            <div style={{width: '900px'}}>
+                <div style={{top: '30px', position: 'relative', width: '100%'}}>
+                    <TextField className={classes.nameField} inputProps={{className: classes.input}}
+                               onChange={this.createOnUpdatePerson('name')}/>
+                    <SimpleEntitySelect customStyle={classes.raceField}
+                                        options={personService.races} onChange={this.updateEntity('race')}
+                                        value={entity.race}/>
+                    <SimpleEnumSelect customStyle={classes.genderField}
+                                      options={Gender.allOf()} onChange={this.updateEntity('gender')}
+                                      value={entity.gender}/>
+                    <SimpleEntitySelect customStyle={classes.professionClassField}
+                                        options={personService.professionClasses}
+                                        onChange={this.updateEntity('professionClass')}
+                                        value={entity.professionClass}/>
+                    <SimpleEntitySelect customStyle={classes.characterField}
+                                        options={personService.characters} onChange={this.updateEntity('character')}
+                                        value={entity.character}/>
+                </div>
+                <div style={{top: '65px', position: 'relative', display: 'inline-flex', width: '100%'}}>
+                    <div style={{width: '700px'}}>
+                        <SuffixedInputField className={classes.ageField} value={entity.age}
+                                            onChange={this.updateEntity('age')} suffixClass={classes.input}
+                                            suffix={'lat'}
+                                            inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
+                        <SuffixedInputField className={classes.heightField} value={entity.height}
+                                            onChange={this.updateEntity('height')} suffixClass={classes.input}
+                                            suffix={'cm'}
+                                            inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
+                        <SuffixedInputField className={classes.weightField} value={entity.weight}
+                                            onChange={this.updateEntity('weight')} suffixClass={classes.input}
+                                            suffix={'kg'}
+                                            inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
+                        <SimpleEntitySelect customStyle={classes.hairColorField} options={personService.hairColors}
+                                            onChange={this.updateEntity('hairColor')}
+                                            value={entity.hairColor}/>
+                        <SimpleEntitySelect customStyle={classes.eyeColorField} options={personService.eyeColors}
+                                            onChange={this.updateEntity('eyeColor')}
+                                            value={entity.eyeColor}/>
+                    </div>
+                    <div>
+                        <SimpleEntityCombobox customStyle={classes.physicalFeaturesField}
+                                              options={personService.physicalFeatures}
+                                              onChange={this.updateEntity('physicalFeatures')}
+                                              value={entity.physicalFeatures}/>
+                    </div>
+                </div>
+                <div style={{top: '70px', position: 'relative', display: 'inline-flex', width: '100%'}}>
+                    <SimpleEntitySelect customStyle={classes.currentProfessionField} options={personService.professions}
+                                        onChange={this.updateProfession}
+                                        value={entity.currentProfession}/>
+                    <SimpleList className={classes.professionsField} data={entity.professions}/>
+                </div>
             </div>
-            <div style={{top: '65px', position: 'relative', display: 'inline-flex', width: '900px'}}>
-                <div style={{width: '700px'}}>
-                    <SuffixedInputField className={classes.ageField} value={this.props.entity.age}
-                                        onChange={this.updateEntity('age')} suffixClass={classes.input} suffix={'lat'}
-                                        inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
-                    <SuffixedInputField className={classes.heightField} value={this.props.entity.height}
-                                        onChange={this.updateEntity('height')} suffixClass={classes.input} suffix={'cm'}
-                                        inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
-                    <SuffixedInputField className={classes.weightField} value={this.props.entity.weight}
-                                        onChange={this.updateEntity('weight')} suffixClass={classes.input} suffix={'kg'}
-                                        inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
-                    <SimpleEntitySelect customStyle={classes.hairColorField} options={personService.hairColors}
-                                        onChange={this.updateEntity('hairColor')} value={this.props.entity.hairColor}/>
-                    <SimpleEntitySelect customStyle={classes.eyeColorField} options={personService.eyeColors}
-                                        onChange={this.updateEntity('eyeColor')} value={this.props.entity.eyeColor}/>
-                </div>
-                <div>
-                    <SimpleEntityCombobox customStyle={classes.physicalFeaturesField}
-                                          options={personService.physicalFeatures}
-                                          onChange={this.updateEntity('physicalFeatures')}
-                                          value={this.props.entity.physicalFeatures}/>
-                </div>
+            <div>
+
             </div>
         </div>;
     }

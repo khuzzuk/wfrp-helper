@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Input, InputAdornment, TextField} from "@material-ui/core";
+import {Input, InputAdornment} from "@material-ui/core";
 
 export default class SuffixedInputField extends Component {
     updateInt = onChange => event => {
