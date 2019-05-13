@@ -49,10 +49,11 @@ CREATE TABLE determinant_modifiers_history (
 
 CREATE SEQUENCE dice_roll_seq;
 
+CREATE TYPE DICE AS ENUM ('K2', 'K3', 'K4', 'K6', 'K8', 'K10', 'K12', 'K20', 'K100');
 CREATE TABLE dice_roll (
   id    BIGINT PRIMARY KEY DEFAULT nextval('dice_roll_seq' :: REGCLASS),
   uuid  VARCHAR(36),
-  dice  INT,
+  dice  DICE,
   rolls INT
 );
 

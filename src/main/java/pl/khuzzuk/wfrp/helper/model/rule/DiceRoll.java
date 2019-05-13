@@ -2,7 +2,9 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
 import pl.khuzzuk.remote.DTO;
+import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
 
 import javax.persistence.Column;
@@ -26,6 +28,7 @@ public class DiceRoll extends ListableEntity {
     private Long id;
 
     @Column(nullable = false)
+    @Type(type = EnumType.DEF)
     private @NotNull Dice dice;
 
     private @Min(1) @Max(10) int rolls;

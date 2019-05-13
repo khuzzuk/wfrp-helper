@@ -7,9 +7,6 @@ CREATE FUNCTION pg_temp.add_armor(name_to_insert VARCHAR(255),
                                   armor_to_insert INT,
                                   placement_to_insert placement) RETURNS VOID AS
 $$
-DECLARE
-  armor_pattern_id_by_name BIGINT;
-
 BEGIN
   INSERT INTO item_blueprint (type, name, description, gold, silver, lead, suggested_weight, armor, placement)
   VALUES ('ARMOR', name_to_insert, description_to_insert, gold_to_insert, silver_to_insert, lead_to_insert,
@@ -40,7 +37,6 @@ SELECT pg_temp.add_armor('Tarcza trójkątna',                    NULL, 1,  5,  
 SELECT pg_temp.add_armor('Pawęż',                               NULL, 1,  7,  5,  3,    3,  'SHIELD');
 -- @formatter:on
 
-
 /*
 SELECT pg_temp.add_armor('Sztylet', NULL, 0, 3, 3, 0.1, '0,75', 'Broń', '');
 SELECT pg_temp.add_armor('Miecz', NULL, 0, 5, 0, 0.75, '1', 'Broń', '');
@@ -59,3 +55,38 @@ SELECT pg_temp.add_armor('Lanca', NULL, 0, 9, 0, 1.25, '1,33', 'Broń', '');
 */
 
 DROP FUNCTION pg_temp.add_armor(name_to_insert VARCHAR, description_to_insert VARCHAR, gold_to_insert INT, silver_to_insert INT, lead_to_insert INT, suggested_weight_to_insert REAL, armor_to_insert INT, placement_to_insert placement);
+
+CREATE FUNCTION pg_temp.add_meleeWeapon(name_to_insert VARCHAR(255),
+                                  damage_value INT,
+                                  dice_type DICE,
+                                  rolls_to_insert INT,
+                                  description_to_insert VARCHAR(255),
+                                  gold_to_insert INT,
+                                  silver_to_insert INT,
+                                  lead_to_insert INT,
+                                  suggested_weight_to_insert REAL,
+                                  armor_to_insert INT,
+                                  placement_to_insert placement) RETURNS VOID AS
+$$
+DECLARE
+  inserted_roll_id BIGINT;
+  inserted_damage_id BIGINT;
+
+BEGIN
+  INSERT INTO dice_roll(dice, rolls)
+  VALUES (dice_type, rolls_to_insert)
+  RETURNING id INTO inserted_roll_id;
+
+  INSERT INTO modifier (type, value)
+  VALUES ('DICE', damage_value)
+  RETURNING id INTO inserted_damage_id;
+
+  INSERT INTO modifier_rolls (modifier_id, rolls_id) VALUES (inserted_damage_id, inserted_roll_id);
+
+  INSERT INTO item_blueprint (type, name, description, gold, silver, lead, suggested_weight, armor, placement)
+  VALUES ('MELEE_WEAPON', name_to_insert, description_to_insert, gold_to_insert, silver_to_insert, lead_to_insert,
+          suggested_weight_to_insert, armor_to_insert, placement_to_insert);
+
+END;
+$$
+  LANGUAGE plpgsql;
