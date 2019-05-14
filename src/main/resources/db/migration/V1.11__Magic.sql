@@ -18,7 +18,7 @@ CREATE TABLE spell (
   range           INT                NOT NULL                     DEFAULT 1,
   duration_type   INT,
   duration_amount INT,
-  prepare_type    INT,
+  prepare_type    ACTION_TYPE,
   prepare_amount  INT
 );
 CREATE SEQUENCE spell_ingredients_seq;

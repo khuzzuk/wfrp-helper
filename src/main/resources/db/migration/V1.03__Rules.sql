@@ -1,7 +1,5 @@
-CREATE SEQUENCE determinant_seq;
-
 CREATE TABLE determinant (
-  id    BIGINT PRIMARY KEY DEFAULT nextval('determinant_seq' :: REGCLASS),
+  id    BIGSERIAL PRIMARY KEY,
   type  VARCHAR(255),
   uuid  VARCHAR(36),
   value INT
@@ -16,10 +14,8 @@ CREATE TABLE determinant_history (
   PRIMARY KEY (id, rev)
 );
 
-CREATE SEQUENCE modifier_seq;
-
 CREATE TABLE modifier (
-  id    BIGINT PRIMARY KEY DEFAULT nextval('modifier_seq' :: REGCLASS),
+  id    BIGSERIAL PRIMARY KEY,
   type  VARCHAR(255) NOT NULL,
   uuid  VARCHAR(36),
   value INT          NOT NULL
@@ -47,11 +43,9 @@ CREATE TABLE determinant_modifiers_history (
   PRIMARY KEY (determinant_id, modifiers_id, rev)
 );
 
-CREATE SEQUENCE dice_roll_seq;
-
 CREATE TYPE DICE AS ENUM ('K2', 'K3', 'K4', 'K6', 'K8', 'K10', 'K12', 'K20', 'K100');
 CREATE TABLE dice_roll (
-  id    BIGINT PRIMARY KEY DEFAULT nextval('dice_roll_seq' :: REGCLASS),
+  id    BIGSERIAL PRIMARY KEY,
   uuid  VARCHAR(36),
   dice  DICE,
   rolls INT
@@ -69,3 +63,5 @@ CREATE TABLE modifier_rolls_history (
   rolls_id    BIGINT REFERENCES dice_roll (id),
   PRIMARY KEY (rolls_id, modifier_id, rev)
 );
+
+CREATE TYPE ACTION_TYPE AS ENUM('ACTION', 'ROUND', 'TURN');

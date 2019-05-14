@@ -18,7 +18,7 @@ CREATE TABLE item_blueprint
   minimum_range    INT,
   placement        placement          NOT NULL,
   damage_id        BIGINT REFERENCES modifier (id),
-  prepare_type     INT,
+  prepare_type     ACTION_TYPE,
   prepare_amount   INT
 );
 
