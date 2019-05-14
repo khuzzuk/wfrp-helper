@@ -37,5 +37,5 @@ public class ArmorPattern {
     private float weight;
     private float strength;
     @Type(type = EnumType.DEF)
-    private @NotNull Accessibility accessibility = Accessibility.COMMON;
+    private @NotNull Availability availability = Availability.COMMON;
 }

@@ -8,7 +8,7 @@ export default class Jewelry extends DeterminantConteiner {
     description: string;
     weight: number;
     price: Price = new Price();
-    accessibility: string = 'COMMON';
+    availability: string = 'COMMON';
     primaryResource: Resource;
     secondaryResource: Resource;
     placement: string = Placement.NECK;

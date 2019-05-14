@@ -16,7 +16,7 @@ CREATE TABLE spell (
   level           INT                NOT NULL                     DEFAULT 0,
   mana_cost       INT                NOT NULL                     DEFAULT 0,
   range           INT                NOT NULL                     DEFAULT 1,
-  duration_type   INT,
+  duration_type   ACTION_TYPE,
   duration_amount INT,
   prepare_type    ACTION_TYPE,
   prepare_amount  INT

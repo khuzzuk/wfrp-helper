@@ -6,5 +6,5 @@ export default class ArmorPattern extends Entity {
     priceMultiplier: number;
     weight: number;
     strength: number;
-    accessibility: string = 'COMMON';
+    availability: string = 'COMMON';
 }

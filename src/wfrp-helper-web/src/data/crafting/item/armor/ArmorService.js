@@ -26,8 +26,8 @@ export default class ArmorService extends ConnectionService {
             name: 'price',
             getter: price => price && (price.gold + 'g, ' + price.silver + 's, ' + price.lead + 'l')
         }, {
-            label: 'Accessibility',
-            name: 'accessibility',
+            label: 'Availability',
+            name: 'availability',
         }
     ];
 
@@ -48,8 +48,8 @@ export default class ArmorService extends ConnectionService {
         name: 'price',
         type: NationService.FormFieldType.PRICE
     }, {
-        label: 'Accessibility',
-        name: 'accessibility',
+        label: 'Availability',
+        name: 'availability',
         type: NationService.FormFieldType.ENUM_SELECT,
         suggestions: Accessibility
     }, {

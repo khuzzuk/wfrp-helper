@@ -33,7 +33,7 @@ public abstract class Item {
     private @Min(0) float weight;
     private Price price;
     @Type(type = EnumType.DEF)
-    private @NotNull Accessibility accessibility = Accessibility.COMMON;
+    private @NotNull Availability availability = Availability.COMMON;
 
     @Override
     public String toString() {

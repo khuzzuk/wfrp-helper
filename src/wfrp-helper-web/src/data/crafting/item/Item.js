@@ -6,7 +6,7 @@ class Item extends Entity {
     description: string;
     weight: number;
     price: Price = new Price();
-    accessibility: string = 'COMMON';
+    availability: string = 'COMMON';
 }
 
 export default Item;

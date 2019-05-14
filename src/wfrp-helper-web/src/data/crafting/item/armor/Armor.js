@@ -9,7 +9,7 @@ export default class Armor extends DeterminantConteiner {
     description: string;
     weight: number;
     price: Price = new Price();
-    accessibility: string = 'COMMON';
+    Availability: string = 'COMMON';
     primaryResource: Resource;
     secondaryResource: Resource;
     type: ArmorBlueprint;

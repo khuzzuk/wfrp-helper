@@ -8,7 +8,7 @@ import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.edit.FormElement;
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Accessibility;
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Availability;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -35,5 +35,5 @@ public class Resource {
     private float durability;
     private float strength;
     @Type(type = EnumType.DEF)
-    private @NotNull Accessibility accessibility = Accessibility.COMMON;
+    private @NotNull Availability availability = Availability.COMMON;
 }

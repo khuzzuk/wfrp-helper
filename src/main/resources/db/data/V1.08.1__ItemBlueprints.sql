@@ -49,10 +49,10 @@ CREATE FUNCTION pg_temp.add_meleeWeapon(name_to_insert VARCHAR(255),
                                         lead_to_insert INT,
                                         suggested_weight_to_insert REAL,
                                         placement_to_insert PLACEMENT,
+                                        initiative_mod INT,
                                         parry_mod INT,
                                         opponent_parry_mod INT,
-                                        battle_mod INT,
-                                        initiative_mod INT) RETURNS VOID AS
+                                        battle_mod INT) RETURNS VOID AS
 $$
 DECLARE
   parry_mod               INT := parry_mod ;
@@ -91,6 +91,13 @@ BEGIN
           inserted_mod_id,
           'ACTION', 1) RETURNING id INTO inserted_blueprint_id;
 
+  IF initiative_mod > 0
+  THEN
+    INSERT INTO determinant (type, value) VALUES ('INITIATIVE', 0) RETURNING id INTO inserted_determinant_id;
+    INSERT INTO modifier (type, value) VALUES ('REGULAR', initiative_mod) RETURNING id INTO inserted_mod_id;
+    INSERT INTO determinant_modifiers (determinant_id, modifiers_id) VALUES (inserted_determinant_id, inserted_mod_id);
+  END IF;
+
   IF parry_mod > 0
   THEN
     INSERT INTO determinant (type, value) VALUES ('PARRY', 0) RETURNING id INTO inserted_determinant_id;
@@ -112,32 +119,42 @@ BEGIN
     INSERT INTO determinant_modifiers (determinant_id, modifiers_id) VALUES (inserted_determinant_id, inserted_mod_id);
   END IF;
 
-  IF initiative_mod > 0
-  THEN
-    INSERT INTO determinant (type, value) VALUES ('INITIATIVE', 0) RETURNING id INTO inserted_determinant_id;
-    INSERT INTO modifier (type, value) VALUES ('REGULAR', initiative_mod) RETURNING id INTO inserted_mod_id;
-    INSERT INTO determinant_modifiers (determinant_id, modifiers_id) VALUES (inserted_determinant_id, inserted_mod_id);
-  END IF;
-
 END;
 $$
   LANGUAGE plpgsql;
 
 -- @formatter:off
-SELECT pg_temp.add_armor('Sztylet',           0, 'K4',  1, NULL, 0, 3, 3, 0.1, '0,75', 'Broń', '');
-SELECT pg_temp.add_armor('Miecz',             0, 'K6',  1, NULL, 0, 5, 0, 0.75, '1', 'Broń', '');
-SELECT pg_temp.add_armor('Długi Miecz',       0, 'K6',  1, NULL, 0, 7, 5, 1.1, '1,1', 'Broń', '');
-SELECT pg_temp.add_armor('Bastard',           0, 'K6',  1, NULL, 0, 8, 0, 1.6, '1,2', 'Broń', '');
-SELECT pg_temp.add_armor('Dwuręczny Miecz',   0, '',    1, NULL, 1, 0, 0, 1.85, '1,5', 'Broń', '');
-SELECT pg_temp.add_armor('Topór',             0, '',    1, NULL, 0, 7, 0, 0.85, '1', 'Broń', '');
-SELECT pg_temp.add_armor('Dwuręczny Topór',   0, '',    1, NULL, 0, 9, 0, 2, '1,5', 'Broń', '');
-SELECT pg_temp.add_armor('Obusieczny Topór',  0, '',    1, NULL, 1, 2, 0, 2.3, '1,6', 'Broń', '');
-SELECT pg_temp.add_armor('Maczuga',           0, '',    1, NULL, 0, 5, 5, 1, '1', 'Broń', '');
-SELECT pg_temp.add_armor('Korbacz',           0, '',    1, NULL, 1, 0, 0, 1.5, '1,25', 'Broń', '');
-SELECT pg_temp.add_armor('Korbacz Dwuręczny', 0, '',    1, NULL, 1, 2, 5, 2.25, '1,85', 'Broń', '');
-SELECT pg_temp.add_armor('Włócznia',          0, '',    1, NULL, 0, 3, 3, 0.75, '1,1', 'Broń', '');
-SELECT pg_temp.add_armor('Halabarda',         0, '',    1, NULL, 1, 0, 0, 1.5, '1,45', 'Broń', '');
-SELECT pg_temp.add_armor('Lanca',             0, '',    1, NULL, 0, 9, 0, 1.25, '1,33', 'Broń', '');
+SELECT pg_temp.add_meleeWeapon('Bicz',                  -1,   'K4',  1, NULL, 0,   15, 0,  0.3,    'HAND',        0,   -30,  0,    0);
+SELECT pg_temp.add_meleeWeapon('Buzdygan',              0,    'K6',  1, NULL, 7,   0,  0,  0.5,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Garota',                -2,   'K3',  1, NULL, 1,   0,  0,  0.01,   'HAND',        10,  -20,  0,    0);
+SELECT pg_temp.add_meleeWeapon('Hak',                   -1,   'K4',  1, NULL, 1,   0,  0,  0.01,   'HAND',        0,   -10,  0,    0);
+SELECT pg_temp.add_meleeWeapon('Halabarda',             2,    'K8',  1, NULL, 8,   0,  0,  1.75,   'BOTH_HANDS',  0,   10,   0,    -10);
+SELECT pg_temp.add_meleeWeapon('Kastet',                -1,   'K4',  1, NULL, 1,   0,  0,  0.01,   'HAND',        10,  -20,  0,    0);
+SELECT pg_temp.add_meleeWeapon('Kij',                   -1,   'K4',  1, NULL, 0,   3,  0,  0.5,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Kopia',                 0,    'K8',  1, NULL, 0,   50, 0,  1,      'HAND',        10,  -30,  -10,  -10);
+SELECT pg_temp.add_meleeWeapon('Korbacz',               2,    'K8',  1, NULL, 10,  0,  0,  0.6,    'HAND',        -10, -10,  -10,  -10);
+SELECT pg_temp.add_meleeWeapon('Korbacz dwuręczny',     3,    'K12', 1, NULL, 20,  0,  0,  1.2,    'BOTH_HANDS',  -20, -10,  -20,  -20);
+SELECT pg_temp.add_meleeWeapon('Łamacz mieczy',         0,    'K4',  1, NULL, 5,   0,  0,  0.4,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Maczuga',               0,    'K6',  1, NULL, 0,   2,  0,  0.5,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Maczuga dwuręczna',     0,    'K8',  1, NULL, 15,  0,  0,  1,      'BOTH_HANDS',  -10, 0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Miecz',                 0,    'K6',  1, NULL, 14,  0,  0,  0.6,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Długi Miecz',           1,    'K6',  1, NULL, 16,  0,  0,  0.7,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Bastard',               1,    'K8',  1, NULL, 20,  0,  0,  1,      'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Dwuręczny Miecz',       2,    'K10', 1, NULL, 35,  0,  0,  2.5,    'BOTH_HANDS',  -10, 0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Młot bojowy',           0,    'K6',  1, NULL, 8,   0,  0,  0.75,   'HAND',        -10, 0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Młot bojowy dwuręczny', 1,    'K8',  1, NULL, 15,  0,  0,  2,      'BOTH_HANDS',  -20, 0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Nadziak',               0,    'K4',  1, NULL, 9,   0,  0,  0.6,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Pałasz',                0,    'K6',  1, NULL, 14,  0,  0,  0.5,    'HAND',        10,  10,   0,    10);
+SELECT pg_temp.add_meleeWeapon('Rapier',                0,    'K8',  1, NULL, 20,  0,  0,  0.4,    'HAND',        20,  10,   0,    10);
+SELECT pg_temp.add_meleeWeapon('Sieć',                  -4,   'K2',  1, NULL, 0,   30, 0,  0.3,    'BOTH_HANDS',  0,   -40,  -20,  -10);
+SELECT pg_temp.add_meleeWeapon('Szpada',                0,    'K6',  1, NULL, 18,  0,  0,  0.4,    'HAND',        10,  10,   0,    0);
+SELECT pg_temp.add_meleeWeapon('Sztylet',               -2,   'K4',  1, NULL, 3,   0,  0,  0.1,    'HAND',        10,  -10,  0,    0);
+SELECT pg_temp.add_meleeWeapon('Topór bojowy',          0,    'K6',  1, NULL, 6,   0,  0,  1.1,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Topór jeździecki',      1,    'K8',  1, NULL, 7,   0,  0,  1.5,    'HAND',        0,   0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Dwuręczny Topór',       2,    'K10', 1, NULL, 12,  0,  0,  7.5,    'BOTH_HANDS',  -10, 0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Obusieczny Topór',      1,    'K8',  1, NULL, 8,   0,  0,  2.5,    'HAND',        -10, 0,    0,    0);
+SELECT pg_temp.add_meleeWeapon('Włócznia',              0,    'K8',  1, NULL, 0,   35, 0,  0.5,    'HAND',        10,  -10,  0,    10);
+SELECT pg_temp.add_meleeWeapon('Lanca',                 2,    'K12', 1, NULL, 10,  0,  0,  0.4,    'BOTH_HANDS',  20,  -10,  -10,  10);
 -- @formatter:on
 
 DROP FUNCTION pg_temp.add_meleeWeapon(name_to_insert VARCHAR, damage_value INT, dice_type DICE, rolls_to_insert INT, description_to_insert VARCHAR, gold_to_insert INT, silver_to_insert INT, lead_to_insert INT, suggested_weight_to_insert REAL, placement_to_insert PLACEMENT, parry_mod INT, opponent_parry_mod INT, battle_mod INT, initiative_mod INT);

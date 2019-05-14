@@ -13,7 +13,7 @@ CREATE TABLE item (
   minimum_range         INT,
   placement             INT,
   item_blueprint_id     BIGINT REFERENCES item_blueprint (id),
-  accessibility         ACCESSIBILITY      NOT NULL,
+  availability          AVAILABILITY      NOT NULL,
   primary_resource_id   BIGINT REFERENCES resource (id),
   secondary_resource_id BIGINT REFERENCES resource (id),
   armor_pattern_id      BIGINT REFERENCES armor_pattern (id)

@@ -8,5 +8,5 @@ CREATE TABLE armor_pattern
   price_multiplier REAL               NOT NULL CHECK (price_multiplier >= (0) :: DOUBLE PRECISION),
   weight           REAL               NOT NULL CHECK (weight >= (0) :: DOUBLE PRECISION),
   strength         REAL               NOT NULL CHECK (strength >= (0) :: DOUBLE PRECISION),
-  accessibility    accessibility      NOT NULL
+  availability     AVAILABILITY      NOT NULL
 );

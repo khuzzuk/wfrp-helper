@@ -1,4 +1,4 @@
-CREATE TYPE ACCESSIBILITY AS ENUM ('COMMON', 'UNCOMMON', 'SCARCE', 'RARE', 'EXCEPTIONAL');
+CREATE TYPE AVAILABILITY AS ENUM ('ABUNDANT', 'PLENTIFUL', 'COMMON', 'AVERAGE', 'SCARCE', 'RARE', 'VERY_RARE');
 
 CREATE SEQUENCE resource_seq;
 
@@ -11,5 +11,5 @@ CREATE TABLE resource
   weight           REAL               NOT NULL CHECK (weight >= (0) :: DOUBLE PRECISION),
   durability       REAL               NOT NULL CHECK (durability >= (0) :: DOUBLE PRECISION),
   strength         REAL               NOT NULL CHECK (strength >= (0) :: DOUBLE PRECISION),
-  accessibility    accessibility      NOT NULL
+  availability     AVAILABILITY       NOT NULL
 );

@@ -15,8 +15,8 @@ export default class ArmorPatternService extends ConnectionService {
             label: 'Description',
             name: 'description',
         }, {
-            label: 'Accessibility',
-            name: 'accessibility',
+            label: 'Availability',
+            name: 'availability',
         }
     ];
 
@@ -41,8 +41,8 @@ export default class ArmorPatternService extends ConnectionService {
         name: 'strength',
         type: NationService.FormFieldType.FLOAT
     }, {
-        label: 'Accessibility',
-        name: 'accessibility',
+        label: 'Availability',
+        name: 'availability',
         type: NationService.FormFieldType.ENUM_SELECT,
         suggestions: Accessibility
     }];

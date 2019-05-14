@@ -7,7 +7,7 @@ class Resource extends Entity {
     weight: number;
     durability: number;
     strength: number;
-    accessibility: string = 'COMMON';
+    availability: string = 'COMMON';
 }
 
 export default Resource;
