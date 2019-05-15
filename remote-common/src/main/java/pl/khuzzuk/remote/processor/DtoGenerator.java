@@ -83,6 +83,11 @@ class DtoGenerator extends AbstractFileGenerator {
             }
 
             type = "java.util.Map<" + keyType + ", " + valueType + ">";
+        } else if (CollectionTypeUtils.isFieldCollection(field)) {
+            Element collectionType = CollectionTypeUtils.getTypeFromCollectionField(field, processingEnvironment);
+            if (isEntity(collectionType)) {
+                type = StringUtils.substringBeforeLast(type, ">") + "DTO>";
+            }
         } else if (isEntity(field)) {
             if (type.endsWith(">")) {
                 type = StringUtils.substringBeforeLast(type, ">") + "DTO>";

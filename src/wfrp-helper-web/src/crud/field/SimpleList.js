@@ -11,26 +11,31 @@ export default class SimpleList extends Component {
         this.setState({anchorEl: event.currentTarget, currentElement: element})
     };
 
+    onRemove = element => () => {
+        this.handleClose();
+        this.props.onRemove(element);
+    };
+
     handleClose = () => {
         this.setState({anchorEl: null, currentElement: null})
     };
 
     render() {
-        const {data, onRemove, ...other} = this.props;
+        const {data, ...other} = this.props;
         return <div {...other}>
-            {data.map((element, index) => {
-                return <div key={'listed-entity-' + element.name}>
-                    <FormLabel onClick={this.handleClick(element)}>{(index > 0 ? ', ' : '') + element.name}</FormLabel>
+            {data.map((element, index) =>
+                <div key={'listed-entity-' + element.name}>
+                    <p onClick={this.handleClick(element)}>{(index > 0 ? ', ' : '') + element.name}</p>
                     <Menu id={'listed-menu-item-' + element.name}
                           anchorEl={this.state.anchorEl}
                           open={element === this.state.currentElement && this.state.anchorEl !== null}
                           onClose={this.handleClose}>
                         {
-                            <MenuItem onClick={() => onRemove(element)}>Remove</MenuItem>
+                            <MenuItem onClick={this.onRemove(element)}>Remove</MenuItem>
                         }
                     </Menu>
                 </div>
-            })}
+            )}
         </div>;
     }
 }

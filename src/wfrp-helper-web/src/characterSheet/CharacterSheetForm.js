@@ -90,13 +90,15 @@ const formStyles = {
         display: 'inline-flex',
     },
     professionsField: {
-        left: '30px',
+        top: '10px',
+        left: '45px',
         maxWidth: '300px',
         minWidth: '300px',
         maxHeight: '60px',
         minHeight: '60px',
         display: 'flex',
         fontSize: '16px',
+        position: 'relative'
     },
 };
 
@@ -119,6 +121,14 @@ class CharacterSheetForm extends Component {
             currentProfession: profession,
             professions: professions.includes(profession) ? professions : [...this.props.entity.professions, profession]
         })
+    };
+
+    removeProfession = profession => {
+        const indexToRemove = this.props.entity.professions.indexOf(profession);
+        if (indexToRemove >= 0) {
+            this.props.entity.professions.splice(indexToRemove, 1);
+            this.updatePerson({professions: this.props.entity.professions});
+        }
     };
 
     updatePerson = updates => {
@@ -147,7 +157,13 @@ class CharacterSheetForm extends Component {
                                         options={personService.characters} onChange={this.updateEntity('character')}
                                         value={entity.character}/>
                 </div>
-                <div style={{top: '65px', position: 'relative', display: 'inline-flex', width: '100%'}}>
+                <div style={{
+                    top: '65px',
+                    position: 'relative',
+                    display: 'inline-flex',
+                    width: '100%',
+                    maxHeight: '60px'
+                }}>
                     <div style={{width: '700px'}}>
                         <SuffixedInputField className={classes.ageField} value={entity.age}
                                             onChange={this.updateEntity('age')} suffixClass={classes.input}
@@ -175,11 +191,12 @@ class CharacterSheetForm extends Component {
                                               value={entity.physicalFeatures}/>
                     </div>
                 </div>
-                <div style={{top: '70px', position: 'relative', display: 'inline-flex', width: '100%'}}>
+                <div style={{top: '65px', position: 'relative', display: 'inline-flex', width: '100%'}}>
                     <SimpleEntitySelect customStyle={classes.currentProfessionField} options={personService.professions}
                                         onChange={this.updateProfession}
                                         value={entity.currentProfession}/>
-                    <SimpleList className={classes.professionsField} data={entity.professions}/>
+                    <SimpleList className={classes.professionsField} data={entity.professions}
+                                onRemove={this.removeProfession}/>
                 </div>
             </div>
             <div>

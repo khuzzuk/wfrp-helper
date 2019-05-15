@@ -7,6 +7,7 @@ export default class Profession extends DeterminantConteiner {
     description: string;
     professionClass: ProfessionClass;
     skills: Skill[] = [];
+    nextProfessions: Profession[] = [];
 
     updateWith(entity: Profession) {
         super.updateWith(entity);
@@ -23,6 +24,16 @@ export default class Profession extends DeterminantConteiner {
                     newSkill.updateWith(skill);
                     return skill;
                 });
+        }
+
+        if (entity.nextProfessions) {
+            const current = this;
+            this.nextProfessions = entity.nextProfessions
+                .map(profession => {
+                    const next = new Profession();
+                    next.updateWith(profession);
+                    return next;
+                })
         }
     }
 }

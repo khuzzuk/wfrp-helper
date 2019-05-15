@@ -8,41 +8,46 @@ import Skill from "../skill/Skill";
 import ProfessionClassService from "./ProfessionClassService";
 
 export default class ProfessionService extends ConnectionService {
-    title = 'Profession';
+    title = 'Profesja';
     data: Profession[] = [];
     professionClasses: ProfessionClass[] = [];
     skills: Skill[] = [];
 
     tableColumns: FormFieldData[] = [{
-        label: 'Name',
+        label: 'Nazwa',
         name: 'name',
     }, {
-        label: 'Description',
+        label: 'Opis',
         name: 'description',
     }];
 
     formFields: FormFieldData[] = [{
-        label: 'Name',
+        label: 'Nazwa',
         name: 'name',
         type: NationService.FormFieldType.TEXT
     }, {
-        label: 'Description',
+        label: 'Opis',
         name: 'description',
         type: NationService.FormFieldType.TEXT_AREA
     }, {
-        label: 'Determinants',
+        label: 'Rozwinięcia',
         name: 'determinants',
         type: NationService.FormFieldType.DETERMINANT,
     }, {
-        label: 'Profession Class',
+        label: 'Klasa',
         name: 'professionClass',
         type: NationService.FormFieldType.ENTITY_SELECT,
         suggestions: this.professionClasses
     }, {
-        label: 'Skills',
+        label: 'Umiejętności',
         name: 'skills',
         type: NationService.FormFieldType.ENTITY_COMBOBOX,
         suggestions: this.skills
+    }, {
+        label: 'Profesje wyjściowe',
+        name: 'nextProfessions',
+        type: NationService.FormFieldType.ENTITY_COMBOBOX,
+        suggestions: this.data
     }];
 
     constructor(action) {
@@ -57,5 +62,13 @@ export default class ProfessionService extends ConnectionService {
     createNew(): Profession {
         this.entity = new Profession();
         return this.entity;
+    }
+
+
+    save(entity: object, onSuccess: func) {
+        const toSave = new Profession();
+        toSave.updateWith(entity);
+        toSave.nextProfessions = toSave.nextProfessions.map(prof => prof.name);
+        super.save(toSave, onSuccess);
     }
 }

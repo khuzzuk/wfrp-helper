@@ -1,13 +1,15 @@
 package pl.khuzzuk.wfrp.helper.model.professions;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
+import pl.khuzzuk.wfrp.helper.common.StringArrayType;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
+import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -23,10 +25,9 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "name")
 @Entity
 @RemoteEntity
-public class Profession {
+public class Profession extends ListableEntity {
     @Id
     @SequenceGenerator(name = "profession_seq_gen", sequenceName = "profession_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profession_seq_gen")
@@ -42,4 +43,7 @@ public class Profession {
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Skill> skills;
+
+    @Type(type = StringArrayType.DEF)
+    private Set<String> nextProfessions;
 }
