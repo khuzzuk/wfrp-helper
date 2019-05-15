@@ -12,6 +12,7 @@ export default class ProfessionService extends ConnectionService {
     data: Profession[] = [];
     professionClasses: ProfessionClass[] = [];
     skills: Skill[] = [];
+    nextProfessions: string[] = [];
 
     tableColumns: FormFieldData[] = [{
         label: 'Nazwa',
@@ -46,8 +47,8 @@ export default class ProfessionService extends ConnectionService {
     }, {
         label: 'Profesje wyjściowe',
         name: 'nextProfessions',
-        type: NationService.FormFieldType.ENTITY_COMBOBOX,
-        suggestions: this.data
+        type: NationService.FormFieldType.ENUM_SELECT,
+        suggestions: this.nextProfessions
     }];
 
     constructor(action) {
@@ -57,6 +58,8 @@ export default class ProfessionService extends ConnectionService {
         const professionClassService = new ProfessionClassService(this.onRetrieveRelatedData(this.professionClasses));
 
         this.registerRelatedServices([skillService, professionClassService]);
+
+        this.addDataListener(this.possibleNextProfessions);
     }
 
     createNew(): Profession {
@@ -71,4 +74,8 @@ export default class ProfessionService extends ConnectionService {
         toSave.nextProfessions = toSave.nextProfessions.map(prof => prof.name);
         super.save(toSave, onSuccess);
     }
+
+    possibleNextProfessions = data => {
+        this.nextProfessions = data.map(profession => profession.name)
+    };
 }

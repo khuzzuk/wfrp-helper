@@ -1,6 +1,5 @@
 import {func, object} from "prop-types";
 import Entity from "../crud/Entity";
-import {CircularReferenceReplacer} from "./CircularReferenceReplacer";
 
 class ConnectionService {
     static FormFieldType = {
@@ -66,7 +65,6 @@ class ConnectionService {
     };
 
     save(entity: object, onSuccess: func) {
-        console.log(JSON.stringify(entity, CircularReferenceReplacer()));
         fetch(this.hostBase + this.uriPart, {
             method: 'post',
             mode: 'cors',

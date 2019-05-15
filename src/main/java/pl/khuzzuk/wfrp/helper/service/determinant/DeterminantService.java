@@ -7,6 +7,7 @@ import pl.khuzzuk.wfrp.helper.model.rule.DeterminantType;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 import pl.khuzzuk.wfrp.helper.model.rule.ModifierType;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class DeterminantService {
     private static Determinant createEmpty(DeterminantType determinantType) {
         Determinant determinant = new Determinant();
         determinant.setType(determinantType);
-        determinant.setModifiers(new HashSet<>());
+        determinant.setModifiers(new ArrayList<>());
         return determinant;
     }
 }

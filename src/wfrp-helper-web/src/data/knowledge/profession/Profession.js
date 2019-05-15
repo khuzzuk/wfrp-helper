@@ -25,15 +25,5 @@ export default class Profession extends DeterminantConteiner {
                     return skill;
                 });
         }
-
-        if (entity.nextProfessions) {
-            const current = this;
-            this.nextProfessions = entity.nextProfessions
-                .map(profession => {
-                    const next = new Profession();
-                    next.updateWith(profession);
-                    return next;
-                })
-        }
     }
 }

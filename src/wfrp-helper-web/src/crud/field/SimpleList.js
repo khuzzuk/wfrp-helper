@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {FormLabel, Menu, MenuItem} from "@material-ui/core";
+import {Menu, MenuItem} from "@material-ui/core";
 
 export default class SimpleList extends Component {
     state = {

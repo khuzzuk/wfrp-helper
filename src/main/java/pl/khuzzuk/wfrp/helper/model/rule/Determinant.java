@@ -6,17 +6,8 @@ import org.hibernate.envers.Audited;
 import pl.khuzzuk.remote.DTO;
 import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import java.util.Set;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -35,7 +26,7 @@ public class Determinant extends ListableEntity {
     private int value;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<Modifier> modifiers;
+    private List<Modifier> modifiers;
 
     public static Determinant empty(DeterminantType type) {
         Determinant determinant = new Determinant();
@@ -46,7 +37,7 @@ public class Determinant extends ListableEntity {
         Modifier experienceMod = new Modifier();
         experienceMod.setType(ModifierType.EXPERIENCE);
 
-        determinant.setModifiers(Set.of(regularMod, experienceMod));
+        determinant.setModifiers(List.of(regularMod, experienceMod));
         return determinant;
     }
 }

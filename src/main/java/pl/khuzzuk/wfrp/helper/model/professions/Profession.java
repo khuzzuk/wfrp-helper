@@ -11,16 +11,8 @@ import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,7 +31,7 @@ public class Profession extends ListableEntity {
     private ProfessionClass professionClass;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    private Set<Determinant> determinants;
+    private List<Determinant> determinants;
 
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Skill> skills;
