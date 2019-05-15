@@ -1,10 +1,10 @@
 import ConnectionService from "../../../../connection/ConnectionService";
 import FormFieldData from "../../../../crud/FormFieldData";
 import NationService from "../../../world/nation/NationService";
-import Accessibility from "../../../rule/Accessibility";
 import {Placement} from "../../Placement";
 import ResourceService from "../../resource/ResourceService";
 import Jewelry from "./Jewelry";
+import Availability from "../../../rule/Availability";
 
 export default class JewelryService extends ConnectionService {
     title = 'Jewelry';
@@ -48,7 +48,7 @@ export default class JewelryService extends ConnectionService {
         label: 'Availability',
         name: 'availability',
         type: NationService.FormFieldType.ENUM_SELECT,
-        suggestions: Accessibility
+        suggestions: Availability
     }, {
         label: 'Determinants',
         name: 'determinants',

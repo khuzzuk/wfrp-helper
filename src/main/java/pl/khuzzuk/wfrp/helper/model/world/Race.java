@@ -5,11 +5,16 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
-import pl.khuzzuk.wfrp.helper.edit.EditorType;
-import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
 @Data
@@ -20,7 +25,6 @@ public class Race {
     @Id
     @SequenceGenerator(name = "race_seq_gen", sequenceName = "race_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "race_seq_gen")
-    @FormElement(exclude = true)
     private Long id;
 
     @NaturalId
@@ -29,7 +33,6 @@ public class Race {
     private String specialFeatures;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> determinants;
 
     @Override

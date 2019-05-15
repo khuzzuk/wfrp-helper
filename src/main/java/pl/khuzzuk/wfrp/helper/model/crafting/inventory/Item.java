@@ -24,7 +24,7 @@ import javax.validation.constraints.NotNull;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class Item {
     @Id
-    @SequenceGenerator(name = "item_seq_gen", sequenceName = "item_seq", allocationSize = 1)
+    @SequenceGenerator(name = "item_seq_gen", sequenceName = "item_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq_gen")
     private Long id;
     @NaturalId

@@ -31,7 +31,7 @@ import java.util.List;
 @DTO
 public class Modifier extends ListableEntity {
     @Id
-    @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_seq", allocationSize = 1)
+    @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "modifier_seq_gen")
     private Long id;
 

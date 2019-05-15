@@ -8,7 +8,6 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
-import pl.khuzzuk.wfrp.helper.edit.Filter;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Armor;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MeleeWeapon;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MiscItem;
@@ -53,7 +52,6 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq_gen")
     private Long id;
     @NaturalId
-    @Filter
     private @Length(min = 3, max = 255) String name;
     private Gender gender;
     private @Min(0) int age;

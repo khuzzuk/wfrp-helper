@@ -6,7 +6,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
-@DiscriminatorValue("MeleeWeaponBlueprint")
+@DiscriminatorValue("MELEE_WEAPON")
 @RemoteEntity
 public class MeleeWeaponBlueprint extends WeaponBlueprint {
 }

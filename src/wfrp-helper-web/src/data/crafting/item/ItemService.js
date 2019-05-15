@@ -1,8 +1,8 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
 import NationService from "../../world/nation/NationService";
-import Accessibility from "../../rule/Accessibility";
 import Item from "./Item";
+import Availability from "../../rule/Availability";
 
 class ItemService extends ConnectionService {
     title = 'Item';
@@ -44,7 +44,7 @@ class ItemService extends ConnectionService {
         label: 'Availability',
         name: 'availability',
         type: NationService.FormFieldType.ENUM_SELECT,
-        suggestions: Accessibility
+        suggestions: Availability
     }];
 
     constructor(action) {

@@ -27,7 +27,7 @@ class AdapterToEntityGenerator extends AbstractAdapterGenerator {
 
         printImports(writer,
                 "org.mapstruct.Mapper",
-                "pl.khuzzuk.wfrp.helper.repo.Adapter",
+                "pl.khuzzuk.remote.Adapter",
                 "org.mapstruct.Mapping",
                 "org.mapstruct.NullValueCheckStrategy");
 

@@ -1,7 +1,5 @@
 package pl.khuzzuk.wfrp.helper.model.rule;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
@@ -27,7 +25,7 @@ import java.util.Set;
 @DTO
 public class Determinant extends ListableEntity {
     @Id
-    @SequenceGenerator(name = "determinant_seq_gen", sequenceName = "determinant_seq", allocationSize = 1)
+    @SequenceGenerator(name = "determinant_seq_gen", sequenceName = "determinant_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "determinant_seq_gen")
     private Long id;
 

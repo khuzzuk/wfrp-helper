@@ -22,9 +22,9 @@ import javax.validation.constraints.NotNull;
 @DTO
 @Entity
 public class DiceRoll extends ListableEntity {
-    @SequenceGenerator(name = "dice_roll_seq_gen", sequenceName = "dice_roll_seq", allocationSize = 1)
-    @Id
+    @SequenceGenerator(name = "dice_roll_seq_gen", sequenceName = "dice_roll_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dice_roll_seq_gen")
+    @Id
     private Long id;
 
     @Column(nullable = false)

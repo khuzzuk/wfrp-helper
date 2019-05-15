@@ -5,11 +5,13 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
-import pl.khuzzuk.wfrp.helper.edit.EnumFilter;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
+import pl.khuzzuk.wfrp.helper.model.rule.Placement.PlacementValues;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+
+import static pl.khuzzuk.wfrp.helper.model.rule.Placement.*;
 
 @Getter
 @Setter
@@ -17,15 +19,8 @@ import javax.persistence.Entity;
 @Entity
 @RemoteEntity
 public class ArmorBlueprint extends ItemBlueprint {
-    @EnumFilter({
-            "HEAD",
-            "TORSO",
-            "HAND",
-            "LEG",
-            "BELT",
-            "SHIELD",
-    })
     @Type(type = EnumType.DEF)
+    @PlacementValues({HEAD, TORSO, HAND, LEG, BELT, SHIELD})
     private Placement placement;
     private int armor;
 }

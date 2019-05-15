@@ -1,15 +1,11 @@
 package pl.khuzzuk.wfrp.helper.model.creature;
 
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
-import pl.khuzzuk.wfrp.helper.edit.EditorType;
-import pl.khuzzuk.wfrp.helper.edit.Filter;
-import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.CascadeType;
@@ -37,9 +33,7 @@ public class Animal {
     private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
     @ManyToOne(fetch = FetchType.EAGER)
-    @FormElement(editor = EditorType.CHOOSE)
     private AnimalKind animalKind;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-    @FormElement(editor = EditorType.DELEGATED)
     private Set<Determinant> determinants;
 }

@@ -1,11 +1,11 @@
 import ConnectionService from "../../../../connection/ConnectionService";
 import FormFieldData from "../../../../crud/FormFieldData";
 import NationService from "../../../world/nation/NationService";
-import Accessibility from "../../../rule/Accessibility";
 import ResourceService from "../../resource/ResourceService";
 import ArmorBlueprintService from "../../blueprint/ArmorBlueprintService";
 import ArmorPatternService from "./ArmorPatternService";
 import Armor from "./Armor";
+import Availability from "../../../rule/Availability";
 
 export default class ArmorService extends ConnectionService {
     title = 'Armor';
@@ -51,7 +51,7 @@ export default class ArmorService extends ConnectionService {
         label: 'Availability',
         name: 'availability',
         type: NationService.FormFieldType.ENUM_SELECT,
-        suggestions: Accessibility
+        suggestions: Availability
     }, {
         label: 'Determinants',
         name: 'determinants',

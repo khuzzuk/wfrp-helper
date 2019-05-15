@@ -1,8 +1,8 @@
 import ConnectionService from "../../../../connection/ConnectionService";
 import FormFieldData from "../../../../crud/FormFieldData";
 import NationService from "../../../world/nation/NationService";
-import Accessibility from "../../../rule/Accessibility";
 import ArmorPattern from "./ArmorPattern";
+import Availability from "../../../rule/Availability";
 
 export default class ArmorPatternService extends ConnectionService {
     title = 'Armor pattern';
@@ -44,7 +44,7 @@ export default class ArmorPatternService extends ConnectionService {
         label: 'Availability',
         name: 'availability',
         type: NationService.FormFieldType.ENUM_SELECT,
-        suggestions: Accessibility
+        suggestions: Availability
     }];
 
     constructor(action) {

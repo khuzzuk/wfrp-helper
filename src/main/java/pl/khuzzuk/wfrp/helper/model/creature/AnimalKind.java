@@ -5,9 +5,6 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
-import pl.khuzzuk.wfrp.helper.edit.EditorType;
-import pl.khuzzuk.wfrp.helper.edit.Filter;
-import pl.khuzzuk.wfrp.helper.edit.FormElement;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.CascadeType;

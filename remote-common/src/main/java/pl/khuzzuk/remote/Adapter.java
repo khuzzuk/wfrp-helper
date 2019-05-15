@@ -1,4 +1,4 @@
-package pl.khuzzuk.wfrp.helper.repo;
+package pl.khuzzuk.remote;
 
 import java.util.List;
 import java.util.Set;
