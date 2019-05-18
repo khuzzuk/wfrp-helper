@@ -11,6 +11,7 @@ import DeterminantField from "./field/DeterminantField";
 import ModifierField from "./field/ModifierField";
 import EntitySelect from "./field/EntitySelect";
 import ActionTimeField from "./field/ActionTimeField";
+import EnumCombobox from "./field/EnumCombobox";
 
 const styles = theme => ({
     ...theme,
@@ -65,9 +66,9 @@ class CrudEditForm extends Component {
                                    }}/>;
             case ConnectionService.FormFieldType.ENTITY_SELECT:
                 return <EntitySelect key={name} label={label}
-                                       data={fieldData.suggestions}
-                                       value={value}
-                                       onChange={data => this.update({[name]: data})}/>;
+                                     data={fieldData.suggestions}
+                                     value={value}
+                                     onChange={data => this.update({[name]: data})}/>;
             case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
                 return <EntityCombobox key={name} label={label}
                                        data={fieldData.suggestions}
@@ -78,6 +79,11 @@ class CrudEditForm extends Component {
                                    data={fieldData.suggestions}
                                    value={value}
                                    onChange={data => this.update({[name]: data})}/>;
+            case ConnectionService.FormFieldType.ENUM_COMBOBOX:
+                return <EnumCombobox key={name} label={label}
+                                     data={fieldData.suggestions}
+                                     value={value}
+                                     onChange={data => this.update({[name]: data})}/>;
             case ConnectionService.FormFieldType.PRICE:
                 return <PriceField key={name} label={label}
                                    value={value}

@@ -38,7 +38,7 @@ public class StringArrayType implements UserType {
     @Override
     public Object nullSafeGet(ResultSet rs, String[] names, SharedSessionContractImplementor session, Object owner) throws SQLException {
         String string = rs.getString(names[0]);
-        if (string == null) {
+        if (string == null || string.equals("{}")) {
             return Set.of();
         }
 

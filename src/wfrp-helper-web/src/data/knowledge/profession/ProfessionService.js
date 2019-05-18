@@ -47,7 +47,7 @@ export default class ProfessionService extends ConnectionService {
     }, {
         label: 'Profesje wyjściowe',
         name: 'nextProfessions',
-        type: NationService.FormFieldType.ENUM_SELECT,
+        type: NationService.FormFieldType.ENUM_COMBOBOX,
         suggestions: this.nextProfessions
     }];
 
@@ -68,7 +68,7 @@ export default class ProfessionService extends ConnectionService {
     }
 
 
-    save(entity: object, onSuccess: func) {
+    save1(entity: object, onSuccess: func) {
         const toSave = new Profession();
         toSave.updateWith(entity);
         toSave.nextProfessions = toSave.nextProfessions.map(prof => prof.name);
@@ -76,6 +76,8 @@ export default class ProfessionService extends ConnectionService {
     }
 
     possibleNextProfessions = data => {
-        this.nextProfessions = data.map(profession => profession.name)
+        this.nextProfessions.length = 0;
+        data.map(profession => profession.name)
+            .forEach(name => this.nextProfessions.push(name));
     };
 }
