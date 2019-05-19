@@ -1,29 +1,67 @@
-import Determinant from "../rule/Determinant";
-
-const determinantsNames = ['speed', 'battle', 'shooting', 'strength', 'durability', 'health', 'attack', 'initiative', 'dexterity', 'leaderSkills', 'intelligence', 'control', 'will', 'charisma'];
+import Determinant, {DeterminantType} from "../rule/Determinant";
 
 export default class PersonDeterminants {
-    speed: Determinant = new Determinant();
-    battle: Determinant = new Determinant();
-    shooting: Determinant = new Determinant();
-    strength: Determinant = new Determinant();
-    durability: Determinant = new Determinant();
-    health: Determinant = new Determinant();
-    attack: Determinant = new Determinant();
-    initiative: Determinant = new Determinant();
-    dexterity: Determinant = new Determinant();
-    leaderSkills: Determinant = new Determinant();
-    intelligence: Determinant = new Determinant();
-    control: Determinant = new Determinant();
-    will: Determinant = new Determinant();
-    charisma: Determinant = new Determinant();
+    determinants: Determinant[] = [];
+
+    constructor() {
+        const speed = new Determinant();
+        speed.type = DeterminantType.SPEED;
+        const battle = new Determinant();
+        battle.type = DeterminantType.BATTLE;
+        const shooting = new Determinant();
+        shooting.type = DeterminantType.SHOOTING;
+        const strength = new Determinant();
+        strength.type = DeterminantType.STRENGTH;
+        const durability = new Determinant();
+        durability.type = DeterminantType.DURABILITY;
+        const health = new Determinant();
+        health.type = DeterminantType.HEALTH;
+        const attack = new Determinant();
+        attack.type = DeterminantType.ATTACK;
+        const initiative = new Determinant();
+        initiative.type = DeterminantType.INITIATIVE;
+        const dexterity = new Determinant();
+        dexterity.type = DeterminantType.DEXTERITY;
+        const leaderSkills = new Determinant();
+        leaderSkills.type = DeterminantType.LEADER_SKILLS;
+        const intelligence = new Determinant();
+        intelligence.type = DeterminantType.INTELLIGENCE;
+        const control = new Determinant();
+        control.type = DeterminantType.CONTROL;
+        const will = new Determinant();
+        will.type = DeterminantType.WILL;
+        const charisma = new Determinant();
+        charisma.type = DeterminantType.CHARISMA;
+        this.determinants.push(speed, battle, shooting, strength, durability, health, attack, initiative,
+            dexterity, leaderSkills, intelligence, control, will, charisma);
+    }
 
     updateWith(determinants: PersonDeterminants) {
-        determinantsNames.forEach(determinantName => {
-            if (determinants[determinantName]) {
-                this[determinantName] = new Determinant();
-                this[determinantName].updateWith(determinants[determinantName]);
-            }
-        });
+        if (determinants.determinants) {
+            determinants.determinants.forEach(determinant => {
+                const newDeterminant = new Determinant();
+                newDeterminant.updateWith(determinant);
+                this.replaceDeterminant(newDeterminant);
+            });
+        }
+    }
+
+    updateDeterminantValue(value: number, type: string) {
+        this.findDeterminant(type).value = value;
+    }
+
+    findDeterminant(type: string) {
+        return this.determinants.find(determinant => type === determinant.type)
+    }
+
+    static findDeterminantIn(determinants: Determinant[], type: string) {
+        return determinants.find(determinant => type === determinant.type)
+    }
+
+    replaceDeterminant(determinant: Determinant) {
+        const toReplace = this.findDeterminant(determinant.type);
+        let determinantIndex = this.determinants.indexOf(toReplace);
+        this.determinants.splice(determinantIndex, 1);
+        this.determinants.push(determinant);
     }
 }

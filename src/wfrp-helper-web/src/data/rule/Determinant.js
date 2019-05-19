@@ -56,5 +56,23 @@ export const DeterminantType = {
             this.PARRY,
             this.OPPONENT_PARRY,
         ];
+    },
+    personal(): string[] {
+        return [
+            this.SPEED,
+            this.BATTLE,
+            this.SHOOTING,
+            this.STRENGTH,
+            this.DURABILITY,
+            this.HEALTH,
+            this.INITIATIVE,
+            this.ATTACK,
+            this.DEXTERITY,
+            this.LEADER_SKILLS,
+            this.INTELLIGENCE,
+            this.CONTROL,
+            this.WILL,
+            this.CHARISMA,
+        ];
     }
 };

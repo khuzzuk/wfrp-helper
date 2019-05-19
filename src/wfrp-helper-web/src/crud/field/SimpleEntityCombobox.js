@@ -13,10 +13,15 @@ const simpleStyle = {
         color: 'transparent'
     }),
     clearIndicator: (provided, state) => ({
-        color: 'transparent'
+        color: 'transparent',
     }),
     multiValueRemove: (provided, state) => ({
-        color: 'ghostwhite'
+        color: 'ghostwhite',
+        maxHeight: '1px',
+    }),
+    singleValue: (provided, state) => ({
+        color: 'black',
+        maxHeight: '1px',
     }),
     multiValueLabel: (provided, state) => ({
         background: 'transparent',
@@ -27,7 +32,8 @@ const simpleStyle = {
     }),
     multiValue: (provided, state) => ({
         background: 'transparent',
-        display: 'inline-flex'
+        display: 'inline-flex',
+        height: '14px'
     }),
 };
 

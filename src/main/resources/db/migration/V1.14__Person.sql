@@ -13,7 +13,8 @@ CREATE TABLE creature.person (
   history               TEXT,
   profession_class_id   BIGINT             NOT NULL REFERENCES profession_class,
   current_profession_id BIGINT             NOT NULL REFERENCES profession,
-  personality_id        BIGINT             NOT NULL REFERENCES character
+  personality_id        BIGINT             NOT NULL REFERENCES character,
+  race_id               BIGINT             NOT NULL REFERENCES race
 );
 
 CREATE TABLE creature.person_history (
@@ -32,6 +33,7 @@ CREATE TABLE creature.person_history (
   profession_class_id   BIGINT,
   current_profession_id BIGINT,
   personality_id        BIGINT,
+  race_id               BIGINT,
   PRIMARY KEY (rev, id)
 );
 
@@ -102,7 +104,6 @@ CREATE TABLE creature.person_animals_history (
 
 CREATE TABLE creature.person_inventory (
   id        BIGSERIAL PRIMARY KEY,
-  amount    INT,
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
 );
@@ -110,7 +111,6 @@ CREATE TABLE creature.person_inventory_history (
   rev       BIGINT,
   revtype   SMALLINT,
   id        BIGINT NOT NULL,
-  amount    INT,
   person_id BIGINT,
   item_id   BIGINT,
   PRIMARY KEY (rev, id)
@@ -158,19 +158,22 @@ CREATE TABLE creature.person_armor_history (
   PRIMARY KEY (rev, id)
 );
 
-CREATE TABLE creature.person_spell_schools (
-  person_id         BIGINT NOT NULL REFERENCES creature.person,
-  spell_schools_key BIGINT NOT NULL REFERENCES spell_school,
-  level             INT    NOT NULL DEFAULT 0,
-  PRIMARY KEY (person_id, spell_schools_key)
+CREATE TABLE creature.person_spell_school_level (
+  id              BIGSERIAL PRIMARY KEY,
+  uuid            VARCHAR(36),
+  person_id       BIGINT NOT NULL REFERENCES creature.person,
+  spell_school_id BIGINT NOT NULL REFERENCES spell_school,
+  level           INT    NOT NULL DEFAULT 0
 );
-CREATE TABLE creature.person_spell_schools_history (
-  rev               BIGINT,
-  revtype           SMALLINT,
-  person_id         BIGINT NOT NULL REFERENCES creature.person,
-  spell_schools_key BIGINT NOT NULL REFERENCES spell_school,
-  level             INT    NOT NULL DEFAULT 0,
-  PRIMARY KEY (person_id, spell_schools_key, rev)
+CREATE TABLE creature.person_spell_school_level_history (
+  rev             BIGINT,
+  revtype         SMALLINT,
+  id              BIGINT,
+  uuid            VARCHAR(36),
+  person_id       BIGINT,
+  spell_school_id BIGINT,
+  level           INT,
+  PRIMARY KEY (rev, id)
 );
 
 CREATE TABLE creature.person_spells (

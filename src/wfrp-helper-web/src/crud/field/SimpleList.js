@@ -23,18 +23,27 @@ export default class SimpleList extends Component {
     render() {
         const {data, ...other} = this.props;
         return <div {...other}>
-            {data.map((element, index) =>
-                <div key={'listed-entity-' + element.name}>
-                    <p onClick={this.handleClick(element)}>{(index > 0 ? ', ' : '') + element.name}</p>
-                    <Menu id={'listed-menu-item-' + element.name}
-                          anchorEl={this.state.anchorEl}
-                          open={element === this.state.currentElement && this.state.anchorEl !== null}
-                          onClose={this.handleClose}>
+            {data.map((element, index) => {
+                    const value = element.name || element;
+                    return <div key={'listed-entity-' + value}>
                         {
-                            <MenuItem onClick={this.onRemove(element)}>Remove</MenuItem>
+                            element.name
+                                ? <p onClick={this.handleClick(element)}>{(index > 0 ? ', ' : '') + value}</p>
+                                : <p>{(index > 0 ? ', ' : '') + value}</p>
                         }
-                    </Menu>
-                </div>
+                        {
+                            element.name
+                            && <Menu id={'listed-menu-item-' + element.name}
+                                     anchorEl={this.state.anchorEl}
+                                     open={element === this.state.currentElement && this.state.anchorEl !== null}
+                                     onClose={this.handleClose}>
+                                {
+                                    <MenuItem onClick={this.onRemove(element)}>Remove</MenuItem>
+                                }
+                            </Menu>
+                        }
+                    </div>
+                }
             )}
         </div>;
     }

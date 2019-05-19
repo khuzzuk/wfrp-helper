@@ -9,8 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class StringArrayType implements UserType {
     public static final String DEF = "pl.khuzzuk.wfrp.helper.common.StringArrayType";
@@ -43,7 +45,11 @@ public class StringArrayType implements UserType {
         }
 
         String[] split = string.substring(1, string.length() - 1).split(",");
-        return Set.of(split);
+        return Arrays.stream(split)
+                .map(value -> value.startsWith("\"")
+                        ? value.substring(1, value.length() - 1)
+                        : value)
+                .collect(Collectors.toSet());
     }
 
     @Override

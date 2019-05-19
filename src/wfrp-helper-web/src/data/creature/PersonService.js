@@ -26,7 +26,7 @@ export default class PersonService extends ConnectionService {
     races: Race[] = [];
     professionClasses: ProfessionClass[] = [];
     professions: Profession[] = [];
-    characters: Character[] = [];
+    personalities: Character[] = [];
     physicalFeatures: PhysicalFeature[] = [];
 
     tableColumns: FormFieldData[] = [
@@ -62,7 +62,7 @@ export default class PersonService extends ConnectionService {
         const raceService = new RaceService(this.onRetrieveRelatedData(this.races));
         const professionClassService = new ProfessionClassService(this.onRetrieveRelatedData(this.professionClasses));
         const professionService = new ProfessionService(this.onRetrieveRelatedData(this.professions));
-        const characterService = new CharacterService(this.onRetrieveRelatedData(this.characters));
+        const characterService = new CharacterService(this.onRetrieveRelatedData(this.personalities));
         const physicalFeatureService = new PhysicalFeatureService(this.onRetrieveRelatedData(this.physicalFeatures));
 
         this.registerRelatedServices([hairColorService, eyeColorService,
@@ -73,5 +73,15 @@ export default class PersonService extends ConnectionService {
     createNew(): Person {
         this.entity = new Person();
         return this.entity;
+    }
+
+
+    save(entity: object, onSuccess: func) {
+/*
+        const newEntity = new Person();
+        newEntity.updateWith(entity);
+        newEntity.determinants = {determinants: []};
+*/
+        super.save(entity, onSuccess);
     }
 }

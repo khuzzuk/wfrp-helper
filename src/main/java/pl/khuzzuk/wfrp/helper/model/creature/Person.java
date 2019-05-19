@@ -14,12 +14,11 @@ import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MiscItem;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.Spell;
-import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
+import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
+import pl.khuzzuk.wfrp.helper.model.world.Race;
 
-import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,13 +29,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @Getter
@@ -53,6 +51,9 @@ public class Person {
     private Long id;
     @NaturalId
     private @Length(min = 3, max = 255) String name;
+    @ManyToOne
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    private Race race;
     private Gender gender;
     private @Min(0) int age;
     private @Min(0) int height;
@@ -96,12 +97,12 @@ public class Person {
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private List<Skill> skills;
 
-    @ElementCollection
-    @JoinTable(schema = "creature")
-    @Column(name = "amount")
-    @MapKeyJoinColumn(name = "item_id")
+    @ManyToMany
+    @JoinTable(schema = "creature", name = "person_inventory",
+            joinColumns = @JoinColumn(name = "person_id"),
+            inverseJoinColumns = @JoinColumn(name = "item_id"))
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    private Map<MiscItem, Integer> inventory;
+    private List<MiscItem> inventory;
 
     @ManyToMany
     @JoinTable(schema = "creature", inverseJoinColumns = @JoinColumn(name = "item_id"))
@@ -118,11 +119,10 @@ public class Person {
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private List<Armor> armor;
 
-    @ElementCollection
-    @JoinTable(schema = "creature")
-    @Column(name = "level")
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
-    private Map<SpellSchool, Integer> spellSchools;
+    @OneToMany
+    @JoinColumn(name = "person_id")
+    @Audited
+    private List<SpellSchoolLevel> spellSchools;
 
     @ManyToMany
     @JoinTable(schema = "creature")
