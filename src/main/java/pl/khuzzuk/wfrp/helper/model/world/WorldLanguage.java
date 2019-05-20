@@ -21,7 +21,7 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
-@Table(name = "language")
+@Table(schema = "world", name = "language")
 @RemoteEntity
 public class WorldLanguage {
     @Id
@@ -32,6 +32,8 @@ public class WorldLanguage {
     private @Size(min = 3, max = 64) String name;
     private @Size(max = 500) String description;
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "language_id"), inverseJoinColumns = @JoinColumn(name = "nations_id"))
+    @JoinTable(schema = "world",
+            joinColumns = @JoinColumn(name = "language_id"),
+            inverseJoinColumns = @JoinColumn(name = "nations_id"))
     private Set<Nation> nations;
 }

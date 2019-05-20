@@ -6,21 +6,24 @@ class NationService extends ConnectionService {
     title = 'Nation';
     data = [];
     tableColumns: FormFieldData[] = [{
-        label: 'Name',
+        label: 'Nazwa',
         name: 'name',
     }, {
-        label: 'Description',
+        label: 'Opis',
         name: 'description',
     }];
     formFields: FormFieldData[] = [{
-        label: 'Name',
+        label: 'Nazwa',
         name: 'name',
         type: NationService.FormFieldType.TEXT
     }, {
-        label: 'Description',
+        label: 'Opis',
         name: 'description',
         type: NationService.FormFieldType.TEXT_AREA
-
+    }, {
+        label: 'Imiona',
+        name: 'names',
+        type: NationService.FormFieldType.TEXT_AREA
     }];
 
     constructor(action) {
@@ -37,6 +40,11 @@ class NationService extends ConnectionService {
         return this.entity;
     }
 
+    convertToNames = (namesAsString: string) => {
+        return namesAsString.replace('\r', '').split('\n');
+    };
+
+    convertToField = (namesFromModel: string[])
 }
 
 export default NationService;

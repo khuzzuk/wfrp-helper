@@ -10,7 +10,6 @@ import Item from "../crafting/item/Item";
 import MeleeWeapon from "../crafting/item/melee/MeleeWeapon";
 import RangedWeapon from "../crafting/item/ranged/RangedWeapon";
 import Armor from "../crafting/item/armor/Armor";
-import SpellSchool from "../knowledge/magic/spellSchool/SpellSchool";
 import Spell from "../knowledge/magic/spell/Spell";
 import Animal from "./Animal";
 import Character from "../look/character/Character";

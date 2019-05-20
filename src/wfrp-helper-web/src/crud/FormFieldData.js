@@ -1,9 +1,11 @@
-import {object} from "prop-types";
+import {func, object} from "prop-types";
 
 class FormFieldData {
     type: string;
     name: string;
     label: string;
-    suggestions: object[]
+    suggestions: object[];
+    toView: func;
+    toModel: func;
 }
 export default FormFieldData;
