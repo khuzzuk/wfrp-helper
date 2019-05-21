@@ -1,11 +1,11 @@
 package pl.khuzzuk.wfrp.helper.model.world;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
-import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
@@ -21,10 +21,11 @@ import java.util.Set;
 
 @Getter
 @Setter
+@EqualsAndHashCode(of = "name")
 @Entity
 @Table(schema = "world")
 @RemoteEntity
-public class Nation extends ListableEntity {
+public class Nation {
     @Id
     @SequenceGenerator(name = "nation_id_seq_gen", allocationSize = 1,
             schema = "world", sequenceName = "nation_id_seq")

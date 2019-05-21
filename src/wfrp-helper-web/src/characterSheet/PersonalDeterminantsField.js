@@ -3,6 +3,8 @@ import PersonDeterminants from "../data/creature/PersonDeterminants";
 import IntegerField from "../crud/field/IntegerField";
 import {withStyles} from "@material-ui/styles";
 import {DeterminantType} from "../data/rule/Determinant";
+import ProfessionExtensionField from "./ProfessionExtensionField";
+import Determinant from "../data/rule/Determinant";
 
 const PersonalDeterminantFieldStyle = {
     row: {
@@ -52,13 +54,15 @@ class PersonalDeterminantsField extends Component {
         const durability = determinants.findDeterminant(DeterminantType.DURABILITY);
         const health = determinants.findDeterminant(DeterminantType.HEALTH);
         const attack = determinants.findDeterminant(DeterminantType.ATTACK);
-        const iinitiative = determinants.findDeterminant(DeterminantType.INITIATIVE);
+        const initiative = determinants.findDeterminant(DeterminantType.INITIATIVE);
         const dexterity = determinants.findDeterminant(DeterminantType.DEXTERITY);
         const leaderSkills = determinants.findDeterminant(DeterminantType.LEADER_SKILLS);
         const intelligence = determinants.findDeterminant(DeterminantType.INTELLIGENCE);
         const control = determinants.findDeterminant(DeterminantType.CONTROL);
         const will = determinants.findDeterminant(DeterminantType.WILL);
         const charisma = determinants.findDeterminant(DeterminantType.CHARISMA);
+        const profession = person.currentProfession;
+        const professionSpeed: Determinant = PersonDeterminants.findDeterminantIn(profession.determinants, DeterminantType.SPEED);
 
         return <div {...other}>
             <div className={classes.row}>
@@ -69,13 +73,16 @@ class PersonalDeterminantsField extends Component {
                 <IntegerField className={classes.otherInRow}  value={durability.value} onChange={this.updateDeterminant(durability)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow2} value={health.value} onChange={this.updateDeterminant(health)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow2} value={attack.value} onChange={this.updateDeterminant(attack)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow}  value={iinitiative.value} onChange={this.updateDeterminant(iinitiative)} inputProps={{className: classes.input}} />
+                <IntegerField className={classes.otherInRow}  value={initiative.value} onChange={this.updateDeterminant(initiative)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow2} value={dexterity.value} onChange={this.updateDeterminant(dexterity)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow2} value={leaderSkills.value} onChange={this.updateDeterminant(leaderSkills)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow2} value={intelligence.value} onChange={this.updateDeterminant(intelligence)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow2} value={control.value} onChange={this.updateDeterminant(control)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow2} value={will.value} onChange={this.updateDeterminant(will)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow}  value={charisma.value} onChange={this.updateDeterminant(charisma)} inputProps={{className: classes.input}} />
+            </div>
+            <div className={classes.row}>
+                <ProfessionExtensionField ext={professionSpeed} customClassName={classes.firstInRow}/>
             </div>
         </div>;
     }

@@ -12,6 +12,7 @@ import ModifierField from "./field/ModifierField";
 import EntitySelect from "./field/EntitySelect";
 import ActionTimeField from "./field/ActionTimeField";
 import EnumCombobox from "./field/EnumCombobox";
+import {func} from "prop-types";
 
 const styles = theme => ({
     ...theme,
@@ -25,6 +26,16 @@ class CrudEditForm extends Component {
         entity: null
     };
 
+    onUpdate = (propName: string, toModel: func) => event => {
+        const value = toModel ? toModel(event.target.value) : event.target.value;
+        this.update({[propName]: value})
+    };
+
+    onUpdateData = (propName: string, toModel: func) => data => {
+        const value = toModel ? toModel(data) : data;
+        this.update({[propName]: value})
+    };
+
     update = (updates) => {
         this.props.entity.updateWith(updates);
         this.setState({entity: this.props.entity});
@@ -35,71 +46,64 @@ class CrudEditForm extends Component {
     };
 
     generateField(fieldData: FormFieldData) {
-        const {name, label, type} = fieldData;
+        const {name, label, type, toView, toModel} = fieldData;
         let value = this.props.entity[name];
+        value = toView ? toView(value) : value;
 
         switch (type) {
             case ConnectionService.FormFieldType.TEXT:
                 return <TextField key={name} label={label}
                                   value={value}
-                                  onChange={event => {
-                                      this.update({[name]: event.target.value});
-                                  }}/>;
+                                  onChange={this.onUpdate(name, toModel)}/>;
             case ConnectionService.FormFieldType.TEXT_AREA:
                 return <TextField key={name} label={label}
                                   multiline
                                   value={value}
-                                  onChange={event => {
-                                      this.update({[name]: event.target.value});
-                                  }}/>;
+                                  onChange={this.onUpdate(name, toModel)}/>;
             case ConnectionService.FormFieldType.INTEGER:
                 return <IntegerField label={fieldData.label}
                                      value={value}
-                                     onChange={number => {
-                                         this.update({[name]: number})
-                                     }}/>;
+                                     onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.FLOAT:
                 return <FloatField key={name} label={label}
                                    value={value}
-                                   onChange={number => {
-                                       this.update({[name]: number})
-                                   }}/>;
+                                   onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.ENTITY_SELECT:
                 return <EntitySelect key={name} label={label}
                                      data={fieldData.suggestions}
                                      value={value}
-                                     onChange={data => this.update({[name]: data})}/>;
+                                     onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.ENTITY_COMBOBOX:
                 return <EntityCombobox key={name} label={label}
                                        data={fieldData.suggestions}
                                        value={value}
-                                       onChange={data => this.update({[name]: data})}/>;
+                                       onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.ENUM_SELECT:
                 return <EnumSelect key={name} label={label}
                                    data={fieldData.suggestions}
                                    value={value}
-                                   onChange={data => this.update({[name]: data})}/>;
+                                   onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.ENUM_COMBOBOX:
                 return <EnumCombobox key={name} label={label}
                                      data={fieldData.suggestions}
                                      value={value}
-                                     onChange={data => this.update({[name]: data})}/>;
+                                     onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.PRICE:
                 return <PriceField key={name} label={label}
                                    value={value}
-                                   onChange={price => this.update({[name]: price})}/>;
+                                   onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.ACTION_TIME:
                 return <ActionTimeField key={name} label={label}
                                         value={value}
-                                        onChange={actionTime => this.update({[name]: actionTime})}/>;
+                                        onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.DETERMINANT:
                 return <DeterminantField key={name}
                                          value={value}
-                                         onChange={data => this.update({[name]: data})}/>;
+                                         onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.MODIFIER:
                 return <ModifierField key={name}
                                       value={value}
-                                      onChange={data => this.update({[name]: data})}/>;
+                                      onChange={this.onUpdateData(name, toModel)}/>;
             default:
                 console.error('field type has no form component');
                 console.error(fieldData)

@@ -3,7 +3,6 @@ CREATE SCHEMA world;
 CREATE TABLE world.nation
 (
   id            BIGSERIAL PRIMARY KEY,
-  uuid          VARCHAR(36),
   name          VARCHAR(64) UNIQUE NOT NULL,
   description   VARCHAR(50000)
 );

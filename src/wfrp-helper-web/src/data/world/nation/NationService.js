@@ -5,6 +5,15 @@ import FormFieldData from "../../../crud/FormFieldData";
 class NationService extends ConnectionService {
     title = 'Nation';
     data = [];
+
+    convertToNames = (namesAsString: string) => {
+        return namesAsString.replace('\r', '').split('\n');
+    };
+
+    convertToField = (namesFromModel: string[]) => {
+        return namesFromModel.join("\n");
+    };
+
     tableColumns: FormFieldData[] = [{
         label: 'Nazwa',
         name: 'name',
@@ -23,7 +32,9 @@ class NationService extends ConnectionService {
     }, {
         label: 'Imiona',
         name: 'names',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: NationService.FormFieldType.TEXT_AREA,
+        toView: this.convertToField,
+        toModel: this.convertToNames
     }];
 
     constructor(action) {
@@ -39,12 +50,6 @@ class NationService extends ConnectionService {
         this.entity = new Nation();
         return this.entity;
     }
-
-    convertToNames = (namesAsString: string) => {
-        return namesAsString.replace('\r', '').split('\n');
-    };
-
-    convertToField = (namesFromModel: string[])
 }
 
 export default NationService;
