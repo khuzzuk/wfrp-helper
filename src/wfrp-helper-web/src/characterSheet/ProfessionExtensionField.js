@@ -30,7 +30,7 @@ class ProfessionExtensionField extends Component {
             ? ext.modifiers.find(mod => mod.type === ModifierType.PROFESSION).value
             : '';
 
-        return <div className={classes.fieldContainer + ' ' + customClassName} {...other}>
+        return <div className={`${classes.fieldContainer} ${customClassName}`} {...other}>
             <p className={classes.extension}>{professionValue}</p>
             <div className={classes.checkboxContainer}>
                 <Checkbox/>

@@ -62,7 +62,7 @@ class PersonalDeterminantsField extends Component {
         const will = determinants.findDeterminant(DeterminantType.WILL);
         const charisma = determinants.findDeterminant(DeterminantType.CHARISMA);
         const profession = person.currentProfession;
-        const professionSpeed: Determinant = PersonDeterminants.findDeterminantIn(profession.determinants, DeterminantType.SPEED);
+        const professionSpeed: Determinant = profession && PersonDeterminants.findDeterminantIn(profession.determinants, DeterminantType.SPEED);
 
         return <div {...other}>
             <div className={classes.row}>
