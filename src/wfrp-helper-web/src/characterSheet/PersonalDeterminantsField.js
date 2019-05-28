@@ -7,9 +7,14 @@ import ProfessionExtensionField from "./ProfessionExtensionField";
 import Determinant from "../data/rule/Determinant";
 
 const PersonalDeterminantFieldStyle = {
-    row: {
-        maxHeight: '60px',
-        minHeight: '60px',
+    row1: {
+        maxHeight: '45px',
+        minHeight: '45px',
+        width: '100%',
+    },
+    row2: {
+        maxHeight: '50px',
+        minHeight: '50px',
         width: '100%',
     },
     input: {
@@ -65,7 +70,7 @@ class PersonalDeterminantsField extends Component {
         const professionSpeed: Determinant = profession && PersonDeterminants.findDeterminantIn(profession.determinants, DeterminantType.SPEED);
 
         return <div {...other}>
-            <div className={classes.row}>
+            <div className={classes.row1}>
                 <IntegerField className={classes.firstInRow}  value={speed.value} onChange={this.updateDeterminant(speed)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow}  value={battle.value} onChange={this.updateDeterminant(battle)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow}  value={shooting.value} onChange={this.updateDeterminant(shooting)} inputProps={{className: classes.input}} />
@@ -81,7 +86,7 @@ class PersonalDeterminantsField extends Component {
                 <IntegerField className={classes.otherInRow2} value={will.value} onChange={this.updateDeterminant(will)} inputProps={{className: classes.input}} />
                 <IntegerField className={classes.otherInRow}  value={charisma.value} onChange={this.updateDeterminant(charisma)} inputProps={{className: classes.input}} />
             </div>
-            <div className={classes.row}>
+            <div className={classes.row2}>
                 <ProfessionExtensionField ext={professionSpeed} customClassName={classes.firstInRow}/>
             </div>
         </div>;

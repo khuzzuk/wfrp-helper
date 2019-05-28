@@ -126,6 +126,7 @@ const formStyles = {
         maxHeight: '300px',
         minHeight: '300px',
         display: 'flex',
+        flexDirection: 'column',
         position: 'relative'
     },
 };

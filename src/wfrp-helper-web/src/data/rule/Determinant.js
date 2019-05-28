@@ -1,10 +1,10 @@
 import Entity from "../../crud/Entity";
-import Modifier from "./Modifier";
+import Modifier, {ModifierType} from "./Modifier";
 
 export default class Determinant extends Entity {
     type: string;
     value: number;
-    modifiers: Modifier = [];
+    modifiers: Modifier[] = [];
 
     updateWith(entity: Determinant) {
         super.updateWith(entity);
@@ -16,6 +16,10 @@ export default class Determinant extends Entity {
                     return mod;
                 });
         }
+    }
+
+    getExperienceExtensions() {
+        return this.modifiers.filter(mod => mod.type === ModifierType.EXPERIENCE)
     }
 }
 

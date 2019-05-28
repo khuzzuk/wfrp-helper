@@ -6,7 +6,10 @@ import {grey} from "@material-ui/core/colors";
 
 const theme = createMuiTheme({
     palette: {
-        primary: grey
+        primary: grey,
+        secondary: {
+            main: grey[900]
+        }
     },
     form: {
         justifyContent: 'space-around'
