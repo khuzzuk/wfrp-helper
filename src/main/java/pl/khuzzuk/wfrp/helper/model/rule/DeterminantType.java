@@ -1,11 +1,13 @@
 package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import static pl.khuzzuk.wfrp.helper.model.rule.ValueType.PERCENTAGE;
 import static pl.khuzzuk.wfrp.helper.model.rule.ValueType.REGULAR;
 
 @AllArgsConstructor
+@Getter
 public enum DeterminantType {
     SPEED(REGULAR),
     BATTLE(PERCENTAGE),

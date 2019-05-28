@@ -1,19 +1,20 @@
 package pl.khuzzuk.wfrp.helper.service.determinant;
 
-import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.khuzzuk.wfrp.helper.model.creature.PersonDeterminants;
-import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
-import pl.khuzzuk.wfrp.helper.model.rule.DeterminantType;
-import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
-import pl.khuzzuk.wfrp.helper.model.rule.ModifierType;
+import pl.khuzzuk.wfrp.helper.model.rule.*;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 
-@Component
+@AllArgsConstructor
+@Service
 public class DeterminantService {
+    private ModifierService modifierService;
+
     public Determinant findDeterminantByType(PersonDeterminants personDeterminants, DeterminantType determinantType) {
         Optional<Determinant> queryResult = findDeterminant(personDeterminants.getDeterminants(), determinantType);
         Determinant determinant = queryResult.orElseGet(() -> createEmpty(determinantType));
@@ -38,6 +39,13 @@ public class DeterminantService {
                 .sum();
     }
 
+    private int sumCurrentExtensions(Determinant determinant) {
+        return determinant.getModifiers().stream()
+                .filter(modifier -> modifier.getType().equals(ModifierType.EXPERIENCE))
+                .mapToInt(Modifier::getValue)
+                .sum();
+    }
+
     private static Optional<Determinant> findDeterminant(Collection<Determinant> determinants, DeterminantType determinantType) {
         return determinants.stream().filter(determinant -> determinant.getType().equals(determinantType)).findAny();
     }
@@ -47,5 +55,25 @@ public class DeterminantService {
         determinant.setType(determinantType);
         determinant.setModifiers(new ArrayList<>());
         return determinant;
+    }
+
+    Determinant addExperienceExtension(Determinant determinant) {
+        normalizeDeterminant(determinant);
+
+        int currentExtensions = sumCurrentExtensions(determinant);
+        int extensionsLimit = getProfessionExtensionsLimit(determinant);
+
+        if (currentExtensions < extensionsLimit) {
+            Modifier experienceExtensionModifier = modifierService.getExperienceExtensionModifier(determinant.getType().getValueType());
+            determinant.getModifiers().add(experienceExtensionModifier);
+        }
+
+        return determinant;
+    }
+
+    private static void normalizeDeterminant(Determinant determinant) {
+        if (determinant.getModifiers() == null) {
+            determinant.setModifiers(new ArrayList<>());
+        }
     }
 }

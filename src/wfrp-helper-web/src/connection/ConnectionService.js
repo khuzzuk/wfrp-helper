@@ -18,7 +18,7 @@ class ConnectionService {
         MODIFIER: 'modifier',
     };
 
-    hostBase: string = 'http://localhost:1081/';
+    static hostBase: string = 'http://localhost:1081/';
     uriPart: string;
     data: Array;
     actions = [];
@@ -49,7 +49,7 @@ class ConnectionService {
     };
 
     retrieveData() {
-        fetch(this.hostBase + this.uriPart, {
+        fetch(ConnectionService.hostBase + this.uriPart, {
             mode: 'cors'
         })
             .then(response => response.json())

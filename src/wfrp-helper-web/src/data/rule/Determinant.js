@@ -78,5 +78,5 @@ export const DeterminantType = {
             this.WILL,
             this.CHARISMA,
         ];
-    }
+    },
 };
