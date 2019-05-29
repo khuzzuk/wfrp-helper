@@ -1,8 +1,10 @@
 package pl.khuzzuk.wfrp.helper.service.determinant;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.khuzzuk.remote.Adapter;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.model.rule.DeterminantDTO;
@@ -25,6 +27,7 @@ public class DeterminantRemoteService {
 
     public DeterminantDTO removeExperienceExtension(@RequestBody DeterminantDTO determinantDTO) {
         Determinant determinant = determinantAdapter.map(determinantDTO);
-
+        Determinant afterRemove = determinantService.removeExperienceExtension(determinant);
+        return determinantDTOAdapter.map(afterRemove);
     }
 }

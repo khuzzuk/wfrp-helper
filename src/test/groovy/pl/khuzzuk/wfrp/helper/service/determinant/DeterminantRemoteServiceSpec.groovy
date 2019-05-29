@@ -1,13 +1,14 @@
 package pl.khuzzuk.wfrp.helper.service.determinant
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.context.annotation.ComponentScan
+import org.springframework.context.annotation.Configuration
 import org.springframework.test.context.ContextConfiguration
 import pl.khuzzuk.wfrp.helper.model.rule.*
 import spock.lang.Specification
 import spock.lang.Unroll
 
-@ContextConfiguration(classes = [DeterminantRemoteService, DeterminantService, ModifierService,
-DeterminantAdapterImpl, DeterminantDTOAdapterImpl])
+@ContextConfiguration(classes = [DeterminantRemoteService, DeterminantService, ModifierService, TestConfig])
 class DeterminantRemoteServiceSpec extends Specification {
     @Autowired
     DeterminantRemoteService determinantRemoteService
@@ -58,4 +59,25 @@ class DeterminantRemoteServiceSpec extends Specification {
         DeterminantType.BATTLE      | 20              | 2          || 10
         DeterminantType.BATTLE      | 0               | 0          || 0
     }
+
+    def 'test remove extension'() {
+        given:
+        DeterminantDTO determinant = new DeterminantDTO()
+
+        ModifierDTO modifier = new ModifierDTO()
+        modifier.type = ModifierType.EXPERIENCE
+        modifier.value = 10
+
+        when:
+        def result = determinantRemoteService.removeExperienceExtension(determinant)
+
+        then:
+        with(result) {
+            modifiers == List.of()
+        }
+    }
+
+    @Configuration
+    @ComponentScan('pl.khuzzuk.wfrp.helper.model')
+    class TestConfig {}
 }

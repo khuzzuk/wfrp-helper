@@ -71,6 +71,16 @@ public class DeterminantService {
         return determinant;
     }
 
+    Determinant removeExperienceExtension(Determinant determinant) {
+        normalizeDeterminant(determinant);
+        List<Modifier> modifiers = determinant.getModifiers();
+        modifiers.stream()
+                .filter(modifier -> ModifierType.EXPERIENCE == modifier.getType())
+                .findAny()
+                .ifPresent(modifiers::remove);
+        return determinant;
+    }
+
     private static void normalizeDeterminant(Determinant determinant) {
         if (determinant.getModifiers() == null) {
             determinant.setModifiers(new ArrayList<>());
