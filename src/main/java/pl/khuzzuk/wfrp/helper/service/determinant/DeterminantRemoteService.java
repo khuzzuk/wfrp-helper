@@ -22,4 +22,9 @@ public class DeterminantRemoteService {
         DeterminantDTO extendedDeterminantDTO = determinantDTOAdapter.map(extendedDeterminant);
         return extendedDeterminantDTO;
     }
+
+    public DeterminantDTO removeExperienceExtension(@RequestBody DeterminantDTO determinantDTO) {
+        Determinant determinant = determinantAdapter.map(determinantDTO);
+
+    }
 }
