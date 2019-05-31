@@ -1,6 +1,6 @@
-import DeterminantConteiner from "../../../crud/DeterminantConteiner";
+import DeterminantContainer from "../../../crud/DeterminantContainer";
 
-export default class PhysicalFeature extends DeterminantConteiner {
+export default class PhysicalFeature extends DeterminantContainer {
     name: string;
     description: string;
 }

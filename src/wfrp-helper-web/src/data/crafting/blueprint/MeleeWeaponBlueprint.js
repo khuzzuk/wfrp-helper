@@ -1,9 +1,9 @@
 import Modifier from "../../rule/Modifier";
 import ActionTime from "../../rule/ActionTime";
 import Price from "../../world/money/Price";
-import DeterminantConteiner from "../../../crud/DeterminantConteiner";
+import DeterminantContainer from "../../../crud/DeterminantContainer";
 
-export default class MeleeWeaponBlueprint extends DeterminantConteiner {
+export default class MeleeWeaponBlueprint extends DeterminantContainer {
     name: string;
     description: string;
     suggestedPrice: Price = new Price();

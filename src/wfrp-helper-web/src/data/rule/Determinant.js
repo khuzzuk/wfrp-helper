@@ -1,5 +1,7 @@
 import Entity from "../../crud/Entity";
 import Modifier, {ModifierType} from "./Modifier";
+import Profession from "../knowledge/profession/Profession";
+import DeterminantService from "./DeterminantService";
 
 export default class Determinant extends Entity {
     type: string;
@@ -20,6 +22,14 @@ export default class Determinant extends Entity {
 
     getExperienceExtensions() {
         return this.modifiers.filter(mod => mod.type === ModifierType.EXPERIENCE)
+    }
+
+    setProfessionExtensions(profession: Profession) {
+        const professionExtensions = DeterminantService.findDeterminantIn(profession.determinants, this.type);
+        if (professionExtensions) {
+            this.modifiers = DeterminantService.removeModifiersByType(this.modifiers, ModifierType.PROFESSION);
+            this.modifiers.push(professionExtensions.modifiers);
+        }
     }
 }
 

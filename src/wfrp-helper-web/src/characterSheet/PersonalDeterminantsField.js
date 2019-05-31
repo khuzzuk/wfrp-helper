@@ -49,6 +49,8 @@ class PersonalDeterminantsField extends Component {
         this.props.onChange(this.props.person.determinants);
     };
 
+    update
+
     render() {
         const {person, classes, ...other} = this.props;
         const determinants: PersonDeterminants = person.determinants;

@@ -1,8 +1,8 @@
 import Price from "../../world/money/Price";
 import {Placement} from "../Placement";
-import DeterminantConteiner from "../../../crud/DeterminantConteiner";
+import DeterminantContainer from "../../../crud/DeterminantContainer";
 
-export default class ArmorBlueprint extends DeterminantConteiner {
+export default class ArmorBlueprint extends DeterminantContainer {
     name: string;
     description: string;
     suggestedPrice: Price = new Price();

@@ -1,6 +1,6 @@
-import DeterminantConteiner from "../../crud/DeterminantConteiner";
+import DeterminantContainer from "../../crud/DeterminantContainer";
 
-export default class AnimalKind extends DeterminantConteiner {
+export default class AnimalKind extends DeterminantContainer {
     name: string;
     description: string;
 };

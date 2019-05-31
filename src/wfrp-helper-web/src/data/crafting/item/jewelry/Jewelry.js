@@ -1,9 +1,9 @@
 import Price from "../../../world/money/Price";
 import Resource from "../../resource/Resource";
 import {Placement} from "../../Placement";
-import DeterminantConteiner from "../../../../crud/DeterminantConteiner";
+import DeterminantContainer from "../../../../crud/DeterminantContainer";
 
-export default class Jewelry extends DeterminantConteiner {
+export default class Jewelry extends DeterminantContainer {
     name: string;
     description: string;
     weight: number;

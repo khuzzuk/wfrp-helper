@@ -1,9 +1,9 @@
 import Price from "../../../world/money/Price";
 import Resource from "../../resource/Resource";
 import MeleeWeaponBlueprint from "../../blueprint/MeleeWeaponBlueprint";
-import DeterminantConteiner from "../../../../crud/DeterminantConteiner";
+import DeterminantContainer from "../../../../crud/DeterminantContainer";
 
-export default class MeleeWeapon extends DeterminantConteiner {
+export default class MeleeWeapon extends DeterminantContainer {
     name: string;
     description: string;
     weight: number;

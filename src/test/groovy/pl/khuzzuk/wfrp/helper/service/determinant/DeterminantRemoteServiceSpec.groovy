@@ -1,14 +1,19 @@
 package pl.khuzzuk.wfrp.helper.service.determinant
 
+import io.zonky.test.db.AutoConfigureEmbeddedDatabase
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
-import org.springframework.test.context.ContextConfiguration
-import pl.khuzzuk.wfrp.helper.model.rule.*
+import pl.khuzzuk.wfrp.helper.model.rule.DeterminantDTO
+import pl.khuzzuk.wfrp.helper.model.rule.DeterminantType
+import pl.khuzzuk.wfrp.helper.model.rule.ModifierDTO
+import pl.khuzzuk.wfrp.helper.model.rule.ModifierType
 import spock.lang.Specification
 import spock.lang.Unroll
 
-@ContextConfiguration(classes = [DeterminantRemoteService, DeterminantService, ModifierService, TestConfig])
+@SpringBootTest
+@AutoConfigureEmbeddedDatabase
 class DeterminantRemoteServiceSpec extends Specification {
     @Autowired
     DeterminantRemoteService determinantRemoteService

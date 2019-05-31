@@ -1,8 +1,8 @@
 import Skill from "../skill/Skill";
 import ProfessionClass from "./ProfessionClass";
-import DeterminantConteiner from "../../../crud/DeterminantConteiner";
+import DeterminantContainer from "../../../crud/DeterminantContainer";
 
-export default class Profession extends DeterminantConteiner {
+export default class Profession extends DeterminantContainer {
     name: string;
     description: string;
     professionClass: ProfessionClass;

@@ -54,10 +54,6 @@ export default class PersonDeterminants {
         return this.determinants.find(determinant => type === determinant.type)
     }
 
-    static findDeterminantIn(determinants: Determinant[], type: string) {
-        return determinants.find(determinant => type === determinant.type)
-    }
-
     replaceDeterminant(determinant: Determinant) {
         const toReplace = this.findDeterminant(determinant.type);
         let determinantIndex = this.determinants.indexOf(toReplace);

@@ -1,9 +1,9 @@
 import Price from "../../world/money/Price";
 import Modifier from "../../rule/Modifier";
 import ActionTime from "../../rule/ActionTime";
-import DeterminantConteiner from "../../../crud/DeterminantConteiner";
+import DeterminantContainer from "../../../crud/DeterminantContainer";
 
-export default class RangedWeaponBlueprint extends DeterminantConteiner {
+export default class RangedWeaponBlueprint extends DeterminantContainer {
     name: string;
     description: string;
     suggestedPrice: Price = new Price();

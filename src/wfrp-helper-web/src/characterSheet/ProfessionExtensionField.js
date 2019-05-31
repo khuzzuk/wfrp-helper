@@ -28,14 +28,13 @@ class ProfessionExtensionField extends Component {
     determinantService = new DeterminantService();
 
     addExtension = () => {
-        const extendedDeterminant = this.determinantService.addExperienceExtension(this.props.currentDeterminant);
+        const extendedDeterminant = this.determinantService.addExperienceExtension(this.props.ext);
         this.props.onChange(extendedDeterminant);
     };
 
     render() {
         const {
             ext,
-            currentDeterminant,
             classes,
             customClassName,
             onChange,
@@ -44,7 +43,7 @@ class ProfessionExtensionField extends Component {
         const professionValue = ext
             ? ext.modifiers.find(mod => mod.type === ModifierType.PROFESSION).value
             : '0';
-        const extended = currentDeterminant ? currentDeterminant.getExperienceExtensions() : [];
+        const extended = ext ? ext.getExperienceExtensions() : [];
 
         return <div className={`${classes.fieldContainer} ${customClassName}`} {...other}
                     onClick={this.addExtension}

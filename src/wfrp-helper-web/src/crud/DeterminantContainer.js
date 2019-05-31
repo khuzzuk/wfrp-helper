@@ -1,11 +1,11 @@
 import Entity from "./Entity";
 import Determinant from "../data/rule/Determinant";
 
-export default class DeterminantConteiner extends Entity {
+export default class DeterminantContainer extends Entity {
     determinants: Determinant[] = [];
 
 
-    updateWith(entity: DeterminantConteiner) {
+    updateWith(entity: DeterminantContainer) {
         super.updateWith(entity);
 
         if (entity.determinants) {
