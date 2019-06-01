@@ -1,4 +1,5 @@
 import Determinant, {DeterminantType} from "../rule/Determinant";
+import Profession from "../knowledge/profession/Profession";
 
 export default class PersonDeterminants {
     determinants: Determinant[] = [];
@@ -59,5 +60,12 @@ export default class PersonDeterminants {
         let determinantIndex = this.determinants.indexOf(toReplace);
         this.determinants.splice(determinantIndex, 1);
         this.determinants.push(determinant);
+    }
+
+    updateProfessionExtensions(profession: Profession) {
+        this.determinants = this.determinants.map(det => {
+            det.setProfessionExtensions(profession);
+            return det;
+        })
     }
 }

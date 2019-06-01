@@ -5,6 +5,7 @@ import {withStyles} from "@material-ui/styles";
 import {DeterminantType} from "../data/rule/Determinant";
 import ProfessionExtensionField from "./ProfessionExtensionField";
 import Determinant from "../data/rule/Determinant";
+import DeterminantService from "../data/rule/DeterminantService";
 
 const PersonalDeterminantFieldStyle = {
     row1: {
@@ -49,7 +50,11 @@ class PersonalDeterminantsField extends Component {
         this.props.onChange(this.props.person.determinants);
     };
 
-    update
+    updateDeterminantExperience = determinant => {
+        const determinants: PersonDeterminants = this.props.person.determinants;
+        determinants.replaceDeterminant(determinant);
+        this.props.onChange(determinants);
+    };
 
     render() {
         const {person, classes, ...other} = this.props;
@@ -69,7 +74,7 @@ class PersonalDeterminantsField extends Component {
         const will = determinants.findDeterminant(DeterminantType.WILL);
         const charisma = determinants.findDeterminant(DeterminantType.CHARISMA);
         const profession = person.currentProfession;
-        const professionSpeed: Determinant = profession && PersonDeterminants.findDeterminantIn(profession.determinants, DeterminantType.SPEED);
+        const professionSpeed: Determinant = profession && DeterminantService.findDeterminantIn(profession.determinants, DeterminantType.SPEED);
 
         return <div {...other}>
             <div className={classes.row1}>
@@ -89,7 +94,7 @@ class PersonalDeterminantsField extends Component {
                 <IntegerField className={classes.otherInRow}  value={charisma.value} onChange={this.updateDeterminant(charisma)} inputProps={{className: classes.input}} />
             </div>
             <div className={classes.row2}>
-                <ProfessionExtensionField ext={professionSpeed} customClassName={classes.firstInRow}/>
+                <ProfessionExtensionField ext={speed} customClassName={classes.firstInRow} onChange={this.updateDeterminantExperience}/>
             </div>
         </div>;
     }

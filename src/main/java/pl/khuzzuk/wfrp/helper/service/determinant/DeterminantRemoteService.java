@@ -25,6 +25,7 @@ public class DeterminantRemoteService {
         return extendedDeterminantDTO;
     }
 
+    @PostMapping("removeExperienceExtension")
     public DeterminantDTO removeExperienceExtension(@RequestBody DeterminantDTO determinantDTO) {
         Determinant determinant = determinantAdapter.map(determinantDTO);
         Determinant afterRemove = determinantService.removeExperienceExtension(determinant);

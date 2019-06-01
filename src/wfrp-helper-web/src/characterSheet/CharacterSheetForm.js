@@ -9,6 +9,7 @@ import SimpleEntityCombobox from "../crud/field/SimpleEntityCombobox";
 import SuffixedInputField from "../crud/field/SuffixedInputField";
 import SimpleList from "../crud/field/SimpleList";
 import PersonalDeterminantsField from "./PersonalDeterminantsField";
+import PersonDeterminants from "../data/creature/PersonDeterminants";
 
 const formStyles = {
     backgroundStyle: {
@@ -145,11 +146,18 @@ class CharacterSheetForm extends Component {
     };
 
     updateProfession = profession => {
-        const professions = this.props.entity.professions;
+        let professions = this.props.entity.professions;
+        let determinants: PersonDeterminants = this.props.entity.determinants;
+        determinants = determinants.updateProfessionExtensions(profession);
+        if (!professions.includes(profession)) {
+            professions = [...this.props.entity.professions, profession];
+        }
+
         this.updatePerson({
             currentProfession: profession,
-            professions: professions.includes(profession) ? professions : [...this.props.entity.professions, profession]
-        })
+            professions: professions,
+            determinants: determinants
+        });
     };
 
     removeProfession = profession => {

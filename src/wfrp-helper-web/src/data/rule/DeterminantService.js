@@ -1,11 +1,23 @@
 import RequestService from "../../connection/RequestService";
 import Determinant from "./Determinant";
 import Modifier from "./Modifier";
+import {func} from "prop-types";
 
 export default class DeterminantService extends RequestService {
-    addExperienceExtension(determinant: Determinant) {
-        const newDeterminant = this.requestFor(determinant, 'determinant/addExperienceExtension');
-        return newDeterminant;
+    addExperienceExtension(determinant: Determinant, onAdded: func) {
+        this.requestFor(determinant, 'determinant/addExperienceExtension',
+            data => DeterminantService.afterReponse(data, onAdded));
+    }
+
+    removeExperienceExtension(determinant: Determinant, onRemoved) {
+        this.requestFor(determinant, 'determinant/removeExperienceExtension',
+            data => DeterminantService.afterReponse(data, onRemoved));
+    }
+
+    static afterReponse(data, afterUpdate) {
+        const newDeterminant = new Determinant();
+        newDeterminant.updateWith(data);
+        afterUpdate(newDeterminant);
     }
 
     static findDeterminantIn(determinants: Determinant[], type: string) {

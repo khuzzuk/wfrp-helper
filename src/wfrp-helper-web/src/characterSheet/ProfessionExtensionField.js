@@ -4,6 +4,8 @@ import {ModifierType} from "../data/rule/Modifier";
 import Add from "@material-ui/icons/Add";
 import DeterminantService from "../data/rule/DeterminantService";
 
+const determinantService = new DeterminantService();
+
 const fieldStyle = {
     fieldContainer: {
         position: 'relative'
@@ -25,11 +27,13 @@ const fieldStyle = {
 const ExtMark = props => <Add style={{fontSize: 14, margin: -2}} {...props}/>;
 
 class ProfessionExtensionField extends Component {
-    determinantService = new DeterminantService();
 
     addExtension = () => {
-        const extendedDeterminant = this.determinantService.addExperienceExtension(this.props.ext);
-        this.props.onChange(extendedDeterminant);
+        determinantService.addExperienceExtension(this.props.ext, this.props.onChange);
+    };
+
+    removeExtension = () => {
+        determinantService.removeExperienceExtension(this.props.ext, this.props.onChange);
     };
 
     render() {
@@ -40,14 +44,22 @@ class ProfessionExtensionField extends Component {
             onChange,
             ...other
         } = this.props;
-        const professionValue = ext
-            ? ext.modifiers.find(mod => mod.type === ModifierType.PROFESSION).value
-            : '0';
-        const extended = ext ? ext.getExperienceExtensions() : [];
+
+        let professionValue = '0';
+        let extended = [];
+
+        if (ext) {
+            extended = ext.getExperienceExtensions();
+            const professionModifier = ext ? ext.modifiers.find(mod => mod.type === ModifierType.PROFESSION) : null;
+
+            if (professionModifier) {
+              professionValue = professionModifier.value;
+            }
+        }
 
         return <div className={`${classes.fieldContainer} ${customClassName}`} {...other}
                     onClick={this.addExtension}
-                    onContextMenu={(e) => {e.preventDefault(); console.log('right click');}}>
+                    onContextMenu={(e) => {e.preventDefault(); this.removeExtension();}}>
             <p className={classes.extension}>{'+' + professionValue}</p>
             <div className={classes.checkboxContainer}>
                 {extended.map(mod => <ExtMark/>)}
