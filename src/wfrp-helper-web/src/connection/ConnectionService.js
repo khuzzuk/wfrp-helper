@@ -66,7 +66,7 @@ class ConnectionService {
     };
 
     save(entity: object, onSuccess: func) {
-        fetch(this.hostBase + this.uriPart, {
+        fetch(ConnectionService.hostBase + this.uriPart, {
             method: 'post',
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},
@@ -81,7 +81,7 @@ class ConnectionService {
     }
 
     remove(entity: object) {
-        fetch(this.hostBase + this.uriPart, {
+        fetch(ConnectionService.hostBase + this.uriPart, {
             method: 'delete',
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},

@@ -5,7 +5,7 @@ import DeterminantService from "./DeterminantService";
 
 export default class Determinant extends Entity {
     type: string;
-    value: number;
+    value: number = 0;
     modifiers: Modifier[] = [];
 
     updateWith(entity: Determinant) {
@@ -30,6 +30,10 @@ export default class Determinant extends Entity {
             this.modifiers = DeterminantService.removeModifiersByType(this.modifiers, ModifierType.PROFESSION);
             professionExtensions.modifiers.forEach(mod => this.modifiers.push(mod));
         }
+    }
+
+    calculateFinalValue() {
+        return this.value + this.getExperienceExtensions().reduce((a, b) => a + (b.value), 0);
     }
 }
 

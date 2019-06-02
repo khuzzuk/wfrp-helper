@@ -12,7 +12,9 @@ const fieldStyle = {
     },
     extension: {
         position: 'absolute',
-        top: '5px',
+        top: '-10px',
+        textAlign: 'center',
+        width: '100%'
     },
     checkboxContainer: {
         position: 'absolute',
@@ -20,7 +22,8 @@ const fieldStyle = {
         display: 'flex',
         flexFlow: 'row',
         flexWrap: 'wrap',
-        maxWidth: 40
+        maxWidth: 40,
+        zIndex: 1
     },
 };
 

@@ -149,7 +149,7 @@ class CharacterSheetForm extends Component {
         let professions = this.props.entity.professions;
         let determinants: PersonDeterminants = this.props.entity.determinants;
         determinants = determinants.updateProfessionExtensions(profession);
-        if (!professions.includes(profession)) {
+        if (!professions.find(prof => prof.name === profession.name)) {
             professions = [...this.props.entity.professions, profession];
         }
 

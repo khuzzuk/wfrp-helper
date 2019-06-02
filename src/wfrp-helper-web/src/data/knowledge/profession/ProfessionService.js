@@ -67,14 +67,6 @@ export default class ProfessionService extends ConnectionService {
         return this.entity;
     }
 
-
-    save1(entity: object, onSuccess: func) {
-        const toSave = new Profession();
-        toSave.updateWith(entity);
-        toSave.nextProfessions = toSave.nextProfessions.map(prof => prof.name);
-        super.save(toSave, onSuccess);
-    }
-
     possibleNextProfessions = data => {
         this.nextProfessions.length = 0;
         data.map(profession => profession.name)
