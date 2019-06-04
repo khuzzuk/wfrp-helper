@@ -1,5 +1,6 @@
 import {func, object} from "prop-types";
 import Entity from "../crud/Entity";
+import Determinant from "../data/rule/Determinant";
 
 class ConnectionService {
     static FormFieldType = {
@@ -94,8 +95,12 @@ class ConnectionService {
 
     setData(data: Array) {
         this.data.length = 0;
-        data.forEach(d => this.data.push(d));
-        this.actions.forEach(action => action(data));
+        data.forEach(d => {
+            const v = this.createNew();
+            v.updateWith(d);
+            this.data.push(v);
+        });
+        this.actions.forEach(action => action(this.data));
     };
 
     edit(toEdit: *): Entity {

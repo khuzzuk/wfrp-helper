@@ -118,20 +118,20 @@ class PersonalDeterminantsField extends Component {
                 <ProfessionExtensionField ext={charisma} customClassName={classes.otherInRow} onChange={this.updateDeterminantExperience}/>
             </div>
             <div className={classes.row3}>
-                <p className={`${classes.lastRowChild} ${classes.firstInRow} `}>{speed.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{battle.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{shooting.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{strength.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{durability.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{health.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{attack.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{initiative.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{dexterity.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{leaderSkills.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{intelligence.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{control.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{will.calculateFinalValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{charisma.calculateFinalValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.firstInRow} `}>{speed.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{battle.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{shooting.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{strength.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{durability.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{health.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{attack.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{initiative.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{dexterity.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{leaderSkills.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{intelligence.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{control.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{will.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{charisma.calculateExperienceValue()}</p>
             </div>
         </div>;
     }

@@ -36,4 +36,9 @@ export default class DeterminantService extends RequestService {
     static findModifierByType(modifiers: Modifier[], type: string): Modifier {
         return modifiers.find(value => value.type === type);
     }
+
+    static sumValueByTypeIn(determinants: Determinant[], type: string): number {
+        return determinants.filter(det => type === det.type)
+            .reduce((a, b) => a + b.calculateFinalValue(), 0)
+    }
 }

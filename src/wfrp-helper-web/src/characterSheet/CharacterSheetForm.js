@@ -10,6 +10,8 @@ import SuffixedInputField from "../crud/field/SuffixedInputField";
 import SimpleList from "../crud/field/SimpleList";
 import PersonalDeterminantsField from "./PersonalDeterminantsField";
 import PersonDeterminants from "../data/creature/PersonDeterminants";
+import RangedWeaponField from "./RangedWeaponField";
+import MeleeWeaponField from "./MeleeWeaponField";
 
 const formStyles = {
     backgroundStyle: {
@@ -124,11 +126,24 @@ const formStyles = {
     personDeterminantsField: {
         paddingLeft: '230px',
         width: '100%',
-        maxHeight: '300px',
-        minHeight: '300px',
+        maxHeight: '150px',
+        minHeight: '150px',
         display: 'flex',
         flexDirection: 'column',
         position: 'relative'
+    },
+
+    meleeWeaponsField: {
+        paddingLeft: 50,
+        minWidth: 400,
+        maxWidth: 400,
+        minHeight: 150,
+        maxHeight: 150,
+    },
+    rangedWeaponsField: {
+        paddingLeft: 50,
+        minWidth: 400,
+        maxWidth: 400,
     },
 };
 
@@ -173,6 +188,16 @@ class CharacterSheetForm extends Component {
         this.props.onChange(this.props.entity);
     };
 
+    addItem = propertyName => item => {
+        this.props.entity[propertyName].push(item);
+        this.props.onChange(this.props.entity);
+    };
+    removeItem = propertyName => item => {
+        let items = this.props.entity[propertyName];
+        items.splice(items.indexOf(item), 1);
+        this.props.onChange(this.props.entity);
+    };
+
     render() {
         const {classes, personService, entity} = this.props;
         return <div className={classes.backgroundStyle}>
@@ -180,18 +205,19 @@ class CharacterSheetForm extends Component {
                 <div className={classes.row} style={{paddingTop: '30px'}}>
                     <TextField className={classes.nameField} inputProps={{className: classes.input}}
                                onChange={this.createOnUpdatePerson('name')} value={entity.name}/>
-                    <SimpleEntitySelect customStyle={classes.raceField}
+                    <SimpleEntitySelect className={classes.raceField}
                                         options={personService.races} onChange={this.updateEntity('race')}
                                         value={entity.race}/>
                     <SimpleEnumSelect customStyle={classes.genderField}
                                       options={Gender.allOf()} onChange={this.updateEntity('gender')}
                                       value={entity.gender}/>
-                    <SimpleEntitySelect customStyle={classes.professionClassField}
+                    <SimpleEntitySelect className={classes.professionClassField}
                                         options={personService.professionClasses}
                                         onChange={this.updateEntity('professionClass')}
                                         value={entity.professionClass}/>
-                    <SimpleEntitySelect customStyle={classes.characterField}
-                                        options={personService.personalities} onChange={this.updateEntity('personality')}
+                    <SimpleEntitySelect className={classes.characterField}
+                                        options={personService.personalities}
+                                        onChange={this.updateEntity('personality')}
                                         value={entity.personality}/>
                 </div>
                 <div className={classes.row} style={{paddingTop: '10px', maxHeight: '60px'}}>
@@ -207,10 +233,10 @@ class CharacterSheetForm extends Component {
                                         onChange={this.updateEntity('weight')} suffixClass={classes.input}
                                         suffix={'kg'}
                                         inputProps={{className: classes.input, style: {textAlign: 'right'}}}/>
-                    <SimpleEntitySelect customStyle={classes.hairColorField} options={personService.hairColors}
+                    <SimpleEntitySelect className={classes.hairColorField} options={personService.hairColors}
                                         onChange={this.updateEntity('hairColor')}
                                         value={entity.hairColor}/>
-                    <SimpleEntitySelect customStyle={classes.eyeColorField} options={personService.eyeColors}
+                    <SimpleEntitySelect className={classes.eyeColorField} options={personService.eyeColors}
                                         onChange={this.updateEntity('eyeColor')}
                                         value={entity.eyeColor}/>
                     <SimpleEntityCombobox customStyle={classes.physicalFeaturesField}
@@ -219,7 +245,7 @@ class CharacterSheetForm extends Component {
                                           value={entity.physicalFeatures}/>
                 </div>
                 <div className={classes.row} style={{paddingTop: '32px'}}>
-                    <SimpleEntitySelect customStyle={classes.currentProfessionField} options={personService.professions}
+                    <SimpleEntitySelect className={classes.currentProfessionField} options={personService.professions}
                                         onChange={this.updateProfession}
                                         value={entity.currentProfession}/>
                     <SimpleList className={classes.professionsField} data={entity.professions}
@@ -230,6 +256,18 @@ class CharacterSheetForm extends Component {
                 <div className={classes.row} style={{paddingTop: '45px'}}>
                     <PersonalDeterminantsField person={entity} className={classes.personDeterminantsField}
                                                onChange={dets => this.props.onChange(entity)}/>
+                </div>
+                <div className={classes.row} style={{height: 150, paddingTop: '20px'}}>
+                    <MeleeWeaponField className={classes.rangedWeaponsField}
+                                      data={personService.meleeWeapons}
+                                      value={entity.meleeWeapons}
+                                      onWeaponAdd={this.addItem('meleeWeapons')}
+                                      onWeaponRemove={this.removeItem('meleeWeapons')}/>
+                    <RangedWeaponField className={classes.rangedWeaponsField}
+                                       data={personService.rangedWeapons}
+                                       value={entity.rangedWeapons}
+                                       onWeaponAdd={this.addItem('rangedWeapons')}
+                                       onWeaponRemove={this.removeItem('rangedWeapons')}/>
                 </div>
             </div>
             <div>

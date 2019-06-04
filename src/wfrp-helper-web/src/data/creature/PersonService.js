@@ -17,6 +17,10 @@ import EyeColor from "../look/eyeColor/EyeColor";
 import EyeColorService from "../look/eyeColor/EyeColorService";
 import PhysicalFeatureService from "../look/physicalFeatures/PhysicalFeatureService";
 import PhysicalFeature from "../look/physicalFeatures/PhysicalFeature";
+import RangedWeapon from "../crafting/item/ranged/RangedWeapon";
+import RangedWeaponService from "../crafting/item/ranged/RangedWeaponService";
+import MeleeWeapon from "../crafting/item/melee/MeleeWeapon";
+import MeleeWeaponService from "../crafting/item/melee/MeleeWeaponService";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -28,6 +32,8 @@ export default class PersonService extends ConnectionService {
     professions: Profession[] = [];
     personalities: Character[] = [];
     physicalFeatures: PhysicalFeature[] = [];
+    meleeWeapons: MeleeWeapon[] = [];
+    rangedWeapons: RangedWeapon[] = [];
 
     tableColumns: FormFieldData[] = [
         {
@@ -64,10 +70,13 @@ export default class PersonService extends ConnectionService {
         const professionService = new ProfessionService(this.onRetrieveRelatedData(this.professions));
         const characterService = new CharacterService(this.onRetrieveRelatedData(this.personalities));
         const physicalFeatureService = new PhysicalFeatureService(this.onRetrieveRelatedData(this.physicalFeatures));
+        const meleeWeaponService = new MeleeWeaponService(this.onRetrieveRelatedData(this.meleeWeapons));
+        const rangedWeaponService = new RangedWeaponService(this.onRetrieveRelatedData(this.rangedWeapons));
 
         this.registerRelatedServices([hairColorService, eyeColorService,
             raceService, professionClassService, professionService,
-            characterService, physicalFeatureService]);
+            characterService, physicalFeatureService,
+            meleeWeaponService, rangedWeaponService]);
     }
 
     createNew(): Person {

@@ -32,8 +32,11 @@ export default class Determinant extends Entity {
         }
     }
 
-    calculateFinalValue() {
+    calculateExperienceValue() {
         return this.value + this.getExperienceExtensions().reduce((a, b) => a + (b.value), 0);
+    }
+    calculateFinalValue() {
+        return this.value + this.modifiers.reduce((a, b) => a + (b.value), 0);
     }
 }
 
