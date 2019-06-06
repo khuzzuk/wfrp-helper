@@ -15,6 +15,7 @@ const fieldStyle = {
         height: 150,
         maxHeight: 150,
         paddingLeft: 10,
+        paddingTop: 0,
         width: '100%',
         overflow: 'auto',
     },
@@ -27,8 +28,8 @@ const fieldStyle = {
         maxWidth: 180,
     },
     itemVariable: {
-        minWidth: 50,
-        maxWidth: 50,
+        minWidth: 51,
+        maxWidth: 51,
         textAlign: 'center',
     }
 };
@@ -53,7 +54,10 @@ class MeleeWeaponField extends Component {
         const {classes} = this.props;
         return <div className={classes.itemContainer}>
             <div className={classes.itemName} onContextMenu={event => this.removeWeapon(event, weapon)}>{weapon.name}</div>
-            <div className={classes.itemVariable}>{'' + DeterminantService.sumValueByTypeIn(weapon.determinants, DeterminantType.INITIATIVE)}</div>
+            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.INITIATIVE)}</div>
+            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>
+            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>
+            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.PARRY)}</div>
         </div>;
     };
 

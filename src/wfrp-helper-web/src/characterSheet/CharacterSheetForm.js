@@ -133,17 +133,33 @@ const formStyles = {
         position: 'relative'
     },
 
+    firstColumnContainer: {
+        maxWidth: 400,
+        minWidth: 400,
+        height: '100%'
+    },
+    secondColumnContainer: {
+        maxWidth: 200,
+        minWidth: 200,
+        height: '100%'
+    },
+    thirdColumnContainer: {
+        maxWidth: 200,
+        minWidth: 200,
+        height: '100%'
+    },
     meleeWeaponsField: {
         paddingLeft: 50,
-        minWidth: 400,
-        maxWidth: 400,
-        minHeight: 150,
-        maxHeight: 150,
+        width: '100%',
+        minHeight: 210,
+        maxHeight: 210,
     },
     rangedWeaponsField: {
-        paddingLeft: 50,
-        minWidth: 400,
-        maxWidth: 400,
+        minHeight: 210,
+        maxHeight: 210,
+        paddingLeft: 40,
+        paddingTop: 15,
+        width: '100%',
     },
 };
 
@@ -257,17 +273,24 @@ class CharacterSheetForm extends Component {
                     <PersonalDeterminantsField person={entity} className={classes.personDeterminantsField}
                                                onChange={dets => this.props.onChange(entity)}/>
                 </div>
-                <div className={classes.row} style={{height: 150, paddingTop: '20px'}}>
-                    <MeleeWeaponField className={classes.rangedWeaponsField}
-                                      data={personService.meleeWeapons}
-                                      value={entity.meleeWeapons}
-                                      onWeaponAdd={this.addItem('meleeWeapons')}
-                                      onWeaponRemove={this.removeItem('meleeWeapons')}/>
-                    <RangedWeaponField className={classes.rangedWeaponsField}
-                                       data={personService.rangedWeapons}
-                                       value={entity.rangedWeapons}
-                                       onWeaponAdd={this.addItem('rangedWeapons')}
-                                       onWeaponRemove={this.removeItem('rangedWeapons')}/>
+                <div className={classes.row} style={{height: 750, paddingTop: '20px'}}>
+                    <div className={classes.firstColumnContainer}>
+                        <MeleeWeaponField className={classes.meleeWeaponsField}
+                                          data={personService.meleeWeapons}
+                                          value={entity.meleeWeapons}
+                                          onWeaponAdd={this.addItem('meleeWeapons')}
+                                          onWeaponRemove={this.removeItem('meleeWeapons')}/>
+                        <RangedWeaponField className={classes.rangedWeaponsField}
+                                           data={personService.rangedWeapons}
+                                           value={entity.rangedWeapons}
+                                           onWeaponAdd={this.addItem('rangedWeapons')}
+                                           onWeaponRemove={this.removeItem('rangedWeapons')}/>
+                    </div>
+                    <div className={classes.secondColumnContainer}>
+
+                    </div>
+                    <div className={classes.thirdColumnContainer}>
+                    </div>
                 </div>
             </div>
             <div>

@@ -2,6 +2,7 @@ import Price from "../../../world/money/Price";
 import Resource from "../../resource/Resource";
 import RangedWeaponBlueprint from "../../blueprint/RangedWeaponBlueprint";
 import DeterminantContainer from "../../../../crud/DeterminantContainer";
+import DeterminantService from "../../../rule/DeterminantService";
 
 export default class RangedWeapon extends DeterminantContainer {
     name: string;

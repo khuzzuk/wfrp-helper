@@ -2,6 +2,7 @@ import Price from "../../../world/money/Price";
 import Resource from "../../resource/Resource";
 import MeleeWeaponBlueprint from "../../blueprint/MeleeWeaponBlueprint";
 import DeterminantContainer from "../../../../crud/DeterminantContainer";
+import DeterminantService from "../../../rule/DeterminantService";
 
 export default class MeleeWeapon extends DeterminantContainer {
     name: string;
@@ -28,5 +29,10 @@ export default class MeleeWeapon extends DeterminantContainer {
             this.type = new MeleeWeaponBlueprint();
             this.type.updateWith(entity.type);
         }
+    }
+
+    getFinalValueForType(determinantType: string): number {
+        return DeterminantService.sumValueByTypeIn(this.type.determinants, determinantType) +
+            DeterminantService.sumValueByTypeIn(this.determinants, determinantType);
     }
 }
