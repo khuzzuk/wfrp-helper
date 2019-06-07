@@ -11,4 +11,21 @@ export const ActionType = {
 export default class ActionTime {
     actionType: string = ActionType.ACTION;
     amount: number = 1;
+
+    updateWith(actionTime: ActionTime) {
+        Object.assign(this, actionTime);
+    }
+
+    toString(): string {
+        switch (this.actionType) {
+            case ActionType.ACTION:
+                return this.amount;
+            case ActionType.ROUND:
+                return this.amount + 'r';
+            case ActionType.TURN:
+                return this.amount + 't';
+            default:
+                return this.amount;
+        }
+    }
 }

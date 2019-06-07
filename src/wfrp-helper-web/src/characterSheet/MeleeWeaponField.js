@@ -1,11 +1,9 @@
 import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import RangedWeapon from "../data/crafting/item/ranged/RangedWeapon";
 import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
-import DeterminantService from "../data/rule/DeterminantService";
-import {DeterminantType} from "../data/rule/Determinant";
 import MeleeWeapon from "../data/crafting/item/melee/MeleeWeapon";
 import {List} from "@material-ui/core";
+import WeaponElement from "./WeaponElement";
 
 const fieldStyle = {
     selectComponent: {
@@ -23,15 +21,6 @@ const fieldStyle = {
         display: 'flex',
         flexDirection: 'row'
     },
-    itemName: {
-        minWidth: 180,
-        maxWidth: 180,
-    },
-    itemVariable: {
-        minWidth: 51,
-        maxWidth: 51,
-        textAlign: 'center',
-    }
 };
 
 const selectStyle = {
@@ -52,13 +41,8 @@ class MeleeWeaponField extends Component {
 
     getWeaponComponent = (weapon: MeleeWeapon) => {
         const {classes} = this.props;
-        return <div className={classes.itemContainer}>
-            <div className={classes.itemName} onContextMenu={event => this.removeWeapon(event, weapon)}>{weapon.name}</div>
-            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.INITIATIVE)}</div>
-            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>
-            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>
-            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.PARRY)}</div>
-        </div>;
+        return <WeaponElement weapon={weapon} className={classes.itemContainer}
+                              onContextMenu={event => this.removeWeapon(event, weapon)}/>;
     };
 
     render() {

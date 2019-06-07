@@ -4,6 +4,8 @@ import RangedWeapon from "../data/crafting/item/ranged/RangedWeapon";
 import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
 import DeterminantService from "../data/rule/DeterminantService";
 import {DeterminantType} from "../data/rule/Determinant";
+import RangedWeaponElement from "./RangedWeaponElement";
+import {List} from "@material-ui/core";
 
 const fieldStyle = {
     selectComponent: {
@@ -14,6 +16,7 @@ const fieldStyle = {
         maxHeight: 150,
         paddingLeft: 10,
         width: '100%',
+        overflow: 'auto',
     },
     itemContainer: {
         display: 'flex',
@@ -48,10 +51,8 @@ class RangedWeaponField extends Component {
 
     getWeaponComponent = (weapon: RangedWeapon) => {
         const {classes} = this.props;
-        return <div className={classes.itemContainer}>
-            <div className={classes.itemName} onContextMenu={event => this.removeWeapon(event, weapon)}>{weapon.name}</div>
-            <div className={classes.itemVariable}>{'' + DeterminantService.sumValueByTypeIn(weapon.determinants, DeterminantType.INITIATIVE)}</div>
-        </div>;
+        return <RangedWeaponElement className={classes.itemContainer} weapon={weapon}
+                                    onContextMenu={event => this.removeWeapon(event, weapon)}/>;
     };
 
     render() {
@@ -64,11 +65,11 @@ class RangedWeaponField extends Component {
         return <div {...other}>
             <SimpleEntitySelect className={classes.selectComponent} customStyle={selectStyle} options={data}
                                 onChange={onWeaponAdd}/>
-            <div className={classes.itemsList}>
+            <List className={classes.itemsList}>
                 {
                     value.map(this.getWeaponComponent)
                 }
-            </div>
+            </List>
         </div>;
     }
 }

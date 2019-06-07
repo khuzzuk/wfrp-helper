@@ -12,6 +12,19 @@ export default class RequestService {
         }).then(this.handleResponse(onResponse));
     }
 
+    async rawGetRequestFor(uri: string, onResponse: func) {
+        fetch(ConnectionService.hostBase + uri, {
+            method: 'get',
+            mode: 'cors',
+        }).then(this.handleRawResponse(onResponse))
+    }
+
+    handleRawResponse = onResponse => response => {
+        if (response.status === 200) {
+            response.text().then(onResponse);
+        }
+    };
+
     handleResponse = onResponse => response => {
         if (response.status === 200) {
             response.json().then(onResponse);

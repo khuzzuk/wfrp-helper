@@ -1,6 +1,5 @@
 import {func, object} from "prop-types";
 import Entity from "../crud/Entity";
-import Determinant from "../data/rule/Determinant";
 
 class ConnectionService {
     static FormFieldType = {

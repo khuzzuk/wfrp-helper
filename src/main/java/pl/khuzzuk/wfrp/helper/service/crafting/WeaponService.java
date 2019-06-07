@@ -7,6 +7,8 @@ import pl.khuzzuk.wfrp.helper.model.rule.DiceRoll;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 
 import javax.transaction.Transactional;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +23,11 @@ public class WeaponService {
         List<String> rolls = blueprintDamage.getRolls().stream()
                 .map(diceRoll -> mapDiceRoll(diceRoll, strength))
                 .collect(Collectors.toList());
-        rolls.add(String.valueOf((int) (blueprintDamage.getValue() * strength)));
+
+        int baseValue = blueprintDamage.getValue();
+        if (baseValue > 0) {
+            rolls.add(String.valueOf((int) (baseValue * strength)));
+        }
         return rolls.stream().collect(Collectors.joining(" + "));
     }
 
