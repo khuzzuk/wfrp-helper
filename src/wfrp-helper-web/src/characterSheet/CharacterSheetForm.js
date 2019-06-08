@@ -10,8 +10,7 @@ import SuffixedInputField from "../crud/field/SuffixedInputField";
 import SimpleList from "../crud/field/SimpleList";
 import PersonalDeterminantsField from "./PersonalDeterminantsField";
 import PersonDeterminants from "../data/creature/PersonDeterminants";
-import RangedWeaponField from "./RangedWeaponField";
-import MeleeWeaponField from "./MeleeWeaponField";
+import GearSection from "./GearSection";
 
 const formStyles = {
     backgroundStyle: {
@@ -148,19 +147,6 @@ const formStyles = {
         minWidth: 200,
         height: '100%'
     },
-    meleeWeaponsField: {
-        paddingLeft: 50,
-        width: '100%',
-        minHeight: 210,
-        maxHeight: 210,
-    },
-    rangedWeaponsField: {
-        minHeight: 210,
-        maxHeight: 210,
-        paddingLeft: 40,
-        paddingTop: 15,
-        width: '100%',
-    },
 };
 
 class CharacterSheetForm extends Component {
@@ -201,16 +187,6 @@ class CharacterSheetForm extends Component {
 
     updatePerson = updates => {
         this.props.entity.updateWith(updates);
-        this.props.onChange(this.props.entity);
-    };
-
-    addItem = propertyName => item => {
-        this.props.entity[propertyName].push(item);
-        this.props.onChange(this.props.entity);
-    };
-    removeItem = propertyName => item => {
-        let items = this.props.entity[propertyName];
-        items.splice(items.indexOf(item), 1);
         this.props.onChange(this.props.entity);
     };
 
@@ -274,18 +250,10 @@ class CharacterSheetForm extends Component {
                                                onChange={dets => this.props.onChange(entity)}/>
                 </div>
                 <div className={classes.row} style={{height: 750, paddingTop: '20px'}}>
-                    <div className={classes.firstColumnContainer}>
-                        <MeleeWeaponField className={classes.meleeWeaponsField}
-                                          data={personService.meleeWeapons}
-                                          value={entity.meleeWeapons}
-                                          onWeaponAdd={this.addItem('meleeWeapons')}
-                                          onWeaponRemove={this.removeItem('meleeWeapons')}/>
-                        <RangedWeaponField className={classes.rangedWeaponsField}
-                                           data={personService.rangedWeapons}
-                                           value={entity.rangedWeapons}
-                                           onWeaponAdd={this.addItem('rangedWeapons')}
-                                           onWeaponRemove={this.removeItem('rangedWeapons')}/>
-                    </div>
+                    <GearSection className={classes.firstColumnContainer}
+                                 personService={personService}
+                                 entity={entity}
+                                 onChange={this.props.onChange} />
                     <div className={classes.secondColumnContainer}>
 
                     </div>

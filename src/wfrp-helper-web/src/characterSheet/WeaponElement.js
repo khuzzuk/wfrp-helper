@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import WeaponService from "../data/crafting/item/WeaponService";
+import GearService from "../data/crafting/item/GearService";
 import {DeterminantType} from "../data/rule/Determinant";
 
 const weaponElementStyle = {
@@ -21,7 +21,7 @@ const weaponElementStyle = {
     },
 };
 
-const weaponService = new WeaponService();
+const weaponService = new GearService();
 
 class WeaponElement extends Component {
     state = {

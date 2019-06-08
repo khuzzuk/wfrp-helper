@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
-import MeleeWeapon from "../data/crafting/item/melee/MeleeWeapon";
 import {List} from "@material-ui/core";
-import WeaponElement from "./WeaponElement";
 
 const fieldStyle = {
     selectComponent: {
@@ -34,30 +32,22 @@ const selectStyle = {
 
 class MeleeWeaponField extends Component {
 
-    removeWeapon = (event, weapon) => {
-        event.preventDefault();
-        this.props.onWeaponRemove(weapon);
-    };
-
-    getWeaponComponent = (weapon: MeleeWeapon) => {
-        const {classes} = this.props;
-        return <WeaponElement weapon={weapon} className={classes.itemContainer}
-                              onContextMenu={event => this.removeWeapon(event, weapon)}/>;
-    };
-
     render() {
         const {
             classes, value, data,
-            onWeaponAdd, onWeaponRemove,
-            customStyle, ...other
+            customStyle,
+            onGearAdd,
+            children, ...other
         } = this.props;
 
-        return <div {...other}>
-            <SimpleEntitySelect className={classes.selectComponent} customStyle={selectStyle} options={data}
-                                onChange={onWeaponAdd}/>
-            <List className={classes.itemsList}>
+        const currentStyle = {...classes, ...customStyle};
+
+        return <div className={currentStyle.gearField} {...other}>
+            <SimpleEntitySelect className={currentStyle.selectComponent} customStyle={selectStyle} options={data}
+                                onChange={onGearAdd}/>
+            <List className={currentStyle.itemsList}>
                 {
-                    value.map(this.getWeaponComponent)
+                    children
                 }
             </List>
         </div>;

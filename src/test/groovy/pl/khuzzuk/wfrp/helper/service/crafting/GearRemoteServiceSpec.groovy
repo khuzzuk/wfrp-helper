@@ -5,8 +5,15 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.web.server.LocalServerPort
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Armor
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.ArmorPattern
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.ArmorPatternRepo
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.ArmorRepo
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Availability
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MeleeWeapon
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MeleeWeaponRepo
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.ArmorBlueprint
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.ArmorBlueprintRepo
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.MeleeWeaponBlueprint
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.MeleeWeaponBlueprintRepo
 import pl.khuzzuk.wfrp.helper.model.crafting.resource.Resource
@@ -28,11 +35,17 @@ import static pl.khuzzuk.wfrp.helper.model.rule.Dice.K6
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureEmbeddedDatabase
-class WeaponRemoteServiceSpec extends Specification {
+class GearRemoteServiceSpec extends Specification {
     @Autowired
     MeleeWeaponRepo meleeWeaponRepo
     @Autowired
     MeleeWeaponBlueprintRepo meleeWeaponBlueprintRepo
+    @Autowired
+    ArmorRepo armorRepo
+    @Autowired
+    ArmorBlueprintRepo armorBlueprintRepo
+    @Autowired
+    ArmorPatternRepo armorPatternRepo
     @Autowired
     ResourceRepo resourceRepo
     @Shared
@@ -62,7 +75,7 @@ class WeaponRemoteServiceSpec extends Specification {
         def weaponId = meleeWeaponRepo.save(meleeWeapon).id
 
         when:
-        def results = testRestTemplate.getForObject("http://localhost:${port}/weapon/getMeleeWeaponDamage/${weaponId}", String)
+        def results = testRestTemplate.getForObject("http://localhost:${port}/gear/getMeleeWeaponDamage/${weaponId}", String)
 
         then:
         results == expected
@@ -72,8 +85,49 @@ class WeaponRemoteServiceSpec extends Specification {
         1        | 0                 | [K6] as List     | 1     | 4      || 'K6 + 4'
         1        | 0                 | [K6] as List     | 2     | 4      || '2K6 + 4'
         0.5F     | 0                 | [K6] as List     | 1     | 4      || 'K4 + 2'
-        2        | 1                 | [K6] as List     | 1     | 4      || 'K8 + 12'
+        2        | 10                | [K6] as List     | 1     | 4      || 'K8 + 12'
         1        | 0                 | [K6, K4] as List | 1     | 4      || 'K6 + K4 + 4'
+    }
+
+    @Unroll
+    def 'test get armorValue for armor #blueprintArmor, pattern #patternStrength and resource #resourceStrength'() {
+        given:
+        ArmorBlueprint armorBlueprint = new ArmorBlueprint()
+        armorBlueprint.name = UUID.randomUUID().toString()
+        armorBlueprint.armor = blueprintArmor
+        armorBlueprint.placement = Placement.HEAD
+        armorBlueprint.suggestedPrice = new Price()
+        armorBlueprint.suggestedWeight = 1
+        armorBlueprint = armorBlueprintRepo.save(armorBlueprint)
+
+        ArmorPattern armorPattern = new ArmorPattern()
+        armorPattern.name = UUID.randomUUID().toString()
+        armorPattern.strength = patternStrength
+        armorPattern.priceMultiplier = 1
+        armorPattern.weight = 1
+        armorPattern.availability = Availability.ABUNDANT
+        armorPattern = armorPatternRepo.save(armorPattern)
+
+        Armor armor = new Armor()
+        armor.name = UUID.randomUUID().toString()
+        armor.price = new Price()
+        armor.type = armorBlueprint
+        armor.primaryResource = resourceRepo.save(createResource(resourceStrength))
+        armor.secondaryResource = resourceRepo.save(createResource(0))
+        armor.armorPattern = armorPattern
+        armor = armorRepo.save(armor)
+
+        when:
+        def results = testRestTemplate.getForObject("http://localhost:${port}/gear/getArmorValue/${armor.id}", String)
+
+        then:
+        results == expectedValue
+
+        where:
+        blueprintArmor | patternStrength | resourceStrength || expectedValue
+        1              | 1               | 1                || '1'
+        1              | 3               | 2                || '6'
+        2              | 2               | 3                || '12'
     }
 
     private static Modifier createDamage(List<Dice> dices, int times, int damage) {

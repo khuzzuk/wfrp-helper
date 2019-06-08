@@ -2,8 +2,6 @@ import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import RangedWeapon from "../data/crafting/item/ranged/RangedWeapon";
 import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
-import DeterminantService from "../data/rule/DeterminantService";
-import {DeterminantType} from "../data/rule/Determinant";
 import RangedWeaponElement from "./RangedWeaponElement";
 import {List} from "@material-ui/core";
 
