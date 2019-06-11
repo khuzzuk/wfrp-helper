@@ -131,5 +131,30 @@ export default class Person extends Entity {
                     return newSkill;
                 });
         }
+
+        if (entity.meleeWeapons) {
+            this.meleeWeapons = entity.meleeWeapons
+                .map(weapon => {
+                    const newWeapon = new MeleeWeapon();
+                    newWeapon.updateWith(weapon);
+                    return newWeapon;
+                })
+        }
+        if (entity.rangedWeapons) {
+            this.rangedWeapons = entity.rangedWeapons
+                .map(weapon => {
+                    const newWeapon = new RangedWeapon();
+                    newWeapon.updateWith(weapon);
+                    return newWeapon;
+                })
+        }
+        if (entity.armor) {
+            this.armor = entity.armor
+                .map(armor => {
+                    const newArmor = new Armor();
+                    newArmor.updateWith(armor);
+                    return newArmor;
+                })
+        }
     }
 }

@@ -1,6 +1,7 @@
 package pl.khuzzuk.wfrp.helper.web;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @AllArgsConstructor
 @ControllerAdvice
 class ValidationErrorHandler extends ResponseEntityExceptionHandler {
@@ -47,8 +49,9 @@ class ValidationErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler({DataAccessException.class, TransactionSystemException.class})
     public ResponseEntity<Object> handleDataAccessException(NestedRuntimeException exception) {
-        ApiError apiError = createApiError();
+        log.warn("exception on client request", exception);
 
+        ApiError apiError = createApiError();
 
         if (exception.getMostSpecificCause() instanceof ConstraintViolationException) {
             ConstraintViolationException constraintViolationException = (ConstraintViolationException) exception.getMostSpecificCause();

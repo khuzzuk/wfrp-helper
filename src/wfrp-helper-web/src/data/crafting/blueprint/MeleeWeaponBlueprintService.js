@@ -44,7 +44,7 @@ export default class MeleeWeaponBlueprintService extends ConnectionService {
     }, {
         label: 'Placement',
         name: 'placement',
-        type: NationService.FormFieldType.ENUM_SELECT,
+        type: NationService.FormFieldType.ENUM_COMBOBOX,
         suggestions: Placement.weapon()
     }, {
         label: 'Determinants',

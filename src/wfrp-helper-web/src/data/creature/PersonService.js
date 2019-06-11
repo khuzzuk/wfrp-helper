@@ -23,6 +23,9 @@ import MeleeWeapon from "../crafting/item/melee/MeleeWeapon";
 import MeleeWeaponService from "../crafting/item/melee/MeleeWeaponService";
 import ArmorService from "../crafting/item/armor/ArmorService";
 import Armor from "../crafting/item/armor/Armor";
+import Skill from "../knowledge/skill/Skill";
+import SkillSection from "../../characterSheet/SkillSection";
+import SkillService from "../knowledge/skill/SkillService";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -37,6 +40,7 @@ export default class PersonService extends ConnectionService {
     meleeWeapons: MeleeWeapon[] = [];
     rangedWeapons: RangedWeapon[] = [];
     armors: Armor[] = [];
+    skills: Skill[] = [];
 
     tableColumns: FormFieldData[] = [
         {
@@ -76,11 +80,13 @@ export default class PersonService extends ConnectionService {
         const meleeWeaponService = new MeleeWeaponService(this.onRetrieveRelatedData(this.meleeWeapons));
         const rangedWeaponService = new RangedWeaponService(this.onRetrieveRelatedData(this.rangedWeapons));
         const armorService = new ArmorService(this.onRetrieveRelatedData(this.armors));
+        const skillService = new SkillService(this.onRetrieveRelatedData(this.skills));
 
         this.registerRelatedServices([hairColorService, eyeColorService,
             raceService, professionClassService, professionService,
             characterService, physicalFeatureService,
-            meleeWeaponService, rangedWeaponService, armorService]);
+            meleeWeaponService, rangedWeaponService, armorService,
+            skillService]);
     }
 
     createNew(): Person {
@@ -90,11 +96,11 @@ export default class PersonService extends ConnectionService {
 
 
     save(entity: object, onSuccess: func) {
-/*
-        const newEntity = new Person();
-        newEntity.updateWith(entity);
-        newEntity.determinants = {determinants: []};
-*/
+        /*
+                const newEntity = new Person();
+                newEntity.updateWith(entity);
+                newEntity.determinants = {determinants: []};
+        */
         super.save(entity, onSuccess);
     }
 }

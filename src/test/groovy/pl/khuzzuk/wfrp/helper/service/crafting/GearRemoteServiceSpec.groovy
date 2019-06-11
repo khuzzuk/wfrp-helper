@@ -5,6 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.http.HttpEntity
+import org.springframework.http.HttpHeaders
+import org.springframework.http.HttpMethod
+import org.springframework.http.MediaType
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Armor
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.ArmorPattern
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.ArmorPatternRepo
@@ -92,10 +96,56 @@ class GearRemoteServiceSpec extends Specification {
     @Unroll
     def 'test get armorValue for armor #blueprintArmor, pattern #patternStrength and resource #resourceStrength'() {
         given:
+        Armor armor = createArmor(blueprintArmor, patternStrength, resourceStrength)
+
+        when:
+        def results = testRestTemplate.getForObject("http://localhost:${port}/gear/getArmorValue/${armor.id}", String)
+
+        then:
+        results == expectedValue
+
+        where:
+        blueprintArmor | patternStrength | resourceStrength || expectedValue
+        1              | 1               | 1                || '1'
+        1              | 3               | 2                || '6'
+        2              | 2               | 3                || '12'
+    }
+
+    def 'test gear values'() {
+        given:
+        Armor armor1 = createArmor(1, 1, 1, 1,
+                [Placement.HAND, Placement.TORSO])
+        Armor armor2 = createArmor(1, 1, 1, 1,
+                [Placement.HEAD, Placement.TORSO])
+
+        HttpHeaders headers = new HttpHeaders()
+        headers.setContentType(MediaType.APPLICATION_JSON)
+        def requestBody = new HttpEntity<Object>([armor1.id, armor2.id] as Long[], headers)
+
+        when:
+        def results = testRestTemplate.postForEntity("http://localhost:${port}/gear/getArmorValuesForGear", requestBody, Map)
+
+        println results
+
+        then:
+        with(results) {
+            body.get("TORSO") == 2
+            body.get("HAND") == 1
+            body.get("HEAD") == 1
+        }
+        results != null
+    }
+
+    private Armor createArmor(int blueprintArmor = 0,
+                              int patternStrength = 0,
+                              int resourceStrength = 0,
+                              int secondaryResourceStrength = 0,
+                              List<Placement> placement = [Placement.HEAD]) {
+
         ArmorBlueprint armorBlueprint = new ArmorBlueprint()
         armorBlueprint.name = UUID.randomUUID().toString()
         armorBlueprint.armor = blueprintArmor
-        armorBlueprint.placement = Placement.HEAD
+        armorBlueprint.placement = placement
         armorBlueprint.suggestedPrice = new Price()
         armorBlueprint.suggestedWeight = 1
         armorBlueprint = armorBlueprintRepo.save(armorBlueprint)
@@ -113,28 +163,16 @@ class GearRemoteServiceSpec extends Specification {
         armor.price = new Price()
         armor.type = armorBlueprint
         armor.primaryResource = resourceRepo.save(createResource(resourceStrength))
-        armor.secondaryResource = resourceRepo.save(createResource(0))
+        armor.secondaryResource = resourceRepo.save(createResource(secondaryResourceStrength))
         armor.armorPattern = armorPattern
-        armor = armorRepo.save(armor)
-
-        when:
-        def results = testRestTemplate.getForObject("http://localhost:${port}/gear/getArmorValue/${armor.id}", String)
-
-        then:
-        results == expectedValue
-
-        where:
-        blueprintArmor | patternStrength | resourceStrength || expectedValue
-        1              | 1               | 1                || '1'
-        1              | 3               | 2                || '6'
-        2              | 2               | 3                || '12'
+        armorRepo.save(armor)
     }
 
     private static Modifier createDamage(List<Dice> dices, int times, int damage) {
         Modifier modifier = new Modifier()
         modifier.type = ModifierType.DICE
         modifier.value = damage
-        modifier.rolls = dices.stream().map({createDiceRoll(it, times)}).collect(Collectors.toList())
+        modifier.rolls = dices.stream().map({ createDiceRoll(it, times) }).collect(Collectors.toList())
         modifier
     }
 

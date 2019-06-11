@@ -12,7 +12,9 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.ATTACK;
@@ -41,11 +43,11 @@ public class PersonDeterminants {
             schema = "creature",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "determinants_id"))
-    private Set<Determinant> determinants = new HashSet<>();
+    private List<Determinant> determinants = new ArrayList<>();
 
     public static PersonDeterminants empty() {
         PersonDeterminants determinants = new PersonDeterminants();
-        determinants.setDeterminants(Set.of(
+        determinants.setDeterminants(List.of(
                 Determinant.empty(SPEED),
                 Determinant.empty(BATTLE),
                 Determinant.empty(SHOOTING),

@@ -4,6 +4,10 @@ import GearService from "../data/crafting/item/GearService";
 import {DeterminantType} from "../data/rule/Determinant";
 
 const weaponElementStyle = {
+    itemContainer: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
     itemName: {
         minWidth: 180,
         maxWidth: 180,
@@ -34,13 +38,18 @@ class WeaponElement extends Component {
     }
 
     render() {
-        const {classes, className, onContextMenu, weapon} = this.props;
-        return <div className={className} onContextMenu={onContextMenu}>
-            <div className={classes.itemName}>{weapon.name}</div>
-            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.INITIATIVE)}</div>
-            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>
-            <div className={classes.damageText}>{this.state.damageText}</div>
-            <div className={classes.itemVariable}>{weapon.getFinalValueForType(DeterminantType.PARRY)}</div>
+        const {classes, customStyle, onContextMenu, weapon} = this.props;
+        const currentStyle = {...classes, ...customStyle};
+
+        return <div className={currentStyle.itemContainer} onContextMenu={event => {
+            event.preventDefault();
+            onContextMenu(this.props.weapon);
+        }}>
+            <div className={currentStyle.itemName}>{weapon.name}</div>
+            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.INITIATIVE)}</div>
+            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>
+            <div className={currentStyle.damageText}>{this.state.damageText}</div>
+            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.PARRY)}</div>
         </div>;
     }
 }

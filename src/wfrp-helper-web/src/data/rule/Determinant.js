@@ -28,7 +28,12 @@ export default class Determinant extends Entity {
         const professionExtensions = DeterminantService.findDeterminantIn(profession.determinants, this.type);
         if (professionExtensions) {
             this.modifiers = DeterminantService.removeModifiersByType(this.modifiers, ModifierType.PROFESSION);
-            professionExtensions.modifiers.forEach(mod => this.modifiers.push(mod));
+            professionExtensions.modifiers.forEach(mod => {
+                const newMod = new Modifier();
+                newMod.type = mod.type;
+                newMod.value = mod.value;
+                this.modifiers.push(newMod);
+            });
         }
     }
 

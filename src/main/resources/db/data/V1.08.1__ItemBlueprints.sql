@@ -7,10 +7,15 @@ CREATE FUNCTION pg_temp.add_armor(name_to_insert VARCHAR(255),
                                   armor_to_insert INT,
                                   placement_to_insert PLACEMENT) RETURNS VOID AS
 $$
+DECLARE
+    inserted_item_id BIGINT;
 BEGIN
-  INSERT INTO item_blueprint (type, name, description, gold, silver, lead, suggested_weight, armor, placement)
+  INSERT INTO item_blueprint (type, name, description, gold, silver, lead, suggested_weight, armor)
   VALUES ('ARMOR', name_to_insert, description_to_insert, gold_to_insert, silver_to_insert, lead_to_insert,
-          suggested_weight_to_insert, armor_to_insert, placement_to_insert);
+          suggested_weight_to_insert, armor_to_insert)
+          RETURNING id INTO inserted_item_id;
+
+  INSERT INTO item_blueprint_placements (item_blueprint_id, placement) VALUES (inserted_item_id, placement_to_insert);
 
 END;
 $$
@@ -77,7 +82,6 @@ BEGIN
                               silver,
                               lead,
                               suggested_weight,
-                              placement,
                               damage_id,
                               prepare_type, prepare_amount)
   VALUES ('MELEE_WEAPON',
@@ -87,9 +91,9 @@ BEGIN
           silver_to_insert,
           lead_to_insert,
           suggested_weight_to_insert,
-          placement_to_insert,
           inserted_mod_id,
           'ACTION', 1) RETURNING id INTO inserted_blueprint_id;
+  INSERT INTO item_blueprint_placements (item_blueprint_id, placement) VALUES (inserted_blueprint_id, placement_to_insert);
 
   IF initiative_mod > 0
   THEN

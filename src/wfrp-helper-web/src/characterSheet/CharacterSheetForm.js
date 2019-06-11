@@ -11,6 +11,7 @@ import SimpleList from "../crud/field/SimpleList";
 import PersonalDeterminantsField from "./PersonalDeterminantsField";
 import PersonDeterminants from "../data/creature/PersonDeterminants";
 import GearSection from "./GearSection";
+import SkillSection from "./SkillSection";
 
 const formStyles = {
     backgroundStyle: {
@@ -133,18 +134,13 @@ const formStyles = {
     },
 
     firstColumnContainer: {
-        maxWidth: 400,
-        minWidth: 400,
+        maxWidth: 450,
+        minWidth: 450,
         height: '100%'
     },
-    secondColumnContainer: {
-        maxWidth: 200,
-        minWidth: 200,
-        height: '100%'
-    },
-    thirdColumnContainer: {
-        maxWidth: 200,
-        minWidth: 200,
+    skillSectionContainer: {
+        maxWidth: 450,
+        minWidth: 450,
         height: '100%'
     },
 };
@@ -191,7 +187,7 @@ class CharacterSheetForm extends Component {
     };
 
     render() {
-        const {classes, personService, entity} = this.props;
+        const {classes, personService, entity, onChange} = this.props;
         return <div className={classes.backgroundStyle}>
             <div style={{width: '900px'}}>
                 <div className={classes.row} style={{paddingTop: '30px'}}>
@@ -253,12 +249,11 @@ class CharacterSheetForm extends Component {
                     <GearSection className={classes.firstColumnContainer}
                                  personService={personService}
                                  entity={entity}
-                                 onChange={this.props.onChange} />
-                    <div className={classes.secondColumnContainer}>
-
-                    </div>
-                    <div className={classes.thirdColumnContainer}>
-                    </div>
+                                 onChange={onChange}/>
+                    <SkillSection className={classes.skillSectionContainer}
+                                  entity={entity}
+                                  personService={personService}
+                                  onChange={onChange}/>
                 </div>
             </div>
             <div>

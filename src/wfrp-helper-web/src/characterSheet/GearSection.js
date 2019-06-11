@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import MeleeWeaponField from "./MeleeWeaponField";
-import RangedWeaponField from "./RangedWeaponField";
 import ArmorElement from "./ArmorElement";
 import GearComponent from "./GearComponent";
+import WeaponElement from "./WeaponElement";
+import RangedWeaponElement from "./RangedWeaponElement";
 
 const gearSectionStyle = {
     meleeWeaponsField: {
         paddingLeft: 50,
-        width: '100%',
+        width: 400,
         minHeight: 210,
         maxHeight: 210,
     },
@@ -17,14 +17,14 @@ const gearSectionStyle = {
         maxHeight: 210,
         paddingLeft: 40,
         paddingTop: 15,
-        width: '100%',
+        width: 410,
     },
     armorField: {
         minHeight: 210,
         maxHeight: 210,
         paddingLeft: 30,
         paddingTop: 20,
-        width: '100%',
+        width: 420,
     },
 };
 
@@ -42,20 +42,22 @@ class GearSection extends Component {
     render() {
         const {classes, className, entity, personService} = this.props;
         return <div className={className}>
-            <MeleeWeaponField className={classes.meleeWeaponsField}
-                              data={personService.meleeWeapons}
-                              value={entity.meleeWeapons}
-                              onWeaponAdd={this.addItem('meleeWeapons')}
-                              onWeaponRemove={this.removeItem('meleeWeapons')}/>
-            <RangedWeaponField className={classes.rangedWeaponsField}
-                               data={personService.rangedWeapons}
-                               value={entity.rangedWeapons}
-                               onWeaponAdd={this.addItem('rangedWeapons')}
-                               onWeaponRemove={this.removeItem('rangedWeapons')}/>
+            <GearComponent customStyle={{gearField: classes.meleeWeaponsField}}
+                           data={personService.meleeWeapons} onGearAdd={this.addItem('meleeWeapons')}>
+                {entity.meleeWeapons.map(weapon => <WeaponElement key={weapon.name + '_meleeWeaponField'}
+                                                                  weapon={weapon}
+                                                                  onContextMenu={this.removeItem('meleeWeapons')}/>)}
+            </GearComponent>
+            <GearComponent customStyle={{gearField: classes.rangedWeaponsField}}
+                           data={personService.rangedWeapons} onGearAdd={this.addItem('rangedWeapons')}>
+                {entity.rangedWeapons.map(weapon => <RangedWeaponElement key={weapon.name + '_rangedWeaponField'}
+                                                                         weapon={weapon}
+                                                                         onContextMenu={this.removeItem('rangedWeapons')}/>)}
+            </GearComponent>
             <GearComponent customStyle={{gearField: classes.armorField}}
                            data={personService.armors}
                            onGearAdd={this.addItem('armor')}>
-                {entity.armor.map(armor => <ArmorElement key={armor.name + '_gearField'} armor={armor}
+                {entity.armor.map(armor => <ArmorElement key={armor.name + '_armorField'} armor={armor}
                                                          onContextMenu={this.removeItem('armor')}/>)}
             </GearComponent>
         </div>

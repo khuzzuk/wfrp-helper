@@ -1,25 +1,26 @@
 import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import GearService from "../data/crafting/item/GearService";
+import {Placement} from "../data/crafting/Placement";
 
 const elementStyle = {
+    itemContainer: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
     itemName: {
         minWidth: 145,
         maxWidth: 145,
     },
     itemPlacement: {
-        minWidth: 200,
-        maxWidth: 200,
+        minWidth: 205,
+        maxWidth: 205,
         textAlign: 'center',
     },
     armorValue: {
-        minWidth: 60,
-        maxWidth: 60,
+        minWidth: 50,
+        maxWidth: 50,
         textAlign: 'center',
-    },
-    itemContainer: {
-        display: 'flex',
-        flexDirection: 'row'
     },
 };
 
@@ -27,12 +28,12 @@ const gearService = new GearService();
 
 class ArmorElement extends Component {
     state = {
-        damageText: ''
+        armorValue: ''
     };
 
     constructor(props: P, context: any) {
         super(props, context);
-        //weaponService.calculateMeleeDamage(this.props.weapon.id, text => this.setState({damageText: text}))
+        gearService.calculateArmorValue(this.props.armor.id, text => this.setState({armorValue: text}))
     }
 
     render() {
@@ -44,8 +45,8 @@ class ArmorElement extends Component {
             onContextMenu(armor);
         }}>
             <div className={currentStyle.itemName}>{armor.name}</div>
-            <div className={currentStyle.itemPlacement}>{armor.type.placement}</div>
-            <div className={currentStyle.armorValue}>{'1'}</div>
+            <div className={currentStyle.itemPlacement}>{Placement.toRepresentation(armor.type.placement)}</div>
+            <div className={currentStyle.armorValue}>{this.state.armorValue}</div>
         </div>;
     }
 }

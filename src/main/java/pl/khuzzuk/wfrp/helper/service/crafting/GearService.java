@@ -7,9 +7,10 @@ import pl.khuzzuk.wfrp.helper.model.crafting.resource.Resource;
 import pl.khuzzuk.wfrp.helper.model.rule.Dice;
 import pl.khuzzuk.wfrp.helper.model.rule.DiceRoll;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
+import pl.khuzzuk.wfrp.helper.model.rule.Placement;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,12 +32,25 @@ public class GearService {
     }
 
     @Transactional
-    public String getArmor(Armor armor) {
+    public int getArmor(Armor armor) {
         float strength = calculateResourceStrength(armor.getPrimaryResource(), armor.getSecondaryResource());
         float patternStrength = armor.getArmorPattern().getStrength();
 
         float totalArmorValue = armor.getType().getArmor() * strength * patternStrength;
-        return String.valueOf(Math.round(totalArmorValue));
+        return Math.round(totalArmorValue);
+    }
+
+    public Map<Placement, Integer> getArmorValuesForGear(List<Armor> armors) {
+        Map<Placement, Integer> values = new EnumMap<>(Placement.class);
+        Arrays.stream(Placement.values()).forEach(placement -> values.put(placement, 0));
+
+        for (Armor armor : armors) {
+            for (Placement placement : armor.getType().getPlacement()) {
+                values.put(placement, values.get(placement) + getArmor(armor));
+            }
+        }
+
+        return values;
     }
 
     private static float calculateResourceStrength(Resource primaryResource, Resource secondaryResource) {

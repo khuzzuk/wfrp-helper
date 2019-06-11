@@ -1,5 +1,4 @@
 import Price from "../../world/money/Price";
-import {Placement} from "../Placement";
 import DeterminantContainer from "../../../crud/DeterminantContainer";
 
 export default class ArmorBlueprint extends DeterminantContainer {
@@ -7,5 +6,5 @@ export default class ArmorBlueprint extends DeterminantContainer {
     description: string;
     suggestedPrice: Price = new Price();
     suggestedWeight: number;
-    placement: string = Placement.BODY;
+    placement: string[] = [];
 }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
@@ -58,17 +59,17 @@ public class Person {
     private @Min(0) int age;
     private @Min(0) int height;
     private @Min(0) float weight;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private @NotNull HairColor hairColor;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private @NotNull EyeColor eyeColor;
     @ManyToMany
     @JoinTable(schema = "creature")
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private List<PhysicalFeature> physicalFeatures;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private Character personality;
     private @Length(max = 500) String description;
@@ -77,14 +78,14 @@ public class Person {
     @Embedded
     private @NotNull PersonDeterminants determinants = PersonDeterminants.empty();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private @NotNull ProfessionClass professionClass;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private @NotNull Profession currentProfession;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "person_professions",
             schema = "creature",
             joinColumns = @JoinColumn(name = "person_id"),
@@ -101,22 +102,22 @@ public class Person {
     @JoinTable(schema = "creature", name = "person_inventory",
             joinColumns = @JoinColumn(name = "person_id"),
             inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @NotAudited
     private List<MiscItem> inventory;
 
     @ManyToMany
     @JoinTable(schema = "creature", inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @NotAudited
     private List<MeleeWeapon> meleeWeapons;
 
     @ManyToMany
     @JoinTable(schema = "creature", inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @NotAudited
     private List<RangedWeapon> rangedWeapons;
 
     @ManyToMany
     @JoinTable(schema = "creature", inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    @NotAudited
     private List<Armor> armor;
 
     @OneToMany

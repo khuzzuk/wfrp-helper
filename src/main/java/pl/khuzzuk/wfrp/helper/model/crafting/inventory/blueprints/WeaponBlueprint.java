@@ -7,15 +7,12 @@ import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
+import pl.khuzzuk.wfrp.helper.model.rule.Placement.PlacementValues;
 
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import java.util.List;
+
+import static pl.khuzzuk.wfrp.helper.model.rule.Placement.*;
 
 @Getter
 @Setter
@@ -24,7 +21,11 @@ public abstract class WeaponBlueprint extends ItemBlueprint {
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Modifier damage;
     @Type(type = EnumType.DEF)
-    private Placement placement;
+    @PlacementValues({HAND, BOTH_HANDS, SHIELD})
+    @ElementCollection
+    @JoinTable(name = "item_blueprint_placements",
+            joinColumns = @JoinColumn(name = "item_blueprint_id"))
+    private List<Placement> placement;
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "type", column = @Column(name = "prepare_type")),

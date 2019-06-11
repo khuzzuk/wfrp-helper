@@ -30,7 +30,7 @@ const selectStyle = {
     }),
 };
 
-class MeleeWeaponField extends Component {
+class GearComponent extends Component {
 
     render() {
         const {
@@ -54,4 +54,4 @@ class MeleeWeaponField extends Component {
     }
 }
 
-export default withStyles(fieldStyle)(MeleeWeaponField)
+export default withStyles(fieldStyle)(GearComponent)

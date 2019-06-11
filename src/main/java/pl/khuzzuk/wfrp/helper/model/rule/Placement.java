@@ -8,6 +8,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -45,7 +46,12 @@ public enum Placement {
 
         @Override
         public boolean isValid(Object value, ConstraintValidatorContext context) {
-            return values.contains(value);
+            if (value instanceof Collection) {
+                Collection<Placement> placements = (Collection<Placement>) value;
+                return values.containsAll(placements);
+            } else {
+                return values.contains(value);
+            }
         }
     }
 }

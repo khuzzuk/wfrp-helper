@@ -107,27 +107,11 @@ CREATE TABLE creature.person_inventory (
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
 );
-CREATE TABLE creature.person_inventory_history (
-  rev       BIGINT,
-  revtype   SMALLINT,
-  id        BIGINT NOT NULL,
-  person_id BIGINT,
-  item_id   BIGINT,
-  PRIMARY KEY (rev, id)
-);
 
 CREATE TABLE creature.person_melee_weapons (
   id        BIGSERIAL PRIMARY KEY,
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
-);
-CREATE TABLE creature.person_melee_weapons_history (
-  rev       BIGINT,
-  revtype   SMALLINT,
-  id        BIGINT NOT NULL,
-  person_id BIGINT,
-  item_id   BIGINT,
-  PRIMARY KEY (rev, id)
 );
 
 CREATE TABLE creature.person_ranged_weapons (
@@ -135,27 +119,11 @@ CREATE TABLE creature.person_ranged_weapons (
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
 );
-CREATE TABLE creature.person_ranged_weapons_history (
-  rev       BIGINT,
-  revtype   SMALLINT,
-  id        BIGINT NOT NULL,
-  person_id BIGINT NOT NULL REFERENCES creature.person,
-  item_id   BIGINT NOT NULL REFERENCES item,
-  PRIMARY KEY (rev, id)
-);
 
 CREATE TABLE creature.person_armor (
   id        BIGSERIAL PRIMARY KEY,
   person_id BIGINT NOT NULL REFERENCES creature.person,
   item_id   BIGINT NOT NULL REFERENCES item
-);
-CREATE TABLE creature.person_armor_history (
-  rev       BIGINT,
-  revtype   SMALLINT,
-  id        BIGINT NOT NULL,
-  person_id BIGINT NOT NULL REFERENCES creature.person,
-  item_id   BIGINT NOT NULL REFERENCES item,
-  PRIMARY KEY (rev, id)
 );
 
 CREATE TABLE creature.person_spell_school_level (
@@ -184,8 +152,8 @@ CREATE TABLE creature.person_spells (
 CREATE TABLE creature.person_spells_history (
   rev       BIGINT,
   revtype   SMALLINT,
-  person_id BIGINT NOT NULL REFERENCES creature.person,
-  spells_id BIGINT NOT NULL REFERENCES spell,
+  person_id BIGINT,
+  spells_id BIGINT,
   PRIMARY KEY (person_id, spells_id, rev)
 );
 
