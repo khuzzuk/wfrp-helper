@@ -16,6 +16,7 @@ export default class CreatureArmorValues {
     }
 
     updateWith(values: CreatureArmorValues) {
-        this.armorValues = new Map(values);
+        this.armorValues = new Map();
+        Placement.allOf().map(placement => this.armorValues.set(placement, values[placement]));
     }
 }

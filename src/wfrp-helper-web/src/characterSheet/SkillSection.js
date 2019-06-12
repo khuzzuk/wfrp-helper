@@ -3,7 +3,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import GearComponent from "./GearComponent";
 import Skill from "../data/knowledge/skill/Skill";
 import ArmorCalculationsComponent from "./ArmorCalculationsComponent";
-import CreatureArmorValues from "../data/creature/CreatureArmorValues";
 
 const skillSectionStyle = {
     firstColumn: {

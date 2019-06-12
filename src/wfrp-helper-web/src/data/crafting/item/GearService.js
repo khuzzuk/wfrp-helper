@@ -1,7 +1,5 @@
 import RequestService from "../../../connection/RequestService";
 import {func} from "prop-types";
-import Person from "../../creature/Person";
-import Armor from "./armor/Armor";
 
 export default class GearService extends RequestService {
     calculateMeleeDamage(weaponId: number, onResponse: func) {
@@ -13,6 +11,6 @@ export default class GearService extends RequestService {
     }
 
     calculatePersonArmorValue(armorIds: number[], onResponse: func) {
-        this.requestFor(armorIds, 'helper/int', onResponse)
+        this.requestFor(armorIds, 'gear/getArmorValuesForGear', onResponse)
     }
 }

@@ -23,6 +23,31 @@ const defaultStyle = {
         left: 28,
         top: 105,
     },
+    rightHand: {
+        ...defaultComponentStyle,
+        left: 25,
+        top: 180,
+    },
+    leftHand: {
+        ...defaultComponentStyle,
+        left: 165,
+        top: 170,
+    },
+    torso: {
+        ...defaultComponentStyle,
+        left: 165,
+        top: 235,
+    },
+    rightLeg: {
+        ...defaultComponentStyle,
+        left: 25,
+        top: 300,
+    },
+    leftLeg: {
+        ...defaultComponentStyle,
+        left: 165,
+        top: 300,
+    },
 };
 
 const gearService = new GearService();
@@ -38,7 +63,11 @@ class ArmorCalculationsComponent extends Component {
         this.state = state ? state : this.state;
         gearService.calculatePersonArmorValue(
             this.props.entity.armor.map(armor => armor.id),
-            data => console.log(data)
+            data => {
+                const armorCalcs = new CreatureArmorValues();
+                armorCalcs.updateWith(data)
+                this.setState({armorValues: armorCalcs});
+            }
         );
     }
 
@@ -51,6 +80,11 @@ class ArmorCalculationsComponent extends Component {
         return <div className={`${classes.container} ${className}`} {...other}>
             <p className={classes.shield}>{this.state.armorValues.getArmorValue(Placement.SHIELD)}</p>
             <p className={classes.head}>{this.state.armorValues.getArmorValue(Placement.HEAD)}</p>
+            <p className={classes.rightHand}>{this.state.armorValues.getArmorValue(Placement.HAND)}</p>
+            <p className={classes.leftHand}>{this.state.armorValues.getArmorValue(Placement.HAND)}</p>
+            <p className={classes.torso}>{this.state.armorValues.getArmorValue(Placement.TORSO)}</p>
+            <p className={classes.rightLeg}>{this.state.armorValues.getArmorValue(Placement.LEG)}</p>
+            <p className={classes.leftLeg}>{this.state.armorValues.getArmorValue(Placement.LEG)}</p>
         </div>
     }
 }
