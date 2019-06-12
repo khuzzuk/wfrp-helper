@@ -57,19 +57,16 @@ class ArmorCalculationsComponent extends Component {
         armorValues: new CreatureArmorValues(),
     };
 
-
-    constructor(props: P, context: any, state) {
-        super(props, context);
-        this.state = state ? state : this.state;
+    updateArmorValues = () => {
         gearService.calculatePersonArmorValue(
             this.props.entity.armor.map(armor => armor.id),
             data => {
                 const armorCalcs = new CreatureArmorValues();
-                armorCalcs.updateWith(data)
+                armorCalcs.updateWith(data);
                 this.setState({armorValues: armorCalcs});
             }
         );
-    }
+    };
 
     render() {
         const {
@@ -77,6 +74,9 @@ class ArmorCalculationsComponent extends Component {
             entity,
             ...other
         } = this.props;
+        if (entity.armor !== this.state.armor) {
+            this.updateArmorValues();
+        }
         return <div className={`${classes.container} ${className}`} {...other}>
             <p className={classes.shield}>{this.state.armorValues.getArmorValue(Placement.SHIELD)}</p>
             <p className={classes.head}>{this.state.armorValues.getArmorValue(Placement.HEAD)}</p>
@@ -85,7 +85,7 @@ class ArmorCalculationsComponent extends Component {
             <p className={classes.torso}>{this.state.armorValues.getArmorValue(Placement.TORSO)}</p>
             <p className={classes.rightLeg}>{this.state.armorValues.getArmorValue(Placement.LEG)}</p>
             <p className={classes.leftLeg}>{this.state.armorValues.getArmorValue(Placement.LEG)}</p>
-        </div>
+        </div>;
     }
 }
 
