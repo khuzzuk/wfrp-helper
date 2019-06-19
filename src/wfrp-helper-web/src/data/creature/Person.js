@@ -156,5 +156,22 @@ export default class Person extends Entity {
                     return newArmor;
                 })
         }
+
+        if (entity.spellSchools) {
+            this.spellSchools = entity.spellSchools
+                .map(spellSchool => {
+                    const newSpellSchool = new SpellSchoolLevel();
+                    newSpellSchool.updateWith(spellSchool);
+                    return newSpellSchool;
+                })
+        }
+        if (entity.spells) {
+            this.spells = entity.spells
+                .map(spell => {
+                    const newSpell = new Spell();
+                    newSpell.updateWith(spell);
+                    return newSpell;
+                })
+        }
     }
 }

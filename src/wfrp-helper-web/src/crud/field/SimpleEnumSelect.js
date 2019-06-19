@@ -14,7 +14,7 @@ const simpleStyle = {
     }),
 };
 
-export default class SimpleEntitySelect extends Component {
+export default class SimpleEnumSelect extends Component {
 
     getData = source => {
         return source.map(e => {

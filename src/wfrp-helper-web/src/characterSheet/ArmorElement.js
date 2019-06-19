@@ -31,14 +31,19 @@ class ArmorElement extends Component {
         armorValue: ''
     };
 
-    constructor(props: P, context: any) {
-        super(props, context);
-        gearService.calculateArmorValue(this.props.armor.id, text => this.setState({armorValue: text}))
+    updateArmor = () => {
+        gearService.calculateArmorValue(this.props.armor.id, text => this.setState({
+            armorValue: text,
+            armor: this.props.armor
+        }));
     }
 
     render() {
         const {classes, customStyle, onContextMenu, armor} = this.props;
         const currentStyle = {...classes, ...customStyle};
+        if (this.state.armor !== armor) {
+            this.updateArmor();
+        }
 
         return <div className={currentStyle.itemContainer} onContextMenu={event => {
             event.preventDefault();

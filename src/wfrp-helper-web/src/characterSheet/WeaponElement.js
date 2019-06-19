@@ -32,14 +32,19 @@ class WeaponElement extends Component {
         damageText: ''
     };
 
-    constructor(props: P, context: any) {
-        super(props, context);
-        weaponService.calculateMeleeDamage(this.props.weapon.id, text => this.setState({damageText: text}))
+    updateDamageValue = () => {
+        weaponService.calculateMeleeDamage(this.props.weapon.id, text => this.setState({
+            damageText: text,
+            weapon: this.props.weapon
+        }))
     }
 
     render() {
         const {classes, customStyle, onContextMenu, weapon} = this.props;
         const currentStyle = {...classes, ...customStyle};
+        if (weapon !== this.state.weapon) {
+            this.updateDamageValue();
+        }
 
         return <div className={currentStyle.itemContainer} onContextMenu={event => {
             event.preventDefault();

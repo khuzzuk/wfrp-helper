@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
-import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
 import {List} from "@material-ui/core";
+import SimpleEntitySelect from "./SimpleEntitySelect";
 
 const fieldStyle = {
     selectComponent: {
@@ -30,7 +30,7 @@ const selectStyle = {
     }),
 };
 
-class GearComponent extends Component {
+class SelectableList extends Component {
 
     render() {
         const {
@@ -54,4 +54,4 @@ class GearComponent extends Component {
     }
 }
 
-export default withStyles(fieldStyle)(GearComponent)
+export default withStyles(fieldStyle)(SelectableList)

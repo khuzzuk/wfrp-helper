@@ -12,6 +12,7 @@ import PersonalDeterminantsField from "./PersonalDeterminantsField";
 import PersonDeterminants from "../data/creature/PersonDeterminants";
 import GearSection from "./GearSection";
 import SkillSection from "./SkillSection";
+import MagicSection from "./MagicSection";
 
 const formStyles = {
     backgroundStyle: {
@@ -138,11 +139,6 @@ const formStyles = {
         minWidth: 450,
         height: '100%'
     },
-    skillSectionContainer: {
-        maxWidth: 450,
-        minWidth: 450,
-        height: '100%'
-    },
 };
 
 class CharacterSheetForm extends Component {
@@ -250,14 +246,13 @@ class CharacterSheetForm extends Component {
                                  personService={personService}
                                  entity={entity}
                                  onChange={onChange}/>
-                    <SkillSection className={classes.skillSectionContainer}
-                                  entity={entity}
+                    <SkillSection entity={entity}
                                   personService={personService}
                                   onChange={onChange}/>
                 </div>
             </div>
             <div>
-
+                <MagicSection entity={entity} personService={personService} onChange={onChange}/>
             </div>
         </div>;
     }

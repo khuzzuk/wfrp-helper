@@ -27,5 +27,3 @@ CREATE TABLE spell_ingredients (
   ingrediend_id BIGINT             NOT NULL REFERENCES item,
   spell_id      BIGINT             NOT NULL REFERENCES spell
 );
-
-

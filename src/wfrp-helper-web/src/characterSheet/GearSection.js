@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import ArmorElement from "./ArmorElement";
-import GearComponent from "./GearComponent";
 import WeaponElement from "./WeaponElement";
 import RangedWeaponElement from "./RangedWeaponElement";
+import SelectableList from "../crud/field/SelectableList";
 
 const gearSectionStyle = {
     meleeWeaponsField: {
@@ -42,24 +42,24 @@ class GearSection extends Component {
     render() {
         const {classes, className, entity, personService} = this.props;
         return <div className={className}>
-            <GearComponent customStyle={{gearField: classes.meleeWeaponsField}}
+            <SelectableList customStyle={{gearField: classes.meleeWeaponsField}}
                            data={personService.meleeWeapons} onGearAdd={this.addItem('meleeWeapons')}>
                 {entity.meleeWeapons.map(weapon => <WeaponElement key={weapon.name + '_meleeWeaponField'}
                                                                   weapon={weapon}
                                                                   onContextMenu={this.removeItem('meleeWeapons')}/>)}
-            </GearComponent>
-            <GearComponent customStyle={{gearField: classes.rangedWeaponsField}}
+            </SelectableList>
+            <SelectableList customStyle={{gearField: classes.rangedWeaponsField}}
                            data={personService.rangedWeapons} onGearAdd={this.addItem('rangedWeapons')}>
                 {entity.rangedWeapons.map(weapon => <RangedWeaponElement key={weapon.name + '_rangedWeaponField'}
                                                                          weapon={weapon}
                                                                          onContextMenu={this.removeItem('rangedWeapons')}/>)}
-            </GearComponent>
-            <GearComponent customStyle={{gearField: classes.armorField}}
+            </SelectableList>
+            <SelectableList customStyle={{gearField: classes.armorField}}
                            data={personService.armors}
                            onGearAdd={this.addItem('armor')}>
                 {entity.armor.map(armor => <ArmorElement key={armor.name + '_armorField'} armor={armor}
                                                          onContextMenu={this.removeItem('armor')}/>)}
-            </GearComponent>
+            </SelectableList>
         </div>
     }
 }

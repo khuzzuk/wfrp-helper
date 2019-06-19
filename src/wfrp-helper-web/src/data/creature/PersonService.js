@@ -24,8 +24,11 @@ import MeleeWeaponService from "../crafting/item/melee/MeleeWeaponService";
 import ArmorService from "../crafting/item/armor/ArmorService";
 import Armor from "../crafting/item/armor/Armor";
 import Skill from "../knowledge/skill/Skill";
-import SkillSection from "../../characterSheet/SkillSection";
 import SkillService from "../knowledge/skill/SkillService";
+import SpellService from "../knowledge/magic/spell/SpellService";
+import Spell from "../knowledge/magic/spell/Spell";
+import SpellSchoolService from "../knowledge/magic/spellSchool/SpellSchoolService";
+import SpellSchool from "../knowledge/magic/spellSchool/SpellSchool";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -41,6 +44,8 @@ export default class PersonService extends ConnectionService {
     rangedWeapons: RangedWeapon[] = [];
     armors: Armor[] = [];
     skills: Skill[] = [];
+    spells: Spell[] = [];
+    spellSchools: SpellSchool[] = [];
 
     tableColumns: FormFieldData[] = [
         {
@@ -81,12 +86,14 @@ export default class PersonService extends ConnectionService {
         const rangedWeaponService = new RangedWeaponService(this.onRetrieveRelatedData(this.rangedWeapons));
         const armorService = new ArmorService(this.onRetrieveRelatedData(this.armors));
         const skillService = new SkillService(this.onRetrieveRelatedData(this.skills));
+        const spellService = new SpellService(this.onRetrieveRelatedData(this.spells));
+        const spellSchoolService = new SpellSchoolService(this.onRetrieveRelatedData(this.spellSchools));
 
         this.registerRelatedServices([hairColorService, eyeColorService,
             raceService, professionClassService, professionService,
             characterService, physicalFeatureService,
             meleeWeaponService, rangedWeaponService, armorService,
-            skillService]);
+            skillService, spellService, spellSchoolService]);
     }
 
     createNew(): Person {
