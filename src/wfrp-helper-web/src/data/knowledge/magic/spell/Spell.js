@@ -16,24 +16,11 @@ export default class Spell extends Entity {
     ingredients: Item[] = [];
 
 
-    updateWith(entity: *) {
+    updateWith(entity: Spell) {
         super.updateWith(entity);
-
-        if (entity.prepareTime) {
-            this.prepareTime = new ActionTime();
-            this.prepareTime.updateWith(entity.prepareTime);
-        }
-        if (entity.durationTime) {
-            this.durationTime = new ActionTime();
-            this.durationTime.updateWith(entity.durationTime);
-        }
-
-        if (entity.ingredients) {
-            this.ingredients = entity.ingredients.map(item => {
-                const newItem = new Item();
-                newItem.updateWith(item);
-                return newItem;
-            });
-        }
+        this.updateEntityProp(entity, 'prepareTime', () => new ActionTime());
+        this.updateEntityProp(entity, 'durationTime', () => new ActionTime());
+        this.updateEntityProp(entity, 'spellSchool', () => new SpellSchool());
+        this.updateEntityList(entity, 'ingredients', () => new Item());
     }
 }

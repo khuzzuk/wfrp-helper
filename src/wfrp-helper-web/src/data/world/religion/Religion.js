@@ -8,13 +8,6 @@ export default class Religion extends Entity {
 
     updateWith(entity: Religion) {
         super.updateWith(entity);
-        if (entity.nations) {
-            this.nations = entity.nations
-                .map(nation => {
-                    const newNation = new Nation();
-                    newNation.updateWith(nation);
-                    return newNation;
-                });
-        }
+        this.updateEntityList(entity, 'nations', () => new Nation());
     }
 }

@@ -1,3 +1,5 @@
+import ModelElement from "../../crud/ModelElement";
+
 export const ActionType = {
     ACTION: 'ACTION',
     ROUND: 'ROUND',
@@ -8,13 +10,9 @@ export const ActionType = {
     }
 };
 
-export default class ActionTime {
+export default class ActionTime extends ModelElement {
     actionType: string = ActionType.ACTION;
     amount: number = 1;
-
-    updateWith(actionTime: ActionTime) {
-        Object.assign(this, actionTime);
-    }
 
     toString(): string {
         switch (this.actionType) {

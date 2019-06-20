@@ -6,4 +6,9 @@ export default class Currency extends Entity {
     description: string;
     valueMultiplier: number;
     nations: Nation[];
+
+    updateWith(entity: *) {
+        super.updateWith(entity);
+        this.updateEntityList(entity, 'nations', () => new Nation());
+    }
 }

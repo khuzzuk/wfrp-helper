@@ -17,22 +17,10 @@ export default class Armor extends DeterminantContainer {
 
     updateWith(entity: *) {
         super.updateWith(entity);
-
-        if (entity.primaryResource) {
-            this.primaryResource = new Resource();
-            this.primaryResource.updateWith(entity.primaryResource);
-        }
-        if (entity.secondaryResource) {
-            this.secondaryResource = new Resource();
-            this.secondaryResource.updateWith(entity.secondaryResource);
-        }
-        if (entity.type) {
-            this.type = new ArmorBlueprint();
-            this.type.updateWith(entity.type);
-        }
-        if (entity.armorPattern) {
-            this.armorPattern = new ArmorPattern();
-            this.armorPattern.updateWith(entity.armorPattern);
-        }
+        this.updateEntityProp(entity, 'price', () => new Price());
+        this.updateEntityProp(entity, 'primaryResource', () => new Resource());
+        this.updateEntityProp(entity, 'secondaryResource', () => new Resource());
+        this.updateEntityProp(entity, 'type', () => new ArmorBlueprint());
+        this.updateEntityProp(entity, 'armorPattern', () => new ArmorPattern());
     }
 }

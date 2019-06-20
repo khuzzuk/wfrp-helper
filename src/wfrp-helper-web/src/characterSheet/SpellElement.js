@@ -50,7 +50,6 @@ class SpellElement extends Component {
         } = this.props;
         const currentStyle = {...classes, customStyle};
         const ingredientsText = spell.ingredients.map(item => item.name).join(', ');
-        console.log(spell.durationTime);
 
         return (
             <div {...other} className={currentStyle.container}

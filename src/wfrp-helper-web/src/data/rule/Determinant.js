@@ -10,14 +10,7 @@ export default class Determinant extends Entity {
 
     updateWith(entity: Determinant) {
         super.updateWith(entity);
-        if (entity.modifiers) {
-            this.modifiers = entity.modifiers
-                .map(modifier => {
-                    const mod = new Modifier();
-                    mod.updateWith(modifier);
-                    return mod;
-                });
-        }
+        this.updateEntityList(entity, 'modifiers', () => new Modifier());
     }
 
     getExperienceExtensions() {

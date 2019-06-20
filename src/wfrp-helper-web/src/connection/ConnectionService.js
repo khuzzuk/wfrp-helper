@@ -125,14 +125,12 @@ class ConnectionService {
 
             if (response.status === 400) {
                 message.then(value => {
-                    console.log(value);
                     window.confirm(Array.from(new Set(value.errors
                         .map(e => 'cannot set field ' + e.field + ' with ' + e.rejectedValue + ', ' + e.message)))
                         .join('\n'));
                 });
             } else if (response.status === 409) {
                 message.then(value => {
-                    console.log(value);
                     window.confirm(value.errors[0].message);
                 });
             }

@@ -45,11 +45,6 @@ class AppMenu extends Component {
         customEditor: null
     };
 
-    constructor(props) {
-        super(props);
-        console.log('new crud')
-    }
-
     updateData = (data) => {
         this.setState({data: data, customEditor: null})
     };

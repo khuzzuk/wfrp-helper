@@ -79,8 +79,6 @@ class MagicSection extends Component {
             return !personSpells.find(pSpell => pSpell.name === spell.name) &&
                 personSchools.find(schoolLevel => schoolLevel.spellSchool.name === spell.spellSchool.name && schoolLevel.level >= spell.level);
         });
-        console.log(availableSpells);
-        console.log(finalSpells);
         return finalSpells;
     };
 

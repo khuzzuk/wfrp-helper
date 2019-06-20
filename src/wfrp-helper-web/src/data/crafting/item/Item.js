@@ -7,6 +7,12 @@ class Item extends Entity {
     weight: number;
     price: Price = new Price();
     availability: string = 'COMMON';
+
+
+    updateWith(entity: *) {
+        super.updateWith(entity);
+        this.updateEntityProp(entity, 'price', () => new Price());
+    }
 }
 
 export default Item;

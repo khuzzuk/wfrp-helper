@@ -8,9 +8,6 @@ export default class SpellSchoolLevel extends Entity {
 
     updateWith(entity: *) {
         super.updateWith(entity);
-        if (entity.spellSchool) {
-            this.spellSchool = new SpellSchool();
-            this.spellSchool.updateWith(entity.spellSchool);
-        }
+        this.updateEntityProp(entity, 'spellSchool', () => new SpellSchool());
     }
 }

@@ -16,14 +16,8 @@ export default class RangedWeaponBlueprint extends DeterminantContainer {
 
     updateWith(entity: RangedWeaponBlueprint) {
         super.updateWith(entity);
-
-        if (entity.damage) {
-            this.damage = new Modifier();
-            this.damage.updateWith(entity.damage);
-        }
-        if (entity.prepareTime) {
-            this.prepareTime = new ActionTime();
-            this.prepareTime.updateWith(entity.prepareTime);
-        }
+        this.updateEntityProp(entity, 'suggestedPrice', () => new Price());
+        this.updateEntityProp(entity, 'damage', () => new Modifier());
+        this.updateEntityProp(entity, 'prepareTime', () => new ActionTime());
     }
 }

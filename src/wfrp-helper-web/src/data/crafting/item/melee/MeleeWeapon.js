@@ -16,19 +16,10 @@ export default class MeleeWeapon extends DeterminantContainer {
 
     updateWith(entity: *) {
         super.updateWith(entity);
-
-        if (entity.primaryResource) {
-            this.primaryResource = new Resource();
-            this.primaryResource.updateWith(entity.primaryResource);
-        }
-        if (entity.secondaryResource) {
-            this.secondaryResource = new Resource();
-            this.secondaryResource.updateWith(entity.secondaryResource);
-        }
-        if (entity.type) {
-            this.type = new MeleeWeaponBlueprint();
-            this.type.updateWith(entity.type);
-        }
+        this.updateEntityProp(entity, 'price', () => new Price());
+        this.updateEntityProp(entity, 'primaryResource', () => new Resource());
+        this.updateEntityProp(entity, 'secondaryResource', () => new Resource());
+        this.updateEntityProp(entity, 'type', () => new MeleeWeaponBlueprint());
     }
 
     getFinalValueForType(determinantType: string): number {

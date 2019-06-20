@@ -7,4 +7,9 @@ export default class ArmorBlueprint extends DeterminantContainer {
     suggestedPrice: Price = new Price();
     suggestedWeight: number;
     placement: string[] = [];
+
+    updateWith(entity: DeterminantContainer) {
+        super.updateWith(entity);
+        this.updateEntityProp(entity, 'suggestedPrice', () => new Price());
+    }
 }

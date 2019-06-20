@@ -1,11 +1,9 @@
-class Entity {
+import ModelElement from "./ModelElement";
+
+class Entity extends ModelElement {
     id: number;
     version: number;
     uuid: string;
-
-    updateWith(entity: any) {
-        Object.assign(this, entity);
-    }
 }
 
 export default Entity;

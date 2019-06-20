@@ -58,198 +58,42 @@ export default class Person extends Entity {
     money: Money[] = [];
 
     updateWith(entity: *) {
-        if (entity.id) {
-            this.id = entity.id;
-        }
-        if (entity.uuid) {
-            this.uuid = entity.uuid;
-        }
+        this.updateProp(entity, 'id');
+        this.updateProp(entity, 'uuid');
+        this.updateProp(entity, 'name');
+        this.updateProp(entity, 'gender');
+        this.updateProp(entity, 'age');
+        this.updateProp(entity, 'height');
+        this.updateProp(entity, 'weight');
+        this.updateProp(entity, 'fatePoints');
+        this.updateProp(entity, 'mana');
+        this.updateProp(entity, 'currentMana');
+        this.updateProp(entity, 'sanityPoints');
+        this.updateProp(entity, 'totalExperience');
+        this.updateProp(entity, 'experience');
+        this.updateProp(entity, 'birthplace');
+        this.updateProp(entity, 'parents');
+        this.updateProp(entity, 'family');
 
-        if (entity.name) {
-            this.name = entity.name;
-        }
+        this.updateEntityProp(entity, 'nation', () => new Nation());
+        this.updateEntityProp(entity, 'religion', () => new Religion());
+        this.updateEntityProp(entity, 'hairColor', () => new HairColor());
+        this.updateEntityProp(entity, 'eyeColor', () => new EyeColor());
+        this.updateEntityProp(entity, 'race', () => new Race());
+        this.updateEntityProp(entity, 'personality', () => new Character());
+        this.updateEntityProp(entity, 'determinants', () => new PersonDeterminants());
+        this.updateEntityProp(entity, 'professionClass', () => new ProfessionClass());
+        this.updateEntityProp(entity, 'currentProfession', () => new Profession());
 
-        if (entity.gender) {
-            this.gender = entity.gender;
-        }
-
-        if (entity.age) {
-            this.age = entity.age;
-        }
-
-        if (entity.height) {
-            this.height = entity.height;
-        }
-
-        if (entity.weight) {
-            this.weight = entity.weight;
-        }
-
-        if (entity.fatePoints) {
-            this.fatePoints = entity.fatePoints;
-        }
-
-        if (entity.mana) {
-            this.mana = entity.mana;
-        }
-
-        if (entity.currentMana) {
-            this.currentMana = entity.currentMana;
-        }
-
-        if (entity.sanityPoints) {
-            this.sanityPoints = entity.sanityPoints;
-        }
-
-        if (entity.totalExperience) {
-            this.totalExperience = entity.totalExperience;
-        }
-
-        if (entity.experience) {
-            this.experience = entity.experience;
-        }
-
-        if (entity.birthplace) {
-            this.birthplace = entity.birthplace;
-        }
-
-        if (entity.parents) {
-            this.parents = entity.parents;
-        }
-
-        if (entity.family) {
-            this.family = entity.family;
-         }
-
-        if (entity.nation) {
-            this.nation = new Nation();
-            this.nation.updateWith(entity.nation);
-        }
-
-        if (entity.religion) {
-            this.religion = new Religion();
-            this.religion.updateWith(entity.religion);
-        }
-
-        if (entity.hairColor) {
-            this.hairColor = new HairColor();
-            this.hairColor.updateWith(entity.hairColor);
-        }
-
-        if (entity.eyeColor) {
-            this.eyeColor = new EyeColor();
-            this.eyeColor.updateWith(entity.eyeColor);
-        }
-
-        if (entity.race) {
-            this.race = new Race();
-            this.race.updateWith(entity.race);
-        }
-
-        if (entity.physicalFeatures) {
-            this.physicalFeatures = entity.physicalFeatures
-                .map(feat => {
-                    const newFeat = new PhysicalFeature();
-                    newFeat.updateWith(feat);
-                    return newFeat;
-                });
-        }
-
-        if (entity.personality) {
-            this.personality = new Character();
-            this.personality.updateWith(entity.personality);
-        }
-
-        if (entity.determinants) {
-            this.determinants = new PersonDeterminants();
-            this.determinants.updateWith(entity.determinants);
-        }
-
-        if (entity.professionClass) {
-            this.professionClass = new ProfessionClass();
-            this.professionClass.updateWith(entity.professionClass);
-        }
-
-        if (entity.currentProfession) {
-            this.currentProfession = new Profession();
-            this.currentProfession.updateWith(entity.currentProfession);
-        }
-
-        if (entity.professions) {
-            this.professions = entity.professions
-                .map(prof => {
-                    const newProf = new Profession();
-                    newProf.updateWith(prof);
-                    return newProf;
-                });
-        }
-
-        if (entity.skills) {
-            this.skills = entity.skills
-                .map(skill => {
-                    const newSkill = new Skill();
-                    newSkill.updateWith(skill);
-                    return newSkill;
-                });
-        }
-
-        if (entity.meleeWeapons) {
-            this.meleeWeapons = entity.meleeWeapons
-                .map(weapon => {
-                    const newWeapon = new MeleeWeapon();
-                    newWeapon.updateWith(weapon);
-                    return newWeapon;
-                })
-        }
-        if (entity.rangedWeapons) {
-            this.rangedWeapons = entity.rangedWeapons
-                .map(weapon => {
-                    const newWeapon = new RangedWeapon();
-                    newWeapon.updateWith(weapon);
-                    return newWeapon;
-                })
-        }
-        if (entity.armor) {
-            this.armor = entity.armor
-                .map(armor => {
-                    const newArmor = new Armor();
-                    newArmor.updateWith(armor);
-                    return newArmor;
-                })
-        }
-
-        if (entity.spellSchools) {
-            this.spellSchools = entity.spellSchools
-                .map(spellSchool => {
-                    const newSpellSchool = new SpellSchoolLevel();
-                    newSpellSchool.updateWith(spellSchool);
-                    return newSpellSchool;
-                })
-        }
-        if (entity.spells) {
-            this.spells = entity.spells
-                .map(spell => {
-                    const newSpell = new Spell();
-                    newSpell.updateWith(spell);
-                    return newSpell;
-                })
-        }
-        if (entity.animals) {
-            this.animals = entity.animals
-                .map(animal => {
-                    const newAnimal = new Animal();
-                    newAnimal.updateWith(animal);
-                    return newAnimal;
-                })
-        }
-
-        if (entity.money) {
-            this.money = entity.money
-                .map(money => {
-                    const newMoney = new Money();
-                    newMoney.updateWith(money);
-                    return newMoney;
-                })
-        }
+        this.updateEntityList(entity, 'physicalFeatures', () => new PhysicalFeature());
+        this.updateEntityList(entity, 'professions', () => new Profession());
+        this.updateEntityList(entity, 'skills', () => new Skill());
+        this.updateEntityList(entity, 'meleeWeapons', () => new MeleeWeapon());
+        this.updateEntityList(entity, 'rangedWeapons', () => new RangedWeapon());
+        this.updateEntityList(entity, 'armor', () => new Armor());
+        this.updateEntityList(entity, 'spellSchools', () => new SpellSchoolLevel());
+        this.updateEntityList(entity, 'spells', () => new Spell());
+        this.updateEntityList(entity, 'animals', () => new Animal());
+        this.updateEntityList(entity, 'money', () => new Money());
     }
 }

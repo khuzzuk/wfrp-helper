@@ -8,14 +8,6 @@ export default class ProfessionClass extends Entity {
 
     updateWith(entity: ProfessionClass) {
         super.updateWith(entity);
-
-        if (entity.skills) {
-            this.skills = entity.skills
-                .map(skill => {
-                    const newSkill = new Skill();
-                    newSkill.updateWith(skill);
-                    return skill;
-                });
-        }
+        this.updateEntityList(entity, 'skills', new Skill());
     }
 }

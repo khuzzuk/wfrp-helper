@@ -7,14 +7,6 @@ export default class DeterminantContainer extends Entity {
 
     updateWith(entity: DeterminantContainer) {
         super.updateWith(entity);
-
-        if (entity.determinants) {
-            this.determinants = entity.determinants
-                .map(value => {
-                    const det = new Determinant();
-                    det.updateWith(value);
-                    return det;
-                })
-        }
+        this.updateEntityList(entity, 'determinants', () => new Determinant());
     }
 }

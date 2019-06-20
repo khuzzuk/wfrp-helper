@@ -15,14 +15,8 @@ export default class Jewelry extends DeterminantContainer {
 
     updateWith(entity: *) {
         super.updateWith(entity);
-
-        if (entity.primaryResource) {
-            this.primaryResource = new Resource();
-            this.primaryResource.updateWith(entity.primaryResource);
-        }
-        if (entity.secondaryResource) {
-            this.secondaryResource = new Resource();
-            this.secondaryResource.updateWith(entity.secondaryResource);
-        }
+        this.updateEntityProp(entity, 'price', () => new Price());
+        this.updateEntityProp(entity, 'primaryResource', () => new Resource());
+        this.updateEntityProp(entity, 'secondaryResource', () => new Resource());
     }
 }

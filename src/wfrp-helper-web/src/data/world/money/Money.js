@@ -9,13 +9,7 @@ export default class Money extends Entity {
 
     updateWith(entity: Money) {
         super.updateWith(entity);
-        if (entity.currency) {
-            this.currency = new Currency();
-            this.currency.updateWith(entity.currency);
-        }
-        if (entity.amount) {
-            this.amount = new Price();
-            this.amount.updateWith(entity.amount);
-        }
+        this.updateEntityProp(entity, 'currency', () => new Currency());
+        this.updateEntityProp(entity, 'amount', () => new Price());
     }
 }

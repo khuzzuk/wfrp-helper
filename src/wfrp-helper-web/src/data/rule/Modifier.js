@@ -24,15 +24,7 @@ class Modifier extends Entity {
 
     updateWith(entity: Modifier) {
         super.updateWith(entity);
-
-        if (entity.rolls) {
-            this.rolls = entity.rolls
-                .map(roll => {
-                    const newRoll = new DiceRoll();
-                    newRoll.updateWith(roll);
-                    return newRoll;
-                })
-        }
+        this.updateEntityList(entity, 'rolls', () => new DiceRoll());
     }
 }
 

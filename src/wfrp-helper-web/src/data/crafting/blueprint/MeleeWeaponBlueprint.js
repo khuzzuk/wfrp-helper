@@ -13,10 +13,8 @@ export default class MeleeWeaponBlueprint extends DeterminantContainer {
 
     updateWith(entity: MeleeWeaponBlueprint) {
         super.updateWith(entity);
-
-        if (entity.damage) {
-            this.damage = new Modifier();
-            this.damage.updateWith(entity.damage);
-        }
+        this.updateEntityProp(entity, 'suggestedPrice', () => new Price());
+        this.updateEntityProp(entity, 'damage', () => new Modifier());
+        this.updateEntityProp(entity, 'prepareTime', () => new ActionTime());
     }
 }

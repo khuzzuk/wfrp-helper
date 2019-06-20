@@ -8,10 +8,6 @@ export default class Animal extends DeterminantContainer {
 
     updateWith(entity: Animal) {
         super.updateWith(entity);
-
-        if (entity.animalKind) {
-            this.animalKind = new AnimalKind();
-            this.animalKind.updateWith(entity.animalKind);
-        }
+        this.updateEntityProp(entity, 'animalKind', () => new AnimalKind());
     }
 }
