@@ -34,6 +34,7 @@ import CreatureMenu from "../data/creature/CreatureMenu";
 import AnimalService from "../data/creature/AnimalService";
 import PersonService from "../data/creature/PersonService";
 import CharacterSheetForm from "../characterSheet/CharacterSheetForm";
+import ReligionService from "../data/world/religion/ReligionService";
 
 class AppMenu extends Component {
     state = {
@@ -58,6 +59,7 @@ class AppMenu extends Component {
     languageService = new LanguageService(this.updateData);
     raceService = new RaceService(this.updateData);
     currencyService = new CurrencyService(this.updateData);
+    religionService = new ReligionService(this.updateData);
 
     //knowledge
     skillService = new SkillService(this.updateData);
@@ -118,7 +120,8 @@ class AppMenu extends Component {
                         <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
                                        languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}
                                        raceService={this.raceService} onRace={this.getCrud(this.raceService)}
-                                       currencyService={this.currencyService} onCurrency={this.getCrud(this.currencyService)}/>
+                                       currencyService={this.currencyService} onCurrency={this.getCrud(this.currencyService)}
+                                       religionService={this.religionService} onReligion={this.getCrud(this.religionService)}/>
                         <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
                                       itemService={this.itemService} onItem={this.getCrud(this.itemService)}
                                       armorBlueprintService={this.armorBlueprintService} onArmorBlueprint={this.getCrud(this.armorBlueprintService)}

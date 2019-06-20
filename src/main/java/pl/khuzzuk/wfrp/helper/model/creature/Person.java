@@ -16,9 +16,12 @@ import pl.khuzzuk.wfrp.helper.model.crafting.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.Spell;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
+import pl.khuzzuk.wfrp.helper.model.money.Money;
 import pl.khuzzuk.wfrp.helper.model.professions.Profession;
 import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
+import pl.khuzzuk.wfrp.helper.model.world.Nation;
 import pl.khuzzuk.wfrp.helper.model.world.Race;
+import pl.khuzzuk.wfrp.helper.model.world.Religion;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -47,6 +50,24 @@ public class Person {
     private @Min(0) int age;
     private @Min(0) int height;
     private @Min(0) float weight;
+    private @Min(0) int fatePoints;
+    private @Min(0) int mana;
+    private @Min(0) int currentMana;
+    private @Min(0) int sanityPoints;
+    private @Min(0) int total_experience;
+    private @Min(0) int experience;
+    private String birthplace;
+    private String parents;
+    private String family;
+
+    @ManyToOne
+    @JoinColumn
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    private Nation nation;
+    @ManyToOne
+    @JoinColumn
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    private Religion religion;
     @ManyToOne
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private @NotNull HairColor hairColor;
@@ -122,4 +143,9 @@ public class Person {
     @JoinTable(schema = "creature")
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private Set<Animal> animals;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_id")
+    @Audited
+    private List<Money> money;
 }

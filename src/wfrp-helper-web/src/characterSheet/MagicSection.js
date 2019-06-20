@@ -2,14 +2,22 @@ import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import SelectableList from "../crud/field/SelectableList";
 import SpellElement from "./SpellElement";
+import IntegerField from "../crud/field/IntegerField";
 
 const sectionStyle = {
     container: {
         marginLeft: 45,
+        display: 'flex',
     },
+    input: {
+        fontFamily: 'wfrp',
+        fontSize: '24px',
+        textAlign: 'center'
+    },
+
     spellList: {
-        minWidth: 700,
-        maxWidth: 700,
+        minWidth: 620,
+        maxWidth: 620,
         minHeight: 280,
         maxHeight: 280,
     },
@@ -17,6 +25,33 @@ const sectionStyle = {
         width: '100%',
         minHeight: '100%',
         maxHeight: '100%',
+    },
+    magicPointsSection: {
+        paddingLeft: 5,
+        minWidth: 190,
+        maxWidth: 190,
+        minHeight: 280,
+        maxHeight: 280,
+        display: 'flex',
+        flexFlow: 'column',
+    },
+    fatePoints: {
+        width: '100%',
+        minHeight: 50,
+        maxHeight: 50,
+        paddingTop: 60,
+    },
+    manaPoints: {
+        width: '100%',
+        minHeight: 50,
+        maxHeight: 50,
+        paddingTop: 36,
+    },
+    currentManaPoints: {
+        width: '100%',
+        minHeight: 50,
+        maxHeight: 50,
+        paddingTop: 36,
     },
 };
 
@@ -49,6 +84,11 @@ class MagicSection extends Component {
         return finalSpells;
     };
 
+    updateProperty = name => value => {
+        this.props.entity[name] = value;
+        this.props.onChange(this.props.entity);
+    };
+
     render() {
         const {
             customStyle, classes,
@@ -68,6 +108,14 @@ class MagicSection extends Component {
                                                       onContextMenu={this.removeSpell}/>)
                 }
             </SelectableList>
+            <div className={currentStyle.magicPointsSection}>
+                <IntegerField className={currentStyle.fatePoints} value={entity.fatePoints}
+                              onChange={this.updateProperty('fatePoints')} inputProps={{className: currentStyle.input}}/>
+                <IntegerField className={currentStyle.manaPoints} value={entity.mana}
+                              onChange={this.updateProperty('mana')} inputProps={{className: currentStyle.input}}/>
+                <IntegerField className={currentStyle.currentManaPoints} value={entity.currentMana}
+                              onChange={this.updateProperty('currentMana')} inputProps={{className: currentStyle.input}}/>
+            </div>
         </div>;
     }
 }

@@ -15,6 +15,9 @@ import Animal from "./Animal";
 import Character from "../look/character/Character";
 import SpellSchoolLevel from "../knowledge/magic/spellSchool/SpellSchoolLevel";
 import Race from "../world/race/Race";
+import Nation from "../world/nation/Nation";
+import Religion from "../world/religion/Religion";
+import Money from "../world/money/Money";
 
 export default class Person extends Entity {
     name: string;
@@ -22,6 +25,17 @@ export default class Person extends Entity {
     age: number;
     height: number;
     weight: number;
+    fatePoints: number;
+    mana: number;
+    currentMana: number;
+    sanityPoints: number;
+    totalExperience: number;
+    experience: number;
+    birthplace: string;
+    parents: string;
+    family: string;
+    nation: Nation;
+    religion: Religion;
     hairColor: HairColor;
     eyeColor: EyeColor;
     physicalFeatures: PhysicalFeature[] = [];
@@ -41,6 +55,7 @@ export default class Person extends Entity {
     spellSchools: SpellSchoolLevel[] = [];
     spells: Spell[] = [];
     animals: Animal[] = [];
+    money: Money[] = [];
 
     updateWith(entity: *) {
         if (entity.id) {
@@ -68,6 +83,52 @@ export default class Person extends Entity {
 
         if (entity.weight) {
             this.weight = entity.weight;
+        }
+
+        if (entity.fatePoints) {
+            this.fatePoints = entity.fatePoints;
+        }
+
+        if (entity.mana) {
+            this.mana = entity.mana;
+        }
+
+        if (entity.currentMana) {
+            this.currentMana = entity.currentMana;
+        }
+
+        if (entity.sanityPoints) {
+            this.sanityPoints = entity.sanityPoints;
+        }
+
+        if (entity.totalExperience) {
+            this.totalExperience = entity.totalExperience;
+        }
+
+        if (entity.experience) {
+            this.experience = entity.experience;
+        }
+
+        if (entity.birthplace) {
+            this.birthplace = entity.birthplace;
+        }
+
+        if (entity.parents) {
+            this.parents = entity.parents;
+        }
+
+        if (entity.family) {
+            this.family = entity.family;
+         }
+
+        if (entity.nation) {
+            this.nation = new Nation();
+            this.nation.updateWith(entity.nation);
+        }
+
+        if (entity.religion) {
+            this.religion = new Religion();
+            this.religion.updateWith(entity.religion);
         }
 
         if (entity.hairColor) {
@@ -171,6 +232,23 @@ export default class Person extends Entity {
                     const newSpell = new Spell();
                     newSpell.updateWith(spell);
                     return newSpell;
+                })
+        }
+        if (entity.animals) {
+            this.animals = entity.animals
+                .map(animal => {
+                    const newAnimal = new Animal();
+                    newAnimal.updateWith(animal);
+                    return newAnimal;
+                })
+        }
+
+        if (entity.money) {
+            this.money = entity.money
+                .map(money => {
+                    const newMoney = new Money();
+                    newMoney.updateWith(money);
+                    return newMoney;
                 })
         }
     }

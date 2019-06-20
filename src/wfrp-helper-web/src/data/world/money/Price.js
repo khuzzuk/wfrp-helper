@@ -6,6 +6,10 @@ class Price {
     toString() {
         return this.gold + ' ' + this.silver + ' ' + this.lead;
     }
+
+    updateWith(price: Price) {
+        Object.assign(this, price);
+    }
 }
 
 export default Price;

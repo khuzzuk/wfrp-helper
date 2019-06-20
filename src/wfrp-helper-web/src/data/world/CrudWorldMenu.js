@@ -10,13 +10,16 @@ class CrudWorldMenu extends MenuComponent {
             nationService, onNation,
             languageService, onLanguage,
             raceService, onRace,
-            currencyService, onCurrency} = this.props;
+            currencyService, onCurrency,
+            religionService, onReligion
+        } = this.props;
 
         return [
-            <MenuItem key={'nation'} onClick={this.showCrudAction(onNation, nationService)}>Nation</MenuItem>,
-            <MenuItem key={'language'} onClick={this.showCrudAction(onLanguage, languageService)}>Language</MenuItem>,
-            <MenuItem key={'race'} onClick={this.showCrudAction(onRace, raceService)}>Race</MenuItem>,
-            <MenuItem key={'currency'} onClick={this.showCrudAction(onCurrency, currencyService)}>Currency</MenuItem>,
+            <MenuItem key={'nation'} onClick={this.showCrudAction(onNation, nationService)}>Kraje</MenuItem>,
+            <MenuItem key={'language'} onClick={this.showCrudAction(onLanguage, languageService)}>Języki</MenuItem>,
+            <MenuItem key={'race'} onClick={this.showCrudAction(onRace, raceService)}>Rasy</MenuItem>,
+            <MenuItem key={'currency'} onClick={this.showCrudAction(onCurrency, currencyService)}>Waluty</MenuItem>,
+            <MenuItem key={'religion'} onClick={this.showCrudAction(onReligion, religionService)}>Religie</MenuItem>,
         ];
     };
 }
