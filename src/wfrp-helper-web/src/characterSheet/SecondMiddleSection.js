@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import ItemSection from "./ItemSection";
 import MoneySubsection from "./MoneySubsection";
+import SpeedComponent from "./SpeedComponent";
 
 const componentStyle = {
     container: {
@@ -47,7 +48,9 @@ class SecondMiddleSection extends Component {
                     <ItemSection entity={entity} personService={personService} onChange={onChange}/>
                     <MoneySubsection entity={entity} personService={personService} onChange={onChange}/>
                 </div>
-                <div className={currentStyle.secondColumn}></div>
+                <div className={currentStyle.secondColumn}>
+                    <SpeedComponent entity={entity}/>
+                </div>
                 <div className={currentStyle.thirdColumn}></div>
             </div>
         );
