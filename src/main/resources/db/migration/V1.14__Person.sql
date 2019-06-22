@@ -112,10 +112,26 @@ CREATE TABLE creature.person_animals_history (
     rev BIGINT, revtype SMALLINT, person_id BIGINT, animals_id BIGINT, PRIMARY KEY (person_id, animals_id, rev)
     );
 
-CREATE TABLE creature.person_inventory (
-    id        BIGSERIAL PRIMARY KEY,
-    person_id BIGINT NOT NULL REFERENCES creature.person,
-    item_id   BIGINT NOT NULL REFERENCES item
+CREATE TABLE creature.inventory (
+    id BIGSERIAL PRIMARY KEY, item_id BIGINT, person_id BIGINT, amount REAL CHECK ( amount >= (0) :: DOUBLE PRECISION )
+    );
+CREATE TABLE creature.inventory_history (
+    history_id BIGSERIAL PRIMARY KEY,
+    rev        BIGINT,
+    revtype    SMALLINT,
+    id         BIGSERIAL,
+    item_id    BIGINT,
+    person_id  BIGINT,
+    amount     REAL
+    );
+CREATE TABLE creature.person_inventory_history (
+    history_id BIGSERIAL PRIMARY KEY,
+    rev        BIGINT,
+    revtype    SMALLINT,
+    id         BIGSERIAL,
+    item_id    BIGINT,
+    person_id  BIGINT,
+    amount     REAL
     );
 
 CREATE TABLE creature.person_melee_weapons (
@@ -183,9 +199,5 @@ CREATE TABLE creature.money_history (
     lead        INT NOT NULL
     );
 CREATE TABLE creature.person_money_history (
-    history_id  BIGSERIAL PRIMARY KEY,
-    rev         BIGINT,
-    revtype     SMALLINT,
-    id          BIGINT,
-    person_id   BIGINT
+    history_id BIGSERIAL PRIMARY KEY, rev BIGINT, revtype SMALLINT, id BIGINT, person_id BIGINT
     );

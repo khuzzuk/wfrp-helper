@@ -6,7 +6,6 @@ import PersonDeterminants from "./PersonDeterminants";
 import Profession from "../knowledge/profession/Profession";
 import ProfessionClass from "../knowledge/profession/ProfessionClass";
 import Skill from "../knowledge/skill/Skill";
-import Item from "../crafting/item/Item";
 import MeleeWeapon from "../crafting/item/melee/MeleeWeapon";
 import RangedWeapon from "../crafting/item/ranged/RangedWeapon";
 import Armor from "../crafting/item/armor/Armor";
@@ -18,6 +17,7 @@ import Race from "../world/race/Race";
 import Nation from "../world/nation/Nation";
 import Religion from "../world/religion/Religion";
 import Money from "../world/money/Money";
+import Inventory from "../crafting/item/Inventory";
 
 export default class Person extends Entity {
     name: string;
@@ -48,7 +48,7 @@ export default class Person extends Entity {
     currentProfession: Profession;
     professions: Profession[] = [];
     skills: Skill[] = [];
-    inventory: Item[] = [];
+    inventory: Inventory[] = [];
     meleeWeapons: MeleeWeapon[] = [];
     rangedWeapons: RangedWeapon[] = [];
     armor: Armor[] = [];
@@ -88,6 +88,7 @@ export default class Person extends Entity {
         this.updateEntityList(entity, 'physicalFeatures', () => new PhysicalFeature());
         this.updateEntityList(entity, 'professions', () => new Profession());
         this.updateEntityList(entity, 'skills', () => new Skill());
+        this.updateEntityList(entity, 'inventory', () => new Inventory());
         this.updateEntityList(entity, 'meleeWeapons', () => new MeleeWeapon());
         this.updateEntityList(entity, 'rangedWeapons', () => new RangedWeapon());
         this.updateEntityList(entity, 'armor', () => new Armor());

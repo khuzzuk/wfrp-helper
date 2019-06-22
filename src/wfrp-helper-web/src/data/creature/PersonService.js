@@ -29,6 +29,10 @@ import SpellService from "../knowledge/magic/spell/SpellService";
 import Spell from "../knowledge/magic/spell/Spell";
 import SpellSchoolService from "../knowledge/magic/spellSchool/SpellSchoolService";
 import SpellSchool from "../knowledge/magic/spellSchool/SpellSchool";
+import Item from "../crafting/item/Item";
+import ItemService from "../crafting/item/ItemService";
+import Currency from "../world/money/Currency";
+import CurrencyService from "../world/money/CurrencyService";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -46,6 +50,8 @@ export default class PersonService extends ConnectionService {
     skills: Skill[] = [];
     spells: Spell[] = [];
     spellSchools: SpellSchool[] = [];
+    items: Item[] = [];
+    currencies: Currency[] = [];
 
     tableColumns: FormFieldData[] = [
         {
@@ -88,12 +94,15 @@ export default class PersonService extends ConnectionService {
         const skillService = new SkillService(this.onRetrieveRelatedData(this.skills));
         const spellService = new SpellService(this.onRetrieveRelatedData(this.spells));
         const spellSchoolService = new SpellSchoolService(this.onRetrieveRelatedData(this.spellSchools));
+        const itemService = new ItemService(this.onRetrieveRelatedData(this.items));
+        const currencyService = new CurrencyService(this.onRetrieveRelatedData(this.currencies));
 
         this.registerRelatedServices([hairColorService, eyeColorService,
             raceService, professionClassService, professionService,
             characterService, physicalFeatureService,
             meleeWeaponService, rangedWeaponService, armorService,
-            skillService, spellService, spellSchoolService]);
+            skillService, spellService, spellSchoolService,
+            itemService, currencyService]);
     }
 
     createNew(): Person {

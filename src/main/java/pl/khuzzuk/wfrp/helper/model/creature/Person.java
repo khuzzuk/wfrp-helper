@@ -9,10 +9,7 @@ import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Armor;
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MeleeWeapon;
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MiscItem;
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.RangedWeapon;
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.*;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.Spell;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
@@ -107,12 +104,9 @@ public class Person {
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private List<Skill> skills;
 
-    @ManyToMany
-    @JoinTable(schema = "creature", name = "person_inventory",
-            joinColumns = @JoinColumn(name = "person_id"),
-            inverseJoinColumns = @JoinColumn(name = "item_id"))
-    @NotAudited
-    private List<MiscItem> inventory;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_id")
+    private List<Inventory> inventory;
 
     @ManyToMany
     @JoinTable(schema = "creature", inverseJoinColumns = @JoinColumn(name = "item_id"))
