@@ -61,7 +61,7 @@ class MoneySubsection extends Component {
         return (
             <div {...other} className={currentStyle.container}>
                 <SelectableList
-                    customStyle={{gearField: currentStyle.moneyList, itemsList: currentStyle.elementMoneyList}}
+                    customStyle={{container: currentStyle.moneyList, itemsList: currentStyle.elementMoneyList}}
                     data={this.getRelevantCurrencies()}
                     onGearAdd={this.onMoneyAdd}>
                     {

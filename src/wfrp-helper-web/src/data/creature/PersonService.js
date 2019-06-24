@@ -33,6 +33,10 @@ import Item from "../crafting/item/Item";
 import ItemService from "../crafting/item/ItemService";
 import Currency from "../world/money/Currency";
 import CurrencyService from "../world/money/CurrencyService";
+import Language from "../world/language/Language";
+import Religion from "../world/religion/Religion";
+import LanguageService from "../world/language/LanguageService";
+import ReligionService from "../world/religion/ReligionService";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -52,6 +56,8 @@ export default class PersonService extends ConnectionService {
     spellSchools: SpellSchool[] = [];
     items: Item[] = [];
     currencies: Currency[] = [];
+    languages: Language[] = [];
+    religions: Religion[] = [];
 
     tableColumns: FormFieldData[] = [
         {
@@ -96,27 +102,19 @@ export default class PersonService extends ConnectionService {
         const spellSchoolService = new SpellSchoolService(this.onRetrieveRelatedData(this.spellSchools));
         const itemService = new ItemService(this.onRetrieveRelatedData(this.items));
         const currencyService = new CurrencyService(this.onRetrieveRelatedData(this.currencies));
+        const languageService = new LanguageService(this.onRetrieveRelatedData(this.languages));
+        const religionService = new ReligionService(this.onRetrieveRelatedData(this.religions));
 
         this.registerRelatedServices([hairColorService, eyeColorService,
             raceService, professionClassService, professionService,
             characterService, physicalFeatureService,
             meleeWeaponService, rangedWeaponService, armorService,
             skillService, spellService, spellSchoolService,
-            itemService, currencyService]);
+            itemService, currencyService, languageService, religionService]);
     }
 
     createNew(): Person {
         this.entity = new Person();
         return this.entity;
-    }
-
-
-    save(entity: object, onSuccess: func) {
-        /*
-                const newEntity = new Person();
-                newEntity.updateWith(entity);
-                newEntity.determinants = {determinants: []};
-        */
-        super.save(entity, onSuccess);
     }
 }

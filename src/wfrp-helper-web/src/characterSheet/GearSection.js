@@ -42,19 +42,19 @@ class GearSection extends Component {
     render() {
         const {classes, className, entity, personService} = this.props;
         return <div className={className}>
-            <SelectableList customStyle={{gearField: classes.meleeWeaponsField}}
+            <SelectableList customStyle={{container: classes.meleeWeaponsField}}
                            data={personService.meleeWeapons} onGearAdd={this.addItem('meleeWeapons')}>
                 {entity.meleeWeapons.map(weapon => <WeaponElement key={weapon.name + '_meleeWeaponField'}
                                                                   weapon={weapon}
                                                                   onContextMenu={this.removeItem('meleeWeapons')}/>)}
             </SelectableList>
-            <SelectableList customStyle={{gearField: classes.rangedWeaponsField}}
+            <SelectableList customStyle={{container: classes.rangedWeaponsField}}
                            data={personService.rangedWeapons} onGearAdd={this.addItem('rangedWeapons')}>
                 {entity.rangedWeapons.map(weapon => <RangedWeaponElement key={weapon.name + '_rangedWeaponField'}
                                                                          weapon={weapon}
                                                                          onContextMenu={this.removeItem('rangedWeapons')}/>)}
             </SelectableList>
-            <SelectableList customStyle={{gearField: classes.armorField}}
+            <SelectableList customStyle={{container: classes.armorField}}
                            data={personService.armors}
                            onGearAdd={this.addItem('armor')}>
                 {entity.armor.map(armor => <ArmorElement key={armor.name + '_armorField'} armor={armor}

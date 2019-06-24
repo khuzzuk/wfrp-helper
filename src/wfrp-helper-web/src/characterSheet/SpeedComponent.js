@@ -5,7 +5,7 @@ import {DeterminantType} from "../data/rule/Determinant";
 
 const componentStyle = {
     container: {
-        height: 200,
+        height: 160,
         width: 200,
         paddingLeft: 165,
         paddingTop: 80,

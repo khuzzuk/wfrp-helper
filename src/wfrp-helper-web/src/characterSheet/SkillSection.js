@@ -26,9 +26,17 @@ const skillSectionStyle = {
         marginLeft: 20,
     },
     skillFirstColumn: {
+        paddingLeft: 10,
         minHeight: 350,
         maxHeight: 350,
+        width: 200,
     },
+    skillsList: {
+        height: 300,
+        width: '100%',
+        overflow: 'auto',
+    },
+
     skillSecondColumn: {
         minHeight: 450,
         maxHeight: 450,
@@ -36,14 +44,6 @@ const skillSectionStyle = {
     skillElement: {
         margin: 0,
         marginLeft: 5,
-    },
-    skillsList: {
-        height: 300,
-        maxHeight: 300,
-        paddingLeft: 10,
-        paddingTop: 0,
-        width: 200,
-        overflow: 'auto',
     },
     skillsListSecondColumn: {
         height: 400,
@@ -97,7 +97,7 @@ class SkillSection extends Component {
     onSkillRemove = (event, skill: Skill) => {
         event.preventDefault();
         let skills = this.props.entity.skills;
-        skills.splice(skills.indexOf(skill, 1));
+        skills.splice(skills.indexOf(skill), 1);
         this.props.onChange(this.props.entity);
     };
 
@@ -140,7 +140,7 @@ class SkillSection extends Component {
         return <div className={currentStyle.container} {...other}>
             <div className={currentStyle.firstColumn}>
                 <SelectableList
-                    customStyle={{gearField: currentStyle.skillFirstColumn, itemsList: currentStyle.skillsList}}
+                    customStyle={{container: currentStyle.skillFirstColumn, itemsList: currentStyle.skillsList}}
                     data={availableSkills} onGearAdd={this.onSkillAdd}>
                     {
                         firstColumnSkills.map(skill =>
@@ -153,7 +153,7 @@ class SkillSection extends Component {
             <div className={currentStyle.secondColumn}>
                 <SelectableList
                     customStyle={{
-                        gearField: currentStyle.skillSecondColumn,
+                        container: currentStyle.skillSecondColumn,
                         itemsList: currentStyle.skillsListSecondColumn
                     }}
                     data={availableSpellSchools} onGearAdd={this.onSpellSchoolAdd}>

@@ -68,7 +68,7 @@ class ItemSection extends Component {
 
         return (
             <div {...other} className={currentStyle.container}>
-                <SelectableList customStyle={{gearField: currentStyle.itemList, itemsList: currentStyle.elementItemList}}
+                <SelectableList customStyle={{container: currentStyle.itemList, itemsList: currentStyle.elementItemList}}
                                 data={this.getRelevantItems()} onGearAdd={this.onItemAdd}>
                     {
                         inventory.map(inventory => <ItemElement key={inventory.item.name}

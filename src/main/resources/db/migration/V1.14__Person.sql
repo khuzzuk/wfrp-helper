@@ -25,6 +25,7 @@ CREATE TABLE creature.person (
     birthplace            TEXT,
     parents               TEXT,
     family                TEXT,
+    health                TEXT,
     religion_id           BIGINT REFERENCES world.religion
     );
 
@@ -55,6 +56,7 @@ CREATE TABLE creature.person_history (
     birthplace            TEXT,
     parents               TEXT,
     family                TEXT,
+    health                TEXT,
     religion_id           BIGINT,
     PRIMARY KEY (rev, id)
     );
@@ -200,4 +202,17 @@ CREATE TABLE creature.money_history (
     );
 CREATE TABLE creature.person_money_history (
     history_id BIGSERIAL PRIMARY KEY, rev BIGINT, revtype SMALLINT, id BIGINT, person_id BIGINT
+    );
+
+CREATE TABLE creature.person_languages (
+    person_id BIGINT REFERENCES creature.person,
+    language_id BIGINT REFERENCES world.language,
+    PRIMARY KEY (person_id, language_id)
+);
+CREATE TABLE creature.person_languages_history (
+    history_id  BIGSERIAL PRIMARY KEY,
+    rev                   BIGINT,
+    revtype               SMALLINT,
+    person_id BIGINT REFERENCES creature.person,
+    language_id BIGINT REFERENCES world.language
     );

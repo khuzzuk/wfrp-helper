@@ -18,6 +18,7 @@ import Nation from "../world/nation/Nation";
 import Religion from "../world/religion/Religion";
 import Money from "../world/money/Money";
 import Inventory from "../crafting/item/Inventory";
+import Language from "../world/language/Language";
 
 export default class Person extends Entity {
     name: string;
@@ -34,6 +35,7 @@ export default class Person extends Entity {
     birthplace: string;
     parents: string;
     family: string;
+    health: string;
     nation: Nation;
     religion: Religion;
     hairColor: HairColor;
@@ -56,6 +58,7 @@ export default class Person extends Entity {
     spells: Spell[] = [];
     animals: Animal[] = [];
     money: Money[] = [];
+    languages: Language[] = [];
 
     updateWith(entity: *) {
         this.updateProp(entity, 'id');
@@ -96,5 +99,6 @@ export default class Person extends Entity {
         this.updateEntityList(entity, 'spells', () => new Spell());
         this.updateEntityList(entity, 'animals', () => new Animal());
         this.updateEntityList(entity, 'money', () => new Money());
+        this.updateEntityList(entity, 'languages', () => new Language());
     }
 }

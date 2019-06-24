@@ -21,11 +21,6 @@ const sectionStyle = {
         minHeight: 280,
         maxHeight: 280,
     },
-    spellItemList: {
-        width: '100%',
-        minHeight: '100%',
-        maxHeight: '100%',
-    },
     magicPointsSection: {
         paddingLeft: 5,
         minWidth: 190,
@@ -97,7 +92,7 @@ class MagicSection extends Component {
         const spells = entity.spells;
 
         return <div className={currentStyle.container} {...other}>
-            <SelectableList customStyle={{gearField: currentStyle.spellList, itemsList: currentStyle.spellItemList}}
+            <SelectableList customStyle={{container: currentStyle.spellList}}
                             data={this.getRelevantSpells()}
                             onGearAdd={this.addSpell}>
                 {

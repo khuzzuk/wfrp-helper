@@ -19,6 +19,7 @@ import pl.khuzzuk.wfrp.helper.model.professions.ProfessionClass;
 import pl.khuzzuk.wfrp.helper.model.world.Nation;
 import pl.khuzzuk.wfrp.helper.model.world.Race;
 import pl.khuzzuk.wfrp.helper.model.world.Religion;
+import pl.khuzzuk.wfrp.helper.model.world.WorldLanguage;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -53,6 +54,7 @@ public class Person {
     private @Min(0) int sanityPoints;
     private @Min(0) int total_experience;
     private @Min(0) int experience;
+    private String health;
     private String birthplace;
     private String parents;
     private String family;
@@ -142,4 +144,9 @@ public class Person {
     @JoinColumn(name = "person_id")
     @Audited
     private List<Money> money;
+
+    @ManyToMany
+    @JoinTable(schema = "creature", inverseJoinColumns = @JoinColumn(name = "language_id"))
+    @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
+    private List<WorldLanguage> languages;
 }

@@ -4,14 +4,14 @@ import {List} from "@material-ui/core";
 import SimpleEntitySelect from "./SimpleEntitySelect";
 
 const fieldStyle = {
+    container: {
+        width: '100%'
+    },
     selectComponent: {
         width: '100%'
     },
     itemsList: {
-        height: 150,
-        maxHeight: 150,
-        paddingLeft: 10,
-        paddingTop: 0,
+        height: '100%',
         width: '100%',
         overflow: 'auto',
     },
@@ -42,7 +42,7 @@ class SelectableList extends Component {
 
         const currentStyle = {...classes, ...customStyle};
 
-        return <div className={currentStyle.gearField} {...other}>
+        return <div className={currentStyle.container} {...other}>
             <SimpleEntitySelect className={currentStyle.selectComponent} customStyle={selectStyle} options={data}
                                 onChange={onGearAdd}/>
             <List className={currentStyle.itemsList}>
