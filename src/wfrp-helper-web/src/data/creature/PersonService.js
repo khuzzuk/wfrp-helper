@@ -37,6 +37,7 @@ import Language from "../world/language/Language";
 import Religion from "../world/religion/Religion";
 import LanguageService from "../world/language/LanguageService";
 import ReligionService from "../world/religion/ReligionService";
+import Nation from "../world/nation/Nation";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -58,6 +59,7 @@ export default class PersonService extends ConnectionService {
     currencies: Currency[] = [];
     languages: Language[] = [];
     religions: Religion[] = [];
+    nations: Nation[] = [];
 
     tableColumns: FormFieldData[] = [
         {
@@ -104,13 +106,15 @@ export default class PersonService extends ConnectionService {
         const currencyService = new CurrencyService(this.onRetrieveRelatedData(this.currencies));
         const languageService = new LanguageService(this.onRetrieveRelatedData(this.languages));
         const religionService = new ReligionService(this.onRetrieveRelatedData(this.religions));
+        const nationService = new NationService(this.onRetrieveRelatedData(this.nations));
 
         this.registerRelatedServices([hairColorService, eyeColorService,
             raceService, professionClassService, professionService,
             characterService, physicalFeatureService,
             meleeWeaponService, rangedWeaponService, armorService,
             skillService, spellService, spellSchoolService,
-            itemService, currencyService, languageService, religionService]);
+            itemService, currencyService, languageService, religionService,
+            nationService]);
     }
 
     createNew(): Person {

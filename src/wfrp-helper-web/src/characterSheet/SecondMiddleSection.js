@@ -7,6 +7,8 @@ import SpeedComponent from "./SpeedComponent";
 import SelectableList from "../crud/field/SelectableList";
 import IntegerField from "../crud/field/IntegerField";
 import TextField from "@material-ui/core/TextField";
+import HistorySection from "./HistorySection";
+import ReligionSection from "./ReligionSection";
 
 const componentStyle = {
     container: {
@@ -42,7 +44,7 @@ const componentStyle = {
     psycheSection: {
         display: 'flex',
         width: 350,
-        height: 150,
+        height: 160,
     },
     languageList: {
         paddingLeft: 15,
@@ -145,6 +147,8 @@ class SecondMiddleSection extends Component {
                                       inputProps={{className: classes.input}}
                                       onChange={this.updateEntity('sanityPoints')}/>
                     </div>
+                    <HistorySection entity={entity} personService={personService} onChange={onChange}/>
+                    <ReligionSection entity={entity} personService={personService}/>
                 </div>
                 <div className={currentStyle.thirdColumn}></div>
             </div>
