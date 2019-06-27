@@ -36,7 +36,6 @@ class ConnectionService {
 
     registerRelatedServices = (services: ConnectionService[]) => {
         this.relatedServices = services;
-        this.relatedServices.forEach(service => service.retrieveData());
     };
 
     register = (component, data) => {
