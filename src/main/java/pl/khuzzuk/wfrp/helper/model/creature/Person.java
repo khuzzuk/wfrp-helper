@@ -52,7 +52,7 @@ public class Person {
     private @Min(0) int mana;
     private @Min(0) int currentMana;
     private @Min(0) int sanityPoints;
-    private @Min(0) int total_experience;
+    private @Min(0) int totalExperience;
     private @Min(0) int experience;
     private String health;
     private String birthplace;

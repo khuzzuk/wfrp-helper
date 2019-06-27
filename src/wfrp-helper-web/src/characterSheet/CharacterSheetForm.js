@@ -14,6 +14,7 @@ import GearSection from "./GearSection";
 import SkillSection from "./SkillSection";
 import MagicSection from "./MagicSection";
 import SecondMiddleSection from "./SecondMiddleSection";
+import AnimalsSection from "./AnimalsSection";
 
 const formStyles = {
     backgroundStyle: {
@@ -255,6 +256,7 @@ class CharacterSheetForm extends Component {
             <div>
                 <MagicSection entity={entity} personService={personService} onChange={onChange}/>
                 <SecondMiddleSection entity={entity} personService={personService} onChange={onChange}/>
+                <AnimalsSection entity={entity} personService={personService}/>
             </div>
         </div>;
     }

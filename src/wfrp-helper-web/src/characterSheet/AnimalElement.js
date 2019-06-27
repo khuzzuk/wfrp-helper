@@ -5,7 +5,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 const componentStyle = {
     container: {},
     name: {
-        width: 100,
+        width: 150,
     },
 };
 
@@ -13,13 +13,16 @@ class AnimalElement extends Component {
     render() {
         const {
             customStyle, classes,
-            animal,
+            animal, onRemove,
             ...other
         } = this.props;
         const currentStyle = {...classes, customStyle};
 
         return (
-            <div {...other} className={currentStyle.container}>
+            <div {...other} className={currentStyle.container} onContextMenu={event => {
+                event.preventDefault();
+                onRemove(animal);
+            }}>
                 <div>{animal.name}</div>
             </div>
         );

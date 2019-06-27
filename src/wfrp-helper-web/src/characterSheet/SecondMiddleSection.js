@@ -35,10 +35,12 @@ const componentStyle = {
         maxWidth: 370,
     },
     thirdColumn: {
-        minHeight: 700,
-        maxHeight: 700,
-        minWidth: 220,
-        maxWidth: 220,
+        minHeight: 630,
+        maxHeight: 630,
+        minWidth: 200,
+        maxWidth: 200,
+        paddingLeft: 20,
+        paddingTop: 70,
     },
 
     psycheSection: {
@@ -74,6 +76,23 @@ const componentStyle = {
         height: 150,
         paddingLeft: 10,
         paddingTop: 80,
+    },
+
+    experienceActualLabel: {
+        minWidth: 100,
+        maxWidth: 100,
+    },
+    experienceActual: {
+        minWidth: 150,
+        maxWidth: 150,
+    },
+    experienceTotalLabel: {
+        minWidth: 100,
+        maxWidth: 100,
+    },
+    experienceTotal: {
+        minWidth: 150,
+        maxWidth: 150,
     },
 };
 
@@ -150,7 +169,18 @@ class SecondMiddleSection extends Component {
                     <HistorySection entity={entity} personService={personService} onChange={onChange}/>
                     <ReligionSection entity={entity} personService={personService}/>
                 </div>
-                <div className={currentStyle.thirdColumn}></div>
+                <div className={currentStyle.thirdColumn}>
+                    <div className={currentStyle.experienceActualLabel}>aktualnie:</div>
+                    <IntegerField className={currentStyle.experienceActual}
+                                  inputProps={{className: classes.input}}
+                                  value={entity.experience}
+                                  onChange={this.updateEntity('experience')}/>
+                    <div className={currentStyle.experienceTotalLabel}>całkowite:</div>
+                    <IntegerField className={currentStyle.experienceTotal}
+                                  inputProps={{className: classes.input}}
+                                  value={entity.totalExperience}
+                                  onChange={this.updateEntity('totalExperience')}/>
+                </div>
             </div>
         );
     };
