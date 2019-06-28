@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import FrontCharacterSheet from "../img/A.png";
 import {TextField} from "@material-ui/core";
 import {withStyles} from '@material-ui/styles';
@@ -15,6 +15,7 @@ import SkillSection from "./SkillSection";
 import MagicSection from "./MagicSection";
 import SecondMiddleSection from "./SecondMiddleSection";
 import AnimalsSection from "./AnimalsSection";
+import EntityComponent from "../crud/EntityComponent";
 
 const formStyles = {
     backgroundStyle: {
@@ -143,17 +144,9 @@ const formStyles = {
     },
 };
 
-class CharacterSheetForm extends Component {
+class CharacterSheetForm extends EntityComponent {
     state = {
         person: undefined
-    };
-
-    createOnUpdatePerson = field => updates => {
-        this.updatePerson({[field]: updates.target.value});
-    };
-
-    updateEntity = field => data => {
-        this.updatePerson({[field]: data});
     };
 
     updateProfession = profession => {
@@ -171,14 +164,6 @@ class CharacterSheetForm extends Component {
         });
     };
 
-    removeProfession = profession => {
-        const indexToRemove = this.props.entity.professions.indexOf(profession);
-        if (indexToRemove >= 0) {
-            this.props.entity.professions.splice(indexToRemove, 1);
-            this.updatePerson({professions: this.props.entity.professions});
-        }
-    };
-
     updatePerson = updates => {
         this.props.entity.updateWith(updates);
         this.props.onChange(this.props.entity);
@@ -190,7 +175,7 @@ class CharacterSheetForm extends Component {
             <div style={{width: '900px'}}>
                 <div className={classes.row} style={{paddingTop: '30px'}}>
                     <TextField className={classes.nameField} inputProps={{className: classes.input}}
-                               onChange={this.createOnUpdatePerson('name')} value={entity.name}/>
+                               onChange={this.updateEntityWithEvent('name')} value={entity.name}/>
                     <SimpleEntitySelect className={classes.raceField}
                                         options={personService.races} onChange={this.updateEntity('race')}
                                         value={entity.race}/>
@@ -235,7 +220,7 @@ class CharacterSheetForm extends Component {
                                         onChange={this.updateProfession}
                                         value={entity.currentProfession}/>
                     <SimpleList className={classes.professionsField} data={entity.professions}
-                                onRemove={this.removeProfession}/>
+                                onRemove={this.removeFromArray('professions')}/>
                     <SimpleList className={classes.nextProfessionsField}
                                 data={entity.currentProfession ? entity.currentProfession.nextProfessions : []}/>
                 </div>

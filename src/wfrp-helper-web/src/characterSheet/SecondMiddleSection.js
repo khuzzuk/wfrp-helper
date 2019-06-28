@@ -1,5 +1,5 @@
 // @flow
-import React, {Component} from 'react';
+import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import ItemSection from "./ItemSection";
 import MoneySubsection from "./MoneySubsection";
@@ -9,6 +9,8 @@ import IntegerField from "../crud/field/IntegerField";
 import TextField from "@material-ui/core/TextField";
 import HistorySection from "./HistorySection";
 import ReligionSection from "./ReligionSection";
+import EntityComponent from "../crud/EntityComponent";
+import {Collections} from "../util/Collections";
 
 const componentStyle = {
     container: {
@@ -96,34 +98,7 @@ const componentStyle = {
     },
 };
 
-class SecondMiddleSection extends Component {
-    onLanguageAdd = language => {
-        this.props.entity.languages.push(language);
-        this.props.onChange(this.props.entity);
-    };
-
-    onLanguageRemove = language => {
-        const entity = this.props.entity;
-        const languages = entity.languages;
-        languages.splice(languages.indexOf(language), 1);
-        this.props.onChange(entity);
-    };
-
-    getRelevantLanguages = () => {
-        const currentLanguages = this.props.entity.languages;
-        const languages = this.props.personService.languages;
-        return languages.filter(language => !currentLanguages.find(cl => cl.name === language.name));
-    };
-
-    updateEntity = property => data => {
-        this.props.entity[property] = data;
-        this.props.onChange(this.props.entity);
-    };
-    updateEntityWithEvent = property => data => {
-        this.props.entity[property] = data.target.value;
-        this.props.onChange(this.props.entity);
-    };
-
+class SecondMiddleSection extends EntityComponent {
     render() {
         const {
             customStyle, classes,
@@ -146,14 +121,11 @@ class SecondMiddleSection extends Component {
                             container: currentStyle.languageList,
                             itemsList: currentStyle.elementLanguageList
                         }}
-                                        data={this.getRelevantLanguages()}
-                                        onGearAdd={this.onLanguageAdd}>
+                                        data={Collections.except(personService.languages, entity.languages)}
+                                        onGearAdd={this.pushToEntity('languages')}>
                             {
                                 entity.languages.map(language => <div className={currentStyle.languageElement}
-                                                                      onContextMenu={event => {
-                                                                          event.preventDefault();
-                                                                          this.onLanguageRemove(language);
-                                                                      }}>{language.name}</div>)
+                                                                      onContextMenu={this.removeOnContextMenu('languages', language)}>{language.name}</div>)
                             }
                         </SelectableList>
                         <TextField className={currentStyle.healthElement}

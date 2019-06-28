@@ -1,8 +1,9 @@
 // @flow
-import React, {Component} from 'react';
+import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
 import TextField from "@material-ui/core/es/TextField/TextField";
+import EntityComponent from "../crud/EntityComponent";
 
 const componentStyle = {
     container: {
@@ -48,16 +49,7 @@ const componentStyle = {
     },
 };
 
-class HistorySection extends Component {
-    updateProperty = prop => value => {
-        this.props.entity[prop] = value;
-        this.props.onChange(this.props.entity);
-    };
-    updatePropertyWithEvent = prop => event => {
-        this.props.entity[prop] = event.target.value;
-        this.setState({[prop]: event.target.value})
-    };
-
+class HistorySection extends EntityComponent {
     render() {
         const {
             customStyle, classes,
@@ -71,15 +63,15 @@ class HistorySection extends Component {
                 <SimpleEntitySelect className={currentStyle.nation}
                                     options={personService.nations}
                                     value={entity.nation}
-                                    onChange={this.updateProperty('nation')}/>
+                                    onChange={this.updateEntity('nation')}/>
                 <TextField className={currentStyle.parents}
                            inputProps={{className: currentStyle.input}}
                            value={entity.parents}
-                           onChange={this.updatePropertyWithEvent('parents')}/>
+                           onChange={this.updateEntityWithEvent('parents')}/>
                 <TextField className={currentStyle.family}
                            inputProps={{className: currentStyle.familyInput}}
                            value={entity.family}
-                           onChange={this.updatePropertyWithEvent('family')}
+                           onChange={this.updateEntityWithEvent('family')}
                            multiline/>
             </div>
         );

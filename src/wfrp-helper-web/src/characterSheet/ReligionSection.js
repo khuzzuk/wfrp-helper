@@ -1,8 +1,9 @@
 // @flow
-import React, {Component} from 'react';
+import React from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/es/TextField/TextField";
 import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
+import EntityComponent from "../crud/EntityComponent";
 
 const componentStyle = {
     container: {
@@ -35,12 +36,7 @@ const componentStyle = {
     },
 };
 
-class ReligionSection extends Component {
-    updateReligion = religion => {
-        this.props.entity.religion = religion;
-        this.setState({religion: religion});
-    };
-
+class ReligionSection extends EntityComponent {
     render() {
         const {
             customStyle, classes,
@@ -55,7 +51,7 @@ class ReligionSection extends Component {
                 <SimpleEntitySelect className={currentStyle.religion}
                                     options={personService.religions}
                                     value={entity.religion}
-                                    onChange={this.updateReligion}/>
+                                    onChange={this.updateEntity('religion')}/>
             </div>
         );
     };

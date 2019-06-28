@@ -36,8 +36,8 @@ const componentStyle = {
         maxWidth: 140,
     },
     effect: {
-        minWidth: 140,
-        maxWidth: 140,
+        minWidth: 130,
+        maxWidth: 130,
     },
 };
 
@@ -45,15 +45,14 @@ class SpellElement extends Component {
     render() {
         const {
             customStyle, classes,
-            spell, onContextMenu,
+            spell,
             ...other
         } = this.props;
         const currentStyle = {...classes, customStyle};
         const ingredientsText = spell.ingredients.map(item => item.name).join(', ');
 
         return (
-            <div {...other} className={currentStyle.container}
-                 onContextMenu={event => {onContextMenu(spell); event.preventDefault();}}>
+            <div {...other} className={currentStyle.container}>
                 <div className={currentStyle.name}>{spell.name}</div>
                 <div className={currentStyle.level}>{spell.level}</div>
                 <div className={currentStyle.manaCost}>{spell.manaCost}</div>

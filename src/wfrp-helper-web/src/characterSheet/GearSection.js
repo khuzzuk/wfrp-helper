@@ -1,9 +1,10 @@
-import React, {Component} from "react";
+import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import ArmorElement from "./ArmorElement";
 import WeaponElement from "./WeaponElement";
 import RangedWeaponElement from "./RangedWeaponElement";
 import SelectableList from "../crud/field/SelectableList";
+import EntityComponent from "../crud/EntityComponent";
 
 const gearSectionStyle = {
     meleeWeaponsField: {
@@ -15,7 +16,7 @@ const gearSectionStyle = {
     rangedWeaponsField: {
         minHeight: 210,
         maxHeight: 210,
-        paddingLeft: 40,
+        paddingLeft: 50,
         paddingTop: 15,
         width: 410,
     },
@@ -28,37 +29,27 @@ const gearSectionStyle = {
     },
 };
 
-class GearSection extends Component {
-    addItem = propertyName => item => {
-        this.props.entity[propertyName].push(item);
-        this.props.onChange(this.props.entity);
-    };
-    removeItem = propertyName => item => {
-        let items = this.props.entity[propertyName];
-        items.splice(items.indexOf(item), 1);
-        this.props.onChange(this.props.entity);
-    };
-
+class GearSection extends EntityComponent {
     render() {
         const {classes, className, entity, personService} = this.props;
         return <div className={className}>
             <SelectableList customStyle={{container: classes.meleeWeaponsField}}
-                           data={personService.meleeWeapons} onGearAdd={this.addItem('meleeWeapons')}>
+                           data={personService.meleeWeapons} onGearAdd={this.pushToEntity('meleeWeapons')}>
                 {entity.meleeWeapons.map(weapon => <WeaponElement key={weapon.name + '_meleeWeaponField'}
                                                                   weapon={weapon}
-                                                                  onContextMenu={this.removeItem('meleeWeapons')}/>)}
+                                                                  onContextMenu={this.removeFromArray('meleeWeapons')}/>)}
             </SelectableList>
             <SelectableList customStyle={{container: classes.rangedWeaponsField}}
-                           data={personService.rangedWeapons} onGearAdd={this.addItem('rangedWeapons')}>
+                           data={personService.rangedWeapons} onGearAdd={this.pushToEntity('rangedWeapons')}>
                 {entity.rangedWeapons.map(weapon => <RangedWeaponElement key={weapon.name + '_rangedWeaponField'}
                                                                          weapon={weapon}
-                                                                         onContextMenu={this.removeItem('rangedWeapons')}/>)}
+                                                                         onContextMenu={this.removeFromArray('rangedWeapons')}/>)}
             </SelectableList>
             <SelectableList customStyle={{container: classes.armorField}}
                            data={personService.armors}
-                           onGearAdd={this.addItem('armor')}>
+                           onGearAdd={this.pushToEntity('armor')}>
                 {entity.armor.map(armor => <ArmorElement key={armor.name + '_armorField'} armor={armor}
-                                                         onContextMenu={this.removeItem('armor')}/>)}
+                                                         onContextMenu={this.removeFromArray('armor')}/>)}
             </SelectableList>
         </div>
     }

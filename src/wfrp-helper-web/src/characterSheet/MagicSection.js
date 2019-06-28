@@ -1,8 +1,9 @@
-import React, {Component} from "react";
+import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import SelectableList from "../crud/field/SelectableList";
 import SpellElement from "./SpellElement";
 import IntegerField from "../crud/field/IntegerField";
+import EntityComponent from "../crud/EntityComponent";
 
 const sectionStyle = {
     container: {
@@ -18,8 +19,8 @@ const sectionStyle = {
     spellList: {
         minWidth: 620,
         maxWidth: 620,
-        minHeight: 280,
-        maxHeight: 280,
+        minHeight: 240,
+        maxHeight: 240,
     },
     magicPointsSection: {
         paddingLeft: 5,
@@ -50,22 +51,7 @@ const sectionStyle = {
     },
 };
 
-class MagicSection extends Component {
-    addSpell = spell => {
-        const person = this.props.entity;
-        const found = person.spells.find(value => spell.name === value.name);
-        if (!found) {
-            person.spells.push(spell);
-            this.props.onChange(person);
-        }
-    };
-
-    removeSpell = spell => {
-        const person = this.props.entity;
-        person.spells.splice(person.spells.indexOf(spell), 1);
-        this.props.onChange(person);
-    };
-
+class MagicSection extends EntityComponent {
     getRelevantSpells = () => {
         const personSpells = this.props.entity.spells;
         const personSchools = this.props.entity.spellSchools;
@@ -75,11 +61,6 @@ class MagicSection extends Component {
                 personSchools.find(schoolLevel => schoolLevel.spellSchool.name === spell.spellSchool.name && schoolLevel.level >= spell.level);
         });
         return finalSpells;
-    };
-
-    updateProperty = name => value => {
-        this.props.entity[name] = value;
-        this.props.onChange(this.props.entity);
     };
 
     render() {
@@ -94,20 +75,20 @@ class MagicSection extends Component {
         return <div className={currentStyle.container} {...other}>
             <SelectableList customStyle={{container: currentStyle.spellList}}
                             data={this.getRelevantSpells()}
-                            onGearAdd={this.addSpell}>
+                            onGearAdd={this.pushToEntity('spells')}>
                 {
                     spells.map(spell => <SpellElement key={spell.name}
                                                       spell={spell}
-                                                      onContextMenu={this.removeSpell}/>)
+                                                      onContextMenu={this.removeOnContextMenu('spells')}/>)
                 }
             </SelectableList>
             <div className={currentStyle.magicPointsSection}>
                 <IntegerField className={currentStyle.fatePoints} value={entity.fatePoints}
-                              onChange={this.updateProperty('fatePoints')} inputProps={{className: currentStyle.input}}/>
+                              onChange={this.updateEntity('fatePoints')} inputProps={{className: currentStyle.input}}/>
                 <IntegerField className={currentStyle.manaPoints} value={entity.mana}
-                              onChange={this.updateProperty('mana')} inputProps={{className: currentStyle.input}}/>
+                              onChange={this.updateEntity('mana')} inputProps={{className: currentStyle.input}}/>
                 <IntegerField className={currentStyle.currentManaPoints} value={entity.currentMana}
-                              onChange={this.updateProperty('currentMana')} inputProps={{className: currentStyle.input}}/>
+                              onChange={this.updateEntity('currentMana')} inputProps={{className: currentStyle.input}}/>
             </div>
         </div>;
     }

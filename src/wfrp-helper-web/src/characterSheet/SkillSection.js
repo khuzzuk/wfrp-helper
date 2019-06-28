@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import Skill from "../data/knowledge/skill/Skill";
 import ArmorCalculationsComponent from "./ArmorCalculationsComponent";
@@ -6,6 +6,8 @@ import SelectableList from "../crud/field/SelectableList";
 import MagicService from "../data/knowledge/MagicService";
 import CurrentMagicKnowledge from "../data/knowledge/CurrentMagicKnowledge";
 import SpellSchoolLevel from "../data/knowledge/magic/spellSchool/SpellSchoolLevel";
+import {Collections} from "../util/Collections";
+import EntityComponent from "../crud/EntityComponent";
 
 const skillSectionStyle = {
     container: {
@@ -64,15 +66,9 @@ const skillSectionStyle = {
 
 const magicService = new MagicService();
 
-class SkillSection extends Component {
+class SkillSection extends EntityComponent {
     state = {
         availableSpellSchools: new Map(),
-    };
-
-    onSkillAdd = (skill: Skill) => {
-        const skills = this.props.entity.skills;
-        skills.push(skill);
-        this.props.onChange(this.props.entity);
     };
 
     onSpellSchoolAdd = spellSchool => {
@@ -91,13 +87,6 @@ class SkillSection extends Component {
         const currentSpellSchools = this.props.entity.spellSchools;
         currentSpellSchools.splice(currentSpellSchools.indexOf(spellSchool), 1);
         this.getRelevantSpellSchools();
-        this.props.onChange(this.props.entity);
-    };
-
-    onSkillRemove = (event, skill: Skill) => {
-        event.preventDefault();
-        let skills = this.props.entity.skills;
-        skills.splice(skills.indexOf(skill), 1);
         this.props.onChange(this.props.entity);
     };
 
@@ -129,8 +118,6 @@ class SkillSection extends Component {
         } = this.props;
         const currentStyle = {...classes, ...customStyle};
         const firstColumnSkills: Skill[] = entity.skills;
-        const availableSkills = personService.skills.filter(skill =>
-            !entity.skills.find(personSkill => personSkill.name === skill.name));
         const availableSpellSchools = [...this.state.availableSpellSchools.keys()];
 
         if (this.state.currentSpellSchools !== entity.spellSchools) {
@@ -141,11 +128,12 @@ class SkillSection extends Component {
             <div className={currentStyle.firstColumn}>
                 <SelectableList
                     customStyle={{container: currentStyle.skillFirstColumn, itemsList: currentStyle.skillsList}}
-                    data={availableSkills} onGearAdd={this.onSkillAdd}>
+                    data={Collections.except(personService.skills, entity.skills)}
+                    onGearAdd={this.pushToEntity('skills')}>
                     {
                         firstColumnSkills.map(skill =>
                             <p className={currentStyle.skillElement}
-                               onContextMenu={event => this.onSkillRemove(event, skill)}>{skill.name}</p>)
+                               onContextMenu={this.removeOnContextMenu('skills', skill)}>{skill.name}</p>)
                     }
                 </SelectableList>
                 <ArmorCalculationsComponent className={currentStyle.armorCalculations} entity={entity}/>
