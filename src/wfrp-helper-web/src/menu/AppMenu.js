@@ -35,6 +35,15 @@ import AnimalService from "../data/creature/AnimalService";
 import PersonService from "../data/creature/PersonService";
 import CharacterSheetForm from "../characterSheet/CharacterSheetForm";
 import ReligionService from "../data/world/religion/ReligionService";
+import EntitySelect from "../crud/field/EntitySelect";
+import RealmService from "../data/world/realm/RealmService";
+import withStyles from "@material-ui/core/styles/withStyles";
+
+const style = {
+    realmSelect: {
+        marginLeft: 'auto',
+    },
+};
 
 class AppMenu extends Component {
     state = {
@@ -90,6 +99,8 @@ class AppMenu extends Component {
     personEditor = (entity) => <CharacterSheetForm entity={entity} onChange={this.onApply} personService={this.personService}/>;
     personService = new PersonService(data => {this.setState({data: data, customEditor: this.personEditor})});
 
+    realmService = new RealmService(this.updateData);
+
     onApply = (newState) => {
         this.setState({...newState});
     };
@@ -116,7 +127,8 @@ class AppMenu extends Component {
                                        languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}
                                        raceService={this.raceService} onRace={this.getCrud(this.raceService)}
                                        currencyService={this.currencyService} onCurrency={this.getCrud(this.currencyService)}
-                                       religionService={this.religionService} onReligion={this.getCrud(this.religionService)}/>
+                                       religionService={this.religionService} onReligion={this.getCrud(this.religionService)}
+                                       realmService={this.realmService} onRealm={this.getCrud(this.realmService)}/>
                         <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
                                       itemService={this.itemService} onItem={this.getCrud(this.itemService)}
                                       armorBlueprintService={this.armorBlueprintService} onArmorBlueprint={this.getCrud(this.armorBlueprintService)}
@@ -139,6 +151,7 @@ class AppMenu extends Component {
                         <CreatureMenu animalService={this.animalService} onAnimal={this.getCrud(this.animalService)}
                                       animalKindService={this.animalKindService} onAnimalKind={this.getCrud(this.animalKindService)}
                                       personService={this.personService} onPerson={this.onPerson}/>
+                        <EntitySelect className={this.props.classes.realmSelect}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.currentService
@@ -155,4 +168,4 @@ class AppMenu extends Component {
     }
 }
 
-export default AppMenu;
+export default withStyles(style)(AppMenu);
