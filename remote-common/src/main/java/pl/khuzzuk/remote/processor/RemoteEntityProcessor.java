@@ -10,6 +10,7 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @SupportedAnnotationTypes({"pl.khuzzuk.remote.RemoteEntity"})
@@ -19,10 +20,13 @@ public class RemoteEntityProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
         for (TypeElement annotation : annotations) {
-
             Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
 
             for (Element element : elements) {
+                long start = System.currentTimeMillis();
+                System.out.println(String.format("%s\tStarting RemoteEntity process %s",
+                        LocalDateTime.now(), element));
+
                 SourceFileDescription sourceFileDescription = SourceFileDescription.create(element, processingEnv);
 
                 JpaRepoGenerator jpaRepoGenerator = new JpaRepoGenerator(roundEnv, sourceFileDescription, processingEnv);
@@ -38,6 +42,8 @@ public class RemoteEntityProcessor extends AbstractProcessor {
 
                 RemoteServiceGenerator remoteServiceGenerator = new RemoteServiceGenerator(roundEnv, sourceFileDescription, processingEnv);
                 remoteServiceGenerator.writeFile();
+
+                System.out.println(String.format("%s\tfinished RemoteEntity, overall time: %s ms", LocalDateTime.now(), System.currentTimeMillis() - start));
             }
 
             return !elements.isEmpty();
