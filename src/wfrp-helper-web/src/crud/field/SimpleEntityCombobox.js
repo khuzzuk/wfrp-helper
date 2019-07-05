@@ -53,6 +53,7 @@ export default class SimpleEntityCombobox extends Component {
                        getOptionValue={option => {
                            return option.id
                        }}
+                       filterOption={(option, input) => option.data.name.startsWith(input)}
                        placeholder={null}
                        isSearchable
                        isMulti/>

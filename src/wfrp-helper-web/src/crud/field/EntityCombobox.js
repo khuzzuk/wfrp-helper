@@ -17,6 +17,7 @@ export default class EntityCombobox extends Component {
                     getOptionValue={option => {
                         return option.id
                     }}
+                    filterOption={(option, input) => option.data.name.startsWith(input)}
                     onChange={onChange}
                     value={value}
                     isMulti/>

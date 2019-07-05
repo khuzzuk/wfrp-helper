@@ -31,6 +31,7 @@ export default class SimpleEntitySelect extends Component {
                        getOptionValue={option => {
                            return option.id
                        }}
+                       filterOption={(option, input) => option.data.name.startsWith(input)}
                        isSearchable/>
     }
 }

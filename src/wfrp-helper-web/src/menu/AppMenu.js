@@ -42,6 +42,8 @@ import withStyles from "@material-ui/core/styles/withStyles";
 const style = {
     realmSelect: {
         marginLeft: 'auto',
+        minWidth: 300,
+        maxWidth: 300,
     },
 };
 
@@ -101,6 +103,12 @@ class AppMenu extends Component {
 
     realmService = new RealmService(this.updateData);
 
+    constructor(props: P, context: any) {
+        super(props, context);
+        this.realmService.addDataListener(data => this.setState({realms: data}));
+        this.realmService.retrieveData();
+    }
+
     onApply = (newState) => {
         this.setState({...newState});
     };
@@ -151,7 +159,10 @@ class AppMenu extends Component {
                         <CreatureMenu animalService={this.animalService} onAnimal={this.getCrud(this.animalService)}
                                       animalKindService={this.animalKindService} onAnimalKind={this.getCrud(this.animalKindService)}
                                       personService={this.personService} onPerson={this.onPerson}/>
-                        <EntitySelect className={this.props.classes.realmSelect}/>
+                        <EntitySelect className={this.props.classes.realmSelect}
+                                      data={this.state.realms}
+                                      value={this.state.realm}
+                                      onChange={realm => this.setState({realm: realm})}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.currentService

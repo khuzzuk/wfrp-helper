@@ -6,6 +6,7 @@ import {FormLabel} from "@material-ui/core";
 export default class EntitySelect extends Component {
     render() {
         const {label, data, value, onChange, className} = this.props;
+
         return <div className={className}>
             {label && <FormLabel>{label}</FormLabel>}
             <Select textFieldProps={{label: label, InputLabelProps: {shrink: false}}}
@@ -17,6 +18,7 @@ export default class EntitySelect extends Component {
                     getOptionValue={option => {
                         return option.id
                     }}
+                    filterOption={(option, input) => option.data.name.startsWith(input)}
                     onChange={onChange}
                     value={value}/>
         </div>;
