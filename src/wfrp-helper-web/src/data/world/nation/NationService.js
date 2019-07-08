@@ -1,8 +1,10 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import Nation from "./Nation";
 import FormFieldData from "../../../crud/FormFieldData";
+import {ActionType} from "../../../state/Actions";
+import {STORE} from "../../../App";
 
-class NationService extends ConnectionService {
+export default class NationService extends ConnectionService {
     title = 'Nation';
     data = [];
 
@@ -40,6 +42,8 @@ class NationService extends ConnectionService {
     constructor(action) {
         super('nation', action);
         this.entity = new Nation();
+        STORE.subscribe(() => console.log(STORE.getState()));
+        this.addDataListener(data => STORE.dispatch({type: 'NATIONS', data: 'data'}));
     }
 
     getTableColumns(): Array {
@@ -52,4 +56,19 @@ class NationService extends ConnectionService {
     }
 }
 
-export default NationService;
+export const NationReducer = (state = [], action) => {
+    if (ActionType.NATIONS === action.type) {
+        return action.data;
+    } else {
+        return state;
+    }
+};
+
+export class NationAction {
+    type: string = ActionType.NATIONS;
+    data: Nation[] = [];
+
+    constructor(data: Nation[]) {
+        this.data = data;
+    }
+}
