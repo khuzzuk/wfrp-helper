@@ -15,11 +15,19 @@ import EnumCombobox from "./field/EnumCombobox";
 import {func} from "prop-types";
 
 const styles = theme => ({
-    ...theme,
-    dialogPaper: {
-        overflow: "visible",
-    },
-});
+        form: {
+            justifyContent: 'space-around'
+        },
+        formContent: {
+            justifyContent: 'space-around'
+        },
+        formButtons: {
+            justifyContent: 'flex-end'
+        },
+        dialogPaper: {
+            overflow: "visible",
+        },
+    });
 
 class CrudEditForm extends Component {
     state = {

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import Select, {makeAnimated} from 'react-select';
+import Select from "react-select";
+import makeAnimated from 'react-select/animated'
 
 const simpleStyle = {
     control: (provided, state) => ({

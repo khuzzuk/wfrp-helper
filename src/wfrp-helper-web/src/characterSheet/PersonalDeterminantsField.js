@@ -1,53 +1,49 @@
 import React, {Component} from "react";
 import PersonDeterminants from "../data/creature/PersonDeterminants";
-import IntegerField from "../crud/field/IntegerField";
 import {withStyles} from "@material-ui/styles";
 import {DeterminantType} from "../data/rule/Determinant";
 import ProfessionExtensionField from "./ProfessionExtensionField";
+import SimpleTextField, {TextFieldType} from "../crud/field/SimpleTextField";
 
 const PersonalDeterminantFieldStyle = {
     row1: {
-        maxHeight: '45px',
-        minHeight: '45px',
+        paddingTop: 10,
+        maxHeight: 35,
+        minHeight: 35,
         width: '100%',
         display: 'flex',
     },
     row2: {
-        maxHeight: '50px',
-        minHeight: '50px',
+        maxHeight: 50,
+        minHeight: 50,
         width: '100%',
         display: 'flex',
     },
     row3: {
-        maxHeight: '30px',
-        minHeight: '30px',
+        maxHeight: 30,
+        minHeight: 30,
         width: '100%',
         display: 'flex',
         textAlign: 'center',
     },
-    input: {
-        fontFamily: 'wfrp',
-        fontSize: '24px',
-        textAlign: 'center'
-    },
 
     firstInRow: {
-        minHeight: '50px',
-        maxHeight: '50px',
-        minWidth: '47px',
-        maxWidth: '47px',
+        minHeight: 50,
+        maxHeight: 50,
+        minWidth: 47,
+        maxWidth: 47,
     },
     otherInRow: {
-        maxHeight: '50px',
-        minHeight: '50px',
-        minWidth: '47px',
-        maxWidth: '47px',
+        maxHeight: 50,
+        minHeight: 50,
+        minWidth: 47,
+        maxWidth: 47,
     },
     otherInRow2: {
-        maxHeight: '50px',
-        minHeight: '50px',
-        minWidth: '46px',
-        maxWidth: '46px',
+        maxHeight: 50,
+        minHeight: 50,
+        minWidth: 46,
+        maxWidth: 46,
     },
     lastRowChild: {
         margin: '15px 0 0 0',
@@ -86,20 +82,20 @@ class PersonalDeterminantsField extends Component {
 
         return <div {...other}>
             <div className={classes.row1}>
-                <IntegerField className={classes.firstInRow}  value={speed.value} onChange={this.updateDeterminant(speed)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow}  value={battle.value} onChange={this.updateDeterminant(battle)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow}  value={shooting.value} onChange={this.updateDeterminant(shooting)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow}  value={strength.value} onChange={this.updateDeterminant(strength)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow}  value={durability.value} onChange={this.updateDeterminant(durability)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow2} value={health.value} onChange={this.updateDeterminant(health)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow2} value={attack.value} onChange={this.updateDeterminant(attack)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow}  value={initiative.value} onChange={this.updateDeterminant(initiative)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow2} value={dexterity.value} onChange={this.updateDeterminant(dexterity)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow2} value={leaderSkills.value} onChange={this.updateDeterminant(leaderSkills)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow2} value={intelligence.value} onChange={this.updateDeterminant(intelligence)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow2} value={control.value} onChange={this.updateDeterminant(control)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow2} value={will.value} onChange={this.updateDeterminant(will)} inputProps={{className: classes.input}} />
-                <IntegerField className={classes.otherInRow}  value={charisma.value} onChange={this.updateDeterminant(charisma)} inputProps={{className: classes.input}} />
+                <SimpleTextField className={classes.firstInRow}  value={speed.value} onChange={this.updateDeterminant(speed)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow}  value={battle.value} onChange={this.updateDeterminant(battle)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow}  value={shooting.value} onChange={this.updateDeterminant(shooting)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow}  value={strength.value} onChange={this.updateDeterminant(strength)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow}  value={durability.value} onChange={this.updateDeterminant(durability)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow2} value={health.value} onChange={this.updateDeterminant(health)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow2} value={attack.value} onChange={this.updateDeterminant(attack)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow}  value={initiative.value} onChange={this.updateDeterminant(initiative)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow2} value={dexterity.value} onChange={this.updateDeterminant(dexterity)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow2} value={leaderSkills.value} onChange={this.updateDeterminant(leaderSkills)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow2} value={intelligence.value} onChange={this.updateDeterminant(intelligence)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow2} value={control.value} onChange={this.updateDeterminant(control)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow2} value={will.value} onChange={this.updateDeterminant(will)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow}  value={charisma.value} onChange={this.updateDeterminant(charisma)} variant={TextFieldType.INT} />
             </div>
             <div className={classes.row2}>
                 <ProfessionExtensionField ext={speed} customClassName={classes.firstInRow} onChange={this.updateDeterminantExperience}/>

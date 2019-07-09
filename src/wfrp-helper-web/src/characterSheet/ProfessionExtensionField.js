@@ -65,7 +65,7 @@ class ProfessionExtensionField extends Component {
                     onContextMenu={(e) => {e.preventDefault(); this.removeExtension();}}>
             <p className={classes.extension}>{'+' + professionValue}</p>
             <div className={classes.checkboxContainer}>
-                {extended.map(mod => <ExtMark/>)}
+                {extended.map(mod => <ExtMark key={'' + mod.value + '-' + mod.type}/>)}
             </div>
         </div>;
     }

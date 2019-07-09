@@ -21,7 +21,7 @@ export default class SimpleList extends Component {
     };
 
     render() {
-        const {data, ...other} = this.props;
+        const {data, onRemove, ...other} = this.props;
         return <div {...other}>
             {data.map((element, index) => {
                     const value = element.name || element;

@@ -1,17 +1,12 @@
 // @flow
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
-import FloatField from "../crud/field/FloatField";
+import SimpleTextField, {TextFieldType} from "../crud/field/SimpleTextField";
 
 const componentStyle = {
     container: {
         width: '100%',
         display: 'flex',
-    },
-    input: {
-        fontFamily: 'wfrp',
-        fontSize: '24px',
-        textAlign: 'center'
     },
 
     name: {
@@ -48,18 +43,18 @@ class MoneyElement extends Component {
                 onMoneyRemove(money);
             }}>
                 <div className={currentStyle.name}>{money.currency.name}</div>
-                <FloatField className={currentStyle.gold}
-                            value={money.amount.gold}
-                            onChange={this.updateAmount('gold')}
-                            inputProps={{className: currentStyle.input}}/>
-                <FloatField className={currentStyle.silver}
-                            value={money.amount.silver}
-                            onChange={this.updateAmount('silver')}
-                            inputProps={{className: currentStyle.input}}/>
-                <FloatField className={currentStyle.lead}
-                            value={money.amount.lead}
-                            onChange={this.updateAmount('lead')}
-                            inputProps={{className: currentStyle.input}}/>
+                <SimpleTextField className={currentStyle.gold}
+                                 value={money.amount.gold}
+                                 onChange={this.updateAmount('gold')}
+                                 variant={TextFieldType.FLOAT}/>
+                <SimpleTextField className={currentStyle.silver}
+                                 value={money.amount.silver}
+                                 onChange={this.updateAmount('silver')}
+                                 variant={TextFieldType.FLOAT}/>
+                <SimpleTextField className={currentStyle.lead}
+                                 value={money.amount.lead}
+                                 onChange={this.updateAmount('lead')}
+                                 variant={TextFieldType.FLOAT}/>
             </div>
         );
     };

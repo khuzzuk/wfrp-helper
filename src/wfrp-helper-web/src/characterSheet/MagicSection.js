@@ -2,18 +2,13 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import SelectableList from "../crud/field/SelectableList";
 import SpellElement from "./SpellElement";
-import IntegerField from "../crud/field/IntegerField";
 import EntityComponent from "../crud/EntityComponent";
+import SimpleTextField, {TextFieldType} from "../crud/field/SimpleTextField";
 
 const sectionStyle = {
     container: {
         marginLeft: 45,
         display: 'flex',
-    },
-    input: {
-        fontFamily: 'wfrp',
-        fontSize: '24px',
-        textAlign: 'center'
     },
 
     spellList: {
@@ -83,12 +78,18 @@ class MagicSection extends EntityComponent {
                 }
             </SelectableList>
             <div className={currentStyle.magicPointsSection}>
-                <IntegerField className={currentStyle.fatePoints} value={entity.fatePoints}
-                              onChange={this.updateEntity('fatePoints')} inputProps={{className: currentStyle.input}}/>
-                <IntegerField className={currentStyle.manaPoints} value={entity.mana}
-                              onChange={this.updateEntity('mana')} inputProps={{className: currentStyle.input}}/>
-                <IntegerField className={currentStyle.currentManaPoints} value={entity.currentMana}
-                              onChange={this.updateEntity('currentMana')} inputProps={{className: currentStyle.input}}/>
+                <SimpleTextField className={currentStyle.fatePoints}
+                                 value={entity.fatePoints}
+                                 variant={TextFieldType.INT}
+                                 onChange={this.updateEntity('fatePoints')}/>
+                <SimpleTextField className={currentStyle.manaPoints}
+                                 value={entity.mana}
+                                 variant={TextFieldType.INT}
+                                 onChange={this.updateEntity('mana')}/>
+                <SimpleTextField className={currentStyle.currentManaPoints}
+                                 value={entity.currentMana}
+                                 variant={TextFieldType.INT}
+                                 onChange={this.updateEntity('currentMana')}/>
             </div>
         </div>;
     }

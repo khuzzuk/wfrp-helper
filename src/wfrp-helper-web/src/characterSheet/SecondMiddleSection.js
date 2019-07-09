@@ -5,12 +5,12 @@ import ItemSection from "./ItemSection";
 import MoneySubsection from "./MoneySubsection";
 import SpeedComponent from "./SpeedComponent";
 import SelectableList from "../crud/field/SelectableList";
-import IntegerField from "../crud/field/IntegerField";
 import TextField from "@material-ui/core/TextField";
 import HistorySection from "./HistorySection";
 import ReligionSection from "./ReligionSection";
 import EntityComponent from "../crud/EntityComponent";
 import {Collections} from "../util/Collections";
+import SimpleTextField, {TextFieldType} from "../crud/field/SimpleTextField";
 
 const componentStyle = {
     container: {
@@ -18,11 +18,6 @@ const componentStyle = {
         minHeight: 700,
         maxHeight: 700,
         display: 'flex',
-    },
-    input: {
-        fontFamily: 'wfrp',
-        fontSize: '24px',
-        textAlign: 'center',
     },
     firstColumn: {
         minHeight: 700,
@@ -124,7 +119,8 @@ class SecondMiddleSection extends EntityComponent {
                                         data={Collections.except(personService.languages, entity.languages)}
                                         onGearAdd={this.pushToEntity('languages')}>
                             {
-                                entity.languages.map(language => <div className={currentStyle.languageElement}
+                                entity.languages.map(language => <div key={language.name}
+                                                                      className={currentStyle.languageElement}
                                                                       onContextMenu={this.removeOnContextMenu('languages', language)}>{language.name}</div>)
                             }
                         </SelectableList>
@@ -133,25 +129,25 @@ class SecondMiddleSection extends EntityComponent {
                                    value={entity.health}
                                    onChange={this.updateEntityWithEvent('health')}
                                    multiline/>
-                        <IntegerField className={currentStyle.sanityElement}
-                                      value={entity.sanityPoints}
-                                      inputProps={{className: classes.input}}
-                                      onChange={this.updateEntity('sanityPoints')}/>
+                        <SimpleTextField className={currentStyle.sanityElement}
+                                         value={entity.sanityPoints}
+                                         variant={TextFieldType.INT}
+                                         onChange={this.updateEntity('sanityPoints')}/>
                     </div>
                     <HistorySection entity={entity} personService={personService} onChange={onChange}/>
                     <ReligionSection entity={entity} personService={personService}/>
                 </div>
                 <div className={currentStyle.thirdColumn}>
                     <div className={currentStyle.experienceActualLabel}>aktualnie:</div>
-                    <IntegerField className={currentStyle.experienceActual}
-                                  inputProps={{className: classes.input}}
-                                  value={entity.experience}
-                                  onChange={this.updateEntity('experience')}/>
+                    <SimpleTextField className={currentStyle.experienceActual}
+                                     variant={TextFieldType.INT}
+                                     value={entity.experience}
+                                     onChange={this.updateEntity('experience')}/>
                     <div className={currentStyle.experienceTotalLabel}>całkowite:</div>
-                    <IntegerField className={currentStyle.experienceTotal}
-                                  inputProps={{className: classes.input}}
-                                  value={entity.totalExperience}
-                                  onChange={this.updateEntity('totalExperience')}/>
+                    <SimpleTextField className={currentStyle.experienceTotal}
+                                     variant={TextFieldType.INT}
+                                     value={entity.totalExperience}
+                                     onChange={this.updateEntity('totalExperience')}/>
                 </div>
             </div>
         );

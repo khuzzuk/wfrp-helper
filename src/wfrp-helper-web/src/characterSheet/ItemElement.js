@@ -1,17 +1,12 @@
 // @flow
 import React, {Component} from 'react';
 import withStyles from "@material-ui/core/styles/withStyles";
-import FloatField from "../crud/field/FloatField";
+import SimpleTextField, {TextFieldType} from "../crud/field/SimpleTextField";
 
 const componentStyle = {
     container: {
         display: 'flex',
         width: 290,
-    },
-    input: {
-        fontFamily: 'wfrp',
-        fontSize: '24px',
-        textAlign: 'center'
     },
 
     nameColumn: {
@@ -52,10 +47,10 @@ class ItemElement extends Component {
             }}>
                 <div className={currentStyle.nameColumn}>{inventory.item.name}</div>
                 <div className={currentStyle.weightColumn}>{this.calculateWeight(inventory)}</div>
-                <FloatField className={currentStyle.amountColumn}
+                <SimpleTextField className={currentStyle.amountColumn}
                               value={inventory.amount}
                               onChange={this.updateInventory}
-                              inputProps={{className: currentStyle.input}}/>
+                              variant={TextFieldType.FLOAT}/>
             </div>
         );
     };

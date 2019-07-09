@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import makeAnimated from 'react-select/lib/animated';
-import Select from 'react-select';
+import Select from "react-select";
+import makeAnimated from 'react-select/animated'
 import {FormLabel} from "@material-ui/core";
 
 export default class EntitySelect extends Component {

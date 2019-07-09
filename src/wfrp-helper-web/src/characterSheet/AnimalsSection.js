@@ -37,7 +37,9 @@ class AnimalsSection extends EntityComponent {
                 <SelectableList customStyle={{container: currentStyle.spellList}}
                                 data={Collections.except(personService.animals, entity.animals)}
                                 onGearAdd={this.pushToEntity('animals')}>
-                    {entity.animals.map(animal => <AnimalElement animal={animal} onRemove={this.removeFromArray('animals')}/>)}
+                    {entity.animals.map(animal => <AnimalElement key={animal.name}
+                                                                 animal={animal}
+                                                                 onRemove={this.removeFromArray('animals')}/>)}
                 </SelectableList>
             </div>
         );

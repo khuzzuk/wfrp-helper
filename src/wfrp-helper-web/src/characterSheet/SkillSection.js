@@ -132,7 +132,7 @@ class SkillSection extends EntityComponent {
                     onGearAdd={this.pushToEntity('skills')}>
                     {
                         firstColumnSkills.map(skill =>
-                            <p className={currentStyle.skillElement}
+                            <p key={skill.name} className={currentStyle.skillElement}
                                onContextMenu={this.removeOnContextMenu('skills', skill)}>{skill.name}</p>)
                     }
                 </SelectableList>
@@ -147,7 +147,8 @@ class SkillSection extends EntityComponent {
                     data={availableSpellSchools} onGearAdd={this.onSpellSchoolAdd}>
                     {
                         entity.spellSchools.map(spellSchoolLevel =>
-                            <p className={currentStyle.spellSchoolElement}
+                            <p key={this.spellSchoolLevelText(spellSchoolLevel)}
+                               className={currentStyle.spellSchoolElement}
                                onContextMenu={event => this.onSpellSchoolRemove(event, spellSchoolLevel)}>
                                 {this.spellSchoolLevelText(spellSchoolLevel)}
                             </p>)

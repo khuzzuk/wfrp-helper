@@ -1,6 +1,5 @@
 import React from "react";
 import FrontCharacterSheet from "../img/A.png";
-import {TextField} from "@material-ui/core";
 import {withStyles} from '@material-ui/styles';
 import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
 import SimpleEnumSelect from "../crud/field/SimpleEnumSelect";
@@ -16,6 +15,7 @@ import MagicSection from "./MagicSection";
 import SecondMiddleSection from "./SecondMiddleSection";
 import AnimalsSection from "./AnimalsSection";
 import EntityComponent from "../crud/EntityComponent";
+import SimpleTextField from "../crud/field/SimpleTextField";
 
 const formStyles = {
     backgroundStyle: {
@@ -38,28 +38,27 @@ const formStyles = {
     },
 
     nameField: {
-        left: '35px',
+        paddingLeft: 35,
+        paddingTop: 5,
         width: '200px'
     },
     raceField: {
-        left: '45px',
-        width: '130px',
+        paddingLeft: 10,
+        width: 140,
         display: 'inline-flex'
     },
     genderField: {
-        left: '55px',
-        width: '80px',
+        paddingLeft: 5,
+        width: 90,
         display: 'inline-flex',
         fontSize: '18px',
     },
     professionClassField: {
-        left: '55px',
-        width: '235px',
+        width: 240,
         display: 'inline-flex',
     },
     characterField: {
-        left: '65px',
-        width: '150px',
+        width: 180,
         display: 'inline-flex',
     },
 
@@ -174,8 +173,8 @@ class CharacterSheetForm extends EntityComponent {
         return <div className={classes.backgroundStyle}>
             <div style={{width: '900px'}}>
                 <div className={classes.row} style={{paddingTop: '30px'}}>
-                    <TextField className={classes.nameField} inputProps={{className: classes.input}}
-                               onChange={this.updateEntityWithEvent('name')} value={entity.name}/>
+                    <SimpleTextField className={classes.nameField} value={entity.name}
+                                     onChange={this.updateEntityWithEvent('name')}/>
                     <SimpleEntitySelect className={classes.raceField}
                                         options={personService.races} onChange={this.updateEntity('race')}
                                         value={entity.race}/>
