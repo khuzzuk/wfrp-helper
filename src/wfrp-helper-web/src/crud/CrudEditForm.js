@@ -4,7 +4,6 @@ import FormFieldData from "./FormFieldData";
 import ConnectionService from '../connection/ConnectionService'
 import EntityCombobox from "./field/EntityCombobox";
 import IntegerField from "./field/IntegerField";
-import FloatField from "./field/FloatField";
 import EnumSelect from "./field/EnumSelect";
 import PriceField from "./field/PriceField";
 import DeterminantField from "./field/DeterminantField";
@@ -73,9 +72,10 @@ class CrudEditForm extends Component {
                                      value={value}
                                      onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.FLOAT:
-                return <FloatField key={name} label={label}
-                                   value={value}
-                                   onChange={this.onUpdateData(name, toModel)}/>;
+                return <TextField key={name} label={label}
+                                  value={value}
+                                  type={'number'}
+                                  onChange={this.onUpdate(name, toModel)}/>;
             case ConnectionService.FormFieldType.ENTITY_SELECT:
                 return <EntitySelect key={name} label={label}
                                      data={fieldData.suggestions}
