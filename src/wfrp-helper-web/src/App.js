@@ -3,6 +3,7 @@ import './App.css';
 import AppMenu from "./menu/AppMenu";
 import {MuiThemeProvider, createMuiTheme} from "@material-ui/core/styles";
 import {grey} from "@material-ui/core/colors";
+import {initBus} from "./state";
 
 const theme = createMuiTheme({
     palette: {
@@ -14,6 +15,11 @@ const theme = createMuiTheme({
 });
 
 class App extends Component {
+    constructor(props: P, context: any) {
+        super(props, context);
+        initBus();
+    }
+
     render() {
         return (
             <MuiThemeProvider theme={theme}>

@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
 import FormFieldData from "./FormFieldData";
 import CrudEditForm from "./CrudEditForm";
+import {bus} from "../state";
+import Message, {MessageType} from "../state/Message";
 
 class CrudComponent extends Component {
     state = {
@@ -41,7 +43,8 @@ class CrudComponent extends Component {
     };
 
     update = (data) => {
-        this.props.service.save(data, this.onEditorClose);
+        bus.send(new Message(MessageType.SAVE, this.props.service.domain, data));
+        this.onEditorClose();
     };
 
     onEditorClose = () => {
@@ -49,8 +52,8 @@ class CrudComponent extends Component {
     };
 
     render() {
-        const {rows, customEditor} = this.props;
-        const columns: FormFieldData[] = this.props.service.tableColumns;
+        const {customEditor, service} = this.props;
+        const columns: FormFieldData[] = service.tableColumns;
 
         let crudButtons = <div/>;
         if (columns.length > 0) {
@@ -80,7 +83,7 @@ class CrudComponent extends Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {service.data.map((row) => (
                             <TableRow key={row.id} hover
                                       onClick={() => this.onRowSelect(row.id)}
                                       selected={this.state.selectedId === row.id}>

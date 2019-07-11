@@ -39,6 +39,7 @@ export default class NationService extends ConnectionService {
 
     constructor(action) {
         super('nation', action);
+
     }
 
     createNew(): Nation {

@@ -22,6 +22,12 @@ class MenuComponent extends Component {
         service.retrieveData();
     };
 
+    createOnClick = action => () => {
+        this.handleClose();
+        action();
+        this.props.onClick && this.props.onClick();
+    };
+
     render() {
         return <div>
             <Button id={'menu-button'}

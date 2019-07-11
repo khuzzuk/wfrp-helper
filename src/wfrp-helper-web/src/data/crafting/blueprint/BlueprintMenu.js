@@ -7,9 +7,9 @@ export default class BlueprintMenu extends MenuComponent {
 
     getMenuItems = () => {
         return [
-            <MenuItem key={'armorBlueprint'} onClick={this.showCrudAction(this.props.onArmorBlueprint, this.props.armorBlueprintService)}>Armor</MenuItem>,
-            <MenuItem key={'meleeWeaponBlueprint'} onClick={this.showCrudAction(this.props.onMeleeWeaponBlueprint, this.props.meleeWeaponBlueprintService)}>Melee weapon</MenuItem>,
-            <MenuItem key={'rangedWeaponBlueprint'} onClick={this.showCrudAction(this.props.onRangedWeaponBlueprint, this.props.rangedWeaponBlueprintService)}>Ranged weapon</MenuItem>
+            <MenuItem key={'armorBlueprint'} onClick={this.createOnClick(this.props.onArmorBlueprint)}>Armor</MenuItem>,
+            <MenuItem key={'meleeWeaponBlueprint'} onClick={this.createOnClick(this.props.onMeleeWeaponBlueprint)}>Melee weapon</MenuItem>,
+            <MenuItem key={'rangedWeaponBlueprint'} onClick={this.createOnClick(this.props.onRangedWeaponBlueprint)}>Ranged weapon</MenuItem>
         ];
     };
 }

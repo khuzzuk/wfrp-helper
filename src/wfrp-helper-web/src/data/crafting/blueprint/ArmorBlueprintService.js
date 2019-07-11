@@ -5,6 +5,7 @@ import ArmorBlueprint from "./ArmorBlueprint";
 import {Placement} from "../Placement";
 
 export default class ArmorBlueprintService extends ConnectionService {
+    domain = 'armorBlueprint';
     title = 'Armor blueprint';
     data = [];
     tableColumns: FormFieldData[] = [
@@ -52,7 +53,7 @@ export default class ArmorBlueprintService extends ConnectionService {
     }];
 
     constructor(action) {
-        super('armorBlueprint', action);
+        super(action);
     }
 
     createNew(): ArmorBlueprint {

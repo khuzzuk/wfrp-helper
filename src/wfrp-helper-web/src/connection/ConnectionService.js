@@ -19,14 +19,12 @@ class ConnectionService {
     };
 
     static hostBase: string = 'http://localhost:1081/';
-    uriPart: string;
     data: Array;
     actions = [];
     entity;
     relatedServices: ConnectionService[] = [];
 
-    constructor(uriPart, action) {
-        this.uriPart = uriPart;
+    constructor(action) {
         this.actions.push(action);
     }
 
@@ -48,7 +46,7 @@ class ConnectionService {
     };
 
     retrieveData() {
-        fetch(ConnectionService.hostBase + this.uriPart, {
+        fetch(ConnectionService.hostBase + this.domain, {
             mode: 'cors'
         })
             .then(response => response.json())
@@ -65,7 +63,7 @@ class ConnectionService {
     };
 
     save(entity: object, onSuccess: func) {
-        fetch(ConnectionService.hostBase + this.uriPart, {
+        fetch(ConnectionService.hostBase + this.domain, {
             method: 'post',
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},
@@ -80,7 +78,7 @@ class ConnectionService {
     }
 
     remove(entity: object) {
-        fetch(ConnectionService.hostBase + this.uriPart, {
+        fetch(ConnectionService.hostBase + this.domain, {
             method: 'delete',
             mode: 'cors',
             headers: {'Content-Type': 'application/json'},

@@ -11,9 +11,6 @@ import SpellSchoolService from "../data/knowledge/magic/spellSchool/SpellSchoolS
 import ResourceService from "../data/crafting/resource/ResourceService";
 import CraftingMenu from "../data/crafting/CraftingMenu";
 import ItemService from "../data/crafting/item/ItemService";
-import ArmorBlueprintService from "../data/crafting/blueprint/ArmorBlueprintService";
-import MeleeWeaponBlueprintService from "../data/crafting/blueprint/MeleeWeaponBlueprintService";
-import RangedWeaponBlueprintService from "../data/crafting/blueprint/RangedWeaponBlueprintService";
 import ArmorPatternService from "../data/crafting/item/armor/ArmorPatternService";
 import ArmorService from "../data/crafting/item/armor/ArmorService";
 import MeleeWeaponService from "../data/crafting/item/melee/MeleeWeaponService";
@@ -38,6 +35,7 @@ import ReligionService from "../data/world/religion/ReligionService";
 import EntitySelect from "../crud/field/EntitySelect";
 import RealmService from "../data/world/realm/RealmService";
 import withStyles from "@material-ui/core/styles/withStyles";
+import {store} from "../state";
 
 const style = {
     realmSelect: {
@@ -83,11 +81,6 @@ class AppMenu extends Component {
     rangedWeaponService = new RangedWeaponService(this.updateData);
     jewelryService = new JewelryService(this.updateData);
 
-    armorBlueprintService = new ArmorBlueprintService(this.updateData);
-    armorBlueprintService = new ArmorBlueprintService(this.updateData);
-    meleeWeaponBlueprintService = new MeleeWeaponBlueprintService(this.updateData);
-    rangedWeaponBlueprintService = new RangedWeaponBlueprintService(this.updateData);
-
     //Look
     characterService = new CharacterService(this.updateData);
     eyeColorService = new EyeColorService(this.updateData);
@@ -121,6 +114,14 @@ class AppMenu extends Component {
         });
     };
 
+    showCrud = service => () => {
+        this.setState({
+            showEditor: false,
+            currentService: service,
+            customEditor: null
+        })
+    };
+
     onPerson = () => {
         this.setState({showEditor: false, currentService: this.personService, customEditor: this.personEditor})
     };
@@ -139,9 +140,9 @@ class AppMenu extends Component {
                                        realmService={this.realmService} onRealm={this.getCrud(this.realmService)}/>
                         <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
                                       itemService={this.itemService} onItem={this.getCrud(this.itemService)}
-                                      armorBlueprintService={this.armorBlueprintService} onArmorBlueprint={this.getCrud(this.armorBlueprintService)}
-                                      meleeWeaponBlueprintService={this.meleeWeaponBlueprintService} onMeleeWeaponBlueprint={this.getCrud(this.meleeWeaponBlueprintService)}
-                                      rangedWeaponBlueprintService={this.rangedWeaponBlueprintService} onRangedWeaponBlueprint={this.getCrud(this.rangedWeaponBlueprintService)}
+                                      onArmorBlueprint={this.showCrud(store.armorBlueprintService)}
+                                      onMeleeWeaponBlueprint={this.getCrud(store.meleeWeaponBlueprintService)}
+                                      onRangedWeaponBlueprint={this.getCrud(store.rangedWeaponBlueprintService)}
                                       armorPatternService={this.armorPatternService} onArmorPattern={this.getCrud(this.armorPatternService)}
                                       armorService={this.armorService} onArmor={this.getCrud(this.armorService)}
                                       meleeWeaponService={this.meleeWeaponService} onMeleeWeapon={this.getCrud(this.meleeWeaponService)}
@@ -167,8 +168,8 @@ class AppMenu extends Component {
                 </AppBar>
                 {this.state.currentService
                     ?
-                    <CrudComponent rows={this.state.data}
-                                   entity={this.state.entity}
+                    <CrudComponent rows={this.state.currentService.data}
+                                   entity={this.state.currentService.entity}
                                    service={this.state.currentService}
                                    onChange={this.onApply}
                                    customEditor={this.state.customEditor || null}

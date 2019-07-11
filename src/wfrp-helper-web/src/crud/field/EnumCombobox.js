@@ -19,7 +19,7 @@ export default class EnumCombobox extends Component {
     };
 
     onSelected = selected => {
-        this.props.onChange(selected.map(sel => sel.value))
+        this.props.onChange(selected ? selected.map(sel => sel.value) : []);
     };
 
     render() {

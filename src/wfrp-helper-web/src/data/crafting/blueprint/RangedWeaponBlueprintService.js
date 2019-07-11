@@ -5,6 +5,7 @@ import {Placement} from "../Placement";
 import RangedWeaponBlueprint from "./RangedWeaponBlueprint";
 
 export default class RangedWeaponBlueprintService extends ConnectionService {
+    domain = 'rangedWeaponBlueprint';
     title = 'Ranged weapon blueprint';
     data = [];
 
@@ -79,7 +80,7 @@ export default class RangedWeaponBlueprintService extends ConnectionService {
     }];
 
     constructor(action) {
-        super('rangedWeaponBlueprint', action);
+        super(action);
     }
 
     createNew(): RangedWeaponBlueprint {
