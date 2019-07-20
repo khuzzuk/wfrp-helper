@@ -68,7 +68,8 @@ class CrudEditForm extends Component {
                                   value={value}
                                   onChange={this.onUpdate(name, toModel)}/>;
             case ConnectionService.FormFieldType.INTEGER:
-                return <IntegerField label={fieldData.label}
+                return <IntegerField key={name}
+                                     label={fieldData.label}
                                      value={value}
                                      onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.FLOAT:
@@ -109,7 +110,7 @@ class CrudEditForm extends Component {
                                          value={value}
                                          onChange={this.onUpdateData(name, toModel)}/>;
             case ConnectionService.FormFieldType.MODIFIER:
-                return <ModifierField key={name}
+                return <ModifierField id={name}
                                       value={value}
                                       onChange={this.onUpdateData(name, toModel)}/>;
             default:

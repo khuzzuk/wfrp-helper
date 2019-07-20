@@ -18,8 +18,7 @@ class MenuComponent extends Component {
     showCrudAction = (action, service: ConnectionService) => () => {
         this.handleClose();
         this.props.onClick && this.props.onClick();
-        action();
-        service.retrieveData();
+        action(service);
     };
 
     createOnClick = action => () => {

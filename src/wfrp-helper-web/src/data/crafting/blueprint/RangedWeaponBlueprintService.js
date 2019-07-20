@@ -5,7 +5,6 @@ import {Placement} from "../Placement";
 import RangedWeaponBlueprint from "./RangedWeaponBlueprint";
 
 export default class RangedWeaponBlueprintService extends ConnectionService {
-    domain = 'rangedWeaponBlueprint';
     title = 'Ranged weapon blueprint';
     data = [];
 
@@ -79,8 +78,8 @@ export default class RangedWeaponBlueprintService extends ConnectionService {
         type: NationService.FormFieldType.ACTION_TIME,
     }];
 
-    constructor(action) {
-        super(action);
+    constructor() {
+        super('rangedWeaponBlueprint');
     }
 
     createNew(): RangedWeaponBlueprint {

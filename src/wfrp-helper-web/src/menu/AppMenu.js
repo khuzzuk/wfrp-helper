@@ -2,26 +2,15 @@ import React, {Component} from 'react';
 import {AppBar, Toolbar} from "@material-ui/core";
 import AppToolsMenu from "./AppToolsMenu";
 import CrudWorldMenu from "../data/world/CrudWorldMenu";
-import NationService from "../data/world/nation/NationService";
 import CrudComponent from "../crud/CrudComponent";
-import LanguageService from "../data/world/language/LanguageService";
 import KnowledgeMenu from "../data/knowledge/KnowledgeMenu";
 import SkillService from "../data/knowledge/skill/SkillService";
 import SpellSchoolService from "../data/knowledge/magic/spellSchool/SpellSchoolService";
-import ResourceService from "../data/crafting/resource/ResourceService";
 import CraftingMenu from "../data/crafting/CraftingMenu";
-import ItemService from "../data/crafting/item/ItemService";
-import ArmorPatternService from "../data/crafting/item/armor/ArmorPatternService";
-import ArmorService from "../data/crafting/item/armor/ArmorService";
-import MeleeWeaponService from "../data/crafting/item/melee/MeleeWeaponService";
-import RangedWeaponService from "../data/crafting/item/ranged/RangedWeaponService";
-import JewelryService from "../data/crafting/item/jewelry/JewelryService";
 import PhysicalFeatureService from "../data/look/physicalFeatures/PhysicalFeatureService";
 import LookMenu from "../data/look/LookMenu";
-import RaceService from "../data/world/race/RaceService";
 import ProfessionClassService from "../data/knowledge/profession/ProfessionClassService";
 import ProfessionService from "../data/knowledge/profession/ProfessionService";
-import CurrencyService from "../data/world/money/CurrencyService";
 import SpellService from "../data/knowledge/magic/spell/SpellService";
 import CharacterService from "../data/look/character/CharacterService";
 import EyeColorService from "../data/look/eyeColor/EyeColorService";
@@ -31,7 +20,6 @@ import CreatureMenu from "../data/creature/CreatureMenu";
 import AnimalService from "../data/creature/AnimalService";
 import PersonService from "../data/creature/PersonService";
 import CharacterSheetForm from "../characterSheet/CharacterSheetForm";
-import ReligionService from "../data/world/religion/ReligionService";
 import EntitySelect from "../crud/field/EntitySelect";
 import RealmService from "../data/world/realm/RealmService";
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -58,28 +46,12 @@ class AppMenu extends Component {
         this.setState({data: data, customEditor: null})
     };
 
-    //world
-    nationService = new NationService(this.updateData);
-    languageService = new LanguageService(this.updateData);
-    raceService = new RaceService(this.updateData);
-    currencyService = new CurrencyService(this.updateData);
-    religionService = new ReligionService(this.updateData);
-
     //knowledge
     skillService = new SkillService(this.updateData);
     spellSchoolService = new SpellSchoolService(this.updateData);
     spellService = new SpellService(this.updateData);
     professionClassService = new ProfessionClassService(this.updateData);
     professionService = new ProfessionService(this.updateData);
-
-    //crafting services
-    resourceService = new ResourceService(this.updateData);
-    itemService = new ItemService(this.updateData);
-    armorPatternService = new ArmorPatternService(this.updateData);
-    armorService = new ArmorService(this.updateData);
-    meleeWeaponService = new MeleeWeaponService(this.updateData);
-    rangedWeaponService = new RangedWeaponService(this.updateData);
-    jewelryService = new JewelryService(this.updateData);
 
     //Look
     characterService = new CharacterService(this.updateData);
@@ -106,7 +78,7 @@ class AppMenu extends Component {
         this.setState({...newState});
     };
 
-    getCrud = (service) => () => {
+    getCrud = () => service => {
         this.setState({
             showEditor: false,
             currentService: service,
@@ -132,22 +104,11 @@ class AppMenu extends Component {
                 <AppBar position={"relative"}>
                     <Toolbar>
                         <AppToolsMenu/>
-                        <CrudWorldMenu nationService={this.nationService} onNation={this.getCrud(this.nationService)}
-                                       languageService={this.languageService} onLanguage={this.getCrud(this.languageService)}
-                                       raceService={this.raceService} onRace={this.getCrud(this.raceService)}
-                                       currencyService={this.currencyService} onCurrency={this.getCrud(this.currencyService)}
-                                       religionService={this.religionService} onReligion={this.getCrud(this.religionService)}
-                                       realmService={this.realmService} onRealm={this.getCrud(this.realmService)}/>
-                        <CraftingMenu resourceService={this.resourceService} onResource={this.getCrud(this.resourceService)}
-                                      itemService={this.itemService} onItem={this.getCrud(this.itemService)}
-                                      onArmorBlueprint={this.showCrud(store.armorBlueprintService)}
-                                      onMeleeWeaponBlueprint={this.getCrud(store.meleeWeaponBlueprintService)}
-                                      onRangedWeaponBlueprint={this.getCrud(store.rangedWeaponBlueprintService)}
-                                      armorPatternService={this.armorPatternService} onArmorPattern={this.getCrud(this.armorPatternService)}
-                                      armorService={this.armorService} onArmor={this.getCrud(this.armorService)}
-                                      meleeWeaponService={this.meleeWeaponService} onMeleeWeapon={this.getCrud(this.meleeWeaponService)}
-                                      rangedWeaponService={this.rangedWeaponService} onRangedWeapon={this.getCrud(this.rangedWeaponService)}
-                                      jewelryService={this.jewelryService} onJewelry={this.getCrud(this.jewelryService)}/>
+                        <CrudWorldMenu onCrud={this.getCrud()} store={store}/>
+                        <CraftingMenu onCrud={this.getCrud()}
+                                      onArmorBlueprint={this.showCrud()}
+                                      onMeleeWeaponBlueprint={this.getCrud()}
+                                      onRangedWeaponBlueprint={this.getCrud()}/>
                         <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
                                        spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}
                                        spellService={this.spellService} onSpell={this.getCrud(this.spellService)}
@@ -168,8 +129,7 @@ class AppMenu extends Component {
                 </AppBar>
                 {this.state.currentService
                     ?
-                    <CrudComponent rows={this.state.currentService.data}
-                                   entity={this.state.currentService.entity}
+                    <CrudComponent entity={this.state.currentService.entity}
                                    service={this.state.currentService}
                                    onChange={this.onApply}
                                    customEditor={this.state.customEditor || null}

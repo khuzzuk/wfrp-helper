@@ -20,7 +20,7 @@ export default class ModifierField extends Component {
 
     render() {
         const {
-            value, key,
+            value, id,
             types = ModifierType.allOf()
         } = this.props;
 
@@ -29,7 +29,7 @@ export default class ModifierField extends Component {
             dices = <div>
                 {
                     value.rolls.map(diceRoll =>
-                        <DiceRollField key={key + '_dice'}
+                        <DiceRollField id={id}
                                        value={diceRoll}
                                        onChange={() => this.props.onChange(this.props.value)}/>
                     )
@@ -39,10 +39,10 @@ export default class ModifierField extends Component {
         }
 
         return <div>
-            <IntegerField key={key + '_value'} label={'value'}
+            <IntegerField key={id + '_value'} label={'value'}
                           value={value.value}
                           onChange={number => this.update({value: number})}/>
-            <EnumSelect key={key + '_type'} label={'Modifier type ' + value.id}
+            <EnumSelect key={id + '_type'} label={'Modifier type ' + value.id}
                         data={types} value={value.type}
                         onChange={selected => this.update({type: selected})}/>
             {dices}

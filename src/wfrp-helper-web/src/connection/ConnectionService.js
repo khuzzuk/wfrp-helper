@@ -1,5 +1,7 @@
 import {func, object} from "prop-types";
 import Entity from "../crud/Entity";
+import {bus} from "../state/Bus";
+import Message, {MessageType} from "../state/Message";
 
 class ConnectionService {
     static FormFieldType = {
@@ -19,13 +21,19 @@ class ConnectionService {
     };
 
     static hostBase: string = 'http://localhost:1081/';
+    domain: string;
     data: Array;
     actions = [];
     entity;
     relatedServices: ConnectionService[] = [];
 
-    constructor(action) {
-        this.actions.push(action);
+    constructor(domain: string) {
+        this.domain = domain;
+    }
+
+    subscribeForEvents() {
+        bus.subscribe(MessageType.FIND_ALL, this.domain, this.retrieveData);
+        bus.subscribe(MessageType.SAVE, this.domain, entity => this.save(entity));
     }
 
     addDataListener(action) {
@@ -45,7 +53,7 @@ class ConnectionService {
         });
     };
 
-    retrieveData() {
+    retrieveData = () => {
         fetch(ConnectionService.hostBase + this.domain, {
             mode: 'cors'
         })
@@ -97,6 +105,7 @@ class ConnectionService {
             this.data.push(v);
         });
         this.actions.forEach(action => action(this.data));
+        bus.send(new Message(MessageType.ALL, this.domain, this.data));
     };
 
     edit(toEdit: *): Entity {

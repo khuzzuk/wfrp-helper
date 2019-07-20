@@ -5,7 +5,6 @@ import {Placement} from "../Placement";
 import MeleeWeaponBlueprint from "./MeleeWeaponBlueprint";
 
 export default class MeleeWeaponBlueprintService extends ConnectionService {
-    domain = 'meleeWeaponBlueprint';
     title = 'Melee weapon blueprint';
     data = [];
 
@@ -61,8 +60,8 @@ export default class MeleeWeaponBlueprintService extends ConnectionService {
         type: NationService.FormFieldType.ACTION_TIME,
     }];
 
-    constructor(action) {
-        super(action);
+    constructor() {
+        super('meleeWeaponBlueprint');
     }
 
     createNew(): MeleeWeaponBlueprint {

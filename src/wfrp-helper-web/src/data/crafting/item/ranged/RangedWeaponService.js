@@ -1,12 +1,10 @@
 import ConnectionService from "../../../../connection/ConnectionService";
 import FormFieldData from "../../../../crud/FormFieldData";
 import NationService from "../../../world/nation/NationService";
-import ResourceService from "../../resource/ResourceService";
 import RangedWeapon from "./RangedWeapon";
-import RangedWeaponBlueprintService from "../../blueprint/RangedWeaponBlueprintService";
 import Availability from "../../../rule/Availability";
 
-export default class ArmorService extends ConnectionService {
+export default class RangedWeaponService extends ConnectionService {
     title = 'Ranged weapon';
     data = [];
     resources = [];
@@ -71,12 +69,8 @@ export default class ArmorService extends ConnectionService {
         suggestions: this.rangedWeaponBlueprints
     }];
 
-    constructor(action) {
-        super('rangedWeapon', action);
-
-        const resourceService = new ResourceService(this.onRetrieveRelatedData(this.resources));
-        const rangedWeaponBlueprintService = new RangedWeaponBlueprintService(this.onRetrieveRelatedData(this.rangedWeaponBlueprints));
-        this.registerRelatedServices([resourceService, rangedWeaponBlueprintService]);
+    constructor() {
+        super('rangedWeapon');
     }
 
     createNew(): RangedWeapon {

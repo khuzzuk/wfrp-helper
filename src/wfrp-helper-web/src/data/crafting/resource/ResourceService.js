@@ -51,8 +51,8 @@ class ResourceService extends ConnectionService {
         suggestions: Availability
     }];
 
-    constructor(action) {
-        super('resource', action);
+    constructor() {
+        super('resource');
     }
 
     createNew(): Resource {

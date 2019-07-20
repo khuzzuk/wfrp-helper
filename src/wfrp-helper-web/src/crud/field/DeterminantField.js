@@ -60,7 +60,7 @@ class DeterminantField extends Component {
                                 {determinant.modifiers && determinant.modifiers.map(currentModifier => (
                                     <ListItem>
                                         <ModifierField
-                                            key={determinant.id + determinant.type + currentModifier.id + currentModifier.type}
+                                            id={determinant.id + determinant.type + currentModifier.id + currentModifier.type}
                                             value={currentModifier}
                                             types={modifierTypes}
                                             onChange={this.updateModifier(currentModifier)}/>

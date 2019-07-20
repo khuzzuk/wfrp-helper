@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Button, Table, TableBody, TableCell, TableHead, TableRow} from "@material-ui/core";
 import FormFieldData from "./FormFieldData";
 import CrudEditForm from "./CrudEditForm";
-import {bus} from "../state";
+import {bus} from "../state/Bus";
 import Message, {MessageType} from "../state/Message";
 
 class CrudComponent extends Component {
@@ -11,6 +11,15 @@ class CrudComponent extends Component {
         entity: null,
         showEditor: false,
     };
+    unsubscribe: () => void = () => {};
+
+    componentDidMount(): void {
+        this.unsubscribe = bus.subscribe(MessageType.ALL, this.props.service.domain, data => this.setState({data}));
+    }
+
+    componentWillUnmount(): void {
+        this.unsubscribe();
+    }
 
     onRowSelect = id => {
         this.setState({selectedId: id});

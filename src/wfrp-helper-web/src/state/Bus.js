@@ -41,3 +41,5 @@ export default class Bus {
         subscriber(message.content);
     };
 }
+
+export const bus = new Bus();
