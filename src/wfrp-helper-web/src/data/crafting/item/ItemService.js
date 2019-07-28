@@ -47,8 +47,8 @@ class ItemService extends ConnectionService {
         suggestions: Availability
     }];
 
-    constructor(action) {
-        super('miscItem', action);
+    constructor() {
+        super('miscItem');
     }
 
     createNew(): Item {

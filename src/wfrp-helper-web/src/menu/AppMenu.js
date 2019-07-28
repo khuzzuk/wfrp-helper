@@ -4,14 +4,9 @@ import AppToolsMenu from "./AppToolsMenu";
 import CrudWorldMenu from "../data/world/CrudWorldMenu";
 import CrudComponent from "../crud/CrudComponent";
 import KnowledgeMenu from "../data/knowledge/KnowledgeMenu";
-import SkillService from "../data/knowledge/skill/SkillService";
-import SpellSchoolService from "../data/knowledge/magic/spellSchool/SpellSchoolService";
 import CraftingMenu from "../data/crafting/CraftingMenu";
 import PhysicalFeatureService from "../data/look/physicalFeatures/PhysicalFeatureService";
 import LookMenu from "../data/look/LookMenu";
-import ProfessionClassService from "../data/knowledge/profession/ProfessionClassService";
-import ProfessionService from "../data/knowledge/profession/ProfessionService";
-import SpellService from "../data/knowledge/magic/spell/SpellService";
 import CharacterService from "../data/look/character/CharacterService";
 import EyeColorService from "../data/look/eyeColor/EyeColorService";
 import HairColorService from "../data/look/hairColor/HairColorService";
@@ -45,13 +40,6 @@ class AppMenu extends Component {
     updateData = (data) => {
         this.setState({data: data, customEditor: null})
     };
-
-    //knowledge
-    skillService = new SkillService(this.updateData);
-    spellSchoolService = new SpellSchoolService(this.updateData);
-    spellService = new SpellService(this.updateData);
-    professionClassService = new ProfessionClassService(this.updateData);
-    professionService = new ProfessionService(this.updateData);
 
     //Look
     characterService = new CharacterService(this.updateData);
@@ -105,15 +93,8 @@ class AppMenu extends Component {
                     <Toolbar>
                         <AppToolsMenu/>
                         <CrudWorldMenu onCrud={this.getCrud()} store={store}/>
-                        <CraftingMenu onCrud={this.getCrud()}
-                                      onArmorBlueprint={this.showCrud()}
-                                      onMeleeWeaponBlueprint={this.getCrud()}
-                                      onRangedWeaponBlueprint={this.getCrud()}/>
-                        <KnowledgeMenu skillService={this.skillService} onSkill={this.getCrud(this.skillService)}
-                                       spellSchoolService={this.spellSchoolService} onSpellSchool={this.getCrud(this.spellSchoolService)}
-                                       spellService={this.spellService} onSpell={this.getCrud(this.spellService)}
-                                       professionClassService={this.professionClassService} onProfessionClass={this.getCrud(this.professionClassService)}
-                                       professionService={this.professionService} onProfession={this.getCrud(this.professionService)}/>
+                        <CraftingMenu onCrud={this.getCrud()}/>
+                        <KnowledgeMenu onCrud={this.getCrud()}/>
                         <LookMenu characterService={this.characterService} onCharacter={this.getCrud(this.characterService)}
                                   eyeColorService={this.eyeColorService} onEyeColor={this.getCrud(this.eyeColorService)}
                                   hairColorService={this.hairColorService} onHairColor={this.getCrud(this.hairColorService)}

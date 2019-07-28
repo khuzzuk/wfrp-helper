@@ -31,6 +31,16 @@ import Realm from "../data/world/realm/Realm";
 import Religion from "../data/world/religion/Religion";
 import Currency from "../data/world/money/Currency";
 import Race from "../data/world/race/Race";
+import SkillService from "../data/knowledge/skill/SkillService";
+import SpellSchoolService from "../data/knowledge/magic/spellSchool/SpellSchoolService";
+import SpellService from "../data/knowledge/magic/spell/SpellService";
+import ProfessionClassService from "../data/knowledge/profession/ProfessionClassService";
+import ProfessionService from "../data/knowledge/profession/ProfessionService";
+import Skill from "../data/knowledge/skill/Skill";
+import SpellSchool from "../data/knowledge/magic/spellSchool/SpellSchool";
+import Spell from "../data/knowledge/magic/spell/Spell";
+import ProfessionClass from "../data/knowledge/profession/ProfessionClass";
+import Profession from "../data/knowledge/profession/Profession";
 
 export default class Store {
     nationService = new NationService();
@@ -67,6 +77,17 @@ export default class Store {
     rangedWeapons: RangedWeapon[] = [];
     jewelryService = new JewelryService();
     jewelries: Jewelry[] = [];
+
+    skillService = new SkillService();
+    skills: Skill[] =[];
+    spellSchoolService = new SpellSchoolService();
+    spellSchools: SpellSchool[] = [];
+    spellService = new SpellService();
+    spells: Spell[] = [];
+    professionClassService = new ProfessionClassService();
+    professionClasses: ProfessionClass[] = [];
+    professionService = new ProfessionService();
+    professions: Profession[] = [];
 
     replaceData = (store: Array, service: ConnectionService) => data => {
         store.length = 0;

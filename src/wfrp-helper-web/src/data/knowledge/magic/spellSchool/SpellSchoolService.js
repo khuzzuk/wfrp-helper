@@ -33,8 +33,8 @@ class SpellSchoolService extends ConnectionService {
         type: NationService.FormFieldType.INTEGER
     }];
 
-    constructor(action) {
-        super('spellSchool', action);
+    constructor() {
+        super('spellSchool');
     }
 
     createNew(): SpellSchool {

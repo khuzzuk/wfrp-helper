@@ -1,8 +1,6 @@
 import ConnectionService from "../../../../connection/ConnectionService";
 import FormFieldData from "../../../../crud/FormFieldData";
 import NationService from "../../../world/nation/NationService";
-import ResourceService from "../../resource/ResourceService";
-import MeleeWeaponBlueprintService from "../../blueprint/MeleeWeaponBlueprintService";
 import MeleeWeapon from "./MeleeWeapon";
 import Availability from "../../../rule/Availability";
 
@@ -71,12 +69,8 @@ export default class MeleeWeaponService extends ConnectionService {
         suggestions: this.meleeWeaponBlueprints
     }];
 
-    constructor(action) {
-        super('meleeWeapon', action);
-
-        const resourceService = new ResourceService(this.onRetrieveRelatedData(this.resources));
-        const meleeWeaponBlueprintService = new MeleeWeaponBlueprintService(this.onRetrieveRelatedData(this.meleeWeaponBlueprints));
-        this.registerRelatedServices([resourceService, meleeWeaponBlueprintService]);
+    constructor() {
+        super('meleeWeapon');
     }
 
     createNew(): MeleeWeapon {

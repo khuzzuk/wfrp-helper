@@ -28,8 +28,8 @@ class SkillService extends ConnectionService {
         type: NationService.FormFieldType.TEXT_AREA
     }];
 
-    constructor(action) {
-        super('skill', action);
+    constructor() {
+        super('skill');
     }
 
     createNew(): Skill {

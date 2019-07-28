@@ -1,4 +1,4 @@
-import {func, object} from "prop-types";
+import {object} from "prop-types";
 import Entity from "../crud/Entity";
 import {bus} from "../state/Bus";
 import Message, {MessageType} from "../state/Message";
@@ -44,15 +44,6 @@ class ConnectionService {
         this.relatedServices = services;
     };
 
-    register = (component, data) => {
-        const socket = new WebSocket('ws:///localhost:1081/' + data);
-        socket.addEventListener('message', async (event: any) => {
-            const dataElement = JSON.parse(event.data);
-            component.state.data.push(dataElement);
-            component.setState({data: component.state.data})
-        });
-    };
-
     retrieveData = () => {
         fetch(ConnectionService.hostBase + this.domain, {
             mode: 'cors'
@@ -70,7 +61,7 @@ class ConnectionService {
         data.forEach(d => container.push(d));
     };
 
-    save(entity: object, onSuccess: func) {
+    save(entity: object) {
         fetch(ConnectionService.hostBase + this.domain, {
             method: 'post',
             mode: 'cors',
@@ -80,7 +71,6 @@ class ConnectionService {
             .then(response => {
                 this.handleErrors(response);
                 this.retrieveData();
-                this.onSuccess(response, onSuccess);
             })
             .catch(this.handleInternalErrors);
     }

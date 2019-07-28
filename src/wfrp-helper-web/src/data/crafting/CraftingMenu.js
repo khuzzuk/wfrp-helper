@@ -10,10 +10,7 @@ class CraftingMenu extends MenuComponent {
     getMenuItems = () => {
         const {onCrud} = this.props;
         return [
-            <BlueprintMenu key={'blueprint'} onClick={this.handleClose} onCrud={onCrud}
-                           armorBlueprintService={store.armorBlueprintService} onArmorBlueprint={this.props.onArmorBlueprint}
-                           meleeWeaponBlueprintService={store.meleeWeaponBlueprintService} onMeleeWeaponBlueprint={this.props.onMeleeWeaponBlueprint}
-                           rangedWeaponBlueprintService={store.rangedWeaponBlueprintService} onRangedWeaponBlueprint={this.props.onRangedWeaponBlueprint}/>,
+            <BlueprintMenu key={'blueprint'} onClick={this.handleClose} onCrud={onCrud}/>,
             <MenuItem key={'resource'} onClick={this.showCrudAction(onCrud, store.resourceService)}>Surowce</MenuItem>,
             <MenuItem key={'item'} onClick={this.showCrudAction(onCrud, store.itemService)}>Ekwipunek</MenuItem>,
             <MenuItem key={'armorPattern'} onClick={this.showCrudAction(onCrud, store.armorPatternService)}>Wzór pancerza</MenuItem>,

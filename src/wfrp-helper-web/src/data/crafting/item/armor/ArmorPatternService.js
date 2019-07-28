@@ -47,8 +47,8 @@ export default class ArmorPatternService extends ConnectionService {
         suggestions: Availability
     }];
 
-    constructor(action) {
-        super('armorPattern', action);
+    constructor() {
+        super('armorPattern');
     }
 
     createNew(): ArmorPattern {
