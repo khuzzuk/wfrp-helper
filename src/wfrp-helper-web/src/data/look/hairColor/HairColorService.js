@@ -26,8 +26,8 @@ export default class HairColorService extends ConnectionService {
         type: ConnectionService.FormFieldType.TEXT_AREA
     }];
 
-    constructor(action) {
-        super('hairColor', action);
+    constructor() {
+        super('hairColor');
     }
 
     createNew(): HairColor {

@@ -5,14 +5,8 @@ import CrudWorldMenu from "../data/world/CrudWorldMenu";
 import CrudComponent from "../crud/CrudComponent";
 import KnowledgeMenu from "../data/knowledge/KnowledgeMenu";
 import CraftingMenu from "../data/crafting/CraftingMenu";
-import PhysicalFeatureService from "../data/look/physicalFeatures/PhysicalFeatureService";
 import LookMenu from "../data/look/LookMenu";
-import CharacterService from "../data/look/character/CharacterService";
-import EyeColorService from "../data/look/eyeColor/EyeColorService";
-import HairColorService from "../data/look/hairColor/HairColorService";
-import AnimalKindService from "../data/creature/AnimalKindService";
 import CreatureMenu from "../data/creature/CreatureMenu";
-import AnimalService from "../data/creature/AnimalService";
 import PersonService from "../data/creature/PersonService";
 import CharacterSheetForm from "../characterSheet/CharacterSheetForm";
 import EntitySelect from "../crud/field/EntitySelect";
@@ -41,16 +35,6 @@ class AppMenu extends Component {
         this.setState({data: data, customEditor: null})
     };
 
-    //Look
-    characterService = new CharacterService(this.updateData);
-    eyeColorService = new EyeColorService(this.updateData);
-    hairColorService = new HairColorService(this.updateData);
-    physicalFeatureService = new PhysicalFeatureService(this.updateData);
-
-    //creatures
-    animalService = new AnimalService(this.updateData);
-    animalKindService = new AnimalKindService(this.updateData);
-
     personEditor = (entity) => <CharacterSheetForm entity={entity} onChange={this.onApply} personService={this.personService}/>;
     personService = new PersonService(data => {this.setState({data: data, customEditor: this.personEditor})});
 
@@ -66,7 +50,7 @@ class AppMenu extends Component {
         this.setState({...newState});
     };
 
-    getCrud = () => service => {
+    getCrud = service => {
         this.setState({
             showEditor: false,
             currentService: service,
@@ -74,16 +58,8 @@ class AppMenu extends Component {
         });
     };
 
-    showCrud = service => () => {
-        this.setState({
-            showEditor: false,
-            currentService: service,
-            customEditor: null
-        })
-    };
-
     onPerson = () => {
-        this.setState({showEditor: false, currentService: this.personService, customEditor: this.personEditor})
+        this.setState({showEditor: false, currentService: store.personService, customEditor: this.personEditor})
     };
 
     render() {
@@ -92,16 +68,11 @@ class AppMenu extends Component {
                 <AppBar position={"relative"}>
                     <Toolbar>
                         <AppToolsMenu/>
-                        <CrudWorldMenu onCrud={this.getCrud()} store={store}/>
-                        <CraftingMenu onCrud={this.getCrud()}/>
-                        <KnowledgeMenu onCrud={this.getCrud()}/>
-                        <LookMenu characterService={this.characterService} onCharacter={this.getCrud(this.characterService)}
-                                  eyeColorService={this.eyeColorService} onEyeColor={this.getCrud(this.eyeColorService)}
-                                  hairColorService={this.hairColorService} onHairColor={this.getCrud(this.hairColorService)}
-                                  physicalFeatureService={this.physicalFeatureService} onPhysicalFeature={this.getCrud(this.physicalFeatureService)}/>
-                        <CreatureMenu animalService={this.animalService} onAnimal={this.getCrud(this.animalService)}
-                                      animalKindService={this.animalKindService} onAnimalKind={this.getCrud(this.animalKindService)}
-                                      personService={this.personService} onPerson={this.onPerson}/>
+                        <CrudWorldMenu onCrud={this.getCrud} store={store}/>
+                        <CraftingMenu onCrud={this.getCrud}/>
+                        <KnowledgeMenu onCrud={this.getCrud}/>
+                        <LookMenu onCrud={this.getCrud}/>
+                        <CreatureMenu onCrud={this.getCrud} onPerson={this.onPerson}/>
                         <EntitySelect className={this.props.classes.realmSelect}
                                       data={this.state.realms}
                                       value={this.state.realm}

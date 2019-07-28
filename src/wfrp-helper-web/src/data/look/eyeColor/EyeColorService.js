@@ -26,8 +26,8 @@ export default class EyeColorService extends ConnectionService {
         type: ConnectionService.FormFieldType.TEXT_AREA
     }];
 
-    constructor(action) {
-        super('eyeColor', action);
+    constructor() {
+        super('eyeColor');
     }
 
     createNew(): EyeColor {

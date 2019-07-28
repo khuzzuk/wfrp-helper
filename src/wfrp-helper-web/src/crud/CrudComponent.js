@@ -26,7 +26,7 @@ class CrudComponent extends Component {
     };
 
     getSelectedRow = () => {
-        return this.props.rows.find(row => row.id === this.state.selectedId);
+        return this.props.service.data.find(row => row.id === this.state.selectedId);
     };
 
     onAdd = () => {

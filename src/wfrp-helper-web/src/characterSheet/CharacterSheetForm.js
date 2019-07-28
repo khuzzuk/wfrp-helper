@@ -16,6 +16,7 @@ import SecondMiddleSection from "./SecondMiddleSection";
 import AnimalsSection from "./AnimalsSection";
 import EntityComponent from "../crud/EntityComponent";
 import SimpleTextField from "../crud/field/SimpleTextField";
+import {store} from "../state";
 
 const formStyles = {
     backgroundStyle: {
@@ -169,12 +170,14 @@ class CharacterSheetForm extends EntityComponent {
     };
 
     render() {
-        const {classes, personService, entity, onChange} = this.props;
+        const {classes, entity, onChange} = this.props;
+        const personService = store.personService;
+
         return <div className={classes.backgroundStyle}>
             <div style={{width: '900px'}}>
                 <div className={classes.row} style={{paddingTop: '30px'}}>
                     <SimpleTextField className={classes.nameField} value={entity.name}
-                                     onChange={this.updateEntityWithEvent('name')}/>
+                                     onChange={this.updateEntity('name')}/>
                     <SimpleEntitySelect className={classes.raceField}
                                         options={personService.races} onChange={this.updateEntity('race')}
                                         value={entity.race}/>

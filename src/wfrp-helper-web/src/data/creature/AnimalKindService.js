@@ -30,8 +30,8 @@ export default class AnimalKindService extends ConnectionService {
         type: NationService.FormFieldType.DETERMINANT,
     }];
 
-    constructor(action) {
-        super('animalKind', action);
+    constructor() {
+        super('animalKind');
     }
 
     createNew(): AnimalKind {

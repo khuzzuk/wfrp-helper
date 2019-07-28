@@ -30,6 +30,15 @@ export const initBus = () => {
     initDomain(store.professionClasses, store.professionClassService);
     initDomain(store.professions, store.professionService);
 
+    initDomain(store.characters, store.characterService);
+    initDomain(store.eyeColors, store.eyeColorService);
+    initDomain(store.hairColors, store.hairColorService);
+    initDomain(store.physicalFeatures, store.physicalFeatureService);
+
+    initDomain(store.animalKinds, store.animalKindService);
+    initDomain(store.animals, store.animalService);
+    initDomain(store.persons, store.personService);
+
     addRelation(store.resourceService, store.rangedWeaponService.resources);
     addRelation(store.rangedWeaponBlueprints, store.rangedWeaponService.rangedWeaponBlueprints);
     addRelation(store.resourceService, store.armorService.resources);
@@ -39,6 +48,29 @@ export const initBus = () => {
     addRelation(store.meleeWeaponBlueprintService, store.meleeWeaponService.meleeWeaponBlueprints);
     addRelation(store.itemService, store.spellService.items);
     addRelation(store.spellSchoolService, store.spellService.spellSchools);
+    addRelation(store.animalKindService, store.animalService.animalKinds);
+
+    addRelation(store.hairColorService, store.personService.hairColors);
+    addRelation(store.eyeColorService, store.personService.eyeColors);
+    addRelation(store.raceService, store.personService.races);
+    addRelation(store.professionClassService, store.personService.professionClasses);
+    addRelation(store.professionService, store.personService.professions);
+    addRelation(store.characterService, store.personService.personalities);
+    addRelation(store.physicalFeatureService, store.personService.physicalFeatures);
+    addRelation(store.meleeWeaponService, store.personService.meleeWeapons);
+    addRelation(store.rangedWeaponService, store.personService.rangedWeapons);
+    addRelation(store.armorService, store.personService.armors);
+    addRelation(store.skillService, store.personService.skills);
+    addRelation(store.spellService, store.personService.spells);
+    addRelation(store.spellSchoolService, store.personService.spellSchools);
+    addRelation(store.itemService, store.personService.items);
+    addRelation(store.currencyService, store.personService.currencies);
+    addRelation(store.languageService, store.personService.languages);
+    addRelation(store.religionService, store.personService.religions);
+    addRelation(store.nationService, store.personService.nations);
+    addRelation(store.animalService, store.personService.animals);
+
+    bus.subscribe(MessageType.ALL, 'person', data => console.log(data));
 };
 
 const initDomain = (container: Array, service: ConnectionService) => {

@@ -30,8 +30,8 @@ export default class PhysicalFeatureService extends ConnectionService {
         type: ConnectionService.FormFieldType.DETERMINANT,
     }];
 
-    constructor(action) {
-        super('physicalFeature', action);
+    constructor() {
+        super('physicalFeature');
     }
 
     createNew(): PhysicalFeature {

@@ -26,8 +26,8 @@ export default class CharacterService extends ConnectionService {
         type: ConnectionService.FormFieldType.TEXT_AREA
     }];
 
-    constructor(action) {
-        super('character', action);
+    constructor() {
+        super('character');
     }
 
     createNew(): Character {

@@ -41,6 +41,20 @@ import SpellSchool from "../data/knowledge/magic/spellSchool/SpellSchool";
 import Spell from "../data/knowledge/magic/spell/Spell";
 import ProfessionClass from "../data/knowledge/profession/ProfessionClass";
 import Profession from "../data/knowledge/profession/Profession";
+import CharacterService from "../data/look/character/CharacterService";
+import EyeColorService from "../data/look/eyeColor/EyeColorService";
+import HairColorService from "../data/look/hairColor/HairColorService";
+import PhysicalFeatureService from "../data/look/physicalFeatures/PhysicalFeatureService";
+import AnimalService from "../data/creature/AnimalService";
+import AnimalKindService from "../data/creature/AnimalKindService";
+import Character from "../data/look/character/Character";
+import EyeColor from "../data/look/eyeColor/EyeColor";
+import HairColor from "../data/look/hairColor/HairColor";
+import PhysicalFeature from "../data/look/physicalFeatures/PhysicalFeature";
+import Animal from "../data/creature/Animal";
+import AnimalKind from "../data/creature/AnimalKind";
+import PersonService from "../data/creature/PersonService";
+import Person from "../data/creature/Person";
 
 export default class Store {
     nationService = new NationService();
@@ -88,6 +102,22 @@ export default class Store {
     professionClasses: ProfessionClass[] = [];
     professionService = new ProfessionService();
     professions: Profession[] = [];
+
+    characterService = new CharacterService();
+    characters: Character[] = [];
+    eyeColorService = new EyeColorService();
+    eyeColors: EyeColor[] = [];
+    hairColorService = new HairColorService();
+    hairColors: HairColor[] = [];
+    physicalFeatureService = new PhysicalFeatureService();
+    physicalFeatures: PhysicalFeature[] = [];
+
+    animalKindService = new AnimalKindService();
+    animalKinds: AnimalKind[] = [];
+    animalService = new AnimalService();
+    animals: Animal[] = [];
+    personService = new PersonService();
+    persons: Person[] = [];
 
     replaceData = (store: Array, service: ConnectionService) => data => {
         store.length = 0;

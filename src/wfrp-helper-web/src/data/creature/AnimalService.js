@@ -3,7 +3,6 @@ import FormFieldData from "../../crud/FormFieldData";
 import NationService from "../world/nation/NationService";
 import AnimalKind from "./AnimalKind";
 import Animal from "./Animal";
-import AnimalKindService from "./AnimalKindService";
 
 export default class AnimalService extends ConnectionService {
     title = 'Armor blueprint';
@@ -39,10 +38,8 @@ export default class AnimalService extends ConnectionService {
         type: NationService.FormFieldType.DETERMINANT,
     }];
 
-    constructor(action) {
-        super('animal', action);
-        const animalKindService = new AnimalKindService(this.onRetrieveRelatedData(this.animalKinds));
-        this.registerRelatedServices([animalKindService]);
+    constructor() {
+        super('animal');
     }
 
     createNew(): Animal {
