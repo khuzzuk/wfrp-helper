@@ -7,6 +7,8 @@ export const MessageType = {
     NEW_ENTITY: 'NEW_ENTITY',
     SET_ENTITY: 'SET_ENTITY',
     SET_PROP: 'SET_PROP',
+
+    CURRENT: 'CURRENT',
 };
 
 export default class Message {

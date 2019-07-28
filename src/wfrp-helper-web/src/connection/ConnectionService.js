@@ -98,6 +98,10 @@ class ConnectionService {
         bus.send(new Message(MessageType.ALL, this.domain, this.data));
     };
 
+    getData(): Array {
+        return this.data;
+    }
+
     edit(toEdit: *): Entity {
         this.relatedServices.forEach(service => service.retrieveData());
         this.entity = this.createNew();

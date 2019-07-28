@@ -26,7 +26,7 @@ class CrudComponent extends Component {
     };
 
     getSelectedRow = () => {
-        return this.props.service.data.find(row => row.id === this.state.selectedId);
+        return this.props.service.getData().find(row => row.id === this.state.selectedId);
     };
 
     onAdd = () => {
@@ -92,7 +92,7 @@ class CrudComponent extends Component {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {service.data.map((row) => (
+                        {service.getData().map((row) => (
                             <TableRow key={row.id} hover
                                       onClick={() => this.onRowSelect(row.id)}
                                       selected={this.state.selectedId === row.id}>

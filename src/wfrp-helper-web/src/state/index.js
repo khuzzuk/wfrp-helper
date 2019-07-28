@@ -50,6 +50,9 @@ export const initBus = () => {
     addRelation(store.spellSchoolService, store.spellService.spellSchools);
     addRelation(store.animalKindService, store.animalService.animalKinds);
 
+    addRelation(store.personService, store.realmService.persons);
+    addRelation(store.nationService, store.realmService.nations);
+
     addRelation(store.hairColorService, store.personService.hairColors);
     addRelation(store.eyeColorService, store.personService.eyeColors);
     addRelation(store.raceService, store.personService.races);
@@ -70,7 +73,7 @@ export const initBus = () => {
     addRelation(store.nationService, store.personService.nations);
     addRelation(store.animalService, store.personService.animals);
 
-    bus.subscribe(MessageType.ALL, 'person', data => console.log(data));
+    bus.subscribe(MessageType.CURRENT, 'realm', data => store.currentRealm = data);
 };
 
 const initDomain = (container: Array, service: ConnectionService) => {

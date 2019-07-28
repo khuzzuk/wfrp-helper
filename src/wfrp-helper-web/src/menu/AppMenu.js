@@ -13,6 +13,8 @@ import EntitySelect from "../crud/field/EntitySelect";
 import RealmService from "../data/world/realm/RealmService";
 import withStyles from "@material-ui/core/styles/withStyles";
 import {store} from "../state";
+import {bus} from "../state/Bus";
+import Message, {MessageType} from "../state/Message";
 
 const style = {
     realmSelect: {
@@ -62,6 +64,11 @@ class AppMenu extends Component {
         this.setState({showEditor: false, currentService: store.personService, customEditor: this.personEditor})
     };
 
+    onRealm = realm => {
+        bus.send(new Message(MessageType.CURRENT, 'realm', realm));
+        this.setState({realm: realm})
+    };
+
     render() {
         return (
             <div>
@@ -76,7 +83,7 @@ class AppMenu extends Component {
                         <EntitySelect className={this.props.classes.realmSelect}
                                       data={this.state.realms}
                                       value={this.state.realm}
-                                      onChange={realm => this.setState({realm: realm})}/>
+                                      onChange={this.onRealm}/>
                     </Toolbar>
                 </AppBar>
                 {this.state.currentService

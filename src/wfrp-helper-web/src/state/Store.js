@@ -69,6 +69,7 @@ export default class Store {
     religions: Religion[] = [];
     realmService = new RealmService();
     realms: Realm[] = [];
+    currentRealm: Realm;
 
     armorBlueprintService: ArmorBlueprintService = new ArmorBlueprintService();
     armorBlueprints: ArmorBlueprint[] = [];

@@ -22,6 +22,7 @@ import Language from "../world/language/Language";
 import Religion from "../world/religion/Religion";
 import Nation from "../world/nation/Nation";
 import Animal from "./Animal";
+import {store} from "../../state";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -78,5 +79,11 @@ export default class PersonService extends ConnectionService {
     createNew(): Person {
         this.entity = new Person();
         return this.entity;
+    }
+
+    getData(): Array {
+        return store.currentRealm ?
+            this.data.filter(person => store.currentRealm.persons.find(realmPerson => realmPerson.name === person.name))
+            : [];
     }
 }
