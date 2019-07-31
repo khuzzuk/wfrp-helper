@@ -70,7 +70,6 @@ export const initBus = () => {
     addRelation(store.currencyService, store.personService.currencies);
     addRelation(store.languageService, store.personService.languages);
     addRelation(store.religionService, store.personService.religions);
-    addRelation(store.nationService, store.personService.nations);
     addRelation(store.animalService, store.personService.animals);
 
     bus.subscribe(MessageType.CURRENT, 'realm', data => store.currentRealm = data);

@@ -23,6 +23,10 @@ import Religion from "../world/religion/Religion";
 import Nation from "../world/nation/Nation";
 import Animal from "./Animal";
 import {store} from "../../state";
+import {Collections} from "../../util/Collections";
+import {bus} from "../../state/Bus";
+import {MessageType} from "../../state/Message";
+import Realm from "../world/realm/Realm";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -76,14 +80,38 @@ export default class PersonService extends ConnectionService {
         super('person');
     }
 
+    subscribeForEvents() {
+        super.subscribeForEvents();
+        bus.subscribe(MessageType.CURRENT, 'realm')
+    }
+
     createNew(): Person {
         this.entity = new Person();
         return this.entity;
+    }
+
+    save(entity: object) {
+        if (store.currentRealm) {
+            const realm = store.currentRealm;
+            if (!Collections.findByName(realm.persons, entity)) {
+                store.currentRealm.persons.push(entity);
+            }
+        }
+        super.save(entity);
     }
 
     getData(): Array {
         return store.currentRealm ?
             this.data.filter(person => store.currentRealm.persons.find(realmPerson => realmPerson.name === person.name))
             : [];
+    }
+
+    setCurrentRealm(realm: Realm): void {
+
+        this.nations = [];
+
+        if (realm) {
+            this.nations = Collections.filterByRealm(store.nationService.data, realm.nations);
+        }
     }
 }

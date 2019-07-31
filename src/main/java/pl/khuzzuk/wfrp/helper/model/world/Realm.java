@@ -23,7 +23,7 @@ import java.util.List;
 @Table(schema = "realm")
 @RemoteEntity
 public class Realm {
-    @SequenceGenerator(name = "realm_id_seq_gen", schema = "world", sequenceName = "realm_id_seq")
+    @SequenceGenerator(name = "realm_id_seq_gen", schema = "realm", sequenceName = "realm_id_seq")
     @GeneratedValue(generator = "realm_id_seq_gen", strategy = GenerationType.SEQUENCE)
     @Id
     private Long id;
