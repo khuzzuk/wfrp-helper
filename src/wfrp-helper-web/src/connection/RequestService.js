@@ -12,6 +12,13 @@ export default class RequestService {
         }).then(this.handleResponse(onResponse));
     }
 
+    requestForPath(uri: string, onResponse: func) {
+        fetch(ConnectionService.hostBase + uri, {
+            method: 'get',
+            mode: 'cors',
+        }).then(this.handleResponse(onResponse));
+    }
+
     async rawGetRequestFor(uri: string, onResponse: func) {
         fetch(ConnectionService.hostBase + uri, {
             method: 'get',
@@ -22,12 +29,16 @@ export default class RequestService {
     handleRawResponse = onResponse => response => {
         if (response.status === 200) {
             response.text().then(onResponse);
+        } else {
+            console.warn(response.status);
         }
     };
 
     handleResponse = onResponse => response => {
         if (response.status === 200) {
             response.json().then(onResponse);
+        } else {
+            console.warn(response.status);
         }
     };
 }

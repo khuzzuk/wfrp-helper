@@ -16,12 +16,4 @@ export const Collections = {
     findByName: (array: Array, element: object) => {
         return array.find(value => value.name === element.name);
     },
-
-    filterByRealm: (array: Array, realmArray: Array) => {
-        return array.filter(entity => realmArray.find(realmEntity => entity.name === realmEntity.name));
-    },
-
-    flatMap: (array: Array, prop: string) => {
-        return array.flatMap(value => value[prop]);
-    }
 };

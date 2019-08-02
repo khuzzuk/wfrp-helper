@@ -26,7 +26,7 @@ import {store} from "../../state";
 import {Collections} from "../../util/Collections";
 import {bus} from "../../state/Bus";
 import {MessageType} from "../../state/Message";
-import Realm from "../world/realm/Realm";
+import RealmData from "../world/realm/RealmData";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -82,7 +82,7 @@ export default class PersonService extends ConnectionService {
 
     subscribeForEvents() {
         super.subscribeForEvents();
-        bus.subscribe(MessageType.CURRENT, 'realm')
+        bus.subscribe(MessageType.CURRENT, 'realmData', this.setCurrentRealmData)
     }
 
     createNew(): Person {
@@ -100,18 +100,16 @@ export default class PersonService extends ConnectionService {
         super.save(entity);
     }
 
-    getData(): Array {
-        return store.currentRealm ?
+    getData = (): Array => {
+        return store.currentRealm && this.data ?
             this.data.filter(person => store.currentRealm.persons.find(realmPerson => realmPerson.name === person.name))
             : [];
-    }
+    };
 
-    setCurrentRealm(realm: Realm): void {
-
-        this.nations = [];
-
-        if (realm) {
-            this.nations = Collections.filterByRealm(store.nationService.data, realm.nations);
-        }
+    setCurrentRealmData = (realmData: RealmData): void => {
+        this.nations = realmData.nations;
+        this.languages = realmData.languages || [];
+        this.religions = realmData.religions || [];
+        this.currencies = realmData.currencies || [];
     }
 }

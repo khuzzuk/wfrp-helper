@@ -55,6 +55,7 @@ import Animal from "../data/creature/Animal";
 import AnimalKind from "../data/creature/AnimalKind";
 import PersonService from "../data/creature/PersonService";
 import Person from "../data/creature/Person";
+import RealmDataService from "../data/world/realm/RealmDataService";
 
 export default class Store {
     nationService = new NationService();
@@ -119,6 +120,8 @@ export default class Store {
     animals: Animal[] = [];
     personService = new PersonService();
     persons: Person[] = [];
+
+    realmDataService: RealmDataService = new RealmDataService();
 
     replaceData = (store: Array, service: ConnectionService) => data => {
         store.length = 0;
