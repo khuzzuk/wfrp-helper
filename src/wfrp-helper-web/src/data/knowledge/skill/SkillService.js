@@ -1,6 +1,5 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
-import NationService from "../../world/nation/NationService";
 import Skill from "./Skill";
 
 class SkillService extends ConnectionService {
@@ -10,22 +9,20 @@ class SkillService extends ConnectionService {
         {
             label: 'Name',
             name: 'name',
-            type: NationService.FormFieldType.TEXT
         }, {
             label: 'Description',
             name: 'description',
-            type: NationService.FormFieldType.TEXT_AREA
         }
     ];
 
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }];
 
     constructor() {

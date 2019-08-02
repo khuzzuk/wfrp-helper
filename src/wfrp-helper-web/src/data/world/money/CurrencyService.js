@@ -1,6 +1,5 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
-import NationService from "../nation/NationService";
 import Currency from "./Currency";
 
 export default class CurrencyService extends ConnectionService {
@@ -22,27 +21,24 @@ export default class CurrencyService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Value',
         name: 'valueMultiplier',
-        type: NationService.FormFieldType.FLOAT
+        type: ConnectionService.FormFieldType.FLOAT
     }, {
         label: 'Nations',
         name: 'nations',
-        type: NationService.FormFieldType.ENTITY_COMBOBOX,
+        type: ConnectionService.FormFieldType.ENTITY_COMBOBOX,
         suggestions: this.nations
     }];
 
-    constructor(action) {
-        super('currency', action);
-
-        const nationService = new NationService(this.onRetrieveRelatedData(this.nations));
-        this.registerRelatedServices([nationService]);
+    constructor() {
+        super('currency');
     }
 
     createNew(): Currency {

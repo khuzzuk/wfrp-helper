@@ -1,6 +1,5 @@
 import ConnectionService from "../../../../connection/ConnectionService";
 import FormFieldData from "../../../../crud/FormFieldData";
-import NationService from "../../../world/nation/NationService";
 import SpellSchool from "./SpellSchool";
 
 class SpellSchoolService extends ConnectionService {
@@ -22,15 +21,15 @@ class SpellSchoolService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Levels',
         name: 'levels',
-        type: NationService.FormFieldType.INTEGER
+        type: ConnectionService.FormFieldType.INTEGER
     }];
 
     constructor() {

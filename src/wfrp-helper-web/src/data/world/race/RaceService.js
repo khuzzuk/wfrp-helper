@@ -1,6 +1,5 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
-import NationService from "../nation/NationService";
 import Race from "./Race";
 
 export default class RaceService extends ConnectionService {
@@ -18,19 +17,19 @@ export default class RaceService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Special Features',
         name: 'specialFeatures',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Determinants',
         name: 'determinants',
-        type: NationService.FormFieldType.DETERMINANT,
+        type: ConnectionService.FormFieldType.DETERMINANT,
     }];
 
-    constructor(action) {
-        super('race', action);
+    constructor() {
+        super('race');
     }
 
     createNew(): Race {

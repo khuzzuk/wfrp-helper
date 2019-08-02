@@ -1,6 +1,5 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
-import NationService from "../../world/nation/NationService";
 import Resource from "./Resource";
 import Availability from "../../rule/Availability";
 
@@ -23,31 +22,31 @@ class ResourceService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Price multiplier',
         name: 'priceMultiplier',
-        type: NationService.FormFieldType.FLOAT
+        type: ConnectionService.FormFieldType.FLOAT
     }, {
         label: 'Weight',
         name: 'weight',
-        type: NationService.FormFieldType.FLOAT
+        type: ConnectionService.FormFieldType.FLOAT
     }, {
         label: 'Durability',
         name: 'durability',
-        type: NationService.FormFieldType.FLOAT
+        type: ConnectionService.FormFieldType.FLOAT
     }, {
         label: 'Strength',
         name: 'strength',
-        type: NationService.FormFieldType.FLOAT
+        type: ConnectionService.FormFieldType.FLOAT
     }, {
         label: 'Availability',
         name: 'availability',
-        type: NationService.FormFieldType.ENUM_SELECT,
+        type: ConnectionService.FormFieldType.ENUM_SELECT,
         suggestions: Availability
     }];
 

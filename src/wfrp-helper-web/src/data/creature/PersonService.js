@@ -1,6 +1,5 @@
 import ConnectionService from "../../connection/ConnectionService";
 import FormFieldData from "../../crud/FormFieldData";
-import NationService from "../world/nation/NationService";
 import Person from "./Person";
 import {Gender} from "./Gender";
 import HairColor from "../look/hairColor/HairColor";
@@ -27,6 +26,7 @@ import {Collections} from "../../util/Collections";
 import {bus} from "../../state/Bus";
 import {MessageType} from "../../state/Message";
 import RealmData from "../world/realm/RealmData";
+import Jewelry from "../crafting/item/jewelry/Jewelry";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -40,6 +40,7 @@ export default class PersonService extends ConnectionService {
     physicalFeatures: PhysicalFeature[] = [];
     meleeWeapons: MeleeWeapon[] = [];
     rangedWeapons: RangedWeapon[] = [];
+    jewelleries: Jewelry[] = [];
     armors: Armor[] = [];
     skills: Skill[] = [];
     spells: Spell[] = [];
@@ -64,16 +65,16 @@ export default class PersonService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Gender',
         name: 'gender',
-        type: NationService.FormFieldType.ENUM_SELECT,
+        type: ConnectionService.FormFieldType.ENUM_SELECT,
         suggestions: Gender.allOf()
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }];
 
     constructor() {

@@ -6,41 +6,41 @@ import ConnectionService from "../connection/ConnectionService";
 export const store = new Store();
 
 export const initBus = () => {
-    initDomain(store.nations, store.nationService);
-    initDomain(store.languages, store.languageService);
-    initDomain(store.races, store.raceService);
-    initDomain(store.currencies, store.currencyService);
-    initDomain(store.religions, store.religionService);
-    initDomain(store.realms, store.realmService);
+    initDomain(store.nationService);
+    initDomain(store.languageService);
+    initDomain(store.raceService);
+    initDomain(store.currencyService);
+    initDomain(store.religionService);
+    initDomain(store.realmService);
 
-    initDomain(store.armorBlueprints, store.armorBlueprintService);
-    initDomain(store.meleeWeaponBlueprints, store.meleeWeaponBlueprintService);
-    initDomain(store.rangedWeaponBlueprints, store.rangedWeaponBlueprintService);
-    initDomain(store.resources, store.resourceService);
-    initDomain(store.items, store.itemService);
-    initDomain(store.armorPatterns, store.armorPatternService);
-    initDomain(store.armors, store.armorService);
-    initDomain(store.meleeWeapons, store.meleeWeaponService);
-    initDomain(store.rangedWeapons, store.rangedWeaponService);
-    initDomain(store.jewelries, store.jewelryService);
+    initDomain(store.armorBlueprintService);
+    initDomain(store.meleeWeaponBlueprintService);
+    initDomain(store.rangedWeaponBlueprintService);
+    initDomain(store.resourceService);
+    initDomain(store.itemService);
+    initDomain(store.armorPatternService);
+    initDomain(store.armorService);
+    initDomain(store.meleeWeaponService);
+    initDomain(store.rangedWeaponService);
+    initDomain(store.jewelryService);
 
-    initDomain(store.skills, store.skillService);
-    initDomain(store.spellSchools, store.spellSchoolService);
-    initDomain(store.spells, store.spellService);
-    initDomain(store.professionClasses, store.professionClassService);
-    initDomain(store.professions, store.professionService);
+    initDomain(store.skillService);
+    initDomain(store.spellSchoolService);
+    initDomain(store.spellService);
+    initDomain(store.professionClassService);
+    initDomain(store.professionService);
 
-    initDomain(store.characters, store.characterService);
-    initDomain(store.eyeColors, store.eyeColorService);
-    initDomain(store.hairColors, store.hairColorService);
-    initDomain(store.physicalFeatures, store.physicalFeatureService);
+    initDomain(store.characterService);
+    initDomain(store.eyeColorService);
+    initDomain(store.hairColorService);
+    initDomain(store.physicalFeatureService);
 
-    initDomain(store.animalKinds, store.animalKindService);
-    initDomain(store.animals, store.animalService);
-    initDomain(store.persons, store.personService);
+    initDomain(store.animalKindService);
+    initDomain(store.animalService);
+    initDomain(store.personService);
 
     addRelation(store.resourceService, store.rangedWeaponService.resources);
-    addRelation(store.rangedWeaponBlueprints, store.rangedWeaponService.rangedWeaponBlueprints);
+    addRelation(store.rangedWeaponBlueprintService, store.rangedWeaponService.rangedWeaponBlueprints);
     addRelation(store.resourceService, store.armorService.resources);
     addRelation(store.armorBlueprintService, store.armorService.armorBlueprints);
     addRelation(store.armorPatternService, store.armorService.armorPatterns);
@@ -49,6 +49,10 @@ export const initBus = () => {
     addRelation(store.itemService, store.spellService.items);
     addRelation(store.spellSchoolService, store.spellService.spellSchools);
     addRelation(store.animalKindService, store.animalService.animalKinds);
+
+    addRelation(store.nationService, store.languageService.nations);
+    addRelation(store.nationService, store.currencyService.nations);
+    addRelation(store.nationService, store.religionService.nations);
 
     addRelation(store.personService, store.realmService.persons);
     addRelation(store.nationService, store.realmService.nations);
@@ -62,6 +66,7 @@ export const initBus = () => {
     addRelation(store.physicalFeatureService, store.personService.physicalFeatures);
     addRelation(store.meleeWeaponService, store.personService.meleeWeapons);
     addRelation(store.rangedWeaponService, store.personService.rangedWeapons);
+    addRelation(store.jewelryService, store.personService.jewelleries);
     addRelation(store.armorService, store.personService.armors);
     addRelation(store.skillService, store.personService.skills);
     addRelation(store.spellService, store.personService.spells);
@@ -75,9 +80,8 @@ export const initBus = () => {
     bus.subscribe(MessageType.CURRENT, 'realm', data => store.currentRealm = data);
 };
 
-const initDomain = (container: Array, service: ConnectionService) => {
+const initDomain = (service: ConnectionService) => {
     service.subscribeForEvents();
-    bus.subscribe(MessageType.ALL, service.domain, store.replaceData(container, service));
     bus.send(new Message(MessageType.FIND_ALL, service.domain));
 };
 

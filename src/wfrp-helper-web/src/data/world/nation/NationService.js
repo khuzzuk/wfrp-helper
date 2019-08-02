@@ -24,21 +24,21 @@ export default class NationService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Nazwa',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Opis',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Imiona',
         name: 'names',
-        type: NationService.FormFieldType.TEXT_AREA,
+        type: ConnectionService.FormFieldType.TEXT_AREA,
         toView: this.convertToField,
         toModel: this.convertToNames
     }];
 
-    constructor(action) {
-        super('nation', action);
+    constructor() {
+        super('nation');
 
     }
 

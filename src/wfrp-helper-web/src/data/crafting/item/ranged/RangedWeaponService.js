@@ -1,6 +1,5 @@
 import ConnectionService from "../../../../connection/ConnectionService";
 import FormFieldData from "../../../../crud/FormFieldData";
-import NationService from "../../../world/nation/NationService";
 import RangedWeapon from "./RangedWeapon";
 import Availability from "../../../rule/Availability";
 
@@ -30,42 +29,42 @@ export default class RangedWeaponService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Weight',
         name: 'weight',
-        type: NationService.FormFieldType.FLOAT
+        type: ConnectionService.FormFieldType.FLOAT
     }, {
         label: 'Price',
         name: 'price',
-        type: NationService.FormFieldType.PRICE
+        type: ConnectionService.FormFieldType.PRICE
     }, {
         label: 'Availability',
         name: 'availability',
-        type: NationService.FormFieldType.ENUM_SELECT,
+        type: ConnectionService.FormFieldType.ENUM_SELECT,
         suggestions: Availability
     }, {
         label: 'Determinants',
         name: 'determinants',
-        type: NationService.FormFieldType.DETERMINANT,
+        type: ConnectionService.FormFieldType.DETERMINANT,
     }, {
         label: 'Primary resource',
         name: 'primaryResource',
-        type: NationService.FormFieldType.ENTITY_SELECT,
+        type: ConnectionService.FormFieldType.ENTITY_SELECT,
         suggestions: this.resources
     }, {
         label: 'Secondary resource',
         name: 'secondaryResource',
-        type: NationService.FormFieldType.ENTITY_SELECT,
+        type: ConnectionService.FormFieldType.ENTITY_SELECT,
         suggestions: this.resources
     }, {
         label: 'Type',
         name: 'type',
-        type: NationService.FormFieldType.ENTITY_SELECT,
+        type: ConnectionService.FormFieldType.ENTITY_SELECT,
         suggestions: this.rangedWeaponBlueprints
     }];
 

@@ -1,6 +1,5 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
-import NationService from "../../world/nation/NationService";
 import {Placement} from "../Placement";
 import MeleeWeaponBlueprint from "./MeleeWeaponBlueprint";
 
@@ -28,36 +27,36 @@ export default class MeleeWeaponBlueprintService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Weight',
         name: 'weight',
-        type: NationService.FormFieldType.FLOAT
+        type: ConnectionService.FormFieldType.FLOAT
     }, {
         label: 'Suggested price',
         name: 'suggestedPrice',
-        type: NationService.FormFieldType.PRICE
+        type: ConnectionService.FormFieldType.PRICE
     }, {
         label: 'Placement',
         name: 'placement',
-        type: NationService.FormFieldType.ENUM_COMBOBOX,
+        type: ConnectionService.FormFieldType.ENUM_COMBOBOX,
         suggestions: Placement.weapon()
     }, {
         label: 'Determinants',
         name: 'determinants',
-        type: NationService.FormFieldType.DETERMINANT,
+        type: ConnectionService.FormFieldType.DETERMINANT,
     }, {
         label: 'Damage',
         name: 'damage',
-        type: NationService.FormFieldType.MODIFIER,
+        type: ConnectionService.FormFieldType.MODIFIER,
     }, {
         label: 'Prepare time',
         name: 'prepareTime',
-        type: NationService.FormFieldType.ACTION_TIME,
+        type: ConnectionService.FormFieldType.ACTION_TIME,
     }];
 
     constructor() {

@@ -1,6 +1,5 @@
 import ConnectionService from "../../connection/ConnectionService";
 import FormFieldData from "../../crud/FormFieldData";
-import NationService from "../world/nation/NationService";
 import AnimalKind from "./AnimalKind";
 import Animal from "./Animal";
 
@@ -22,20 +21,20 @@ export default class AnimalService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Animal Kind',
         name: 'animalKind',
-        type: NationService.FormFieldType.ENTITY_SELECT,
+        type: ConnectionService.FormFieldType.ENTITY_SELECT,
         suggestions: this.animalKinds
     }, {
         label: 'Determinants',
         name: 'determinants',
-        type: NationService.FormFieldType.DETERMINANT,
+        type: ConnectionService.FormFieldType.DETERMINANT,
     }];
 
     constructor() {

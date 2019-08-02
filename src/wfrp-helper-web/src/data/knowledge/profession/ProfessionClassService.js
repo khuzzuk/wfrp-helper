@@ -3,7 +3,6 @@ import Profession from "./Profession";
 import ProfessionClass from "./ProfessionClass";
 import Skill from "../skill/Skill";
 import FormFieldData from "../../../crud/FormFieldData";
-import NationService from "../../world/nation/NationService";
 import SkillService from "../skill/SkillService";
 
 export default class ProfessionClassService extends ConnectionService {
@@ -23,15 +22,15 @@ export default class ProfessionClassService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Skills',
         name: 'skills',
-        type: NationService.FormFieldType.ENTITY_COMBOBOX,
+        type: ConnectionService.FormFieldType.ENTITY_COMBOBOX,
         suggestions: this.skills
     }];
 

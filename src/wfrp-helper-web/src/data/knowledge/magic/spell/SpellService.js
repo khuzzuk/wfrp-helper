@@ -1,6 +1,5 @@
 import ConnectionService from "../../../../connection/ConnectionService";
 import FormFieldData from "../../../../crud/FormFieldData";
-import NationService from "../../../world/nation/NationService";
 import Spell from "./Spell";
 
 export default class SpellService extends ConnectionService {
@@ -22,44 +21,44 @@ export default class SpellService extends ConnectionService {
     formFields: FormFieldData[] = [{
         label: 'Name',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Description',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Effect',
         name: 'effect',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Level',
         name: 'level',
-        type: NationService.FormFieldType.INTEGER
+        type: ConnectionService.FormFieldType.INTEGER
     }, {
         label: 'Mana cost',
         name: 'manaCost',
-        type: NationService.FormFieldType.INTEGER
+        type: ConnectionService.FormFieldType.INTEGER
     }, {
         label: 'Range',
         name: 'range',
-        type: NationService.FormFieldType.INTEGER
+        type: ConnectionService.FormFieldType.INTEGER
     }, {
         label: 'Prepare time',
         name: 'prepareTime',
-        type: NationService.FormFieldType.ACTION_TIME
+        type: ConnectionService.FormFieldType.ACTION_TIME
     }, {
         label: 'Duration time',
         name: 'durationTime',
-        type: NationService.FormFieldType.ACTION_TIME
+        type: ConnectionService.FormFieldType.ACTION_TIME
     }, {
         label: 'Spell school',
         name: 'spellSchool',
-        type: NationService.FormFieldType.ENTITY_SELECT,
+        type: ConnectionService.FormFieldType.ENTITY_SELECT,
         suggestions: this.spellSchools
     }, {
         label: 'Ingredients',
         name: 'ingredients',
-        type: NationService.FormFieldType.ENTITY_COMBOBOX,
+        type: ConnectionService.FormFieldType.ENTITY_COMBOBOX,
         suggestions: this.items
     }];
 

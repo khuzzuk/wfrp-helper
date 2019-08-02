@@ -1,7 +1,5 @@
 import ConnectionService from "../../../connection/ConnectionService";
 import FormFieldData from "../../../crud/FormFieldData";
-import NationService from "../nation/NationService";
-import PersonService from "../../creature/PersonService";
 import Realm from "./Realm";
 
 export default class RealmService extends ConnectionService {
@@ -13,38 +11,35 @@ export default class RealmService extends ConnectionService {
     tableColumns: FormFieldData[] = [{
         label: 'Nazwa',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Opis',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }];
 
     formFields: FormFieldData[] = [{
         label: 'Nazwa',
         name: 'name',
-        type: NationService.FormFieldType.TEXT
+        type: ConnectionService.FormFieldType.TEXT
     }, {
         label: 'Opis',
         name: 'description',
-        type: NationService.FormFieldType.TEXT_AREA
+        type: ConnectionService.FormFieldType.TEXT_AREA
     }, {
         label: 'Kraje',
         name: 'nations',
-        type: NationService.FormFieldType.ENTITY_COMBOBOX,
+        type: ConnectionService.FormFieldType.ENTITY_COMBOBOX,
         suggestions: this.nations
     }, {
         label: 'Bohaterowie',
         name: 'persons',
-        type: NationService.FormFieldType.ENTITY_COMBOBOX,
+        type: ConnectionService.FormFieldType.ENTITY_COMBOBOX,
         suggestions: this.persons
     }];
 
-    constructor(action) {
-        super('realm', action);
-        const nationService = new NationService(this.onRetrieveRelatedData(this.nations));
-        const personService = new PersonService(this.onRetrieveRelatedData(this.persons));
-        this.registerRelatedServices([nationService, personService])
+    constructor() {
+        super('realm');
     }
 
     createNew(): Realm {
