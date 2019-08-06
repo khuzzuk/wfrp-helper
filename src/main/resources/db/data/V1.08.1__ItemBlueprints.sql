@@ -22,24 +22,24 @@ $$
     LANGUAGE plpgsql;
 
 -- @formatter:off
-SELECT pg_temp.add_armor('Kaptur', NULL, 0, 5, 0, 0.1, 0, 'HEAD');
-SELECT pg_temp.add_armor('Czepiec', NULL, 2, 5, 0, 0.1, 1, 'HEAD');
-SELECT pg_temp.add_armor('Szyszak', NULL, 4, 0, 0, 0.95, 1, 'HEAD');
-SELECT pg_temp.add_armor('Hełm', NULL, 5, 0, 0, 1, 2, 'HEAD');
-SELECT pg_temp.add_armor('Pełny Hełm', NULL, 7, 5, 0, 1.2, 3, 'HEAD');
-SELECT pg_temp.add_armor('Koszulka', NULL, 8, 0, 0, 2, 1, 'TORSO');
-SELECT pg_temp.add_armor('Zbroja', NULL, 10, 0, 0, 4, 1, 'TORSO');
-SELECT pg_temp.add_armor('Zbroja z naramiennikami', NULL, 15, 0, 0, 5, 2, 'TORSO');
-SELECT pg_temp.add_armor('Napierśnik', NULL, 8, 0, 0, 1, 1, 'TORSO');
-SELECT pg_temp.add_armor('Napierśnik z Naplecznikiem', NULL, 9, 0, 0, 4, 2, 'TORSO');
-SELECT pg_temp.add_armor('Rękawice', NULL, 1, 5, 0, 1.25, 1, 'HAND');
-SELECT pg_temp.add_armor('Rękawice z rękawami', NULL, 1, 7, 5, 1.5, 2, 'HAND');
-SELECT pg_temp.add_armor('Spodnie', NULL, 1, 2, 5, 1.35, 1, 'LEG');
-SELECT pg_temp.add_armor('Buty', NULL, 1, 2, 5, 1.35, 1, 'LEG');
-SELECT pg_temp.add_armor('Buty z nagolennikami', NULL, 1, 5, 0, 2, 2, 'LEG');
-SELECT pg_temp.add_armor('Puklerz', NULL, 0, 9, 0, 0.8, 1, 'SHIELD');
-SELECT pg_temp.add_armor('Tarcza trójkątna', NULL, 1, 5, 0, 2, 2, 'SHIELD');
-SELECT pg_temp.add_armor('Pawęż', NULL, 1, 7, 5, 3, 3, 'SHIELD');
+SELECT pg_temp.add_armor('Kaptur',                              NULL, 0,  5,  0,  0.1,  0,  'HEAD');
+SELECT pg_temp.add_armor('Czepiec',                             NULL, 2,  5,  0,  0.1,  1,  'HEAD');
+SELECT pg_temp.add_armor('Szyszak',                             NULL, 4,  0,  0,  0.95, 1,  'HEAD');
+SELECT pg_temp.add_armor('Hełm',                                NULL, 5,  0,  0,  1,    2,  'HEAD');
+SELECT pg_temp.add_armor('Pełny Hełm',                          NULL, 7,  5,  0,  1.2,  3,  'HEAD');
+SELECT pg_temp.add_armor('Koszulka',                            NULL, 8,  0,  0,  2,    1,  'TORSO');
+SELECT pg_temp.add_armor('Zbroja',                              NULL, 10, 0,  0,  4,    1,  'TORSO');
+SELECT pg_temp.add_armor('Zbroja z naramiennikami',             NULL, 15, 0,  0,  5,    2,  'TORSO');
+SELECT pg_temp.add_armor('Napierśnik',                          NULL, 8,  0,  0,  1,    1,  'TORSO');
+SELECT pg_temp.add_armor('Napierśnik z Naplecznikiem',          NULL, 9,  0,  0,  4,    2,  'TORSO');
+SELECT pg_temp.add_armor('Rękawice',                            NULL, 1,  5,  0,  1.25, 1,  'HAND');
+SELECT pg_temp.add_armor('Rękawice z rękawami',                 NULL, 1,  7,  5,  1.5,  2,  'HAND');
+SELECT pg_temp.add_armor('Spodnie',                             NULL, 1,  2,  5,  1.35, 1,  'LEG');
+SELECT pg_temp.add_armor('Buty',                                NULL, 1,  2,  5,  1.35, 1,  'LEG');
+SELECT pg_temp.add_armor('Buty z nagolennikami',                NULL, 1,  5,  0,  2,    2,  'LEG');
+SELECT pg_temp.add_armor('Puklerz',                             NULL, 0,  9,  0,  0.8,  1,  'SHIELD');
+SELECT pg_temp.add_armor('Tarcza trójkątna',                    NULL, 1,  5,  0,  2,    2,  'SHIELD');
+SELECT pg_temp.add_armor('Pawęż',                               NULL, 1,  7,  5,  3,    3,  'SHIELD');
 -- @formatter:on
 
 DROP FUNCTION pg_temp.add_armor(name_to_insert VARCHAR, description_to_insert VARCHAR, gold_to_insert INT, silver_to_insert INT, lead_to_insert INT, suggested_weight_to_insert REAL, armor_to_insert INT, placement_to_insert PLACEMENT);
@@ -187,9 +187,9 @@ CREATE FUNCTION pg_temp.add_rangedWeapon
  action_type_to_insert ACTION_TYPE) RETURNS VOID AS
 $$
 DECLARE
-    inserted_roll_id        BIGINT;
-    inserted_mod_id         BIGINT;
-    inserted_blueprint_id   BIGINT;
+    inserted_roll_id      BIGINT;
+    inserted_mod_id       BIGINT;
+    inserted_blueprint_id BIGINT;
 
 BEGIN
     INSERT INTO dice_roll(dice, rolls)
