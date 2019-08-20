@@ -18,7 +18,7 @@ CREATE TABLE creature.person (
     profession_class_id   BIGINT             NOT NULL REFERENCES profession_class,
     current_profession_id BIGINT             NOT NULL REFERENCES profession,
     personality_id        BIGINT             NOT NULL REFERENCES character,
-    race_id               BIGINT             NOT NULL REFERENCES race,
+    race_id               BIGINT             NOT NULL REFERENCES world.race,
     total_experience      INT,
     experience            INT,
     nation_id             BIGINT REFERENCES world.nation,

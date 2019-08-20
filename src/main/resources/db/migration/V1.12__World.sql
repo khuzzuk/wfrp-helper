@@ -38,3 +38,17 @@ CREATE TABLE world.religion_nation (
     nation_id   BIGINT NOT NULL REFERENCES world.nation,
     PRIMARY KEY (religion_id, nation_id)
     );
+
+CREATE TABLE world.race (
+    id BIGSERIAL PRIMARY KEY, name VARCHAR(64) UNIQUE, special_features VARCHAR(255)
+    );
+
+CREATE TABLE world.race_determinants (
+    race_id         BIGINT NOT NULL REFERENCES world.race (id),
+    determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant (id),
+    PRIMARY KEY (race_id, determinants_id)
+    );
+
+CREATE TABLE world.race_nation (
+    race_id BIGINT NOT NULL REFERENCES world.race, nation_id BIGINT NOT NULL REFERENCES world.nation
+    );
