@@ -27,6 +27,7 @@ import {bus} from "../../state/Bus";
 import {MessageType} from "../../state/Message";
 import RealmData from "../world/realm/RealmData";
 import Jewelry from "../crafting/item/jewelry/Jewelry";
+import Ammunition from "../crafting/item/ranged/Ammunition";
 
 export default class PersonService extends ConnectionService {
     title: string = 'Person';
@@ -40,6 +41,7 @@ export default class PersonService extends ConnectionService {
     physicalFeatures: PhysicalFeature[] = [];
     meleeWeapons: MeleeWeapon[] = [];
     rangedWeapons: RangedWeapon[] = [];
+    ammunitions: Ammunition[] = [];
     jewelleries: Jewelry[] = [];
     armors: Armor[] = [];
     skills: Skill[] = [];

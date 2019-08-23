@@ -1,4 +1,4 @@
-CREATE TABLE item (
+CREATE TABLE crafting.item (
     id                    BIGSERIAL PRIMARY KEY,
     dtype                 VARCHAR(255)       NOT NULL,
     name                  VARCHAR(64) UNIQUE NOT NULL,
@@ -12,15 +12,21 @@ CREATE TABLE item (
     medium_range          INT,
     minimum_range         INT,
     placement             INT,
-    item_blueprint_id     BIGINT REFERENCES item_blueprint (id),
+    item_blueprint_id     BIGINT REFERENCES crafting.item_blueprint (id),
     availability          AVAILABILITY       NOT NULL,
-    primary_resource_id   BIGINT REFERENCES resource (id),
-    secondary_resource_id BIGINT REFERENCES resource (id),
-    armor_pattern_id      BIGINT REFERENCES armor_pattern (id)
+    primary_resource_id   BIGINT REFERENCES crafting.resource (id),
+    secondary_resource_id BIGINT REFERENCES crafting.resource (id),
+    armor_pattern_id      BIGINT REFERENCES crafting.armor_pattern (id)
     );
 
-CREATE TABLE item_determinants (
-    item_id         BIGINT NOT NULL REFERENCES item (id),
+CREATE TABLE crafting.item_determinants (
+    item_id         BIGINT NOT NULL REFERENCES crafting.item (id),
     determinants_id BIGINT NOT NULL UNIQUE REFERENCES determinant (id),
     PRIMARY KEY (item_id, determinants_id)
+    );
+
+CREATE TABLE crafting.weapon_ammunition (
+    ranged_weapon_id BIGINT NOT NULL REFERENCES crafting.item,
+    ammunition_id    BIGINT NOT NULL,
+    PRIMARY KEY (ranged_weapon_id, ammunition_id)
     );

@@ -24,6 +24,6 @@ CREATE TABLE spell (
 CREATE SEQUENCE spell_ingredients_seq;
 CREATE TABLE spell_ingredients (
   id            BIGINT PRIMARY KEY NOT NULL DEFAULT nextval('spell_ingredients_seq' :: regclass),
-  ingrediend_id BIGINT             NOT NULL REFERENCES item,
+  ingrediend_id BIGINT             NOT NULL REFERENCES crafting.item,
   spell_id      BIGINT             NOT NULL REFERENCES spell
 );

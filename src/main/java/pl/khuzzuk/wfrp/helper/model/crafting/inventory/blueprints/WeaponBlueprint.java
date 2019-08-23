@@ -23,7 +23,8 @@ public abstract class WeaponBlueprint extends ItemBlueprint {
     @Type(type = EnumType.DEF)
     @PlacementValues({HAND, BOTH_HANDS, SHIELD})
     @ElementCollection
-    @JoinTable(name = "item_blueprint_placements",
+    @JoinTable(schema = "crafting",
+            name = "item_blueprint_placements",
             joinColumns = @JoinColumn(name = "item_blueprint_id"))
     private List<Placement> placement;
     @Embedded

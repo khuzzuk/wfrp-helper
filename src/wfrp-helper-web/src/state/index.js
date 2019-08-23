@@ -23,6 +23,7 @@ export const initBus = () => {
     initDomain(store.meleeWeaponService);
     initDomain(store.rangedWeaponService);
     initDomain(store.jewelryService);
+    initDomain(store.ammunitionService);
 
     initDomain(store.skillService);
     initDomain(store.spellSchoolService);
@@ -49,6 +50,8 @@ export const initBus = () => {
     addRelation(store.itemService, store.spellService.items);
     addRelation(store.spellSchoolService, store.spellService.spellSchools);
     addRelation(store.animalKindService, store.animalService.animalKinds);
+    addRelation(store.resourceService, store.ammunitionService.resources);
+    addRelation(store.rangedWeaponBlueprintService, store.ammunitionService.rangedWeaponBlueprints);
 
     addRelation(store.nationService, store.languageService.nations);
     addRelation(store.nationService, store.currencyService.nations);
@@ -66,6 +69,7 @@ export const initBus = () => {
     addRelation(store.physicalFeatureService, store.personService.physicalFeatures);
     addRelation(store.meleeWeaponService, store.personService.meleeWeapons);
     addRelation(store.rangedWeaponService, store.personService.rangedWeapons);
+    addRelation(store.ammunitionService, store.personService.ammunitions);
     addRelation(store.jewelryService, store.personService.jewelleries);
     addRelation(store.armorService, store.personService.armors);
     addRelation(store.skillService, store.personService.skills);

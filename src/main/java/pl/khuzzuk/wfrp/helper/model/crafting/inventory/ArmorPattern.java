@@ -9,21 +9,18 @@ import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of = "name")
 @Entity
+@Table(schema = "crafting")
 @RemoteEntity
 public class ArmorPattern {
     @Id
-    @SequenceGenerator(name = "armor_pattern_seq_gen", sequenceName = "armor_pattern_seq", allocationSize = 1)
+    @SequenceGenerator(name = "armor_pattern_seq_gen", schema = "crafting", sequenceName = "armor_pattern_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "armor_pattern_seq_gen")
     private Long id;
     @NaturalId

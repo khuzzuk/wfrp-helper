@@ -11,11 +11,11 @@ $$
 DECLARE
     inserted_item_id BIGINT;
 BEGIN
-    INSERT INTO item_blueprint (type, name, description, gold, silver, lead, suggested_weight, armor)
+    INSERT INTO crafting.item_blueprint (type, name, description, gold, silver, lead, suggested_weight, armor)
     VALUES ('ARMOR', name_to_insert, description_to_insert, gold_to_insert, silver_to_insert, lead_to_insert,
             suggested_weight_to_insert, armor_to_insert) RETURNING id INTO inserted_item_id;
 
-    INSERT INTO item_blueprint_placements (item_blueprint_id, placement) VALUES (inserted_item_id, placement_to_insert);
+    INSERT INTO crafting.item_blueprint_placements (item_blueprint_id, placement) VALUES (inserted_item_id, placement_to_insert);
 
 END;
 $$
@@ -76,7 +76,7 @@ BEGIN
 
     INSERT INTO modifier_rolls (modifier_id, rolls_id) VALUES (inserted_mod_id, inserted_roll_id);
 
-    INSERT INTO item_blueprint (type,
+    INSERT INTO crafting.item_blueprint (type,
                                 name,
                                 description,
                                 gold,
@@ -94,7 +94,7 @@ BEGIN
             suggested_weight_to_insert,
             inserted_mod_id,
             'ACTION', 1) RETURNING id INTO inserted_blueprint_id;
-    INSERT INTO item_blueprint_placements (item_blueprint_id, placement)
+    INSERT INTO crafting.item_blueprint_placements (item_blueprint_id, placement)
     VALUES (inserted_blueprint_id, placement_to_insert);
 
     IF initiative_mod > 0
@@ -200,7 +200,7 @@ BEGIN
 
     INSERT INTO modifier_rolls (modifier_id, rolls_id) VALUES (inserted_mod_id, inserted_roll_id);
 
-    INSERT INTO item_blueprint (type,
+    INSERT INTO crafting.item_blueprint (type,
                                 name,
                                 gold,
                                 silver,
@@ -224,7 +224,7 @@ BEGIN
             min_dist,
             med_dist,
             max_dist) RETURNING id INTO inserted_blueprint_id;
-    INSERT INTO item_blueprint_placements (item_blueprint_id, placement)
+    INSERT INTO crafting.item_blueprint_placements (item_blueprint_id, placement)
     VALUES (inserted_blueprint_id, placement_to_insert);
 END;
 $$

@@ -8,19 +8,16 @@ import pl.khuzzuk.remote.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Availability;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
+@Table(schema = "crafting")
 @RemoteEntity
 public class Resource {
     @Id
-    @SequenceGenerator(name = "resource_seq_gen", sequenceName = "resource_seq", allocationSize = 1)
+    @SequenceGenerator(name = "resource_seq_gen", schema = "crafting", sequenceName = "resource_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resource_seq_gen")
     private Long id;
     @NaturalId

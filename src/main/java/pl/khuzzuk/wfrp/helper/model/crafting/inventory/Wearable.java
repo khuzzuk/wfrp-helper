@@ -19,7 +19,8 @@ import java.util.Set;
 @Entity
 public abstract class Wearable extends Item {
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "item_determinants",
+    @JoinTable(schema = "crafting",
+            name = "item_determinants",
             joinColumns = @JoinColumn(name = "item_id"),
             inverseJoinColumns = @JoinColumn(name = "determinants_id"))
     private Set<Determinant> determinants;

@@ -24,6 +24,7 @@ public class ArmorBlueprint extends ItemBlueprint {
     @PlacementValues({HEAD, TORSO, HAND, LEG, BELT, SHIELD})
     @ElementCollection
     @JoinTable(name = "item_blueprint_placements",
+            schema = "crafting",
             joinColumns = @JoinColumn(name = "item_blueprint_id"))
     private List<Placement> placement;
     private int armor;

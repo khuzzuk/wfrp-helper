@@ -1,8 +1,6 @@
 CREATE TYPE PLACEMENT AS ENUM ('BODY', 'HEAD', 'TORSO', 'HAND', 'LEG', 'BELT', 'NECK', 'FINGER', 'SHIELD', 'BOTH_HANDS');
 
-CREATE SEQUENCE item_blueprint_seq;
-
-CREATE TABLE item_blueprint (
+CREATE TABLE crafting.item_blueprint (
     id               BIGSERIAL PRIMARY KEY,
     type             VARCHAR(255)       NOT NULL,
     name             VARCHAR(64) UNIQUE NOT NULL,
@@ -20,14 +18,14 @@ CREATE TABLE item_blueprint (
     prepare_amount   INT
     );
 
-CREATE TABLE item_blueprint_determinants (
-    item_blueprint_id BIGINT NOT NULL REFERENCES item_blueprint,
+CREATE TABLE crafting.item_blueprint_determinants (
+    item_blueprint_id BIGINT NOT NULL REFERENCES crafting.item_blueprint,
     determinant_id    BIGINT NOT NULL REFERENCES determinant,
     PRIMARY KEY (item_blueprint_id, determinant_id)
     );
 
-CREATE TABLE item_blueprint_placements (
-    item_blueprint_id BIGINT REFERENCES item_blueprint,
+CREATE TABLE crafting.item_blueprint_placements (
+    item_blueprint_id BIGINT REFERENCES crafting.item_blueprint,
     placement         PLACEMENT NOT NULL,
     PRIMARY KEY (item_blueprint_id, placement)
     );

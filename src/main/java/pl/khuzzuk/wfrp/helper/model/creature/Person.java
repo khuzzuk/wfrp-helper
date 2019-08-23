@@ -115,10 +115,10 @@ public class Person {
     @NotAudited
     private List<MeleeWeapon> meleeWeapons;
 
-    @ManyToMany
-    @JoinTable(schema = "creature", inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "person_id")
     @NotAudited
-    private List<RangedWeapon> rangedWeapons;
+    private List<PersonalRangedWeapon> rangedWeapons;
 
     @ManyToMany
     @JoinTable(schema = "creature", inverseJoinColumns = @JoinColumn(name = "item_id"))

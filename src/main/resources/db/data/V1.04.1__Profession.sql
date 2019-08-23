@@ -89,7 +89,7 @@ END;
 $$
 LANGUAGE plpgsql;
 
-SELECT pg_temp.addProfession('Aptekarz1', '', 'Uczony', '{Chemia, Leczenie ran, Farmacja, Leczenie chorób, Odporność na trucizny, Warzenie trucizn}', 1, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 0, 0);
+SELECT pg_temp.addProfession('Aptekarz', '', 'Uczony', '{Chemia, Leczenie ran, Farmacja, Leczenie chorób, Odporność na trucizny, Warzenie trucizn}', 1, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 0, 0);
 SELECT pg_temp.addProfession('Banita', '', '', '{Ukrywanie się w mieście, Ukrywanie się na wsi, Silny Cios, Ogłuszenie, Wykrywanie pułapek, Zastawianie pułapek, Wspinaczka, Uniki, Rozbrajanie, Serketny jezyk – bitewny, Serketny jezyk – złodziei, Jeździectwo, Powożenie, Opieka nad zwierzętami, Sekretne znaki drwali, Celne strzelanie}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 0, 0, 10, 0, 0);
 SELECT pg_temp.addProfession('Bydlokrad', '', '', '{Powożenie, Cichy chód na wsi, Specjalna broń – lasso, Serketny jezyk – rangerów, Opieka nad zwierzętami}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0);
 SELECT pg_temp.addProfession('Cyrkowiec-Akrobata', '', '', '{Akrobatyka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10);
@@ -116,9 +116,9 @@ SELECT pg_temp.addProfession('Cykrowiec-Zapasnik', '', '', '{Zapasy}', 0, 10, 10
 SELECT pg_temp.addProfession('Czeladnik', '', '', '{Powożenie, Bardzo silny, Bardzo wytrzymały}', 0, 0, 0, 0, 0, 1, 10, 0, 10, 0, 0, 10, 0, 0);
 SELECT pg_temp.addProfession('Druid', '', '', '{Opieka nad zwierzętami, Różdżkarstwo, Tropienie, Rozpoznawanie roślin, Sekretne znaki druidów}', 0, 10, 10, 0, 0, 1, 10, 0, 0, 0, 10, 10, 10, 0);
 SELECT pg_temp.addProfession('Drwal', '', '', '{Ukrywanie się na wsi, Cichy chód na wsi, Tropienie, Zastawianie pułapek, Rozpoznawanie roślin, Specjalna broń – dwuręczna, Serketny jezyk – rangerów, Sekretne znaki drwali}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Gajowy', '', '', '{}', 0, 0, 20, 1, 0, 2, 0, 0, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Gawedziarz', '', '', '{}', 0, 10, 0, 0, 0, 1, 0, 0, 0, 10, 10, 10, 0, 10);
-SELECT pg_temp.addProfession('Giermek', '', '', '{Rozbrajanie, Uniki, Silny Cios, Celny cios, Specjalna bron - korbacz, parujaca, dwureczna, uliczna, 50%-Bardzo silny, 50%-ardzo wytrzymały}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 10, 0, 0, 0, 10);
+SELECT pg_temp.addProfession('Gajowy', '', '', '{Ukrywanie się na wsi, Cichy chód na wsi, Celne strzelanie, Zastawianie pułapek, Wykrywanie pułapek, Serketny jezyk – rangerów, Serketny jezyk – gajowych }', 0, 0, 20, 1, 0, 2, 0, 0, 0, 0, 0, 10, 0, 0);
+SELECT pg_temp.addProfession('Gawedziarz', '', '', '{Gadanina, Uwodzenie, Gawędziarstwo, Urok osobisty, Krasomówstwo, Błyskotliwość}', 0, 10, 0, 0, 0, 1, 0, 0, 0, 10, 10, 10, 0, 10);
+/*SELECT pg_temp.addProfession('Giermek', '', '', '{Rozbrajanie, Uniki, Silny Cios, Celny cios, Specjalna bron - korbacz, parujaca, dwureczna, uliczna, 50%-Bardzo silny, 50%-ardzo wytrzymały}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 10, 0, 0, 0, 10);
 SELECT pg_temp.addProfession('Gladiator', '', '', '{}', 0, 20, 0, 0, 1, 2, 10, 0, 10, 0, 0, 10, 0, 0);
 SELECT pg_temp.addProfession('Goniec', '', '', '{}', 1, 20, 0, 1, 1, 1, 10, 0, 10, 0, 0, 10, 0, 0);
 SELECT pg_temp.addProfession('Handlarz', '', '', '{}', 0, 10, 0, 0, 0, 1, 0, 0, 0, 0, 10, 0, 0, 10);
@@ -217,5 +217,6 @@ SELECT pg_temp.addProfession('Czarodziej I', '', '', '{Rzucanie czarów, Rozpozn
 SELECT pg_temp.addProfession('Czarodziej II', '', '', '{Szacowanie, Zielarstwo, Wykrywanie istot magicznych, Medytacja}', 0, 10, 10, 1, 1, 3, 20, 0, 10, 10, 20, 10, 10, 0);
 SELECT pg_temp.addProfession('Czarodziej III', '', '', '{Wiedza o demonach, Rozpoznawanie magicznych przedmiotów, Rozpoznawanie ożywieńców, Warzenie trucizn}', 0, 10, 10, 1, 1, 4, 30, 0, 20, 20, 30, 20, 20, 0);
 SELECT pg_temp.addProfession('Czarodziej IV', '', '', '{Język tajemny - krasnoludzki lub elficki, Wytwarzanie eliksirów, Towrzenie magicznych pergaminów}', 0, 10, 10, 1, 1, 4, 40, 0, 30, 30, 30, 30, 30, 0);
+*/
 
 DROP FUNCTION pg_temp.addExtension(extension_type VARCHAR, profession_extension_value INT, profession_id_to_insert BIGINT);

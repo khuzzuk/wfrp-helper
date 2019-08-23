@@ -28,6 +28,7 @@ import AnimalService from "../data/creature/AnimalService";
 import AnimalKindService from "../data/creature/AnimalKindService";
 import PersonService from "../data/creature/PersonService";
 import RealmDataService from "../data/world/realm/RealmDataService";
+import AmmunitionService from "../data/crafting/item/ranged/AmmunitionService";
 
 export default class Store {
     nationService = new NationService();
@@ -47,6 +48,7 @@ export default class Store {
     meleeWeaponService = new MeleeWeaponService();
     rangedWeaponService = new RangedWeaponService();
     jewelryService = new JewelryService();
+    ammunitionService = new AmmunitionService();
 
     skillService = new SkillService();
     spellSchoolService = new SpellSchoolService();

@@ -93,6 +93,7 @@ INSERT INTO skill (name, description) VALUES
                                              ('Sekretne znaki złodziei', ''),
                                              ('Sekretne znaki zwiadowcy', ''),
                                              ('Serketny jezyk – bitewny', ''),
+                                             ('Serketny jezyk – gajowych', ''),
                                              ('Serketny jezyk – gildii', ''),
                                              ('Serketny jezyk – klasyczny', ''),
                                              ('Serketny jezyk – rangerów', ''),

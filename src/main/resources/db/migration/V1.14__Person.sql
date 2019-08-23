@@ -139,19 +139,33 @@ CREATE TABLE creature.person_inventory_history (
 CREATE TABLE creature.person_melee_weapons (
     id        BIGSERIAL PRIMARY KEY,
     person_id BIGINT NOT NULL REFERENCES creature.person,
-    item_id   BIGINT NOT NULL REFERENCES item
+    item_id   BIGINT NOT NULL REFERENCES crafting.item
     );
 
 CREATE TABLE creature.person_ranged_weapons (
-    id        BIGSERIAL PRIMARY KEY,
-    person_id BIGINT NOT NULL REFERENCES creature.person,
-    item_id   BIGINT NOT NULL REFERENCES item
+    id                BIGSERIAL PRIMARY KEY,
+    uuid              VARCHAR(36) DEFAULT uuid_generate_v4(),
+    person_id         BIGINT NOT NULL REFERENCES creature.person,
+    ranged_weapon_id  BIGINT NOT NULL REFERENCES crafting.item,
+    ammunition_id     BIGINT REFERENCES crafting.item,
+    ammunition_amount INT
+    );
+CREATE TABLE creature.person_ranged_weapons_history (
+    history_id        BIGSERIAL PRIMARY KEY,
+    rev               BIGINT,
+    revtype           SMALLINT,
+    id                BIGINT,
+    uuid              VARCHAR(36),
+    person_id         BIGINT,
+    ranged_weapon_id  BIGINT,
+    ammunition_id     BIGINT,
+    ammunition_amount INT
     );
 
 CREATE TABLE creature.person_armor (
     id        BIGSERIAL PRIMARY KEY,
     person_id BIGINT NOT NULL REFERENCES creature.person,
-    item_id   BIGINT NOT NULL REFERENCES item
+    item_id   BIGINT NOT NULL REFERENCES crafting.item
     );
 
 CREATE TABLE creature.person_spell_school_level (
@@ -205,14 +219,14 @@ CREATE TABLE creature.person_money_history (
     );
 
 CREATE TABLE creature.person_languages (
-    person_id BIGINT REFERENCES creature.person,
+    person_id   BIGINT REFERENCES creature.person,
     language_id BIGINT REFERENCES world.language,
     PRIMARY KEY (person_id, language_id)
-);
+    );
 CREATE TABLE creature.person_languages_history (
     history_id  BIGSERIAL PRIMARY KEY,
-    rev                   BIGINT,
-    revtype               SMALLINT,
-    person_id BIGINT REFERENCES creature.person,
+    rev         BIGINT,
+    revtype     SMALLINT,
+    person_id   BIGINT REFERENCES creature.person,
     language_id BIGINT REFERENCES world.language
     );

@@ -1,10 +1,10 @@
 CREATE TYPE AVAILABILITY AS ENUM ('ABUNDANT', 'PLENTIFUL', 'COMMON', 'AVERAGE', 'SCARCE', 'RARE', 'VERY_RARE');
 
-CREATE SEQUENCE resource_seq;
+CREATE SCHEMA crafting;
 
-CREATE TABLE resource
+CREATE TABLE crafting.resource
 (
-  id               BIGINT PRIMARY KEY DEFAULT nextval('resource_seq' :: regclass),
+  id               BIGSERIAL PRIMARY KEY,
   name             VARCHAR(64) UNIQUE NOT NULL,
   description      VARCHAR(512),
   price_multiplier REAL               NOT NULL CHECK (price_multiplier >= (0) :: DOUBLE PRECISION),

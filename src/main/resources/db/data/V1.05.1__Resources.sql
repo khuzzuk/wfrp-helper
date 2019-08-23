@@ -1,4 +1,4 @@
-INSERT INTO resource (name, price_multiplier, weight, durability, strength, availability)
+INSERT INTO crafting.resource (name, price_multiplier, weight, durability, strength, availability)
 VALUES ('Material', 1, 1, 1, 0,                         'ABUNDANT'),
        ('Skóra', 5, 5, 3, 0,                            'ABUNDANT'),
        ('Rzemień', 8, 5, 4, 0,                          'ABUNDANT'),

@@ -1,4 +1,4 @@
-INSERT INTO item (dtype, name, gold, silver, lead, weight, availability)
+INSERT INTO crafting.item (dtype, name, gold, silver, lead, weight, availability)
 VALUES  ('MiscItem',    'Dobre wino (butelka)',         0,  2, 50,  0.5,  'COMMON'),
         ('MiscItem',    'Domowe wino (butelka)',        0,  0, 40,  0.5,  'ABUNDANT'),
         ('MiscItem',    'Piwo',                         0,  0,  9,   0.5,  'ABUNDANT'),

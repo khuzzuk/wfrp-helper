@@ -6,20 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.wfrp.helper.model.money.Price;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
-import javax.persistence.CascadeType;
-import javax.persistence.DiscriminatorColumn;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.util.List;
 
 @Data
@@ -27,9 +14,10 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", length = 255)
 @Entity
+@Table(schema = "crafting")
 public abstract class ItemBlueprint {
     @Id
-    @SequenceGenerator(name = "item_blueprint_seq_gen", sequenceName = "item_blueprint_id_seq", allocationSize = 1)
+    @SequenceGenerator(name = "item_blueprint_seq_gen", schema = "crafting", sequenceName = "item_blueprint_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_blueprint_seq_gen")
     private Long id;
     private @Length(min = 3, max = 100) String name;
@@ -39,6 +27,7 @@ public abstract class ItemBlueprint {
     private float suggestedWeight;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "item_blueprint_determinants",
+            schema = "crafting",
             joinColumns = @JoinColumn(name = "item_blueprint_id"),
             inverseJoinColumns = @JoinColumn(name = "determinant_id"))
     private List<Determinant> determinants;

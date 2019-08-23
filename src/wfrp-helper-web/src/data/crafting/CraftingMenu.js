@@ -17,6 +17,7 @@ class CraftingMenu extends MenuComponent {
             <MenuItem key={'armor'} onClick={this.showCrudAction(onCrud, store.armorService)}>Pancerz</MenuItem>,
             <MenuItem key={'meleeWeapon'} onClick={this.showCrudAction(onCrud, store.meleeWeaponService)}>Broń ręczna</MenuItem>,
             <MenuItem key={'rangedWeapon'} onClick={this.showCrudAction(onCrud, store.rangedWeaponService)}>Broń dystansowa</MenuItem>,
+            <MenuItem key={'ammunition'} onClick={this.showCrudAction(onCrud, store.ammunitionService)}>Amunicja</MenuItem>,
             <MenuItem key={'jewelry'} onClick={this.showCrudAction(onCrud, store.jewelryService)}>Biżuteria</MenuItem>,
         ];
     };
