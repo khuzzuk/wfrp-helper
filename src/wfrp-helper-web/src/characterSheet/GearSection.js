@@ -5,6 +5,7 @@ import WeaponElement from "./WeaponElement";
 import RangedWeaponElement from "./RangedWeaponElement";
 import SelectableList from "../crud/field/SelectableList";
 import EntityComponent from "../crud/EntityComponent";
+import PersonalRangedWeapon from "../data/crafting/item/ranged/PersonalRangedWeapon";
 
 const gearSectionStyle = {
     meleeWeaponsField: {
@@ -30,6 +31,29 @@ const gearSectionStyle = {
 };
 
 class GearSection extends EntityComponent {
+    onRangedWeapon = rangedWeapon => {
+        const personRangedWeapon = new PersonalRangedWeapon();
+        personRangedWeapon.rangedWeapon = rangedWeapon;
+        this.props.entity.rangedWeapons.push(personRangedWeapon);
+        this.setState({rangedWeapon: personRangedWeapon});
+    };
+
+    onAmmunition = personRangedWeapon => ammunition => {
+        personRangedWeapon.ammunition = ammunition;
+        this.setState({ammunition: ammunition});
+    };
+
+    onAmmunitionAmount = personRangedWeapon => amount => {
+        personRangedWeapon.ammunitionAmount = amount;
+        this.setState({ammunitionAmount: amount});
+    };
+
+    onAmmunitionRemove = personRangedWeapon => () => {
+        personRangedWeapon.ammunition = null;
+        personRangedWeapon.ammunitionAmount = 0;
+        this.setState({ammunition: null, ammunitionAmount: 0});
+    };
+
     render() {
         const {classes, className, entity, personService} = this.props;
         return <div className={className}>
@@ -40,10 +64,14 @@ class GearSection extends EntityComponent {
                                                                   onContextMenu={this.removeFromArray('meleeWeapons')}/>)}
             </SelectableList>
             <SelectableList customStyle={{container: classes.rangedWeaponsField}}
-                           data={personService.rangedWeapons} onGearAdd={this.pushToEntity('rangedWeapons')}>
+                           data={personService.rangedWeapons} onGearAdd={this.onRangedWeapon}>
                 {entity.rangedWeapons.map(weapon => <RangedWeaponElement key={weapon.name + '_rangedWeaponField'}
                                                                          weapon={weapon}
-                                                                         onContextMenu={this.removeFromArray('rangedWeapons')}/>)}
+                                                                         onContextMenu={this.removeFromArray('rangedWeapons')}
+                                                                         onAmmunition={this.onAmmunition(weapon)}
+                                                                         onAmmunitionAmount={this.onAmmunitionAmount(weapon)}
+                                                                         onAmmunitionRemove={this.onAmmunitionRemove(weapon)}
+                                                                         personService={personService}/>)}
             </SelectableList>
             <SelectableList customStyle={{container: classes.armorField}}
                            data={personService.armors}

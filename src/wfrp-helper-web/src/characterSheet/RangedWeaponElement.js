@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import SimpleEntitySelect from "../crud/field/SimpleEntitySelect";
+import SimpleTextField, {TextFieldType} from "../crud/field/SimpleTextField";
 
 const weaponElementStyle = {
     itemContainer: {
@@ -16,13 +17,37 @@ const weaponElementStyle = {
         maxWidth: 38,
         textAlign: 'center',
     },
-    itemData: {},
-    ammunitionContainer: {}
+    ammunitionContainer: {
+        minWidth: 170,
+        maxWidth: 170,
+        marginLeft: 10,
+        minHeight: 50,
+        maxHeight: 50,
+    },
+    ammunitionSelect: {
+        minWidth: 140,
+        maxWidth: 140,
+        minHeight: 50,
+        maxHeight: 50,
+    },
+    ammunitionAmountField: {
+        minWidth: 40,
+        maxWidth: 40,
+    }
 };
 
 class RangedWeaponElement extends Component {
     render() {
-        const {classes, customStyle, onContextMenu, personRangedWeapon} = this.props;
+        const {
+            classes,
+            customStyle,
+            onContextMenu,
+            personRangedWeapon,
+            personService,
+            onAmunition,
+            onAmunitionAmmount,
+            onAmunitionRemove,
+        } = this.props;
         const currentStyle = {...classes, ...customStyle};
         const weapon = personRangedWeapon.rangedWeapon;
         const weaponType = weapon.type;
@@ -40,11 +65,24 @@ class RangedWeaponElement extends Component {
                 <div className={currentStyle.itemVariable}>{weaponType.damage.value}</div>
                 <div className={currentStyle.itemVariable}>{prepareTime}</div>
             </div>
-            <div>
-                {
-                    if
-                }
-                <SimpleEntitySelect
+            <div className={currentStyle.ammunitionContainer}>
+                <SimpleEntitySelect className={currentStyle.ammunitionSelect}
+                                    options={personService.ammunitions}
+                                    value={personRangedWeapon.ammunition}
+                                    onChange={onAmunition}/>
+                <div onContextMenu={event => {
+                    event.preventDefault();
+                    onAmunitionRemove(personRangedWeapon);
+                }}>
+                    {
+                        personRangedWeapon.ammunition ?
+                            <SimpleTextField className={currentStyle.ammunitionAmountField}
+                                             value={personRangedWeapon.ammunitionAmount}
+                                             variant={TextFieldType.INT}
+                                             onChange={onAmunitionAmmount}/> :
+                            <div/>
+                    }
+                </div>
             </div>
         </div>;
     }
