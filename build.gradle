@@ -71,6 +71,13 @@ dependencies {
     annotationProcessor project(':remote-common')
 }
 
+sourceSets {
+    main {
+        java {
+            //srcDirs('build/generated')
+        }
+    }
+}
 /*
 sourceSets {
     main {

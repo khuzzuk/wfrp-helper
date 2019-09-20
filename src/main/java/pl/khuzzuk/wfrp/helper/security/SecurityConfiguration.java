@@ -46,6 +46,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                     .logout().logoutSuccessUrl(LOGIN_URL);
 */
+/*
+		http
+			.authorizeRequests()
+				.anyRequest().authenticated()
+				.and()
+			.formLogin().defaultSuccessUrl(LOGIN_SUCCESS_URL).and()
+			.httpBasic();
+*/
         //@formatter:on
     }
 

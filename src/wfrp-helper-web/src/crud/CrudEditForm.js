@@ -12,6 +12,7 @@ import EntitySelect from "./field/EntitySelect";
 import ActionTimeField from "./field/ActionTimeField";
 import EnumCombobox from "./field/EnumCombobox";
 import {func} from "prop-types";
+import BlueprintSelect from "./field/BlueprintSelect";
 
 const styles = theme => ({
         form: {
@@ -113,6 +114,11 @@ class CrudEditForm extends Component {
                 return <ModifierField id={name}
                                       value={value}
                                       onChange={this.onUpdateData(name, toModel)}/>;
+            case ConnectionService.FormFieldType.BLUEPRINT_SELECT:
+                return <BlueprintSelect key={name} label={label}
+                                        data={fieldData.suggestions}
+                                        value={value}
+                                        onChange={this.onUpdateData(name, toModel)}/>;
             default:
                 console.error('field type has no form component');
                 console.error(fieldData)

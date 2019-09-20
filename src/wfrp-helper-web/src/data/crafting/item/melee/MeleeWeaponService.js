@@ -64,7 +64,7 @@ export default class MeleeWeaponService extends ConnectionService {
     }, {
         label: 'Type',
         name: 'type',
-        type: ConnectionService.FormFieldType.ENTITY_SELECT,
+        type: ConnectionService.FormFieldType.BLUEPRINT_SELECT,
         suggestions: this.meleeWeaponBlueprints
     }];
 

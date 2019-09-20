@@ -18,10 +18,11 @@ class ConnectionService {
         ACTION_TIME: 'action_time',
         DETERMINANT: 'determinant',
         MODIFIER: 'modifier',
+        BLUEPRINT_SELECT: 'blueprint_select',
     };
     static ANY: string = 'ANY';
 
-    static hostBase: string = 'http://localhost:1081/';
+    static hostBase: string = '';
     domain: string;
     data: Array;
     actions = [];
