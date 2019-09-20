@@ -14,10 +14,15 @@ class CrudComponent extends Component {
     unsubscribe: () => void = () => {};
 
     componentDidMount(): void {
-        this.unsubscribe = bus.subscribe(MessageType.ALL, this.props.service.domain, data => this.setState({data}));
+        console.log('*** subscribe for ' + this.props.service.domain + '***');
+        this.unsubscribe = bus.subscribe(MessageType.ALL, this.props.service.domain, data => {
+            console.log('*** received for ' + this.props.service.domain + '***');
+            this.setState({data});
+        });
     }
 
     componentWillUnmount(): void {
+        console.log('*** unsubscribe for ' + this.props.service.domain + '***');
         this.unsubscribe();
     }
 

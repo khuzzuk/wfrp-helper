@@ -6,7 +6,7 @@ import SimpleTextField, {TextFieldType} from "../crud/field/SimpleTextField";
 const weaponElementStyle = {
     itemContainer: {
         display: 'flex',
-        flexDirection: 'row'
+        flexDirection: 'column'
     },
     itemName: {
         minWidth: 190,
@@ -17,12 +17,17 @@ const weaponElementStyle = {
         maxWidth: 38,
         textAlign: 'center',
     },
+    itemData: {
+        display: 'flex',
+        flexDirection: 'row',
+    },
     ammunitionContainer: {
         minWidth: 170,
         maxWidth: 170,
         marginLeft: 10,
         minHeight: 50,
         maxHeight: 50,
+        display: 'flex',
     },
     ammunitionSelect: {
         minWidth: 140,
@@ -44,9 +49,9 @@ class RangedWeaponElement extends Component {
             onContextMenu,
             personRangedWeapon,
             personService,
-            onAmunition,
-            onAmunitionAmmount,
-            onAmunitionRemove,
+            onAmmunition,
+            onAmmunitionAmount,
+            onAmmunitionRemove,
         } = this.props;
         const currentStyle = {...classes, ...customStyle};
         const weapon = personRangedWeapon.rangedWeapon;
@@ -69,17 +74,17 @@ class RangedWeaponElement extends Component {
                 <SimpleEntitySelect className={currentStyle.ammunitionSelect}
                                     options={personService.ammunitions}
                                     value={personRangedWeapon.ammunition}
-                                    onChange={onAmunition}/>
+                                    onChange={onAmmunition}/>
                 <div onContextMenu={event => {
                     event.preventDefault();
-                    onAmunitionRemove(personRangedWeapon);
+                    onAmmunitionRemove(personRangedWeapon);
                 }}>
                     {
                         personRangedWeapon.ammunition ?
                             <SimpleTextField className={currentStyle.ammunitionAmountField}
                                              value={personRangedWeapon.ammunitionAmount}
                                              variant={TextFieldType.INT}
-                                             onChange={onAmunitionAmmount}/> :
+                                             onChange={onAmmunitionAmount}/> :
                             <div/>
                     }
                 </div>

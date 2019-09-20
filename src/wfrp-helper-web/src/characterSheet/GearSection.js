@@ -21,6 +21,12 @@ const gearSectionStyle = {
         paddingTop: 15,
         width: 410,
     },
+    rangedWeaponList: {
+        minHeight: 160,
+        maxHeight: 160,
+        width: '100%',
+        overflow: 'auto',
+    },
     armorField: {
         minHeight: 210,
         maxHeight: 210,
@@ -63,10 +69,10 @@ class GearSection extends EntityComponent {
                                                                   weapon={weapon}
                                                                   onContextMenu={this.removeFromArray('meleeWeapons')}/>)}
             </SelectableList>
-            <SelectableList customStyle={{container: classes.rangedWeaponsField}}
+            <SelectableList customStyle={{container: classes.rangedWeaponsField, itemsList: classes.rangedWeaponList}}
                            data={personService.rangedWeapons} onGearAdd={this.onRangedWeapon}>
-                {entity.rangedWeapons.map(weapon => <RangedWeaponElement key={weapon.name + '_rangedWeaponField'}
-                                                                         weapon={weapon}
+                {entity.rangedWeapons.map((weapon, index) => <RangedWeaponElement key={weapon.rangedWeapon.name + index + '_rangedWeaponField'}
+                                                                         personRangedWeapon={weapon}
                                                                          onContextMenu={this.removeFromArray('rangedWeapons')}
                                                                          onAmmunition={this.onAmmunition(weapon)}
                                                                          onAmmunitionAmount={this.onAmmunitionAmount(weapon)}

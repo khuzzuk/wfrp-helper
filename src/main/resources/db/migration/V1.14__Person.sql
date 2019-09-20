@@ -145,7 +145,7 @@ CREATE TABLE creature.person_melee_weapons (
 CREATE TABLE creature.person_ranged_weapons (
     id                BIGSERIAL PRIMARY KEY,
     uuid              VARCHAR(36) DEFAULT uuid_generate_v4(),
-    person_id         BIGINT NOT NULL REFERENCES creature.person,
+    person_id         BIGINT REFERENCES creature.person,
     ranged_weapon_id  BIGINT NOT NULL REFERENCES crafting.item,
     ammunition_id     BIGINT REFERENCES crafting.item,
     ammunition_amount INT
