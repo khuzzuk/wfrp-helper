@@ -71,19 +71,5 @@ dependencies {
     annotationProcessor project(':remote-common')
 }
 
-sourceSets {
-    main {
-        java {
-            //srcDirs('build/generated')
-        }
-    }
-}
-/*
-sourceSets {
-    main {
-        resources {
-            srcDirs "src/main/resources"//, 'src/wfrp-helper-web/'//"src/wfrp-helper-web/build"
-        }
-    }
-}
-*/
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
