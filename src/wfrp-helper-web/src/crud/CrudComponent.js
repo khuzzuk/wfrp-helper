@@ -4,6 +4,7 @@ import FormFieldData from "./FormFieldData";
 import CrudEditForm from "./CrudEditForm";
 import {bus} from "../state/Bus";
 import Message, {MessageType} from "../state/Message";
+import ConnectionService from "../connection/ConnectionService";
 
 class CrudComponent extends Component {
     state = {
@@ -11,19 +12,12 @@ class CrudComponent extends Component {
         entity: null,
         showEditor: false,
     };
-    unsubscribe: () => void = () => {};
 
-    componentDidMount(): void {
-        console.log('*** subscribe for ' + this.props.service.domain + '***');
-        this.unsubscribe = bus.subscribe(MessageType.ALL, this.props.service.domain, data => {
+    constructor(props) {
+        super(props);
+        bus.subscribe(MessageType.ALL, ConnectionService.ANY, data => {
             console.log('*** received for ' + this.props.service.domain + '***');
-            this.setState({data});
         });
-    }
-
-    componentWillUnmount(): void {
-        console.log('*** unsubscribe for ' + this.props.service.domain + '***');
-        this.unsubscribe();
     }
 
     onRowSelect = id => {

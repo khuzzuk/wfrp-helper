@@ -15,6 +15,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import {store} from "../state";
 import {bus} from "../state/Bus";
 import Message, {MessageType} from "../state/Message";
+import ConnectionService from "../connection/ConnectionService";
 
 const style = {
     realmSelect: {
@@ -34,11 +35,11 @@ class AppMenu extends Component {
     };
 
     updateData = (data) => {
-        this.setState({data: data, customEditor: null})
+        this.setState({data, customEditor: null})
     };
 
     personEditor = (entity) => <CharacterSheetForm entity={entity} onChange={this.onApply} personService={this.personService}/>;
-    personService = new PersonService(data => {this.setState({data: data, customEditor: this.personEditor})});
+    personService = new PersonService(data => {this.setState({data, customEditor: this.personEditor})});
 
     realmService = new RealmService(this.updateData);
 
@@ -46,6 +47,7 @@ class AppMenu extends Component {
         super(props, context);
         this.realmService.addDataListener(data => this.setState({realms: data}));
         this.realmService.retrieveData();
+        bus.subscribe(MessageType.ALL, ConnectionService.ANY, data => this.setState({data}));
     }
 
     onApply = (newState) => {

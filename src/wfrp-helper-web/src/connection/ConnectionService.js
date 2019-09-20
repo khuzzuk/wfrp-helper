@@ -19,6 +19,7 @@ class ConnectionService {
         DETERMINANT: 'determinant',
         MODIFIER: 'modifier',
     };
+    static ANY: string = 'ANY';
 
     static hostBase: string = 'http://localhost:1081/';
     domain: string;
@@ -96,6 +97,7 @@ class ConnectionService {
         });
         this.actions.forEach(action => action(this.data));
         bus.send(new Message(MessageType.ALL, this.domain, this.data));
+        bus.send(new Message(MessageType.ALL, ConnectionService.ANY, this.data));
     };
 
     getData(): Array {
