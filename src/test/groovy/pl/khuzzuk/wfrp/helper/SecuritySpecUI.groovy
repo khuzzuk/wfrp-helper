@@ -9,10 +9,12 @@ import pl.khuzzuk.wfrp.helper.ui.security.ChangeOneTimePasswordPopupView
 import pl.khuzzuk.wfrp.helper.ui.security.LoginPageView
 import pl.khuzzuk.wfrp.helper.ui.util.LoginTest
 import pl.khuzzuk.wfrp.helper.util.SeleniumTest
+import spock.lang.Ignore
 import spock.lang.Specification
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @SeleniumTest
+@Ignore
 class SecuritySpecUI extends Specification implements LoginTest {
     @Autowired
     WebDriver webDriver

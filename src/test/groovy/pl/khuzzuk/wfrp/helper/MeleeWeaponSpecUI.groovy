@@ -1,6 +1,6 @@
 package pl.khuzzuk.wfrp.helper
 
-import org.awaitility.Awaitility
+
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.PageFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import pl.khuzzuk.wfrp.helper.ui.model.inventory.blueprints.MeleeBlueprintView
 import pl.khuzzuk.wfrp.helper.ui.util.LoginTest
 import pl.khuzzuk.wfrp.helper.util.SeleniumTest
+import spock.lang.Ignore
 import spock.lang.Specification
 
 import java.util.concurrent.TimeUnit
@@ -16,6 +17,7 @@ import static org.awaitility.Awaitility.await
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @SeleniumTest
+@Ignore
 class MeleeWeaponSpecUI extends Specification implements LoginTest {
     @Autowired
     WebDriver webDriver

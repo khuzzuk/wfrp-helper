@@ -7,10 +7,12 @@ import org.springframework.boot.test.context.SpringBootTest
 import pl.khuzzuk.wfrp.helper.ui.model.knowledge.SkillView
 import pl.khuzzuk.wfrp.helper.ui.util.LoginTest
 import pl.khuzzuk.wfrp.helper.util.SeleniumTest
+import spock.lang.Ignore
 import spock.lang.Specification
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @SeleniumTest
+@Ignore
 class SkillSpecUI extends Specification implements LoginTest {
     @Autowired
     WebDriver webDriver
