@@ -84,7 +84,7 @@ public class Person {
     private @Length(max = 4096) String history;
 
     @Embedded
-    private @NotNull PersonDeterminants determinants = PersonDeterminants.empty();
+    private @NotNull CreatureDeterminants determinants = CreatureDeterminants.empty();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)

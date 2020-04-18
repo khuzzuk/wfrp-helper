@@ -1,0 +1,17 @@
+export const FormFieldType = {
+    TEXT: 'text',
+    TEXT_AREA: 'text_area',
+    BOOLEAN: 'boolean',
+    INTEGER: 'integer',
+    FLOAT: 'float',
+    ENUM_SELECT: 'enum_select',
+    ENUM_COMBOBOX: 'enum_combobox',
+    ENTITY_SELECT: 'entity_select',
+    ENTITY_COMBOBOX: 'entity_combobox',
+    PRICE: 'price',
+    ACTION_TIME: 'action_time',
+    DETERMINANT: 'determinant',
+    MODIFIER: 'modifier',
+    BLUEPRINT_SELECT: 'blueprint_select',
+    CHARACTER_SHEET: 'character_sheet',
+};

@@ -2,7 +2,7 @@ package pl.khuzzuk.wfrp.helper.service.determinant;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.khuzzuk.wfrp.helper.model.creature.PersonDeterminants;
+import pl.khuzzuk.wfrp.helper.model.creature.CreatureDeterminants;
 import pl.khuzzuk.wfrp.helper.model.rule.*;
 
 import java.util.ArrayList;
@@ -15,11 +15,11 @@ import java.util.Optional;
 public class DeterminantService {
     private ModifierService modifierService;
 
-    public Determinant findDeterminantByType(PersonDeterminants personDeterminants, DeterminantType determinantType) {
-        Optional<Determinant> queryResult = findDeterminant(personDeterminants.getDeterminants(), determinantType);
+    public Determinant findDeterminantByType(CreatureDeterminants creatureDeterminants, DeterminantType determinantType) {
+        Optional<Determinant> queryResult = findDeterminant(creatureDeterminants.getDeterminants(), determinantType);
         Determinant determinant = queryResult.orElseGet(() -> createEmpty(determinantType));
         if (queryResult.isEmpty()) {
-            personDeterminants.getDeterminants().add(determinant);
+            creatureDeterminants.getDeterminants().add(determinant);
         }
         return determinant;
     }

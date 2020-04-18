@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {Button, Menu} from "@material-ui/core";
-import ConnectionService from "../connection/ConnectionService";
+import {withTranslation} from "react-i18next";
+import MenuItem from "@material-ui/core/MenuItem";
+import {State} from "../state/State";
 
 class MenuComponent extends Component {
     state = {
@@ -15,32 +17,31 @@ class MenuComponent extends Component {
         this.setState({anchorEl: null})
     };
 
-    showCrudAction = (action, service: ConnectionService) => () => {
+    handleItemClick = entityName => () => {
         this.handleClose();
-        this.props.onClick && this.props.onClick();
-        action(service);
-    };
-
-    createOnClick = action => () => {
-        this.handleClose();
-        action();
-        this.props.onClick && this.props.onClick();
+        State.showTable(entityName);
     };
 
     render() {
+        const {t, name, entities} = this.props;
         return <div>
-            <Button id={'menu-button'}
+            <Button id={name}
                     onClick={this.handleClick}>
-                {this.title}
+                {t(name)}
             </Button>
-            <Menu id={'menu-item'}
+            <Menu id={name}
                   anchorEl={this.state.anchorEl}
                   open={this.state.anchorEl !== null}
                   onClose={this.handleClose}>
-                {this.getMenuItems()}
+                {
+                    entities.map(entityName =>
+                        <MenuItem key={entityName} onClick={this.handleItemClick(entityName)}>
+                            {t(entityName)}
+                        </MenuItem>)
+                }
             </Menu>
         </div>
     }
 }
 
-export default MenuComponent;
+export default withTranslation()(MenuComponent);

@@ -1,12 +1,35 @@
-import React from 'react';
+import React, {Suspense} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import CircularProgress from "@material-ui/core/CircularProgress";
+import DataLoader from "./state/DataLoader";
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import './i18n';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+const App = React.lazy(() => {
+    DataLoader.refreshData();
+    return import('./App');
+});
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
+const loadingPage = <Grid container>
+    <Grid item xs={12}>
+        <Grid container justify={"center"} alignItems={"center"} direction={"column"}>
+            <Grid item xs={3}>
+                <Typography>WFRP Helper</Typography>
+            </Grid>
+            <Grid item xs={3}>
+                <CircularProgress/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Grid>;
+
+ReactDOM.render(
+    <Suspense fallback={loadingPage}>
+        <App/>
+    </Suspense>,
+    document.getElementById('root'));
+
 serviceWorker.unregister();

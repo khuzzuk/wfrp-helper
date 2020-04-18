@@ -60,7 +60,7 @@ CREATE TABLE modifier_rolls_history (
   rev         BIGINT,
   revtype     SMALLINT,
   modifier_id BIGINT,
-  rolls_id    BIGINT REFERENCES dice_roll (id),
+  rolls_id    BIGINT,
   PRIMARY KEY (rolls_id, modifier_id, rev)
 );
 
