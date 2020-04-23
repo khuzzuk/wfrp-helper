@@ -55,13 +55,6 @@ class TopMenu extends Component {
 
   render() {
     const {i18n, classes} = this.props;
-    console.log([...(State.data.currentRealm ? [Person.entityName] : []),
-                 ...[Character.entityName,
-                     EyeColor.entityName,
-                     HairColor.entityName,
-                     PhysicalFeature.entityName,
-                     Animal.entityName,
-                     AnimalKind.entityName,]]);
 
     return <AppBar position={"relative"}>
       <Toolbar>

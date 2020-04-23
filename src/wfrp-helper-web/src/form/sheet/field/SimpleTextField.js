@@ -51,11 +51,13 @@ class SimpleTextField extends PureComponent {
             value = State.data.entity[name],
             classes,
             customStyle,
-            onChange = val => State.updateEntity({[name]: val})
+            onChange = val => State.updateEntity({[name]: val}),
+            multiline
     } = this.props;
 
-    return <input className={classes.input} style={customStyle} value={value}
-                  onChange={this.parse(onChange)}/>
+    return multiline ?
+        <textarea className={classes.input} style={customStyle} value={value} onChange={this.parse(onChange)}/> :
+        <input className={classes.input} style={customStyle} value={value} onChange={this.parse(onChange)}/>;
   }
 }
 

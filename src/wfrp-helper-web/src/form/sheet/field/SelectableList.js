@@ -4,6 +4,8 @@ import React, {Component} from "react";
 import {State} from "../../../state/State";
 import {Collections} from "../../../util/Collections";
 import SimpleEntitySelect from "./SimpleEntitySelect";
+import SimpleBar from 'simplebar-react';
+import 'simplebar/dist/simplebar.min.css'
 
 const fieldStyle = {
   container: {
@@ -50,9 +52,13 @@ class SelectableList extends Component {
                           customStyle={{width: '100%'}}
                           onChange={onGearAdd}
                           value={null}/>
+                          <SimpleBar style={{...{height: '100%', width: '100%'}, ...listStyle}}>
+                            {children}
+                          </SimpleBar>
+{/*
       <List style={{...{height: '100%', width: '100%', overflow: 'auto'}, ...listStyle}}>
-        {children}
       </List>
+*/}
     </div>;
   }
 }

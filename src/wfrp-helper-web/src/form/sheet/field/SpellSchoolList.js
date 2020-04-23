@@ -67,7 +67,7 @@ class SpellSchoolList extends Component {
     const availableSpellSchools = [...this.state.availableSpellSchools.keys()];
 
     return <div>
-      <SelectableList style={{heigh: 400, width: 200}}
+      <SelectableList style={{height: 400, width: 200, paddingTop: 10}}
                       listStyle={{height: 300, width: '100%', overflow: 'auto'}}
                       data={availableSpellSchools}
                       onGearAdd={this.onSpellSchoolAdd}>

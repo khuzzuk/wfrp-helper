@@ -80,6 +80,7 @@ export default class Person extends Entity {
     this.updateProp(entity, 'birthplace');
     this.updateProp(entity, 'parents');
     this.updateProp(entity, 'family');
+    this.updateProp(entity, 'health');
 
     this.updateEntityProp(entity, 'nation', () => new Nation());
     this.updateEntityProp(entity, 'religion', () => new Religion());

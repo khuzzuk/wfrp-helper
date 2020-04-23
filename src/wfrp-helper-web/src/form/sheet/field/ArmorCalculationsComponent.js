@@ -64,7 +64,7 @@ class ArmorCalculationsComponent extends Component {
             data => {
                 const armorCalcs = new CreatureArmorValues();
                 armorCalcs.updateWith(data);
-                this.setState({armorValues: armorCalcs});
+                this.setState({armorValues: armorCalcs, armor: State.data.entity.armor});
             }
         );
     };

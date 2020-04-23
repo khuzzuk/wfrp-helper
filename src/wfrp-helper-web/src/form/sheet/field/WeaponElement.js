@@ -24,6 +24,7 @@ const weaponElementStyle = {
         maxWidth: 51,
         textAlign: 'center',
         fontSize: 12,
+        paddingTop: 5,
     },
 };
 
