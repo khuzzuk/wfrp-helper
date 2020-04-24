@@ -1,54 +1,58 @@
 package pl.khuzzuk.wfrp.helper.service.knowledge;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolRepo;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @AllArgsConstructor
 @Service
 public class MagicService {
-    private SpellSchoolRepo spellSchoolRepo;
 
-    public List<SpellSchoolLevel> getAvailableSpellSchools(CurrentMagicKnowledge currentMagicKnowledge) {
-        List<SpellSchool> spellSchools = spellSchoolRepo.findAll();
-        return spellSchools.stream()
-                .filter(spellSchool -> isAvailable(spellSchool, currentMagicKnowledge))
-                .map(spellSchool -> mapToRelevantSpellSchool(spellSchool, currentMagicKnowledge))
-                .collect(Collectors.toList());
-    }
+  private SpellSchoolRepo spellSchoolRepo;
 
-    private static SpellSchoolLevel mapToRelevantSpellSchool(SpellSchool spellSchool, CurrentMagicKnowledge currentMagicKnowledge) {
-        Optional<SpellSchoolLevel> currentSpellSchool = getSpellSchoolByType(currentMagicKnowledge, spellSchool);
+  public List<SpellSchoolLevel> getAvailableSpellSchools(CurrentMagicKnowledge currentMagicKnowledge) {
+    List<SpellSchool> spellSchools = spellSchoolRepo.findAll();
+    List<SpellSchool> realmSchools = currentMagicKnowledge.getRealm().getSpellSchools();
+    return spellSchools.stream()
+        .filter(realmSchools::contains)
+        .filter(spellSchool -> isAvailable(spellSchool, currentMagicKnowledge))
+        .map(spellSchool -> mapToRelevantSpellSchool(spellSchool, currentMagicKnowledge))
+        .collect(Collectors.toList());
+  }
 
-        SpellSchoolLevel relevantLevel = new SpellSchoolLevel();
-        relevantLevel.setSpellSchool(spellSchool);
-        relevantLevel.setLevel(1);
+  private static boolean isAvailable(SpellSchool spellSchool,
+                                     CurrentMagicKnowledge currentMagicKnowledge) {
+    Optional<SpellSchoolLevel> spellSchoolByType = getSpellSchoolByType(currentMagicKnowledge,
+                                                                        spellSchool);
+    return spellSchoolByType.map(spellSchoolLevel -> spellSchoolLevel.getLevel() <
+                                                     spellSchool.getLevels()).orElse(true);
+  }
 
-        if (currentSpellSchool.isPresent()) {
-            relevantLevel.setLevel(currentSpellSchool.get().getLevel() + 1);
-        }
+  private static SpellSchoolLevel mapToRelevantSpellSchool(SpellSchool spellSchool,
+                                                           CurrentMagicKnowledge currentMagicKnowledge) {
+    Optional<SpellSchoolLevel> currentSpellSchool = getSpellSchoolByType(currentMagicKnowledge,
+                                                                         spellSchool);
 
-        return relevantLevel;
-    }
+    SpellSchoolLevel relevantLevel = new SpellSchoolLevel();
+    relevantLevel.setSpellSchool(spellSchool);
+    relevantLevel.setLevel(1);
 
-    private static boolean isAvailable(SpellSchool spellSchool, CurrentMagicKnowledge currentMagicKnowledge) {
-        Optional<SpellSchoolLevel> spellSchoolByType = getSpellSchoolByType(currentMagicKnowledge, spellSchool);
-        if (spellSchoolByType.isPresent()) {
-            return spellSchoolByType.get().getLevel() < spellSchool.getLevels();
-        } else {
-            return true;
-        }
-    }
+    currentSpellSchool.ifPresent(spellSchoolLevel -> relevantLevel.setLevel(spellSchoolLevel.getLevel() +
+                                                                            1));
 
-    private static Optional<SpellSchoolLevel> getSpellSchoolByType(CurrentMagicKnowledge currentMagicKnowledge, SpellSchool spellSchool) {
-        return currentMagicKnowledge.getCurrentSpellSchools().stream()
-                .filter(sc -> sc.getSpellSchool().getName().equals(spellSchool.getName()))
-                .findAny();
-    }
+    return relevantLevel;
+  }
+
+  private static Optional<SpellSchoolLevel> getSpellSchoolByType(CurrentMagicKnowledge currentMagicKnowledge,
+                                                                 SpellSchool spellSchool) {
+    return currentMagicKnowledge.getCurrentSpellSchools()
+        .stream()
+        .filter(sc -> sc.getSpellSchool().getName().equals(spellSchool.getName()))
+        .findAny();
+  }
 }

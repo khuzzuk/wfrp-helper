@@ -1,4 +1,4 @@
-INSERT INTO spell_school (name, levels)
+INSERT INTO magic.spell_school (name, levels)
 VALUES ('Magia prosta', 1),
        ('Magia wojenna', 4),
        ('Elementalizm', 4),

@@ -35,6 +35,7 @@ class SpellSchoolList extends Component {
   refreshRelevantMagicSchools = () => {
     const currentMagicKnowledge: CurrentMagicKnowledge = new CurrentMagicKnowledge();
     currentMagicKnowledge.currentSpellSchools          = State.data.entity.spellSchools;
+    currentMagicKnowledge.realm                        = State.data.currentRealm;
     SpellSchoolList.magicService.getAvailableSpellSchools(currentMagicKnowledge,
                                                           this.setSpellSchools);
   };

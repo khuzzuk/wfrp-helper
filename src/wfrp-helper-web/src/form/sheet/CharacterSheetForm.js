@@ -75,37 +75,25 @@ class CharacterSheetForm extends Component {
         {/*basic data*/}
         <div style={{paddingTop: 33, paddingLeft: 33, width: 860}}>
           <SimpleTextField name={'name'} customStyle={{width: 200}}/>
-          <SimpleEntitySelect name={Race.entityName} customStyle={{width: 140, paddingLeft: 20}}/>
+          <SimpleEntitySelect name={Race.entityName} customStyle={{width: 140, paddingLeft: 20}} options={State.data.currentRealmData.races}/>
           <SimpleEnumSelect name={GenderEntityName} className={classes.genderSelect}/>
           <SimpleEntitySelect name={ProfessionClass.entityName} customStyle={{width: 240}}/>
           <SimpleEntitySelect name={Character.entityName} propName={'personality'} customStyle={{width: 148}}/>
         </div>
         <div style={{paddingTop: 30, paddingLeft: 33, width: 860}}>
           <SimpleTextField name={'age'} variant={TextFieldType.INT} customStyle={{width: 80}}/>
-          <SimpleTextField name={'height'} variant={TextFieldType.INT}
-                           customStyle={{width: 100, paddingLeft: 10}}/>
-          <SimpleTextField name={'weight'} variant={TextFieldType.FLOAT}
-                           customStyle={{width: 90, paddingLeft: 20}}/>
-          <SimpleEntitySelect name={HairColor.entityName}
-                              customStyle={{width: 110, paddingLeft: 10}}/>
+          <SimpleTextField name={'height'} variant={TextFieldType.INT} customStyle={{width: 100, paddingLeft: 10}}/>
+          <SimpleTextField name={'weight'} variant={TextFieldType.FLOAT} customStyle={{width: 90, paddingLeft: 20}}/>
+          <SimpleEntitySelect name={HairColor.entityName} customStyle={{width: 110, paddingLeft: 10}}/>
           <SimpleEntitySelect name={EyeColor.entityName} customStyle={{width: 90, paddingLeft: 0}}/>
-          <SimpleEntitySelect name={PhysicalFeature.entityName} propName={'physicalFeatures'} multi
-                              customStyle={{width: 280, paddingLeft: 65, maxHeight: 70, position: 'relative', top: -30, fontSize: '14px'}}/>
+          <SimpleEntitySelect name={PhysicalFeature.entityName} propName={'physicalFeatures'} multi customStyle={{width: 280, paddingLeft: 65, maxHeight: 70, position: 'relative', top: -30, fontSize: '14px'}}/>
         </div>
 
         {/*profession*/}
         <div style={{paddingTop: 30, paddingLeft: 33, width: 860}}>
-          <SimpleEntitySelect name={Profession.entityName}
-                              propName={'currentProfession'}
-                              options={ProfessionService.getProfessions()}
-                              onChange={ProfessionService.updateProfession}
-                              customStyle={{width: 240, paddingLeft: 0}}/>
-          <SimpleList name={'professions'} onRemove={ProfessionService.removeProfessionFromHistory}
-                      style={{display: 'inline-block', width: 350, fontSize: '14px'}}/>
-          <SimpleList name={'outgoingProfessions'}
-                      data={ProfessionService.nextProfessions()}
-                      onRemove={ProfessionService.removeProfessionFromHistory}
-                      style={{display: 'inline-block', width: 200, fontSize: '14px'}}/>
+          <SimpleEntitySelect name={Profession.entityName} propName={'currentProfession'} options={ProfessionService.getProfessions()} onChange={ProfessionService.updateProfession} customStyle={{width: 240, paddingLeft: 0}}/>
+          <SimpleList name={'professions'} onRemove={ProfessionService.removeProfessionFromHistory} style={{display: 'inline-block', width: 350, fontSize: '14px'}}/>
+          <SimpleList name={'outgoingProfessions'} data={ProfessionService.nextProfessions()} onRemove={ProfessionService.removeProfessionFromHistory} style={{display: 'inline-block', width: 200, fontSize: '14px'}}/>
         </div>
 
         {/*determinants*/}
@@ -118,26 +106,14 @@ class CharacterSheetForm extends Component {
 
           {/*gear*/}
           <div style={{paddingTop: 0, paddingLeft: 0, width: 430}}>
-            <SelectableList style={{width: 400, height: 220, paddingLeft: 40, paddingTop: 10}}
-                            listStyle={{height: 180}}
-                            name={MeleeWeapon.entityName} propName={'meleeWeapons'}>
-              {entity.meleeWeapons.map(weapon => <WeaponElement key={weapon.name}
-                                                                name={'meleeWeapons'}
-                                                                weapon={weapon}/>)}
+            <SelectableList style={{width: 400, height: 220, paddingLeft: 40, paddingTop: 10}} listStyle={{height: 180}} name={MeleeWeapon.entityName} propName={'meleeWeapons'}>
+              {entity.meleeWeapons.map(weapon => <WeaponElement key={weapon.name} name={'meleeWeapons'} weapon={weapon}/>)}
             </SelectableList>
-            <SelectableList style={{width: 400, height: 230, paddingLeft: 30, paddingTop: 10}}
-                            listStyle={{height: 180}}
-                            name={RangedWeapon.entityName}
-                            onGearAdd={GearService.addPersonalRangedWeapon}>
-              {entity.rangedWeapons.map(weapon => <RangedWeaponElement
-                  key={weapon.rangedWeapon.name}
-                  name={'meleeWeapons'}
-                  pWep={weapon}/>)}
+            <SelectableList style={{width: 400, height: 230, paddingLeft: 30, paddingTop: 10}} listStyle={{height: 180}} name={RangedWeapon.entityName} onGearAdd={GearService.addPersonalRangedWeapon}>
+              {entity.rangedWeapons.map(weapon => <RangedWeaponElement key={weapon.rangedWeapon.name} name={'meleeWeapons'} pWep={weapon}/>)}
             </SelectableList>
-            <SelectableList style={{width: 400, height: 220, paddingLeft: 20}}
-                            name={Armor.entityName}>
-              {entity.armor.map(armor => <ArmorElement key={armor.name} name={'meleeWeapons'}
-                                                       armor={armor}/>)}
+            <SelectableList style={{width: 400, height: 220, paddingLeft: 20}} name={Armor.entityName}>
+              {entity.armor.map(armor => <ArmorElement key={armor.name} name={'meleeWeapons'} armor={armor}/>)}
             </SelectableList>
           </div>
 
@@ -145,10 +121,7 @@ class CharacterSheetForm extends Component {
           <div style={{paddingTop: 0, paddingLeft: 10, width: 210}}>
 
             {/*skills*/}
-            <SelectableList style={{width: 200, height: 360, paddingLeft: 0, paddingTop: 10}}
-                            listStyle={{height: 300}}
-                            name={Skill.entityName} propName={'skills'}
-                            data={Collections.except(State.data.skill, entity.skills)}>
+            <SelectableList style={{width: 200, height: 360, paddingLeft: 0, paddingTop: 10}} listStyle={{height: 300}} name={Skill.entityName} propName={'skills'} data={Collections.except(State.data.skill, entity.skills)}>
               {entity.skills.map(skill => <p key={skill.name} style={{margin: 0}}
                                              onContextMenu={event => {
                                                event.preventDefault();
@@ -175,9 +148,7 @@ class CharacterSheetForm extends Component {
         {/*spells*/}
         <div style={{paddingTop: 0, paddingLeft: 20, width: 840}}>
           <div style={{paddingTop: 0, paddingLeft: 20, width: 840, display: 'flex'}}>
-            <SelectableList style={{width: 630}} listStyle={{height: 220}}
-                            name={Spell.entityName} propName={'spells'}
-                            data={MagicService.getRelevantSpells()}>
+            <SelectableList style={{width: 630}} listStyle={{height: 220}} name={Spell.entityName} propName={'spells'} data={MagicService.getRelevantSpells()}>
               {entity.spells.map(spell => <SpellElement spell={spell}/>)}
             </SelectableList>
 
@@ -200,10 +171,7 @@ class CharacterSheetForm extends Component {
               <div style={{paddingLeft: 220}}>{ItemService.inventoryWeight()} kg</div>
 
               {/*money*/}
-              <SelectableList style={{width: 285}} listStyle={{height: 150}}
-                              name={Currency.entityName}
-                              data={State.data.currentRealmData.currencies}
-                              onGearAdd={MoneyService.addMoney}>
+              <SelectableList style={{width: 285}} listStyle={{height: 150}} name={Currency.entityName} data={State.data.currentRealmData.currencies} onGearAdd={MoneyService.addMoney}>
                 {entity.money.map(money => <MoneyElement key={money.currency.name} money={money}/>)}
               </SelectableList>
 
@@ -217,9 +185,7 @@ class CharacterSheetForm extends Component {
               <div style={{width: 350, height: 160, paddingTop: 10, display: 'flex'}}>
 
                 {/*languages*/}
-                <SelectableList style={{width: 100, paddingTop: 15}} listStyle={{height: 100}}
-                                name={Language.entityName} propName={'languages'}
-                                data={State.data.currentRealmData.languages}>
+                <SelectableList style={{width: 100, paddingTop: 15}} listStyle={{height: 100}} name={Language.entityName} propName={'languages'} data={State.data.currentRealmData.languages}>
                   {entity.languages.map(lang => <div onContextMenu={event => {
                     event.preventDefault();
                     State.updateEntity({languages: removeFrom(entity.languages, lang)});
@@ -233,8 +199,7 @@ class CharacterSheetForm extends Component {
 
               {/*history*/}
               <div style={{width: 350}}>
-                <SimpleEntitySelect name={Nation.entityName} customStyle={{width: 170, height:50, marginLeft: 170, marginTop: 50}}
-                                    options={State.data.currentRealmData.nations}/>
+                <SimpleEntitySelect name={Nation.entityName} customStyle={{width: 170, height:50, marginLeft: 170, marginTop: 50}} options={State.data.currentRealmData.nations}/>
                 <SimpleTextField name={'parents'} variant={TextFieldType.TEXT} customStyle={{width: 120, height: 35, marginTop: 0, marginLeft: 220}}/>
                 <SimpleTextField name={'family'} variant={TextFieldType.TEXT} customStyle={{width: 220, height: 80, marginLeft: 110}}/>
               </div>
@@ -242,8 +207,7 @@ class CharacterSheetForm extends Component {
               {/*religion*/}
               <div style={{width: 350, display: 'flex'}}>
                 <SimpleTextField name={'socialLevel'} variant={TextFieldType.TEXT} customStyle={{width: 80, height: 60, marginTop: 10, marginLeft: 110}}/>
-                <SimpleEntitySelect name={Religion.entityName} customStyle={{width: 150, marginTop: 35, marginLeft: 5}}
-                                    data={State.data.currentRealmData.religions}/>
+                <SimpleEntitySelect name={Religion.entityName} customStyle={{width: 150, marginTop: 35, marginLeft: 5}} data={State.data.currentRealmData.religions}/>
               </div>
 
             </div>
@@ -259,8 +223,7 @@ class CharacterSheetForm extends Component {
           </div>
 
           {/*animals*/}
-          <SelectableList style={{width: 700}} listStyle={{height: 100}}
-                          name={Animal.entityName} propName={'animals'}>
+          <SelectableList style={{width: 700}} listStyle={{height: 100}} name={Animal.entityName} propName={'animals'}>
             {entity.animals.map(animal => <AnimalElement animal={animal}/>)}
           </SelectableList>
 

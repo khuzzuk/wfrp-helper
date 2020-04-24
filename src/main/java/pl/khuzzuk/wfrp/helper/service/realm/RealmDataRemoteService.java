@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.khuzzuk.remote.Adapter;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.creature.PersonDTO;
+import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
+import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolDTO;
 import pl.khuzzuk.wfrp.helper.model.money.Currency;
 import pl.khuzzuk.wfrp.helper.model.money.CurrencyDTO;
 import pl.khuzzuk.wfrp.helper.model.world.*;
@@ -21,6 +23,8 @@ public class RealmDataRemoteService {
     private Adapter<Person, PersonDTO> personDTOAdapter;
     private Adapter<Religion, ReligionDTO> religionDTOAdapter;
     private Adapter<Currency, CurrencyDTO> currencyDTOAdapter;
+    private Adapter<Race, RaceDTO> raceDTOAdapter;
+    private Adapter<SpellSchool, SpellSchoolDTO> spellSchoolDTOAdapter;
 
     @Transactional
     @GetMapping("{id}")
@@ -30,6 +34,8 @@ public class RealmDataRemoteService {
         RealmData realmData = new RealmData();
         realmData.setPersons(personDTOAdapter.list(realm.getPersons()));
         realmData.setNations(nationDTOAdapter.list(realm.getNations()));
+        realmData.setRaces(raceDTOAdapter.list(realm.getRaces()));
+        realmData.setSpellSchools(spellSchoolDTOAdapter.list(realm.getSpellSchools()));
         realmData.setLanguages(worldLanguageDTOAdapter.list(realmDataService.getLanguagesForRealm(realm)));
         realmData.setReligions(religionDTOAdapter.list(realmDataService.getReligionsForRealm(realm)));
         realmData.setCurrencies(currencyDTOAdapter.list(realmDataService.getCurrenciesForRealm(realm)));

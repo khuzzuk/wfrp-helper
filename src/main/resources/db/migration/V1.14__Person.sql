@@ -172,7 +172,7 @@ CREATE TABLE creature.person_spell_school_level (
     id              BIGSERIAL PRIMARY KEY,
     uuid            VARCHAR(36),
     person_id       BIGINT REFERENCES creature.person,
-    spell_school_id BIGINT NOT NULL REFERENCES spell_school,
+    spell_school_id BIGINT NOT NULL REFERENCES magic.spell_school,
     level           INT    NOT NULL DEFAULT 0
     );
 CREATE TABLE creature.person_spell_school_level_history (
@@ -188,7 +188,7 @@ CREATE TABLE creature.person_spell_school_level_history (
 
 CREATE TABLE creature.person_spells (
     person_id BIGINT NOT NULL REFERENCES creature.person,
-    spells_id BIGINT NOT NULL REFERENCES spell,
+    spells_id BIGINT NOT NULL REFERENCES magic.spell,
     PRIMARY KEY (person_id, spells_id)
     );
 CREATE TABLE creature.person_spells_history (
