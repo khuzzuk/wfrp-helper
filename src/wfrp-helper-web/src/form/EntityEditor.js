@@ -10,14 +10,15 @@ import {CreateFormField} from "./FormFieldGenerator";
 
 const styles = theme => ({
     root: {
-        display: 'flex',
+        width: '95%',
+        margin: 'auto',
     }
 });
 
 class EntityEditor extends Component {
     render() {
-        const {entityName} = this.props;
-        return <Grid container direction={"column"}>
+        const {entityName, classes} = this.props;
+        return <Grid container direction={"column"} className={classes.root}>
             {this.getFormFields()}
             <Grid item>
                 <IconButton onClick={this.saveForm}><Save/></IconButton>

@@ -1,3 +1,4 @@
+import {Tooltip} from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
@@ -122,7 +123,7 @@ class CharacterSheetForm extends Component {
 
             {/*skills*/}
             <SelectableList style={{width: 200, height: 360, paddingLeft: 0, paddingTop: 10}} listStyle={{height: 300}} name={Skill.entityName} propName={'skills'} data={Collections.except(State.data.skill, entity.skills)}>
-              {entity.skills.map(skill => <p key={skill.name} style={{margin: 0}}
+              {entity.skills.map(skill => <Tooltip title={skill.description}><p key={skill.name} style={{margin: 0}}
                                              onContextMenu={event => {
                                                event.preventDefault();
                                                State.updateEntity({
@@ -130,7 +131,7 @@ class CharacterSheetForm extends Component {
                                                                         entity.skills,
                                                                         skill)
                                                                   });
-                                             }}>{skill.name}</p>)}
+                                             }}>{skill.name}</p></Tooltip>)}
             </SelectableList>
 
             {/*armor values*/}

@@ -1,3 +1,4 @@
+import {Tooltip} from "@material-ui/core";
 import React, {Component} from "react";
 import Select from "react-select";
 import makeAnimated from 'react-select/animated'
@@ -47,23 +48,25 @@ export default class SimpleEntitySelect extends Component {
             onChange = selected => State.updateEntity({[propName]: selected})
           } = this.props;
 
-    return <div style={{...{display: 'inline-block'}, ...customStyle}}>
-      <Select className={className}
-              styles={multi ? simpleStyleMulti : simpleStyle}
-              value={value}
-              options={options}
-              onChange={onChange}
-              components={makeAnimated()}
-              getOptionLabel={option => {
-                return <div>{option.name}</div>
-              }}
-              getOptionValue={option => {
-                return option.id
-              }}
-              filterOption={(option, input) => option.data.name.startsWith(input)}
-              placeholder={<div/>}
-              isSearchable
-              isMulti={multi}/>
-    </div>
+    return <Tooltip title={value && value.description ? value.description : ''}>
+      <div style={{...{display: 'inline-block'}, ...customStyle}}>
+        <Select className={className}
+                styles={multi ? simpleStyleMulti : simpleStyle}
+                value={value}
+                options={options}
+                onChange={onChange}
+                components={makeAnimated()}
+                getOptionLabel={option => {
+                  return <div>{option.name}</div>
+                }}
+                getOptionValue={option => {
+                  return option.id
+                }}
+                filterOption={(option, input) => option.data.name.startsWith(input)}
+                placeholder={<div/>}
+                isSearchable
+                isMulti={multi}/>
+      </div>
+    </Tooltip>;
   }
 }

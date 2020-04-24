@@ -14,6 +14,15 @@ import FormFieldData from "./FormFieldData";
 import {FormFieldType} from "./FormFieldType";
 import CharacterSheetForm from "./sheet/CharacterSheetForm";
 
+const basicStyle = {
+    root: {
+        display: 'flex',
+    },
+    field: {
+        width: '100%',
+    }
+};
+
 export const CreateFormField = (fieldData: FormFieldData, t) => {
     const {name, type, suggestions, toView, toModel} = fieldData;
     const entity = State.data.entity;
@@ -23,17 +32,16 @@ export const CreateFormField = (fieldData: FormFieldData, t) => {
 
     switch (type) {
         case FormFieldType.TEXT:
-            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate}/>;
+            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field}/>;
 
         case FormFieldType.TEXT_AREA:
-            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate}
-                              multiline/>;
+            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} multiline style={basicStyle.field}/>;
 
         case FormFieldType.INTEGER:
-            return <IntegerField key={name} label={t(name)} value={value || ''} onChange={onUpdate}/>;
+            return <IntegerField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field}/>;
 
         case FormFieldType.FLOAT:
-            return <TextField key={name} label={t(name)} value={value || ''} type={'number'} onChange={onUpdate}/>;
+            return <TextField key={name} label={t(name)} value={value || ''} type={'number'} onChange={onUpdate} style={basicStyle.field}/>;
 
         case FormFieldType.DETERMINANT:
             return <DeterminantField key={name} name={name} value={value}/>;
