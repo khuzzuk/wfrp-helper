@@ -33,10 +33,12 @@ import Realm from "../model/realm/Realm";
 import Currency from "../model/world/Currency";
 import Language from "../model/world/Language";
 import Nation from "../model/world/Nation";
+import Place from "../model/world/Place";
 import Race from "../model/world/Race";
 import Religion from "../model/world/Religion";
 import {State} from "../state/State";
 import MenuComponent from "./MenuComponent";
+import ToolsMenu from "./ToolsMenu";
 
 const styles = theme => ({
   languageIcon: {
@@ -58,12 +60,14 @@ class TopMenu extends Component {
 
     return <AppBar position={"relative"}>
       <Toolbar>
+        <ToolsMenu/>
         <MenuComponent name={'world'}
                        entities={[Nation.entityName,
                                   Currency.entityName,
                                   Language.entityName,
                                   Race.entityName,
                                   Religion.entityName,
+                                  Place.entityName,
                                   Realm.entityName,]}/>
         <MenuComponent name={'knowledge'}
                        entities={[Skill.entityName,

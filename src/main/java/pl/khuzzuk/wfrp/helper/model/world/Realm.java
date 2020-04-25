@@ -37,9 +37,6 @@ public class Realm {
   @JoinTable(schema = "realm", inverseJoinColumns = @JoinColumn(name = "nation_id"))
   private List<Nation> nations;
   @ManyToMany
-  @JoinTable(schema = "realm", inverseJoinColumns = @JoinColumn(name = "race_id"))
-  private List<Race> races;
-  @ManyToMany
   @JoinTable(schema = "realm", inverseJoinColumns = @JoinColumn(name = "spell_school_id"))
   private List<SpellSchool> spellSchools;
   @ManyToMany

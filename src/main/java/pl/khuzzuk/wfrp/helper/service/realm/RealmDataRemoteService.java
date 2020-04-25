@@ -34,8 +34,8 @@ public class RealmDataRemoteService {
         RealmData realmData = new RealmData();
         realmData.setPersons(personDTOAdapter.list(realm.getPersons()));
         realmData.setNations(nationDTOAdapter.list(realm.getNations()));
-        realmData.setRaces(raceDTOAdapter.list(realm.getRaces()));
         realmData.setSpellSchools(spellSchoolDTOAdapter.list(realm.getSpellSchools()));
+        realmData.setRaces(raceDTOAdapter.list(realmDataService.getRacesForRealm(realm)));
         realmData.setLanguages(worldLanguageDTOAdapter.list(realmDataService.getLanguagesForRealm(realm)));
         realmData.setReligions(religionDTOAdapter.list(realmDataService.getReligionsForRealm(realm)));
         realmData.setCurrencies(currencyDTOAdapter.list(realmDataService.getCurrenciesForRealm(realm)));

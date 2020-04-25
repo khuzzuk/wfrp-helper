@@ -18,9 +18,9 @@ public class RealmData {
 
   private List<NationDTO> nations = new ArrayList<>();
   private List<WorldLanguageDTO> languages = new ArrayList<>();
+  private List<SpellSchoolDTO> spellSchools = new ArrayList<>();
   private List<ReligionDTO> religions = new ArrayList<>();
   private List<CurrencyDTO> currencies = new ArrayList<>();
   private List<RaceDTO> races = new ArrayList<>();
-  private List<SpellSchoolDTO> spellSchools = new ArrayList<>();
   private List<PersonDTO> persons = new ArrayList<>();
 }

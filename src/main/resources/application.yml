@@ -20,6 +20,7 @@ spring:
       hibernate:
         format_sql: false
         use_sql_comments: true
+        dialect: pl.khuzzuk.wfrp.helper.common.PostgresqlDialect
       org:
         hibernate:
           envers:

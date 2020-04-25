@@ -2,23 +2,24 @@ import {FormFieldType} from "../../form/FormFieldType";
 import Entity, {CreateColumn, CreateFormField, RegisterEntity} from "../Entity";
 import Nation from "./Nation";
 
-export default class Language extends Entity {
-  static entityName: string = 'worldLanguage';
+export default class Place extends Entity {
+  static entityName: string = 'place';
 
   name: string;
   description: string;
-  nations: Nation[];
+  nation: Nation;
 
-  updateWith(entity: Language): Language {
+  updateWith(entity: *): Place {
     super.updateWith(entity);
-    this.updateEntityList(entity, 'nations', () => new Nation());
+    this.updateEntityProp('nation', () => new Nation());
     return this;
   }
 }
 
-RegisterEntity(Language,
+RegisterEntity(Place,
                [CreateColumn('name', FormFieldType.TEXT),
-                CreateColumn('description', FormFieldType.TEXT_AREA),],
+                CreateColumn('description', FormFieldType.TEXT_AREA),
+                CreateColumn('nation', FormFieldType.ENTITY_SELECT),],
                [CreateFormField('name', FormFieldType.TEXT),
                 CreateFormField('description', FormFieldType.TEXT_AREA),
-                CreateFormField('nations', FormFieldType.ENTITY_COMBOBOX, Nation.entityName),]);
+                CreateFormField('nation', FormFieldType.ENTITY_SELECT, Nation.entityName),]);

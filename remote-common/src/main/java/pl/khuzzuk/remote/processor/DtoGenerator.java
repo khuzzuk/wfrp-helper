@@ -2,6 +2,7 @@ package pl.khuzzuk.remote.processor;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import pl.khuzzuk.remote.DTO;
 import pl.khuzzuk.remote.common.CollectionTypeUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
@@ -35,6 +36,10 @@ class DtoGenerator extends AbstractFileGenerator {
         writeClassDeclaration(writer);
 
         for (Element element : sourceFileDescription.getFields()) {
+            if (element.getAnnotation(DTO.Exclude.class) != null) {
+                continue;
+            }
+
             if (!excludedFields.contains(element.getSimpleName().toString())) {
                 writeField(writer, element);
             }

@@ -10,7 +10,6 @@ export default class Realm extends Entity {
 
   name: string;
   nations: Nation[]           = [];
-  races: Race[]               = [];
   spellSchools: SpellSchool[] = [];
   persons: Person[]           = [];
 
@@ -28,7 +27,6 @@ RegisterEntity(Realm,
                [CreateColumn('name', FormFieldType.TEXT),],
                [CreateFormField('name', FormFieldType.TEXT),
                 CreateFormField('nations', FormFieldType.ENTITY_COMBOBOX, Nation.entityName),
-                CreateFormField('races', FormFieldType.ENTITY_COMBOBOX, Race.entityName),
                 CreateFormField('spellSchools',
                                 FormFieldType.ENTITY_COMBOBOX,
                                 SpellSchool.entityName),

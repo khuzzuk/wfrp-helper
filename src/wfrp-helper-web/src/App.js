@@ -1,11 +1,9 @@
-import React, {Component}                 from 'react';
+import {grey, orange} from "@material-ui/core/colors";
 import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
-import {grey, orange}                     from "@material-ui/core/colors";
-import ContentPane                        from "./content/ContentPane";
-import CharacterSheetForm                 from "./form/sheet/CharacterSheetForm";
-import TopMenu                            from "./menu/TopMenu";
-import Person                             from "./model/creature/Person";
-import {State}                            from "./state/State";
+import React, {Component} from 'react';
+import ContentPane from "./content/ContentPane";
+import TopMenu from "./menu/TopMenu";
+import {State} from "./state/State";
 
 const theme = createMuiTheme({
     palette: {

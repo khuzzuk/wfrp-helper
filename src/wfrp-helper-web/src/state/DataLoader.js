@@ -1,3 +1,4 @@
+import Picture from "../img/Picture";
 import Ammunition      from "../model/crafting/Ammunition";
 import MeleeWeapon     from "../model/crafting/MeleeWeapon";
 import RangedWeapon    from "../model/crafting/RangedWeapon";
@@ -5,6 +6,7 @@ import Animal          from "../model/creature/Animal";
 import AnimalKind      from "../model/creature/AnimalKind";
 import Person          from "../model/creature/Person";
 import Realm from "../model/realm/Realm";
+import Place from "../model/world/Place";
 import {State}         from "./State";
 import Nation          from "../model/world/Nation";
 import Currency        from "../model/world/Currency";
@@ -30,7 +32,7 @@ import PhysicalFeature       from "../model/creature/PhysicalFeature";
 import Armor                 from "../model/crafting/Armor";
 
 const DOMAINS = [
-    Nation, Currency, Language, Race, Religion,
+    Nation, Currency, Language, Race, Religion, Place,
     Character, EyeColor, HairColor, PhysicalFeature,
     AnimalKind, Animal,
     Skill, SpellSchool, Spell,
@@ -39,7 +41,8 @@ const DOMAINS = [
     Item, Armor, MeleeWeapon, RangedWeapon, Ammunition,
     ArmorBlueprint, MeleeWeaponBlueprint, RangedWeaponBlueprint,
     ArmorPattern, Resource,
-    Person, Realm
+    Person, Realm,
+    Picture,
 ];
 
 export default class DataLoader {

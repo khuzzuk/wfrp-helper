@@ -1,7 +1,8 @@
 package pl.khuzzuk.remote.processor;
 
 import com.google.auto.service.AutoService;
-
+import java.time.LocalDateTime;
+import java.util.Set;
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
@@ -10,45 +11,64 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
-import java.time.LocalDateTime;
-import java.util.Set;
 
 @SupportedAnnotationTypes({"pl.khuzzuk.remote.RemoteEntity"})
 @SupportedSourceVersion(SourceVersion.RELEASE_11)
 @AutoService(Processor.class)
 public class RemoteEntityProcessor extends AbstractProcessor {
-    @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        for (TypeElement annotation : annotations) {
-            Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
 
-            for (Element element : elements) {
-                long start = System.currentTimeMillis();
-                System.out.println(String.format("%s\tStarting RemoteEntity process %s",
-                        LocalDateTime.now(), element));
+  private long recordTime;
+  private long totalRecordTime;
 
-                SourceFileDescription sourceFileDescription = SourceFileDescription.create(element, processingEnv);
+  @Override
+  public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+    for (TypeElement annotation : annotations) {
+      Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
 
-                JpaRepoGenerator jpaRepoGenerator = new JpaRepoGenerator(roundEnv, sourceFileDescription, processingEnv);
-                jpaRepoGenerator.writeFile();
+      for (Element element : elements) {
+        startRecord();
 
-                DtoGenerator dtoGenerator = new DtoGenerator(roundEnv, sourceFileDescription, processingEnv);
-                dtoGenerator.writeFile();
+        SourceFileDescription sourceFileDescription =
+            SourceFileDescription.create(element, processingEnv);
 
-                AdapterToDtoGenerator adapterToDtoGenerator = new AdapterToDtoGenerator(roundEnv, sourceFileDescription, processingEnv);
-                adapterToDtoGenerator.writeFile();
-                AdapterToEntityGenerator adapterToEntityGenerator = new AdapterToEntityGenerator(roundEnv, sourceFileDescription, processingEnv);
-                adapterToEntityGenerator.writeFile();
+        new JpaRepoGenerator(roundEnv, sourceFileDescription, processingEnv).writeFile();
+        reportRecord("JpaRepoGenerator");
 
-                RemoteServiceGenerator remoteServiceGenerator = new RemoteServiceGenerator(roundEnv, sourceFileDescription, processingEnv);
-                remoteServiceGenerator.writeFile();
+        new DtoGenerator(roundEnv, sourceFileDescription, processingEnv).writeFile();
+        reportRecord("DtoGenerator");
 
-                System.out.println(String.format("%s\tfinished RemoteEntity, overall time: %s ms", LocalDateTime.now(), System.currentTimeMillis() - start));
-            }
+        new AdapterToDtoGenerator(roundEnv, sourceFileDescription, processingEnv).writeFile();
+        new AdapterToEntityGenerator(roundEnv, sourceFileDescription, processingEnv).writeFile();
+        reportRecord("AdapterGenerators");
 
-            return !elements.isEmpty();
-        }
+        new RemoteServiceGenerator(roundEnv, sourceFileDescription, processingEnv).writeFile();
+        reportRecord("RemoteServiceGenerator");
 
-        return false;
+        finishRecord();
+      }
+
+      return !elements.isEmpty();
     }
+
+    return false;
+  }
+
+  private void startRecord() {
+    recordTime = System.currentTimeMillis();
+    totalRecordTime = recordTime;
+  }
+
+  private void reportRecord(String name) {
+    System.out.println(String.format("%s\tfinished RemoteEntity, %s time: %s ms",
+                                     LocalDateTime.now(),
+                                     name,
+                                     System.currentTimeMillis() - recordTime));
+    recordTime = System.currentTimeMillis();
+  }
+
+  private void finishRecord() {
+    System.out.println(String.format("%s\tfinished RemoteEntity, overall time: %s ms",
+                                     LocalDateTime.now(),
+                                     System.currentTimeMillis() - totalRecordTime));
+  }
 }
