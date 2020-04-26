@@ -5,9 +5,6 @@ spring:
   main:
     allow-bean-definition-overriding: true
   datasource:
-#    url: jdbc:postgresql://rogue.db.elephantsql.com:5432/jigiggbsa
-#    username: jigiggbsa
-#    password:
     url: jdbc:postgresql://localhost:5432/wfrp
     username: wfrp
     password: wfrp
@@ -21,6 +18,9 @@ spring:
         format_sql: false
         use_sql_comments: true
         dialect: pl.khuzzuk.wfrp.helper.common.PostgresqlDialect
+        jdbc:
+          lob:
+            non_contextual_creation: true
       org:
         hibernate:
           envers:

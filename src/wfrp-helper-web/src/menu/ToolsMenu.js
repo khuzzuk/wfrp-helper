@@ -24,6 +24,11 @@ class ToolsMenu extends Component {
     State.showTable('picture');
   };
 
+  showScenarioView = () => {
+    this.handleClose();
+    State.updateScenario(null);
+  };
+
   render() {
     const {t} = this.props;
 
@@ -40,6 +45,7 @@ class ToolsMenu extends Component {
             open={this.state.anchorEl !== null}
             onClose={this.handleClose}>
         <MenuItem onClick={this.showPictureForm}>{t('picture')}</MenuItem>
+        <MenuItem onClick={this.showScenarioView}>{t('scenario')}</MenuItem>
       </Menu>
     </div>;
   }

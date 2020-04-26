@@ -35,7 +35,8 @@ dependencies {
     compile group: 'org.springframework.boot', name: 'spring-boot-starter-security'
 
     //db
-    compile('org.postgresql:postgresql')
+    //compile('org.postgresql:postgresql')
+    compile group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
     compile group: 'org.hibernate', name: 'hibernate-envers', version: '5.3.7.Final'
     compile group: 'org.flywaydb', name: 'flyway-core'
 

@@ -15,10 +15,13 @@ export const State = {
         this.onUpdate(this.data);
     },
     showTable(name: string) {
-        this.update({entity: null, showForm: null, showTable: name})
+        this.update({entity: null, showForm: null, showTable: name, showScenario: false})
     },
     showForm(name: string, entity: Entity) {
-        this.update({entity: entity, showForm: name, showTable: null})
+        this.update({entity: entity, showForm: name, showTable: null, showScenario: false})
+    },
+    updateScenario(scenario: Entity) {
+        this.update({entity: scenario, showForm: null, showTable: null, showScenario: true})
     },
     updateEntity(updates: any) {
         this.data.entity.updateWith(updates);

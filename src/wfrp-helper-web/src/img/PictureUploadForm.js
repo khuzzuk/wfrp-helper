@@ -1,10 +1,11 @@
-import {
-  Button, Card, CardActions, CardContent, CardHeader, CardMedia, IconButton, TextField
-} from "@material-ui/core";
+import {Button, IconButton, TextField} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 import {Cancel} from "@material-ui/icons";
 import {DropzoneArea} from "material-ui-dropzone";
 import React, {Component} from "react";
 import {withTranslation} from "react-i18next";
+import EntitySelect from "../form/field/EntitySelect";
+import Place from "../model/world/Place";
 import {State} from "../state/State";
 import Picture from "./Picture";
 
@@ -39,16 +40,25 @@ class PictureUploadForm extends Component {
     this.setState({name: value});
   };
 
-  saveName = () => {
-    const value    = this.props.value;
-    const jsonBody = JSON.stringify({id: value.id, name: value.name});
-    let url        = Picture.entityName;
-    fetch(url, {
+  setPlace = place => {
+    this.props.value.place = place;
+    this.setState({place: place});
+  };
+
+  save = () => {
+    const value   = this.props.value;
+    const updates = {id: value.id, name: value.name};
+    if (value.place) {
+      updates.placeId = value.place.id;
+    }
+
+    const jsonBody = JSON.stringify(updates);
+    fetch(Picture.entityName, {
       method: 'post', headers: {'Content-Type': 'application/json'}, body: jsonBody
     }).then(this.onResponse)
-    .catch(reason => {
-      console.log(reason);
-    });
+      .catch(reason => {
+        console.log(reason);
+      });
   };
 
   render() {
@@ -56,17 +66,24 @@ class PictureUploadForm extends Component {
     return <div style={{margin: 10}}>
       {value ?
 
-          <Card style={{width: '90vw'}}>
-            <CardHeader title={value.name}/>
-            <CardContent>
-              <img src={Picture.entityName + '/' + value.id} alt={value.name} style={{maxWidth: '80vw', maxHeight: '50vh'}}/>
-            </CardContent>
-            <CardActions>
-              {<TextField value={value ? value.name : ''} onChange={this.setName}
-                          disabled={!value}/>}
-              <Button onClick={this.saveName}>{t('save')}</Button>
-            </CardActions>
-          </Card> :
+          <Grid container spacing={2}>
+            <Grid item container xs={12} alignItems={"center"}>
+              <Grid item xs={4}>
+                <TextField value={value ? value.name : ''} onChange={this.setName}
+                           disabled={!value}/>
+              </Grid>
+              <Grid item xs={6}>
+                <EntitySelect name={Place.entityName} onChange={this.setPlace} value={value.place}/>
+              </Grid>
+              <Grid item xs={2}>
+                <Button onClick={this.save}>{t('save')}</Button>
+              </Grid>
+            </Grid>
+            <Grid item xs={12}>
+              <img src={Picture.entityName + '/' + value.id} alt={value.name}
+                   style={{maxWidth: '80vw', maxHeight: '50vh'}}/>
+            </Grid>
+          </Grid> :
 
           <DropzoneArea acceptedFiles={['image/jpeg', 'image/jpg', 'image/png']}
                         onChange={this.upload}/>}

@@ -14,7 +14,8 @@ class EntitySelect extends Component {
             suggestions = name,
             data = State.data[suggestions],
             value = State.data.entity[name],
-            multi = false
+            multi = false,
+            onChange = this.updateEntity
         } = this.props;
 
         return <div>
@@ -29,7 +30,7 @@ class EntitySelect extends Component {
                         return option.id
                     }}
                     filterOption={(option, input) => option.data.name.startsWith(input)}
-                    onChange={this.updateEntity}
+                    onChange={onChange}
                     value={value}
                     isMulti={multi}/>
         </div>;

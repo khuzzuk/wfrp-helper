@@ -3,9 +3,10 @@ CREATE EXTENSION IF NOT EXISTS "lo";
 CREATE SCHEMA multimedia;
 
 CREATE TABLE multimedia.picture (
-    id    BIGSERIAL PRIMARY KEY,
-    name  VARCHAR(100),
-    image lo
+    id       BIGSERIAL PRIMARY KEY,
+    name     VARCHAR(100),
+    place_id BIGINT REFERENCES world.place,
+    image    lo
 );
 
 CREATE TRIGGER multimedia_picture_image

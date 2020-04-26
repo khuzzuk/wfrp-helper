@@ -30,6 +30,7 @@ import SpellSchool from "../model/knowledge/SpellSchool";
 import Profession from "../model/professions/Profession";
 import ProfessionClass from "../model/professions/ProfessionClass";
 import Realm from "../model/realm/Realm";
+import Scenario from "../model/realm/Scenario";
 import Currency from "../model/world/Currency";
 import Language from "../model/world/Language";
 import Nation from "../model/world/Nation";
@@ -68,7 +69,8 @@ class TopMenu extends Component {
                                   Race.entityName,
                                   Religion.entityName,
                                   Place.entityName,
-                                  Realm.entityName,]}/>
+                                  Realm.entityName,
+                                  Scenario.entityName]}/>
         <MenuComponent name={'knowledge'}
                        entities={[Skill.entityName,
                                   ProfessionClass.entityName,

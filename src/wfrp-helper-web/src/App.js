@@ -6,27 +6,22 @@ import TopMenu from "./menu/TopMenu";
 import {State} from "./state/State";
 
 const theme = createMuiTheme({
-    palette: {
-        primary: grey,
-        secondary: orange
-    },
-});
+                               palette: {primary: grey, secondary: orange},
+                             });
 
 export default class App extends Component {
 
-    constructor(props: P, context: any) {
-        super(props, context);
-        State.onUpdate = data => {
-            this.setState({data: data})
-        }
+  constructor(props: P, context: any) {
+    super(props, context);
+    State.onUpdate = data => {
+      this.setState({data: data})
     }
+  }
 
-    render() {
-        return (
-            <MuiThemeProvider theme={theme}>
-                <TopMenu/>
-                <ContentPane/>
-            </MuiThemeProvider>
-        );
-    }
+  render() {
+    return (<MuiThemeProvider theme={theme}>
+      <TopMenu/>
+      <ContentPane/>
+    </MuiThemeProvider>);
+  }
 }

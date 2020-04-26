@@ -6,6 +6,7 @@ import Animal          from "../model/creature/Animal";
 import AnimalKind      from "../model/creature/AnimalKind";
 import Person          from "../model/creature/Person";
 import Realm from "../model/realm/Realm";
+import Scenario from "../model/realm/Scenario";
 import Place from "../model/world/Place";
 import {State}         from "./State";
 import Nation          from "../model/world/Nation";
@@ -41,7 +42,7 @@ const DOMAINS = [
     Item, Armor, MeleeWeapon, RangedWeapon, Ammunition,
     ArmorBlueprint, MeleeWeaponBlueprint, RangedWeaponBlueprint,
     ArmorPattern, Resource,
-    Person, Realm,
+    Person, Realm, Scenario,
     Picture,
 ];
 
