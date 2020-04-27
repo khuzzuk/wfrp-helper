@@ -1,8 +1,11 @@
-import RemoteService            from "../../client/RemoteService";
-import CreatureDeterminants     from "../creature/CreatureDeterminants";
-import Profession               from "../professions/Profession";
-import Determinant              from "./Determinant";
-import Modifier, {ModifierType} from "./Modifier";
+import CreatureDeterminants from "../model/creature/CreatureDeterminants";
+import Person from "../model/creature/Person";
+import Profession from "../model/professions/Profession";
+import Determinant from "../model/rule/Determinant";
+import Modifier, {ModifierType} from "../model/rule/Modifier";
+import Race from "../model/world/Race";
+import {State} from "../state/State";
+import RemoteService from "./RemoteService";
 
 export default class DeterminantService extends RemoteService {
   addExperienceExtension(determinant: Determinant, onAdded: VoidFunction) {
@@ -46,7 +49,7 @@ export default class DeterminantService extends RemoteService {
   }
 
   static updateProfessionExtensions(profession: Profession,
-                                    creatureDeterminants: CreatureDeterminants) {
+      creatureDeterminants: CreatureDeterminants) {
     creatureDeterminants.determinants = creatureDeterminants.determinants.map(det => {
       DeterminantService.setProfessionExtensions(profession, det);
       return det;
@@ -61,10 +64,24 @@ export default class DeterminantService extends RemoteService {
           DeterminantService.removeModifiersByType(determinant.modifiers, ModifierType.PROFESSION);
       professionExtensions.modifiers.forEach(mod => {
         const newMod = new Modifier();
-        newMod.type = mod.type;
+        newMod.type  = mod.type;
         newMod.value = mod.value;
         determinant.modifiers.push(newMod);
       });
     }
+  }
+
+  rollForRace(race: Race) {
+    const creature = State.data.entity;
+    console.assert(creature.type === Person);
+    const currentDeterminant: CreatureDeterminants = creature.determinants;
+
+    this.requestForPath('determinant/generateDeterminants/' + creature.race.id,
+                        (resolved: CreatureDeterminants) => {
+                          resolved.determinants.forEach(newValue => {
+                            currentDeterminant.updateDeterminantValue(newValue.value, newValue.type)
+                          });
+                          State.updateEntity({determinants: currentDeterminant});
+                        });
   }
 }

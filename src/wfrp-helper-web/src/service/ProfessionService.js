@@ -1,5 +1,5 @@
+import DeterminantService from "../client/DeterminantService";
 import Profession from "../model/professions/Profession";
-import DeterminantService from "../model/rule/DeterminantService";
 import {State} from "../state/State";
 import {Collections} from "../util/Collections";
 

@@ -52,6 +52,7 @@ CREATE FUNCTION pg_temp.add_race
 $$
 DECLARE
     inserted_race_id BIGINT;
+    inserted_attack_determinant_id BIGINT;
 
 BEGIN
     INSERT INTO world.race ("name") VALUES (name) RETURNING id INTO inserted_race_id;
@@ -69,6 +70,13 @@ BEGIN
     PERFORM pg_temp.addRaceRoll('CONTROL', control_rolls, control_mod, control_dice, inserted_race_id);
     PERFORM pg_temp.addRaceRoll('WILL', will_rolls, will_mod, will_dice, inserted_race_id);
     PERFORM pg_temp.addRaceRoll('CHARISMA', charisma_rolls, charisma_mod, charisma_dice, inserted_race_id);
+
+    INSERT INTO determinant (type, value)
+    VALUES ('ATTACK', 1)
+    RETURNING id INTO inserted_attack_determinant_id;
+
+    INSERT INTO world.race_determinants(race_id, determinants_id)
+    VALUES (inserted_race_id, inserted_attack_determinant_id);
 
 END;
 

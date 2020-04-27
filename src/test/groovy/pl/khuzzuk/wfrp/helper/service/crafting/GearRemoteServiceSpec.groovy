@@ -7,15 +7,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Armor
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.ArmorPattern
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.ArmorPatternRepo
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.ArmorRepo
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Availability
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MeleeWeapon
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MeleeWeaponRepo
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.*
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.ArmorBlueprint
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.ArmorBlueprintRepo
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.MeleeWeaponBlueprint
@@ -23,11 +16,7 @@ import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.MeleeWeaponBlu
 import pl.khuzzuk.wfrp.helper.model.crafting.resource.Resource
 import pl.khuzzuk.wfrp.helper.model.crafting.resource.ResourceRepo
 import pl.khuzzuk.wfrp.helper.model.money.Price
-import pl.khuzzuk.wfrp.helper.model.rule.Dice
-import pl.khuzzuk.wfrp.helper.model.rule.DiceRoll
-import pl.khuzzuk.wfrp.helper.model.rule.Modifier
-import pl.khuzzuk.wfrp.helper.model.rule.ModifierType
-import pl.khuzzuk.wfrp.helper.model.rule.Placement
+import pl.khuzzuk.wfrp.helper.model.rule.*
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -64,7 +53,7 @@ class GearRemoteServiceSpec extends Specification {
         meleeWeaponBlueprint.name = UUID.randomUUID().toString()
         meleeWeaponBlueprint.damage = createDamage(dices, times, damage)
         meleeWeaponBlueprint.suggestedPrice = new Price()
-        meleeWeaponBlueprint.placement = Placement.HAND
+        meleeWeaponBlueprint.placement = [Placement.HAND] as List
 
         meleeWeaponBlueprintRepo.save(meleeWeaponBlueprint)
 

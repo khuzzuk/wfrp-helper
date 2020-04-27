@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {withStyles} from "@material-ui/styles";
 import Add from "@material-ui/icons/Add";
-import DeterminantService from "../../../model/rule/DeterminantService";
+import DeterminantService from "../../../client/DeterminantService";
 import {ModifierType} from "../../../model/rule/Modifier";
 
 const determinantService = new DeterminantService();

@@ -1,7 +1,9 @@
-import {Tooltip} from "@material-ui/core";
+import {Menu, MenuItem, Tooltip} from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
+import {withTranslation} from "react-i18next";
+import DeterminantService from "../../client/DeterminantService";
 import GearService from "../../client/GearService";
 import MagicService from "../../client/MagicService";
 import FrontCharacterSheet from "../../img/A.png";
@@ -64,8 +66,19 @@ const styles = () => ({
 });
 
 class CharacterSheetForm extends Component {
+  determinantService: DeterminantService = new DeterminantService();
+  state = {anchorEl: null, currentElement: null,
+    generateStatsAction: () => {
+      const race = State.data.entity.race;
+      race && this.determinantService.rollForRace(race);
+    }};
+
+  handleClose = () => {
+    this.setState({anchorEl: null, showMenu: ''})
+  };
+
   render() {
-    const {classes} = this.props;
+    const {classes, t} = this.props;
     const entity    = State.data.entity;
 
     return <div className={classes.root}>
@@ -98,8 +111,12 @@ class CharacterSheetForm extends Component {
         </div>
 
         {/*determinants*/}
-        <div style={{paddingTop: 43, paddingLeft: 230, width: 660}}>
-          <PersonalDeterminantsField/>
+        <div style={{paddingTop: 43, width: 890, display: 'flex'}}>
+          <div style={{width: 230, height: 50}} onContextMenu={event => {
+            event.preventDefault();
+            this.setState({anchorEl: event.target, currentElement: ['generateStats']});
+          }}/>
+          <PersonalDeterminantsField style={{width: 650}}/>
         </div>
 
         {/*skills and equipment*/}
@@ -230,6 +247,19 @@ class CharacterSheetForm extends Component {
 
         </div>
       </div>
+
+      <Menu anchorEl={this.state.anchorEl}
+            open={this.state.currentElement && this.state.anchorEl !== null}
+            onClose={this.handleClose}>
+        {
+          this.state.currentElement && this.state.currentElement.map(elementName =>
+            <MenuItem onClick={() => {
+              this.handleClose();
+              this.state[elementName + 'Action']();
+            }}>{t(elementName)}</MenuItem>
+          )
+        }
+      </Menu>
     </div>;
   }
 }
@@ -238,4 +268,4 @@ CharacterSheetForm.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(styles)(CharacterSheetForm);
+export default withStyles(styles)(withTranslation()(CharacterSheetForm));

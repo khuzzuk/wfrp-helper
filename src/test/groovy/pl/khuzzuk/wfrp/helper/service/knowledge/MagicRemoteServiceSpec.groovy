@@ -1,6 +1,6 @@
 package pl.khuzzuk.wfrp.helper.service.knowledge
 
-import com.fasterxml.jackson.core.type.TypeReference
+
 import io.zonky.test.db.AutoConfigureEmbeddedDatabase
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -38,7 +38,7 @@ class MagicRemoteServiceSpec extends Specification {
         given:
         SpellSchool spellSchool = spellSchoolRepo.getOne(1L)
         CurrentMagicKnowledgeDTO currentMagicKnowledge = new CurrentMagicKnowledgeDTO()
-        currentMagicKnowledge.setCurrentSpellSchools([spellSchoolDTOAdapter.map(spellSchool)])
+        currentMagicKnowledge.setCurrentSpellSchools([spellSchoolDTOAdapter.map(spellSchool)] as List)
         currentMagicKnowledge.setCurrentSkills([])
 
         HttpHeaders headers = new HttpHeaders()

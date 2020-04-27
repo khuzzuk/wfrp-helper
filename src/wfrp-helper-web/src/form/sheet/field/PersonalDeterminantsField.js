@@ -90,8 +90,8 @@ class PersonalDeterminantsField extends Component {
                 <SimpleTextField className={classes.otherInRow}  value={strength.value} onChange={this.updateDeterminant(strength)} variant={TextFieldType.INT} />
                 <SimpleTextField className={classes.otherInRow}  value={durability.value} onChange={this.updateDeterminant(durability)} variant={TextFieldType.INT} />
                 <SimpleTextField className={classes.otherInRow2} value={health.value} onChange={this.updateDeterminant(health)} variant={TextFieldType.INT} />
-                <SimpleTextField className={classes.otherInRow2} value={attack.value} onChange={this.updateDeterminant(attack)} variant={TextFieldType.INT} />
                 <SimpleTextField className={classes.otherInRow}  value={initiative.value} onChange={this.updateDeterminant(initiative)} variant={TextFieldType.INT} />
+                <SimpleTextField className={classes.otherInRow2} value={attack.value} onChange={this.updateDeterminant(attack)} variant={TextFieldType.INT} />
                 <SimpleTextField className={classes.otherInRow2} value={dexterity.value} onChange={this.updateDeterminant(dexterity)} variant={TextFieldType.INT} />
                 <SimpleTextField className={classes.otherInRow2} value={leaderSkills.value} onChange={this.updateDeterminant(leaderSkills)} variant={TextFieldType.INT} />
                 <SimpleTextField className={classes.otherInRow2} value={intelligence.value} onChange={this.updateDeterminant(intelligence)} variant={TextFieldType.INT} />
@@ -106,8 +106,8 @@ class PersonalDeterminantsField extends Component {
                 <ProfessionExtensionField ext={strength} customClassName={classes.otherInRow} onChange={this.updateDeterminantExperience}/>
                 <ProfessionExtensionField ext={durability} customClassName={classes.otherInRow} onChange={this.updateDeterminantExperience}/>
                 <ProfessionExtensionField ext={health} customClassName={classes.otherInRow2} onChange={this.updateDeterminantExperience}/>
-                <ProfessionExtensionField ext={attack} customClassName={classes.otherInRow2} onChange={this.updateDeterminantExperience}/>
                 <ProfessionExtensionField ext={initiative} customClassName={classes.otherInRow} onChange={this.updateDeterminantExperience}/>
+                <ProfessionExtensionField ext={attack} customClassName={classes.otherInRow2} onChange={this.updateDeterminantExperience}/>
                 <ProfessionExtensionField ext={dexterity} customClassName={classes.otherInRow2} onChange={this.updateDeterminantExperience}/>
                 <ProfessionExtensionField ext={leaderSkills} customClassName={classes.otherInRow2} onChange={this.updateDeterminantExperience}/>
                 <ProfessionExtensionField ext={intelligence} customClassName={classes.otherInRow2} onChange={this.updateDeterminantExperience}/>
@@ -122,8 +122,8 @@ class PersonalDeterminantsField extends Component {
                 <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{strength.calculateExperienceValue()}</p>
                 <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{durability.calculateExperienceValue()}</p>
                 <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{health.calculateExperienceValue()}</p>
-                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{attack.calculateExperienceValue()}</p>
                 <p className={`${classes.lastRowChild} ${classes.otherInRow} `}>{initiative.calculateExperienceValue()}</p>
+                <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{attack.calculateExperienceValue()}</p>
                 <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{dexterity.calculateExperienceValue()}</p>
                 <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{leaderSkills.calculateExperienceValue()}</p>
                 <p className={`${classes.lastRowChild} ${classes.otherInRow2}`}>{intelligence.calculateExperienceValue()}</p>

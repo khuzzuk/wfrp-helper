@@ -1,7 +1,7 @@
+import DeterminantService from "../../client/DeterminantService";
 import {FormFieldType}                                 from "../../form/FormFieldType";
 import {CreateColumn, CreateFormField, RegisterEntity} from "../Entity";
 import DeterminantContainer                            from "../rule/DeterminantContainer";
-import DeterminantService                              from "../rule/DeterminantService";
 import Price                                           from "../world/Price";
 import {availabilityEntityName}                        from "./Availability";
 import MeleeWeaponBlueprint                            from "./MeleeWeaponBlueprint";

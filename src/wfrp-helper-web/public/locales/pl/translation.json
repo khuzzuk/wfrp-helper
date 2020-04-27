@@ -96,5 +96,6 @@
   "realm": "Uniwersum",
   "place": "Miejsce",
   "picture": "Obraz",
-  "scenario": "Scenariusz"
+  "scenario": "Scenariusz",
+  "generateStats": "Wylosuj statystyki"
 }
