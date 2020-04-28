@@ -4,7 +4,7 @@ CREATE TABLE profession (
   id                  BIGINT PRIMARY KEY DEFAULT nextval('profession_seq' :: REGCLASS),
   name                VARCHAR(64) UNIQUE,
   uuid                VARCHAR(36) DEFAULT uuid_generate_v4(),
-  description         VARCHAR(255),
+  description         TEXT,
   profession_class_id BIGINT REFERENCES profession_class (id),
   next_professions    VARCHAR(255)[]
 );

@@ -1,73 +1,75 @@
-CREATE FUNCTION pg_temp.addExtension(
-  extension_type             VARCHAR(255),
-  profession_extension_value INT,
-  profession_id_to_insert    BIGINT
-)
-  RETURNS VOID AS $$
+CREATE FUNCTION pg_temp.addExtension(extension_type VARCHAR(255),
+                                     profession_extension_value INT,
+                                     profession_id_to_insert BIGINT)
+    RETURNS VOID AS
+$$
 DECLARE
-  inserted_extension_id BIGINT;
-  inserted_modifier_id  BIGINT;
+    inserted_extension_id BIGINT;
+    inserted_modifier_id  BIGINT;
 
 BEGIN
 
-  IF profession_extension_value > 0
+    IF profession_extension_value > 0
     THEN
 
-      INSERT INTO determinant (type, value) VALUES (extension_type, 0) RETURNING id
-        INTO inserted_extension_id;
-      INSERT INTO modifier (type, value)
-      VALUES ('PROFESSION', profession_extension_value) RETURNING id
-        INTO inserted_modifier_id;
-      INSERT INTO determinant_modifiers (determinant_id, modifiers_id)
-      VALUES (inserted_extension_id, inserted_modifier_id);
-      INSERT INTO profession_determinants (profession_id, determinants_id)
-      VALUES (profession_id_to_insert, inserted_extension_id);
+        INSERT INTO determinant (type, value)
+        VALUES (extension_type, 0)
+        RETURNING id
+            INTO inserted_extension_id;
+        INSERT INTO modifier (type, value)
+        VALUES ('PROFESSION', profession_extension_value)
+        RETURNING id
+            INTO inserted_modifier_id;
+        INSERT INTO determinant_modifiers (determinant_id, modifiers_id)
+        VALUES (inserted_extension_id, inserted_modifier_id);
+        INSERT INTO profession_determinants (profession_id, determinants_id)
+        VALUES (profession_id_to_insert, inserted_extension_id);
 
-  END IF;
+    END IF;
 
 END;
 
 $$
-LANGUAGE plpgsql;
+    LANGUAGE plpgsql;
 
 
-CREATE FUNCTION pg_temp.addProfession(
-  profession_name        VARCHAR(255),
-  profession_class_name  VARCHAR(255),
-  profession_skills_set  VARCHAR(255) [],
-  speed_extension        INT,
-  battle_extension       INT,
-  shooting_extension     INT,
-  strenght_extension     INT,
-  durability_extension   INT,
-  vitality_extension     INT,
-  initiative_extension   INT,
-  attack_extension       INT,
-  dexterity_extension    INT,
-  leadership_extension   INT,
-  intelligence_extension INT,
-  control_extension      INT,
-  will_extension         INT,
-  charisma_extension     INT,
-  profession_desc        text
-)
-  RETURNS VOID AS $$
+CREATE FUNCTION pg_temp.addProfession(profession_name VARCHAR(255),
+                                      profession_class_name VARCHAR(255),
+                                      profession_skills_set VARCHAR(255)[],
+                                      speed_extension INT,
+                                      battle_extension INT,
+                                      shooting_extension INT,
+                                      strenght_extension INT,
+                                      durability_extension INT,
+                                      vitality_extension INT,
+                                      initiative_extension INT,
+                                      attack_extension INT,
+                                      dexterity_extension INT,
+                                      leadership_extension INT,
+                                      intelligence_extension INT,
+                                      control_extension INT,
+                                      will_extension INT,
+                                      charisma_extension INT,
+                                      profession_desc text)
+    RETURNS VOID AS
+$$
 
 DECLARE
     inserted_profession_id BIGINT;
 
 BEGIN
     INSERT INTO profession (name, description, profession_class_id)
-    VALUES (profession_name, profession_desc,
-            (SELECT id FROM profession_class pc WHERE pc.name = profession_class_name)) RETURNING id
-               INTO inserted_profession_id;
+    VALUES (profession_name,
+            profession_desc,
+            (SELECT id FROM profession_class pc WHERE pc.name = profession_class_name))
+    RETURNING id
+        INTO inserted_profession_id;
 
     FOR i IN 1 .. array_upper(profession_skills_set, 1)
         LOOP
-            RAISE INFO 'adding skill %', profession_skills_set[i];
-
             INSERT INTO profession_skills (profession_id, skills_id)
-            VALUES (inserted_profession_id, (SELECT sk.id FROM skill sk WHERE sk.name = profession_skills_set[i]));
+            VALUES (inserted_profession_id,
+                    (SELECT sk.id FROM skill sk WHERE sk.name ILIKE profession_skills_set[i]));
         END LOOP;
 
     PERFORM pg_temp.addExtension('SPEED', speed_extension, inserted_profession_id);
@@ -86,137 +88,321 @@ BEGIN
     PERFORM pg_temp.addExtension('CHARISMA', charisma_extension, inserted_profession_id);
 
 END;
-$$
-LANGUAGE plpgsql;
+$$ LANGUAGE plpgsql;
+
+select schema_name
+from information_schema.schemata;
 
 SELECT pg_temp.addProfession('Aptekarz', 'Uczony', '{Chemia, Leczenie ran, Farmacja, Leczenie chorób, Odporność na trucizny, Warzenie trucizn}', 1, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 0, 0, '');
-SELECT pg_temp.addProfession('Banita', '', '{Ukrywanie się w mieście, Ukrywanie się na wsi, Silny Cios, Ogłuszenie, Wykrywanie pułapek, Zastawianie pułapek, Wspinaczka, Uniki, Rozbrajanie, Serketny język – bitewny, Serketny język – złodziei, Jeździectwo, Powożenie, Opieka nad zwierzętami, Sekretne znaki drwali, Celne strzelanie}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 0, 0, 10, 0, 0, '');
-SELECT pg_temp.addProfession('Bydłokrad', '', '{Powożenie, Cichy chód na wsi, Specjalna broń – lasso, Serketny język – rangerów, Opieka nad zwierzętami}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, '');
-SELECT pg_temp.addProfession('Cyrkowiec-Akrobata', '', '{Akrobatyka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Aktor', '', '{Aktorstwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Treser', '', '{Opieka nad zwierzętami, Tresura}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Bentlarz', '', '{Gadanina, Zwinne palce}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Eskapolog', '', '{Wyzwalanie sie z więzów}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Jasnowidz', '', '{Chiromancja}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Hipnotyzer', '', '{Hipnoza}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Parodysta', '', '{Naśladownictwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Trefniś', '', '{Szyderstwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Żongler', '', '{Żonglerka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Wierszokleta', '', '{Krasomówstwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Śpiewak', '', '{Śpiew}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Siłacz', '', '{Siłacz}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Linoskoczek', '', '{Akrobatyka, Wspinaczka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Trubadur', '', '{Muzykalność, Śpiew}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Brzuchomówca', '', '{Brzuchomówstwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Zapaśnik', '', '{Zapasy}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Miotacz noży', '', '{Specjalna broń – nóż rzucany}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Malarz uliczny', '', '{Sztuka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Cykrowiec-Połykacz ognia', '', '{Połykanie ognia}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
-SELECT pg_temp.addProfession('Uczeń czarodzieja', '', '{Komedianctwo, Błyskotliwość}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Banita', 'Wojownik', '{Ukrywanie się w mieście, Ukrywanie się na wsi, Silny Cios, Ogłuszenie, Wykrywanie pułapek, Zastawianie pułapek, Wspinaczka, Uniki, Rozbrajanie, Sekretny język – bitewny, Sekretny język – złodziei, Jeździectwo, Powożenie, Opieka nad zwierzętami, Sekretne znaki drwali, Celne strzelanie}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 0, 0, 10, 0, 0, '');
+SELECT pg_temp.addProfession('Bydłokrad', '', '{Powożenie, Cichy chód na wsi, Specjalna broń – lasso, Sekretny język – rangerów, Opieka nad zwierzętami}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Akrobata', '', '{Akrobatyka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Aktor', '', '{Aktorstwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Treser', '', '{Opieka nad zwierzętami, Tresura}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Bentlarz', '', '{Gadanina, Zwinne palce}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Eskapolog', '', '{Wyzwalanie sie z więzów}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Jasnowidz', '', '{Chiromancja}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Hipnotyzer', '', '{Hipnoza}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Parodysta', '', '{Naśladownictwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Trefniś', '', '{Szyderstwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Żongler', '', '{Żonglerka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Wierszokleta', '', '{Krasomówstwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Śpiewak', '', '{Śpiew}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Siłacz', '', '{Siłacz}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Linoskoczek', '', '{Akrobatyka, Wspinaczka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Trubadur', '', '{Muzykalność, Śpiew}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Brzuchomówca', '', '{Brzuchomówstwo}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Zapaśnik', '', '{Zapasy}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Miotacz noży', '', '{Specjalna broń – nóż rzucany}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Malarz uliczny', '', '{Sztuka}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Połykacz ognia', '', '{Połykanie ognia}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Cyrkowiec–Komik', '', '{Komedianctwo, Błyskotliwość}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 10, '');
 SELECT pg_temp.addProfession('Czeladnik', '', '{Powożenie, Bardzo silny, Bardzo wytrzymały}', 0, 0, 0, 0, 0, 1, 10, 0, 10, 0, 0, 10, 0, 0, '');
 SELECT pg_temp.addProfession('Druid', '', '{Opieka nad zwierzętami, Różdżkarstwo, Tropienie, Rozpoznawanie roślin, Sekretne znaki druidów}', 0, 10, 10, 0, 0, 1, 10, 0, 0, 0, 10, 10, 10, 0, '');
-SELECT pg_temp.addProfession('Drwal', '', '{Ukrywanie się na wsi, Cichy chód na wsi, Tropienie, Zastawianie pułapek, Rozpoznawanie roślin, Specjalna broń – dwuręczna, Serketny język – rangerów, Sekretne znaki drwali}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0, '');
-SELECT pg_temp.addProfession('Gajowy', '', '{Ukrywanie się na wsi, Cichy chód na wsi, Celne strzelanie, Zastawianie pułapek, Wykrywanie pułapek, Serketny język – rangerów, Serketny język – gajowych }', 0, 0, 20, 1, 0, 2, 0, 0, 0, 0, 0, 10, 0, 0, '');
+SELECT pg_temp.addProfession('Drwal', '', '{Ukrywanie się na wsi, Cichy chód na wsi, Tropienie, Zastawianie pułapek, Rozpoznawanie roślin, Specjalna broń – dwuręczna, Sekretny język – rangerów, Sekretne znaki drwali}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0, '');
+SELECT pg_temp.addProfession('Gajowy', '', '{Ukrywanie się na wsi, Cichy chód na wsi, Celne strzelanie, Zastawianie pułapek, Wykrywanie pułapek, Sekretny język – rangerów, Sekretny język – gajowych }', 0, 0, 20, 1, 0, 2, 0, 0, 0, 0, 0, 10, 0, 0, '');
 SELECT pg_temp.addProfession('Gawędziarz', '', '{Gadanina, Uwodzenie, Gawędziarstwo, Urok osobisty, Krasomówstwo, Błyskotliwość}', 0, 10, 0, 0, 0, 1, 0, 0, 0, 10, 10, 10, 0, 10, '');
-/*SELECT pg_temp.addProfession('Giermek', '', '', '{Rozbrajanie, Uniki, Silny Cios, Celny cios, Specjalna bron - korbacz, parujaca, dwureczna, uliczna, 50%-Bardzo silny, 50%-ardzo wytrzymały}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 10, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Gladiator', '', '', '{}', 0, 20, 0, 0, 1, 2, 10, 0, 10, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Goniec', '', '', '{}', 1, 20, 0, 1, 1, 1, 10, 0, 10, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Handlarz', '', '', '{}', 0, 10, 0, 0, 0, 1, 0, 0, 0, 0, 10, 0, 0, 10);
-SELECT pg_temp.addProfession('Hiena cmentarna', '', '', '{}', 0, 10, 0, 0, 0, 2, 10, 0, 10, 0, 0, 10, 10, 0);
-SELECT pg_temp.addProfession('Hipnotyzer', '', '', '{}', 0, 0, 0, 0, 0, 1, 10, 0, 10, 0, 10, 0, 0, 0);
-SELECT pg_temp.addProfession('Inżynier', '', '', '{}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Lowca nagrod', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Milicjant', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Minstrel', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 20, 10, 10, 0, 0, 10);
-SELECT pg_temp.addProfession('Mysliwy', '', '', '{Tropienie, Cichy chód na wsi, Ukrywanie sien a wsi, Lowiectwo, Serketny język – Rangerow, Sekr. Zn. Drwali, odpornosc na trucizny}', 0, 0, 20, 1, 0, 2, 10, 0, 0, 0, 0, 0, 10, 0);
-SELECT pg_temp.addProfession('Mytnik', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Najemnik', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 10, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Nowicjusz', '', '', '{}', 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 0, 10, 10, 10);
-SELECT pg_temp.addProfession('Ochroniarz', '', '', '{}', 0, 20, 0, 1, 0, 2, 10, 1, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Oprych', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Pasterz', '', '', '{}', 0, 0, 20, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Pilot', '', '', '{}', 0, 0, 0, 0, 0, 1, 10, 0, 10, 0, 0, 10, 0, 10);
-SELECT pg_temp.addProfession('Poborca podatkowy', '', '', '{}', 0, 10, 0, 0, 0, 2, 10, 0, 0, 0, 10, 10, 0, 0);
-SELECT pg_temp.addProfession('Podzegacz', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 10, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Poganiacz mulow', '', '', '{}', 0, 10, 0, 0, 0, 2, 0, 0, 0, 0, 10, 10, 0, 0);
-SELECT pg_temp.addProfession('Porywacz zwlok', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Poszukiwacz zlota', '', '', '{}', 0, 10, 10, 1, 1, 2, 0, 1, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Przemytnik', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Przepatrywacz', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 10, 10, 0, 0);
-SELECT pg_temp.addProfession('Przewoznik', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Rajfur', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Robotnik', '', '', '{}', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Rybak', '', '', '{}', 0, 0, 0, 1, 0, 1, 0, 0, 10, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Skryba', '', '', '{}', 0, 0, 0, 0, 0, 1, 10, 0, 0, 10, 0, 0, 10, 10);
-SELECT pg_temp.addProfession('Sluzacy', '', '', '{}', 0, 10, 0, 0, 0, 2, 10, 0, 0, 0, 0, 0, 10, 0);
-SELECT pg_temp.addProfession('Straznik drog', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 10, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Straznik miejski', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Straznik wiezienny', '', '', '{}', 0, 10, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 10, 0);
-SELECT pg_temp.addProfession('Szczurolap', '', '', '{}', 0, 10, 10, 0, 0, 1, 0, 0, 10, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Szlachcic', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 20, 0, 10, 0, 10);
-SELECT pg_temp.addProfession('Szuler', '', '', '{}', 0, 0, 10, 0, 0, 2, 10, 0, 10, 0, 10, 0, 0, 10);
-SELECT pg_temp.addProfession('Traper', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 0, 10, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Uczen alchemika', '', '', '{}', 0, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 0, 0);
-SELECT pg_temp.addProfession('Uczen czarodzieja', '', '', '{}', 0, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 10, 0);
-SELECT pg_temp.addProfession('Uczen medyka', '', '', '{}', 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 10, 10, 0, 0);
-SELECT pg_temp.addProfession('Wedrowny kramarz', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Wieszczek', '', '', '{}', 0, 0, 0, 0, 0, 1, 0, 0, 0, 10, 0, 10, 10, 10);
-SELECT pg_temp.addProfession('Wojownik podziemny', '', '', '{}', 0, 10, 0, 1, 1, 2, 10, 1, 0, 10, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Woznica', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Zabijaka', '', '', '{}', 0, 10, 0, 1, 0, 2, 10, 1, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Zabojca trolli', '', '', '{}', 0, 10, 10, 1, 0, 4, 10, 1, 10, 0, 0, 20, 0, 0);
-SELECT pg_temp.addProfession('Zlodziej', '', '', '{Cichy chód miasto/wieś, Ukrywanie się w mieście, Skeretny język - złodziei, sekretne znaki złodziei, szacowanie}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Złodziej-wlamywacz', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Złodziej-skrawkarz', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Zlodziej-malwersant', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Zlodziej-kieszonkowiec', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10);
-SELECT pg_temp.addProfession('Zielarz', '', '', '{}', 0, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 0, 0);
-SELECT pg_temp.addProfession('Zak', '', '', '{}', 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 10, 10, 0, 10);
-SELECT pg_temp.addProfession('Zebrak', '', '', '{}', 0, 10, 10, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Zeglarz', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 0, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Zolnierz', '', '', '{}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 10, 0, 0, 0, 0);
-SELECT pg_temp.addProfession('Zolnierz okretowy', '', '', '{}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 0, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Balistyk', '', '', '{Specjalna bron - katapulta, balista, Stolarstwo, Inzynieria}', 0, 10, 20, 1, 1, 2, 20, 0, 10, 10, 20, 10, 10, 0);
-SELECT pg_temp.addProfession('Bakalarz', '', '', '{Astronomia, Kartografia, Historia, Rozpoznawanie roślin, Uzdolnienia językowe, Wykrywanie magii, Numizmatyka, Wiedza o runach, Znajomosc j. obcego}', 0, 10, 10, 0, 0, 2, 30, 0, 10, 0, 30, 10, 30, 10);
-SELECT pg_temp.addProfession('Bombardier', '', '', '{Powożenie, Inzynieria, Bron specjalna: rusznica, bombarda, pistolet, bomby}', 0, 10, 20, 1, 1, 2, 20, 0, 10, 30, 10, 20, 10, 20);
-SELECT pg_temp.addProfession('Demagog', '', '', '{Gadanina, Krasomówstwo, Pamflety}', 0, 10, 10, 0, 1, 3, 20, 1, 0, 30, 10, 20, 20, 40);
-SELECT pg_temp.addProfession('Falszerz', '', '', '{Sztuka, Czytanie/pisanie, Sfragistyka}', 0, 20, 20, 1, 1, 3, 20, 1, 40, 10, 30, 30, 20, 20);
-SELECT pg_temp.addProfession('Handlarz niewolnikow', '', '', '{Powożenie, Jeździectwo, Znajomosc j. obcego, Ogluszajacy cios}', 0, 20, 20, 2, 0, 4, 20, 0, 0, 10, 0, 20, 10, 0);
-SELECT pg_temp.addProfession('Herszt banitow', '', '', '{Tropienie, Rozpoznawanie roślin, Sekretny jezy: bitewny, zlodziejski, Jeździectwo}', 0, 20, 30, 1, 3, 5, 20, 2, 10, 30, 10, 10, 0, 10);
-SELECT pg_temp.addProfession('Kapitan', '', '', '{Tresura, Szkutnictwo, Numizmatyka, Znaj. J. obc., Specjalna bron - rapier, Silny Cios}', 0, 30, 20, 1, 1, 6, 20, 2, 30, 30, 20, 30, 20, 30);
-SELECT pg_temp.addProfession('Kupiec', '', '', '{Szacowanie, Targowanie się, Wykrywanie magii, Numizmatyka, Czytanie/pisanie, Jeździectwo, Sekretny język - gildii, Znaj. J. obc., Geniusz arytmetyczny}', 0, 10, 10, 1, 1, 2, 20, 0, 10, 30, 30, 20, 20, 20);
-SELECT pg_temp.addProfession('Lowca czarownic', '', '', '{Celne strzelanie, Krasomówstwo, Cichy chód miasto/wies, Szosty zmysl, Bron specjalna: siec, lasso, pistolet strzalkowy, rzucana, Silny Cios}', 0, 30, 30, 1, 1, 6, 30, 2, 20, 20, 10, 10, 40, 10);
-SELECT pg_temp.addProfession('Medyk', '', '', '{Leczenie chorob i ran, Farmacja, Warzenie trucizn, Chirurgia}', 0, 0, 0, 1, 1, 3, 10, 0, 30, 20, 30, 20, 20, 10);
-SELECT pg_temp.addProfession('Nawigator', '', '', '{Astronomia, Kartografia, Orientacja}', 0, 10, 0, 1, 1, 3, 20, 0, 10, 20, 30, 10, 20, 10);
-SELECT pg_temp.addProfession('Odkrywca', '', '', '{}', 0, 20, 20, 1, 1, 6, 0, 1, 20, 20, 30, 20, 20, 20);
-SELECT pg_temp.addProfession('Oprawca', '', '', '{Leczenie ran, Bron specjalna - korbacz, Torturowanie}', 0, 10, 0, 2, 0, 4, 10, 0, 10, 10, 10, 10, 20, 0);
-SELECT pg_temp.addProfession('Paser', '', '', '{Szacowanie, Wykrywanie magii, Zwinne palce, Geniusz arytmetyczny}', 0, 20, 20, 1, 0, 4, 20, 1, 10, 10, 0, 10, 10, 10);
-SELECT pg_temp.addProfession('Podrabiacz monet', '', '', '{Sztuka - wykonywanie matryc monet, Metalurgia, Numizmatyka, Geniusz arytmetyczny}', 0, 20, 20, 1, 0, 3, 20, 0, 20, 10, 10, 10, 10, 10);
-SELECT pg_temp.addProfession('Prawnik', '', '', '{Etykieta, Prawo, Krasomówstwo, Czytanie/pisanie, Sekretny język: klasyczny, prawniczy}', 0, 0, 0, 0, 1, 2, 10, 0, 10, 30, 40, 30, 30, 10);
-SELECT pg_temp.addProfession('Reketer', '', '', '{Uniki, Specjalna bron: uliczna, zapalajaca, Bijatyka, Silny Cios}', 0, 20, 20, 1, 1, 3, 10, 1, 0, 10, 0, 10, 0, 0);
-SELECT pg_temp.addProfession('Rozbojnik', '', '', '{Opieka nad zwierzętami, Etykieta, Szacowanie, Celne strzelanie, Jeździectwo, Cichy chód miasto/wies, Bron specjalna: pistolet, rapier, Błyskotliwość, Woltyzerka}', 0, 20, 20, 1, 1, 2, 40, 1, 30, 0, 20, 20, 20, 30);
-SELECT pg_temp.addProfession('Rycerz najemny', '', '', '{Rozbrojenie, Uniki, Etykieta, Heraldyka, Jeździectwo, Sekretny język - bitewny, Specjalna bron: korbacz, kopia, parujaca, dwureczna, Silny Cios, Ogłuszenie, Silny Cios}', 0, 30, 0, 3, 1, 4, 20, 2, 0, 30, 10, 30, 0, 10);
-SELECT pg_temp.addProfession('Rycerz zakonny', '', '', '{Rozbrojenie, Czytanie/pisanie, Jeździectwo, Sekretny język - bitewny, Sekretne znaki - rycerzy zakonnych, Silny Cios, Ogłuszenie}', 0, 30, 30, 1, 2, 8, 30, 2, 20, 20, 20, 20, 20, 20);
-SELECT pg_temp.addProfession('Rzemieslnik', '', '', '{Metalurgia, Kowalstwo, Piwowarstwo, Stolarstwo, Sztuka, Chemia, Jubilerstwo, Szkutnictwo, Kamieniarstwo, Krawiectwo}', 0, 0, 0, 1, 1, 2, 20, 0, 20, 10, 0, 10, 10, 10);
-SELECT pg_temp.addProfession('Saper', '', '', '{Stolarstwo, Inzynieria, Bron specjalna: katapulta, bomby}', 0, 10, 10, 1, 1, 2, 0, 0, 10, 20, 10, 10, 0, 0);
-SELECT pg_temp.addProfession('Sierzant najemnikow', '', '', '{Mocna glowa, Hazard, Sekretny język - bitewny, Bijatyka, Silny Cios, Ogłuszenie}', 0, 20, 20, 1, 1, 4, 20, 1, 10, 10, 10, 10, 10, 10);
-SELECT pg_temp.addProfession('Kapitan najemnikow', '', '', '{Rozbrojenie, Uniki, Heraldyka, Jeździectwo, Bron specjalna: kopia, dwureczna, korbacz, parujaca, Celny cios}', 0, 30, 30, 2, 2, 6, 20, 2, 10, 40, 10, 30, 10, 20);
-SELECT pg_temp.addProfession('Strzelec', '', '', '{Celne strzelanie, Bron specjalna - dlugi luk}', 0, 0, 40, 1, 1, 4, 20, 1, 30, 10, 10, 30, 10, 20);
-SELECT pg_temp.addProfession('Szampierz', '', '', '{Uniki, Specjalna bron: rapier, uliczna, korbacz, lasso, siec, parujaca, dwureczna, Silny Cios}', 0, 40, 0, 1, 1, 6, 20, 2, 10, 0, 10, 10, 0, 0);
-SELECT pg_temp.addProfession('Szarlatan', '', '', '{Gadanina, Błyskotliwość, Szacowanie, Urok osobisty, Charakteryzacja, Zwinne palce, Uwodzenie, Naśladownictwo, Krasomówstwo}', 0, 10, 10, 0, 1, 4, 20, 0, 20, 20, 20, 20, 20, 30);
-SELECT pg_temp.addProfession('Szpieg', '', '', '{Aktorstwo, Przekupstwo, Ukrywanie się w miescie, kryptografia, Charakteryzacja, Ucieczka, Uzdolnienia językowe, Otwieranie zamkow, Zwinne palce, Czytanie/pisanie, Uwodzenie, Sledzenie, Cichy chód w miescie, Szosty zmysl, lyskotliwosc}', 0, 20, 20, 0, 1, 4, 20, 1, 20, 10, 20, 40, 0, 20);
-SELECT pg_temp.addProfession('Zabojca', '', '', '{Ukrywanie się miasto/wies, Charakteryzacja, Celny strzal, Warzenie trucizn, Wspinaczka, Sledzenie, Cichy chód miasto/wies, Specjalna bron: dmuchawka, uliczna, korbacz, lasso, bron parujaca, noz rzucany, dwureczna}', 0, 30, 30, 1, 1, 6, 30, 3, 30, 20, 20, 20, 20, 20);
-SELECT pg_temp.addProfession('Zabojca gigantow', '', '', '{Uniki, Sekretny język bitewny, Bron specjalna: korbacz, dwureczna, Silny Cios}', 0, 40, 0, 3, 3, 8, 20, 2, 10, 0, 0, 30, 0, 0);
-SELECT pg_temp.addProfession('Zwadzca', '', '', '{Rozbrojenie, Uniki, Etykieta, Celny strzal, Specjalna bron: rapier, pistolet, parujaca, Silny Cios, Celny cios, Ogłuszenie}', 0, 30, 30, 1, 3, 3, 20, 1, 0, 10, 30, 30, 20, 0);
-SELECT pg_temp.addProfession('Zwiadowca', '', '', '{Opieka nad zwierzętami, Ukrywanie się na wsi, Tropienie, Orientacja, Jeździectwo, Sekretny język - rangerów}', 0, 20, 20, 1, 1, 6, 20, 1, 10, 10, 10, 10, 10, 0);
-SELECT pg_temp.addProfession('Kaplan druidzki I', '', '', '{język tajemny - druidyczny, Leczenie ran, Zielarstwo, Medytacja, Jeździectwo, Wiedza druidyczna I}', 0, 0, 0, 0, 0, 2, 10, 0, 0, 0, 0, 10, 10, 10);
-SELECT pg_temp.addProfession('Kaplan druidzki II', '', '', '{}', 0, 10, 10, 1, 1, 3, 20, 0, 10, 10, 10, 10, 20, 10);
-SELECT pg_temp.addProfession('Kaplan druidzki III', '', '', '{}', 0, 10, 10, 1, 1, 4, 20, 0, 20, 20, 20, 20, 30, 20);
-SELECT pg_temp.addProfession('Kaplan druidzki IV', '', '', '{}', 0, 10, 10, 1, 1, 4, 30, 0, 30, 30, 30, 30, 30, 30);
-SELECT pg_temp.addProfession('Czarodziej I', '', '', '{Rzucanie czarów, Rozpoznawanie Roślin, Wykrywanie magii, Rozpoznawanie runów, Wiedza o pergaminach}', 0, 0, 0, 0, 0, 2, 10, 0, 0, 0, 10, 0, 0, 0);
-SELECT pg_temp.addProfession('Czarodziej II', '', '', '{Szacowanie, Zielarstwo, Wykrywanie istot magicznych, Medytacja}', 0, 10, 10, 1, 1, 3, 20, 0, 10, 10, 20, 10, 10, 0);
-SELECT pg_temp.addProfession('Czarodziej III', '', '', '{Wiedza o demonach, Rozpoznawanie magicznych przedmiotów, Rozpoznawanie ożywieńców, Warzenie trucizn}', 0, 10, 10, 1, 1, 4, 30, 0, 20, 20, 30, 20, 20, 0);
-SELECT pg_temp.addProfession('Czarodziej IV', '', '', '{Język tajemny - krasnoludzki lub elficki, Wytwarzanie eliksirów, Towrzenie magicznych pergaminów}', 0, 10, 10, 1, 1, 4, 40, 0, 30, 30, 30, 30, 30, 0);
-*/
+SELECT pg_temp.addProfession('Giermek', 'Wojownik', '{Rozbrajanie, Uniki, Silny Cios, celny cios, specjalna broń – korbacz, Specjalna broń – parująca, Specjalna broń – dwuręczna, Specjalna broń – uliczna, Bardzo silny, Bardzo wytrzymały}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 10, 0, 0, 0, 10, 'Giermkowie służą szlachcicom i rycerzom najemnym; dlatego też niektórzy ludzie skłonni są ich porównywać do zwykłych służących. Giermek musi zajmować się utrzymywaniem w gotowości konia, zbroi i całego ekwipunku wojownika. Wielu nieutytułowanych szlachciców (młodszych synów drobnej szlachty) służy za giermków, a ta służba jest zarazem częścią ich ćwiczeń; chociaż ów okres "terminowania" bywa niekiedy bardzo krótki, ponieważ niektórzy z nich szybko zdobywają uznanie jakiegoś znaczniejszego szlachcica.');
+SELECT pg_temp.addProfession('Gladiator', 'Wojownik', '{rozbrajanie, uniki, silny cios, celny cios, specjalna broń – korbacz, specjalna broń – parująca, specjalna broń – dwuręczna, specjalna broń – uliczna, bardzo silny, bardzo wytrzymały}', 0, 20, 0, 0, 1, 2, 10, 0, 10, 0, 0, 10, 0, 0, 'W wielu częściach Starego Świata oglądanie walk na śmierć i życie jest nadal rozrywką bardzo popularną. Najpowszechniejszą zaś formą takiego pojedynku jest walka dwóch skazańców lub jeńców wojennych w zamkniętym ringu albo w dole. Boje te są wyjątkowo krwawe i brutalne, gdyż gladiator, który zwycięża w kilku pojedynkach, nabywa wysokich umiejętności bojowych, a w sprzyjających warunkach zdobywa także pieniądze, pozwalające wykupić się z niewoli. W poprzednich dziesięcioleciach modne było używanie półorków w charakterze gladiatorów, ale okazali się oni zbyt niebezpieczni, by można ich było trzymać w pobliżu siedzib ludzkich. Obecnie gladiatorami najczęściej są ludzie. Coraz częściej pojawiają się także specjalnie szkoleni gladiatorzy, wykonujący ten zawód dla pieniędzy i sportu, przy czym nie są oni skazańcami. Ta rozrywka przyciąga liczną publiczność i sporo pieniędzy zmienia właścicieli w wyniku poczynionych zakładów. Ci nieliczni, zahartowania gladiatorzy, którzy przeżyją dostatecznie długo, by się wykupić, kończą zazwyczaj jako banici, łowcy nagród albo poszukiwacze przygód, gdyż w tych profesjach, dzięki swej umiejętności walki oraz odwadze mają szansę odnieść największy sukces.');
+SELECT pg_temp.addProfession('Goniec', 'Ranger', '{bardzo szybki, ucieczka, wyczucie kierunku, wykrywanie pułapek, cichy chód w mieście, szósty zmysł, tropienie}', 1, 20, 0, 1, 1, 1, 10, 0, 10, 0, 0, 10, 0, 0, 'Podziemne miasta krasnoludzkie w Górach Krańca Świata są połączone ze sobą kilometrami tuneli. Pomiędzy siedzibami krasnoludów kursują gońcy – specjalnie wyszkoleni młodzi krasnoludowie, którzy ryzykując zdrowiem i życiem przenoszą wiadomości z jednego miasta do drugiego. W ciągu ostatnich stuleci, wraz z upadkiem coraz większej liczby krasnoludzkich miast, zagarniętych przez gobliny, życie gońców stało się znacznie bardziej ryzykowne. Muszą krążyć, nakładać drogi, a i nawet wtedy są narażeni na niebezpieczeństwo, jeśli gobliny odkryją ich tunele. Często gońcy muszą więc opuszczać swe podziemne przejścia i przemierzać otwartą przestrzeń. Uwaga: Tylko krasnolud może zostać gońcem.');
+SELECT pg_temp.addProfession('Handlarz', 'Uczony', '{szacowanie, targowanie się, monetoznawstwo, prawo, gadanina}', 0, 10, 0, 0, 0, 1, 0, 0, 0, 0, 10, 0, 0, 10, 'W miastach i miasteczkach mieszka wystarczająca liczba ludzi, aby handlarze mogli zakładać małe sklepy lub ustawiać stragany na placach targowych. Tak więc zamiast prowadzić życie wędrownego kramarza, czekają, aż klienci przyjdą do nich. Niektórzy z handlarzy stają się całkiem bogatymi osobami, posiadającymi więcej niż jeden sklep i status społeczny odpowiadający pozycji drobnych kupców. Życie handlarza płynie powoli, ożywiane jest jedynie przez okazjonalne kradzieże lub wizyty reketerów. Znane są wypadki, że handlarze, tęskniąc do dramatycznych przeżyć lub szybkich i dużych zysków przeistaczają się w poszukiwaczy przygód. Przedmioty: kaftan skórzany, 2K6 złotych koron.');
+SELECT pg_temp.addProfession('Hiena cmentarna', 'Łotr', '{cichy chód na wsi, wykrywanie pułapek, cichy chód w mieście, ukrywanie się na wsi, ukrywanie się w mieście, Sekretne znaki złodziei, sekretny język – złodziei, szacowanie}', 0, 10, 0, 0, 0, 2, 10, 0, 10, 0, 0, 10, 10, 0, 'Hiena cmentarna różni się od porywacza zwłok tym, że interesuje się raczej bogactwami, które mogły zostać pogrzebane razem ze zwłokami niż samym ciałem. Chociaż obecnie tylko na nielicznych pogrzebach w Starym Świecie chowa się cenne przedmioty, sporo jest starych cmentarzy, które mogą kryć skarby, a specjalnością hien jest odnajdowanie i ograbianie tych miejsc. Największe skarby znajdują się ponoć w legendarnych grobowcach Arabii; ale także w Starym Świecie jest wiele takich miejsc, choć nie tak samo znanych. Nekropolie zwykle są szanowane i chronione przez okolicznych mieszkańców, dlatego hiena cmentarna musi działać w sekrecie albo pod osłoną ciemności. Powszechnie wiadomo, że w grobowcach bogaczy znajdują się liczne pułapki i inne urządzenia, mające przeszkodzić hienom. Rabusie, którzy chcą cieszyć się długim i udanym życiem, muszą się nauczyć je lokalizować i rozbrajać. Tylko nielicznym udaje się wystarczająco długo przeżyć. Przedmioty: łom, broń ręczna, lina – 10 metrów, K4 worki, latarnia, kurtka skórzana.');
+SELECT pg_temp.addProfession('Hipnotyzer', 'Uczony', '{hipnoza, wykrywanie istot magicznych}', 0, 0, 0, 0, 0, 1, 10, 0, 10, 0, 10, 0, 0, 0, 'W Starym Świecie siła hipnozy jest używana zarówno w lecznictwie, jak i w celach rozrywkowych (zob. Cyrkowiec). Hipnotyzerzy, z wyjątkiem kilku szarlatanów, nie starają się zrozumieć tajemnic mózgu, ale mają dar kojenia pewnych jego dolegliwości. Wzywa się ich do leczenia bólów nerwowych, alkoholizmu i innych form uzależnienia od pewnych specyfików, a nawet do leczenia niektórych form obłędu. Przedmioty: srebrna kulka na łańcuszku.');
+SELECT pg_temp.addProfession('Inżynier', 'Uczony', '{stolarstwo, powożenie, inżynieria, Czytanie/pisanie, sekretne znaki krasnoludzkiej gildii inżynierów, zastawianie pułapek, kowalstwo, wykrywanie pułapek, metalurgia}', 0, 10, 10, 0, 0, 2, 0, 0, 10, 0, 0, 0, 0, 0, 'Krasnoludzcy inżynierowie są wielce pożądanymi osobami w prawie wszystkich częściach Starego Świata, ponieważ tylko oni potrafią budować zadziwiające w tych czasach mechaniczne urządzenia. Krasnoludzka gildia inżynierów jest potężnym, a zarazem bardzo tajemniczym zgromadzeniem. Jego prawa, struktura, dziwne, a czasami nawet wywołujące niesmak rytuały mają wielowiekową tradycję. Gildia żywi głęboką nieufność do innowacji i inwencji; jeśli warto było coś wymyślić – twierdzą członkowie tego bractwa – to gildia wypróbowała to już wieki temu. Z tego więc powodu, a także z racji ciągłej kontroli, roztaczanej przez gildię nad jej członkami, zdarza się, że obdarzeni wyobraźnią i inwencją młodzi krasnoludowie zostają z gildii wykluczeni lub opuszczają ją sami. Szukają później zatrudnienia i patronatu poza szeregami bractwa. Z historycznych powodów nazywa się ich "wyrzutkami", chociaż powiedzenie im tego prosto w oczy nie należy do rzeczy mądrych. Pracują oni dla wielu bogatych protektorów w Starym Świecie i gildię coraz bardziej niepokoi stałe podkopywanie jej pozycji i autorytetu. Rzadko się zdarza, by członkowie gildii oraz wyrzutkowie odnosili się do siebie inaczej, niż z wrogością. Przedmioty: ręczna broń, kurtka skórzana, torba na narzędzia, K4 młotków, K6x10 gwoździ, K4 dłuta, szczypce, gruby drut (10 metrów), piła, pilnik, K6 stalowych kołków, topór, kilof, pierścień z ukrytym symbolem gildii (jeśli nie jest wyrzutkiem). Uwaga: jak napisano w Umiejętnościach obowiązkowych, wszyscy krasnoludowie posiadają niejako z definicji umiejętność górnictwo. U inżynierów ta umiejętność jest podniesiona na jeszcze wyższy poziom – do wszystkich testów konstrukcji mają dodatni modyfikator +20%; taki sam modyfikator posiadają do testów szukania, używanych w celu odnalezienia pod ziemią zamaskowanych drzwi.');
+SELECT pg_temp.addProfession('Łowca nagród', 'Ranger', '{tropienie, śledzenie, cichy chód na wsi, cichy chód w mieście, specjalna broń – lasso, specjalna broń – sieć, silny cios, celne strzelanie}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0, 'Łowcy nagród żyją z tropienia poszukiwanych przestępców, bandytów i doprowadzania ich przed oblicze sprawiedliwości. Generalnie biorąc, wszyscy – oczywiście poza kryminalistami – uważają, że ta profesja spełnia pożyteczną funkcję w strukturze cywilizacyjnej Starego Świata. Nagrody mogą być wyznaczane przez lokalne władze, gildie lub miejskie rady i oferowane za zlikwidowanie szajki przestępców, wytępienie bandy goblinów czy innych, sprawiających kłopoty stworów. Czasami całe rasy albo klany zostają wyjęte spod prawa i na ich głowy zostaje wyznaczona nagroda – wtedy zamieszkałe przez nich ziemie ściągają wszystkich łowców z okolicy. Łowcy nagród muszą być nie tylko wprawni w walce, ale również posiadać umiejętność skutecznego śledzenia ofiary. Są profesjonalnymi zabójcami, którzy, chcąc osiągnąć cel, bez wahania uciekają się do środków, powszechnie uważanych za brutalne i barbarzyńskie. Zwykle są to natury szorstkie i cyniczne. Żyją w samotności, nie ufając nikomu i szukając towarzystwa tylko wtedy, gdy jest im to potrzebne do osiągnięcia założonego celu. Niższe, biedne warstwy społeczności odnoszą się do nich ze strachem i nieufnością, gdyż znane są przypadki, gdy łowcy nagród rekompensowali sobie na wieśniakach niepowodzenie w łowach na upatrzoną ofiarę. Czynniki oficjalne natomiast traktują ich jak zło, które jest konieczne, ale nigdy pożądane i mile widziane.');
+SELECT pg_temp.addProfession('Milicjant', 'Wojownik', '{uniki, silny cios, powożenie, opieka nad zwierzętami, jeździectwo}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 0, 0, 0, 0, 0, 'W całym Starym Świecie armie są tak zorganizowane, że składają się z trzech części. Szlachta tworzy elitę ochotniczych sił; najemnicy są wynajmowani z powodu swych profesjonalnych umiejętności; a milicjanci wykonują wszystkie ciężkie i niewdzięczne zadania. Milicje są to czasowe, lokalne siły obronne, formowane z wieśniaków (mieszkańcy miast bardzo rzadko są powoływani do służby, chociaż mogą być członkami straży miejskiej, która w chwilach zagrożenia przekształca się w formację wojskową). Przedstawiciele wszystkich ogniw lokalnej władzy są upoważnieni do wezwania zdolnych do służby mężczyzn i kobiet i sformowania z nich oddziałów milicji. Milicjanci muszą co roku spędzić określoną ilość czasu – zwykle siedem dni – trenując razem na wspólnej ziemi (te ćwiczenia dają im pewne podstawowe umiejętności). Dowódcami tych jednostek są przywódcy cywilni lub emerytowani wojskowi. Wyposażenie kupują i utrzymują w gotowości do użycia lokalne władze, dlatego jego jakość jest różna i zależy od tego, skąd pochodzi dany oddział milicji. Niektóre oddziały są wyekwipowane prawie jak najemnicy, podczas gdy inne mogą być uzbrojone jak zwykli chłopi.');
+SELECT pg_temp.addProfession('Minstrel', 'Łotr', '{urok osobisty, etykieta, muzykalność, krasomówstwo, śpiew}', 0, 10, 10, 0, 0, 2, 10, 0, 20, 10, 10, 0, 0, 10, 'Minstrel to tradycyjna nazwa nadawana wykonawcom pieśni i ballad, którzy podróżują po Starym Świecie i żyją tylko ze swej sztuki. Jednak słowo to ma także bardziej precyzyjne znaczenie. Wielu ludzi uważa, że szczególny śpiewaczy talent, jaki mają elfy, czyni z nich idealnych bardów i dlatego nazywa się ich minstrelami, w odróżnieniu od ich zwykłych ludzkich kolegów. Znacznie później, dzięki temu, że na dworach szlachty w charakterze minstreli zaczęto zatrudniać wszelkich śpiewaków ludzkich, rozróżnienie to zaczęło zanikać. Minstrelom zapewnia się nocleg, jedzenie i pieniądze, jednak w zamian oczekuje się od nich, że będą układać pieśni, jakich życzy sobie ich patron (niektórzy z nich twierdzą jednak, że opiewanie w kolejnej odzie piękności małżonki swego protektora, znanej skądinąd ze swej mocno przeciętnej urody, kłóci się z ich wolnością artystyczną). Chociaż trudno nazwać takie życie ciężkim, to jednak wielu minstreli zmuszonych jest do włóczęgi, a to ze względu na pewne wydarzenia towarzyskie, które w rezultacie ich obecności zaszły w rodzinie gospodarza. Minstrele-elfy wolą nawet prowadzić takie życie, gdyż z powodu swego temperamentu nie lubią pracować dla ludzi, a poza tym utrzymują, że ludzie nie są zdolni do właściwej oceny ich sztuki. Tylko elfy mogą mieć podstawową profesję minstrela, członkowie innych ras mogą się nimi stać dopiero po skompletowaniu profesji trubadura (zob. Cyrkowiec- Trubadur). Przedmioty: lutnia lub mandolina, nuty, kolorowe ubranie.');
+SELECT pg_temp.addProfession('Myśliwy', 'Ranger', '{Tropienie, Cichy chód na wsi, Ukrywanie się na wsi, łowiectwo, Sekretny język – Rangerów, Sekretne Znaki Drwali, odporność na trucizny}', 0, 0, 20, 1, 0, 2, 10, 0, 0, 0, 0, 0, 10, 0, 'Łowiectwo jest jedną z najstarszych profesji w historii Starego Świata. Każdy z myśliwych potrafi tropić zwierzęta z niezwykłą wytrwałością i jest mistrzem w ich zabijaniu. Zwyczaje i środowisko dzikich zwierząt to również nieodrodne elementy życia myśliwych; każdy z nich posiada wielką wiedzę na temat stworzeń, żyjących w dziczy, ich odmian i reakcji. Osobom z zewnątrz myśliwy może się wydawać ponury i niekomunikatywny – jest to rezultat jego samotniczego trybu życia i zawodowych nawyków – być cichym, poruszać się bezszelestnie. Myśliwi trzymają się z dala od większych skupisk ludzkich i często ubierają się w skóry zwierząt, które zabili. W krajach o zimnym klimacie obyczaj ten ma nie tylko symboliczne, ale i praktyczne znaczenie.');
+SELECT pg_temp.addProfession('Mytnik', 'Ranger', '{szacowanie, targowanie się}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, 'Rogatki na drogach Starego Świata są obsadzone i utrzymywane w gotowości przez mytników, którzy mieszkają w domach obok dróg. System rogatek pomyślany został jako metoda dostarczania pieniędzy na utrzymanie traktów oraz na opłacenie pensji strażników dróg. Tymczasem rogatki stają się często sceną gwałtownej przemocy, napadów i morderstw, gdyż banici nierzadko grabią mytników. Równie często sami użytkownicy dróg, którzy w większości nie akceptują takiego sposobu i formy opodatkowania, decydują się zabić mytnika oraz zniszczyć rogatkę. Mytnik musi znieść wrogość każdego, kto mija jego dom albo poszukać innej pracy, wzbudzającej mniejszą niechęć. Mytników, którzy żyją nad rzekami i zbierają opłaty za użytkowanie śluz wodnych, nazywa się dozorcami śluz.');
+SELECT pg_temp.addProfession('Najemnik', 'Wojownik', '{rozbrajanie, uniki, sekretny język – bitewny, silny cios, ogłuszenie, powożenie, opieka nad zwierzętami, jeździectwo}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 10, 0, 10, 0, 0, 'Najemnik walczy dla pieniędzy, łupów wojennych i z żądzy krwi. Wszyscy najemnicy marzą o niewyobrażalnych bogactwach, ale większości z nich sądzona jest wczesna śmierć i bezimienny grób. Podróżują po Starym Świecie, od jednej wojny do drugiej – zawsze znajdzie się ktoś, kto wynajmie ich miecze, aby rozwiązać swe kłopoty. Bogaci szlachcice, kupcy i inni korzystają z usług najemników, by szybko i korzystnie dla siebie zakończyć jakieś zatargi. W królestwach Starego Świata liczba konfliktów jest tak wielka, że nawet tysiące najemników łatwo mogą znaleźć pracę. Jednak co mądrzejsi z nich wiedzą, że wynajęty żołnierz nie ma szans na zdobycie bogactwa, więc zwracają się ku przygodom – bądź to dla odmiany egzystencji, bądź to w poszukiwaniu szybkich zysków.');
+SELECT pg_temp.addProfession('Nowicjusz', 'Uczony', '{Czytanie/pisanie, wiedza o magicznych pergaminach, sekretny język – klasyczny, teologia}', 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 0, 10, 10, 10, 'Religia w uczuciach wielu mieszkańców Starego Świata spadła na drugie miejsce po pieniądzach, ale wciąż jeszcze znajduje się dużo młodych ludzi obojga płci, którzy pragną zostać kapłanami. Profesja kapłańska wymaga od swych członków dużego samozaparcia i poświęcenia. Wszyscy, którzy chcą zostać kapłanami, rozpoczynają jako nowicjusze. Muszą przejść przez surowe ćwiczenia, aby zostać pełnoprawnymi kapłanami i przed ich ukończeniem nie mają prawa wygłaszania kazań ani pełnienia posług. Czas spędzają na studiowaniu świętych pism swojej religii, a także na pracy w charakterze służących i asystentów starszych kapłanów. Okres spędzany w nowicjacie często traktuje się jako test duchowej siły i sprawdzian przydatności kandydata do stanu duchownego. Więcej szczegółów można znaleźć w rozdziale Religia i wierzenia. Przedmioty: szaty kapłańskie, symbol religijny (patrz Religia i wierzenia).');
+SELECT pg_temp.addProfession('Ochroniarz', 'Wojownik', '{rozbrajanie, specjalna broń – uliczna, bijatyka, silny cios, ogłuszenie, bardzo silny}', 0, 20, 0, 1, 0, 2, 10, 1, 0, 0, 0, 0, 0, 0, 'Stary Świat to niebezpieczne miejsce, szczególnie dla osób, które mają zwyczaj mówienia tego, co myślą, osobowości niepospolitych, obywateli potężnych lub wyraźnie bogatych. Ponieważ tego typu persony nie są rzadkością, nie można się dziwić, że powstała klasa zawodowych strażników, których głównym zadaniem jest ochrona tyłków ich szanownych chlebodawców przed nieprzyjemnymi niespodziankami. Kupcy i osoby pochodzenia szlacheckiego niemal zawsze mają na swym utrzymaniu grupę ochroniarzy do obrony przed bliźnimi, którzy źle im życzą czy też trzymania na dystans żebraków, włóczęgów i innego tałatajstwa. Ochroniarze różnią się stopniem wyszkolenia – od nieudolnie udających wprawę łobuzów, do weteranów, tworzących coś w rodzaju prywatnej armii. Jednak zdecydowana ich większość to po prostu drobne opryszki, którzy cieszą się z tego, że płaci się im za bicie spokojnych obywateli.');
+SELECT pg_temp.addProfession('Oprych', 'Łotr', '{cichy chód w mieście, cichy chód na wsi, ogłuszenie}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, 'Opryszki i bandziory grasują w miastach i na drogach. Działają w grupach, napadają na podróżnych i bezbronnych przechodniów. Unikają rozlewu krwi, chyba, że nie ma innego wyjścia, a wtedy walczą z dziką determinacją. Atakują głównie z zaskoczenia, mając przewagę przynajmniej dwóch na jednego. Większość z nich stara się tylko obezwładnić ofiarę, ogłuszając ją ciosem w głowę, ale ci, którzy są nazywani bandytami wolą napadniętych zabijać. Przedmioty: łuk lub kusza wraz z amunicją, pałka, kaptur lub maska, Kurtka skórzana, 25% szans na tarczę.');
+SELECT pg_temp.addProfession('Pasterz', 'Ranger', '{opieka nad zwierzętami, posłuch u zwierząt, muzykalność, specjalna broń – proca, zielarstwo, bardzo wytrzymały, tresura}', 0, 0, 20, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 0, 'Pasterze są samotnikami, spędzającymi większość czasu z dala od innych na doglądaniu zwierząt domowych, przepędzaniu ich z pastwiska na pastwisko i tym podobnych, dość monotonnych, prawdę mówiąc, zajęciach. Niewątpliwie jednak nauczyli się dbać o siebie, gdyż zmuszeni są do obrony swych zwierząt przed drapieżnikami i bandami złodziei lub bydłokradów. Pasterze mają naturalną zdolność opieki nad wszystkimi zwierzętami, nawet jeśli dorastali, strzegąc tylko niektórych gatunków.');
+SELECT pg_temp.addProfession('Pilot', 'Ranger', '{wyczucie kierunku, pływanie, wiosłowanie, żeglowanie, mocna głowa}', 0, 0, 0, 0, 0, 1, 10, 0, 10, 0, 0, 10, 0, 10, 'Jedną z najważniejszych postaci na wybrzeżach Starego Świata jest pilot. Jego zadaniem jest przeprowadzanie dużych statków i okrętów przez niebezpieczne wody przybrzeżne i wprowadzanie ich do portu. Jest to osoba, której ludzie morza najbardziej ufają. Większość pilotów mieszka na brzegu, najczęściej w pobliżu portu, pracując w porozumieniu z przełożonym przystani i z kapitanami lub właścicielami statków, które chcą do niej zawinąć. Piloci są niezbędni przy wprowadzaniu statków do portu, ponieważ żadna załoga nie posiada wystarczających informacji na temat lokalnych pływów, ławic piaskowych i ukrytych, podwodnych skał. Sam fakt, że cieszą się takim zaufaniem, powoduje, że niektórzy obierają drogę przestępstwa, a inni padają ofiarą oszustw. Wielu pilotów zostało obwinionych o zatopienie statków w czasie wchodzenia do przystani, gdyż właściciel utrzymywał, że z winy pilota statek uderzył o podwodną skałę. Jedynym wyjściem, jakie pozostaje tak oskarżonym pilotom jest wyruszenie w świat, przy czym wielu z nich wkracza na drogę przestępstwa.');
+SELECT pg_temp.addProfession('Poborca podatkowy', 'Uczony', '{gadanina, monetoznawstwo, Czytanie/pisanie, geniusz arytmetyczny, prawo, defraudacja}', 0, 10, 0, 0, 0, 2, 10, 0, 0, 0, 10, 10, 0, 0, 'Poborcy podatkowi są prawdopodobnie najmniej popularnymi obywatelami Starego Świata. Nieważne, jak łaskawy jest rząd ani jak wiele podejmie ważnych działań dla dobra publicznego – pozostaje faktem, że nikt nie lubi płacić podatków. Wskutek tego na osobach, parających się tym zawodem skupia się cała niechęć podatników. Niemniej jednak instytucja poborcy jest niezwykle potrzebną dziedziną służb publicznych i nie może się bez niej obejść żadna władza. Poborcy podatkowi mają jednak niewielką satysfakcję ze swojej pracy i rzadko są dobrze opłacani. Oznacza to, że niektórzy są skorumpowani, a inni w nadziei na awans popadają w nadmierną gorliwość. Przedmioty: kurtka skórzana, broń ręczna, przybory piśmiennicze, liczydło, K6 złotych koron.');
+SELECT pg_temp.addProfession('Podżegacz', 'Łotr', '{krasomówstwo, Czytanie/pisanie}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 10, 0, 0, 0, 10, 'Podżegacze są aktywnymi stronnikami różnego typu interesów. Mogą to być sprawy dosłownie każdego rodzaju – od praw zwykłych ludzi (elfów, halflingów, krasnoludów) do stanu miejskiej kanalizacji. Niestrudzenie walczą o poparcie, przemawiają na spotkaniach i wiecach, rozprowadzają ulotki i są gotowi rozmawiać z każdym, kto będzie chciał ich słuchać. Największą satysfakcją dla podżegacza jest obserwowanie władzy, zmuszonej presją opinii publicznej do działania. Niektórzy naprawdę działają z troski o dobro publiczne, ale przeważająca część dba po prostu o własny interes – zwycięzca w jakiejś politycznej, czy jakiejkolwiek innej dyspucie zwykle hojnie nagradza tych, którzy mu lojalnie służyli. Często działanie podżegaczy niezbyt służy interesom lokalnych społeczności, lecz jeszcze częściej ich starania przynoszą wiele dobra. Fakt, że i w tego typu działalności wykształcili się zawodowcy, wskazuje jak bardzo skomplikowany jest Stary Świat. Przedmioty: broń ręczna, kurtka skórzana, 2K10 ulotek dotyczących różnych spraw.');
+SELECT pg_temp.addProfession('Poganiacz mułów', 'Ranger', '{opieka nad zwierzętami, specjalna broń – bicz, powożenie, tresura}', 0, 10, 0, 0, 0, 2, 0, 0, 0, 0, 10, 10, 0, 0, 'Najbardziej rozpowszechnionym sposobem transportu lądowego w Starym Świecie są karawany mułów bądź wozów. Praca poganiaczy polega na doglądaniu zwierząt (czy to mułów, czy wołów, czy jeszcze innych), dbaniu o ich zdrowie i zapewnianiu właściwego ich współdziałania. Ponieważ wszyscy, którzy podróżują z karawaną muszą potrafić zadbać o całość własnej skóry, poganiacze, podobnie jak woźnice, wyręczają często wynajętych strażników, przejmując część ich obowiązków.');
+SELECT pg_temp.addProfession('Porywacz zwłok', 'Łotr', '{cichy chód na wsi, cichy chód w mieście, wykrywanie pułapek}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0, 'Osoby, parające się medycyną i magią są stałymi i chętnymi odbiorcami świeżych ciał, a trudności, z jakimi związane jest zaspokajanie owego popytu powodują, że niewielu nabywców zastanawia się głęboko nad pochodzeniem oferowanych im zwłok. Porywacze zwłok zarabiają na życie, handlując tym dziwnym towarem i często ustalając nań naprawdę wysokie ceny. Praktyka kradzieży z grobu świeżych zwłok budzi powszechną zgrozę, dlatego bogate rodziny inwestują w swe grobowce duże sumy, starając się tak je wybudować, żeby zniechęcały ewentualnych porywaczy. Biedni, jak zwykle, nie mogą sobie pozwolić na taki luksus, dlatego częstym celem wypraw porywaczy zwłok są zbiorowe mogiły w częściach cmentarzy, przeznaczonych dla żebraków. Przedmioty: czarny płaszcz, broń ręczna, latarnia, duży worek, szpadel.');
+SELECT pg_temp.addProfession('Poszukiwacz złota', 'Ranger', '{metalurgia, stolarstwo, opieka nad zwierzętami, wyczucie kierunku, wiedza o rzekach, rybactwo, łowiectwo, szczęście, kartografia}', 0, 10, 10, 1, 1, 2, 0, 1, 0, 0, 0, 10, 0, 0, 'Z dala od zwykłych szlaków handlowych, miast i farm, można spotkać poszukiwaczy złota, przepłukujących piasek w rzece i przeszukujących łożyska strumieni w poszukiwaniu wypłukanego z gór kruszcu. Większość złotonośnych pól na zamieszkałych terenach została już wyczerpana, dlatego poszukiwacze spędzają najwięcej czasu w odległych i niebezpiecznych górach oraz innych, dzikich krainach. Liczą na to, że znajdą dużą żyłę i uda im się ją utrzymać w swym posiadaniu, albo że zdążą wybrać całe złoto, zanim zrobią to inni. Jednak tylko nielicznym udaje się zachować swe znalezisko w tajemnicy, nawet jeżeli rzeczywiście może ono uczynić ich bogatymi. Wieść o odkryciu złota rozchodzi się błyskawicznie i wokół takiego miejsca w ciągu jednej nocy może powstać miasto – równie szybko opuszczane, gdy tylko żyła zostanie wyczerpana. Gorączka złota jest jednym z niewielu powodów, jakie są w stanie wyciągnąć na powierzchnię ziemi krasnoludy; krasnoludzcy poszukiwacze złota są wiec powszechnie spotykani na złotonośnych obszarach. Przedmioty: kilof, łopata, jednoosobowy namiot, miska (do płukania), worek na plecy, 25% szans na muła.');
+SELECT pg_temp.addProfession('Przemytnik', 'Łotr', '{cichy chód na wsi, cichy chód w mieście, wiosłowanie, powożenie, mocna głowa, sekretny język – złodziei, Znajomość dodatkowego języka}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 0, 0, 10, 'Większość lądowego i morskiego handlu w Starym Świecie podlega opłatom i podatkom. Kraje, miasta, lokalni władcy nakładają podatki i cła na przewożone towary; robi to każdy, kto ma ku temu okazję. Na niektóre ważne porty nakładane są obowiązki takiej czy innej opłaty za prawie wszystko, co do nich wpływa lub z nich wypływa. Toteż sporo sprytnych ludzi ima się przemytu, aby te nakazy obejść i uniknąć owych wydatków. Dla wielu przemyt staje się zawodem, a w oddalonych od siedzib władzy przybrzeżnych wioskach ludność zajmuje się kontrabandą całkiem otwarcie. Przemytnicy są często bardzo szanowanymi osobami, które dzięki temu procederowi powiększają swoje majątki. Tak wielu jest przemytników-amatorów, że profesjonalistów postrzega się bardziej jako zdolnych kupców niż kryminalistów. Przedmioty: koń i wóz, broń ręczna, kurtka skórzana, łódź wiosłowa (zakotwiczona lub ukryta na najbliższym akwenie wodnym).');
+SELECT pg_temp.addProfession('Przepatrywacz', 'Ranger', '{jeździectwo, tropienie, cichy chód na wsi, opieka nad zwierzętami, wyczucie kierunku, specjalna broń – lasso, sekretne znaki drwali, sekretne znaki zwiadowcy}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 10, 10, 0, 0, 'Przepatrywacze są ludźmi doświadczonymi w walce, toteż bywają zatrudniani w celu przeszukiwania terenu z przodu i z boków podróżujących grup i oddziałów wojsk, wypatrywania napastników i wykrywania innych niebezpieczeństw. Ich umiejętności wypływają najczęściej z doskonałej znajomości terenu, po którym się poruszają. Ich zadaniem jest działanie bardziej lub mniej niezależne od grupy czy oddziału, który chronią i dlatego muszą wiedzieć, jak zadbać o siebie, jak dać sobie radę w okolicy, w której się znajdą. Czasami podejmują się dalekich patroli wzdłuż niebezpiecznych granic, działając w ten sam sposób jak zwiadowcy, czyli zbierając informacje o ruchach wojsk, możliwych niebezpieczeństwach i innych zagrożeniach. Przedmioty: tarcza, koszulka kolcza, łuk albo kusza wraz z amunicją, sznur – 10 metrów, koń, siodło i uprząż.');
+SELECT pg_temp.addProfession('Przewoźnik', 'Ranger', '{rybactwo, wiosłowanie, wyczucie kierunku, wiedza o rzekach, bardzo silny, mocna głowa, szkutnictwo}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0, 'W Starym Świecie wiele osiedli leży nad brzegami wód, a przecinające kraj drogi wodne są tak samo ważne dla handlu i komunikacji, jak lądowe. Przewoźnik spełnia na wodzie taką samą rolę, jak woźnica (zob. dalej) na drodze lądowej. Przewozi z miejsca na miejsce pasażerów oraz towary, starając się nie ściągać na siebie uwagi zarówno rabusiów, jak i czynników oficjalnych. Przewoźnicy muszą mieć doskonale opanowaną sztukę sterowania łodziami, znać tajniki nawigacji, a oprócz tego muszą skutecznie troszczyć się o pasażerów, ich towary i oczywiście o siebie, gdyż niektóre ze szlaków handlowych prowadzą przez krainy naprawdę dzikie i niebezpieczne. Przedmioty: broń ręczna, kurtka skórzana, łódź wiosłowa (zacumowana na najbliższym akwenie)');
+SELECT pg_temp.addProfession('Rajfur', 'Łotr', '{przekupstwo, sekretny język – złodziei, bijatyka, błyskotliwość}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 0, 0, 10, 'W każdym mieście Starego Świata można znaleźć zawodowego przewodnika po dzielnicach rozpusty, kogoś bardzo dobrze orientującego się w nielegalnych i niemoralnych rozrywkach i usługach, oferowanych przez miasto. Wszędzie, na całym świecie, ci osobnicy nazywani są rajfurami. Tacy ludzie – a są to najczęściej mężczyźni rasy ludzkiej – znają wszystkie karczmy i domy gry, wiedzą, gdzie są burdele i miejsca, w których można kupić narkotyki oraz znaleźć wszelkie, odpowiadające upodobaniom klienta rozrywki. Ułatwiają wstęp do takich lokali, wiedzą też, które z nich są bezpieczne, a którymi interesuje się straż miejska, w których można się spokojnie zabawić, a gdzie klientom serwuje się nóż pod żebro razem z kuflem podłego piwa. Rajfurzy oferują swoje usługi każdemu hulace, który sprawia wrażenie dostatecznie zamożnego, chociaż wielu z nich lubi zwabiać nowo poznanych towarzyszy w pułapkę, choćby w łapy gangu bandziorów, by potem wspólnie z nimi ich okraść. Przedmioty: broń ręczna, kurtka skórzana, K6 złotych koron.');
+SELECT pg_temp.addProfession('Robotnik', 'Wojownik', '{wspinaczka, mocna głowa, śpiew, stolarstwo, powożenie, inżynieria, bardzo wytrzymały, bardzo silny}', 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 'Spora część mieszkańców miast prowadzi życie dość nieustabilizowane, wynajmując się, zwykle sezonowo, w charakterze robotników. Są to zwykle głośni, krzepcy i szorstcy osobnicy, potrafiący śpiewać, gwizdać, wspinać się po szaleńczo niebezpiecznych rusztowaniach, pić zdumiewające ilości ziołowej herbaty, a od czasu do czasu ciężko pracować. Ich życie nie jest łatwe – otrzymują mizerne zarobki w porównaniu z rzemieślnikami, lecz jeśli jest dużo pracy, mają się całkiem nieźle. Najlepszą robotę mogą znaleźć przy budowie świątyń, fortyfikacji i dużych domów, ponieważ tego typu przedsięwzięcia zapewniają im zatrudnienie na dłuższy czas. Robotnicy są zaradni i samodzielni, jeśli szukają przygód, a wielu próbuje tego w czasie bezrobocia, często odnosząc sukces.');
+SELECT pg_temp.addProfession('Rybak', 'Ranger', '{rybactwo, żeglowanie, pływanie, wiedza o rzekach, szkutnictwo, kartografia}', 0, 0, 0, 1, 0, 1, 0, 0, 10, 0, 0, 0, 0, 0, 'Nie każdy w Starym Świecie jest bohaterskim poszukiwaczem przygód. Wielu z tych, którzy żyją nad brzegami rzek i jezior utrzymuje się z łowienia ryb. Życie rybaka nie jest wcale takie złe. Rybacy mają co jeść prawie przez cały rok – nawet, jeśli są to tylko ryby. Jednak kiedy przychodzą cięższe czasy, lub gdy jest tak gorąco, że ryby psują się, nim zostaną dowiezione na targ, rybacy zbierają się w gospodach, gdzie słuchają opowieści i marzą, by zostać żeglarzami, odkrywcami, poszukiwaczami przygód – a najchętniej, oczywiście, bogaczami. Większość z nich zadowala się marzeniami, ale czasem ktoś rzeczywiście wyrusza w świat w pogoni za mrzonkami. Przedmioty: kurtka skórzana, 25% szans na łódź wiosłową (ukrytą lub zacumowaną na pobliskim akwenie wodnym).');
+SELECT pg_temp.addProfession('Skryba', 'Uczony', '{Czytanie/pisanie, język tajemny – magiczny, sekretny język – klasyczny, Znajomość dodatkowego języka}', 0, 0, 0, 0, 0, 1, 10, 0, 0, 10, 0, 0, 10, 10, 'W świecie, w którym bardzo niewiele osób jest piśmiennych, istnieje ogromne zapotrzebowanie na usługi skrybów. Dosłownie wszystkie gildie, cywilne i religijne stowarzyszenia, sądy oraz wojsko zatrudniają ogromne rzesze pisarzy. Na drugim miejscu skali mieszczą się prości skrybowie, utrzymujący się z czytania i pisania dokumentów dla pospólstwa. Talent skrybów jest tak rzadki, że wielu pracodawców robi z nich prawie dosłownych niewolników. Często zdarza się, że skryba ucieka z takiej niewoli i rozpoczyna niebezpieczne, awanturnicze życie – po prostu, aby ukryć swą przeszłość. Przedmioty: przybory piśmienne.');
+SELECT pg_temp.addProfession('Służący', 'Wojownik', '{uniki, etykieta, gadanina, heraldyka, opieka nad zwierzętami, powożenie, gotowanie, jeździectwo}', 0, 10, 0, 0, 0, 2, 10, 0, 0, 0, 0, 0, 10, 0, 'Służący nie stanowią najniższego szczebla społeczeństwa, są jeszcze niewolnicy. Jednak dla pomywacza, chłopca stajennego czy dziewki służebnej życie pełne przygód wydaje się jedynym marzeniem, jakie może się spełnić. Ci pechowcy spędzają większość swych dni na fizycznej pracy i innych nieprzyjemnych zajęciach, jakie wyznaczają im członkowie rodzin, którym służą. Zdarza się, że służący, po wielu latach ciężkiej pracy, osiąga bardziej szanowaną pozycję, na przykład majordomusa lub zarządcy. Wielu bardziej przedsiębiorczych pozostawia swoich panów i szuka ciekawszego życia.');
+SELECT pg_temp.addProfession('Strażnik dróg', 'Ranger', '{jeździectwo}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 10, 0, 0, 0, 0, 'Drogi Starego Świata są wąskie i zdradzieckie, wiele z nich jest tylko nieznacznie lepszych od ścieżek. Przy kilku głównych traktach stoją rogatki i pobiera się tam od podróżnych opłaty. Nie trzeba chyba wspominać, że drogi rzadko bywają bezpieczne, grasują na nich bandyci, niepokojący podróżnych czy bandy goblinów, wykopujących doły i zastawiających pułapki na przejeżdżające dyliżanse oraz jeźdźców. Z tego powodu wiele organizacji obywatelskich zatrudnia profesjonalnych strażników dróg, którzy patrolują szlaki, rozwiązując problemy na miejscu lub też meldując o nich. Jest to trudne zadanie. Teoretycznie opłaty drogowe powinny iść na utrzymanie dróg, ale nie jest to przestrzegane; poza tym należy sprawdzać bezpieczeństwo i uczciwość mytników. Wyszkoleni strażnicy dróg mogą dowodzić grupą milicjantów, ścigających bandytów albo gobliny. Czasami konwojują oni furgony, przewożące ważne towary lub pasażerów. Z racji swego zawodu strażnicy dróg słyszą o różnych skarbach i przygodach od schwytanych bandytów i banitów, czasami pokusa staje się zbyt silna i wyruszają na poszukiwanie bogactwa i przygód. Przedmioty: łuk albo kusza i amunicja, koszulka kolcza, tarcza, sznur – 10 metrów, koń z siodłem i uprzężą.');
+SELECT pg_temp.addProfession('Strażnik miejski', 'Wojownik', '{silny cios, ogłuszenie}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 0, 0, 0, 0, 0, 'Strażnicy miejscy są zatrudniani przez wszystkie miasta Starego Świata, występując w roli policjantów. Ich zadaniem jest patrolowanie ulic i reagowanie na wszelkie zakłócenia porządku. Odpowiadają za przestrzeganie prawa i za porządek oraz mają uspokajać niespodziewane konflikty. Strażników miejskich zatrudniają zwykle lokalne władze, toteż zakres ich obowiązków zależy od miejsca pracy. W wielu miastach mogą zrobić prawie wszystko, szczególnie gdy mają do czynienia z biedakami lub bezbronnymi. Przekleństwem strażników jest to, że mieszkańcy miast i miasteczek nie darzą ich zaufaniem, ponieważ rekrutuje się ich z przestępców – w celu zwalczania innych przestępców... Rzadko spotyka się wśród nich profesjonalnych strażników prawa. Co gorsza, to właśnie oni często porzucają swą pracę i przenoszą się gdzie indziej w nadziei znalezienia przygód czy lepszego ułożenia sobie życia.');
+SELECT pg_temp.addProfession('Strażnik więzienny', 'Łotr', '{odporność na choroby, odporność na trucizny, zwinne palce, cichy chód w mieście, bardzo wytrzymały, bardzo silny, mocna głowa}', 0, 10, 0, 1, 1, 2, 0, 0, 0, 0, 0, 0, 10, 0, 'Więzienia i lochy nie są najprzyjemniejszymi miejscami i nawet krótki w nich pobyt może mieć negatywny wpływ na bohaterów, zaś strażnicy więzienni tam właśnie muszą żyć na co dzień, i to widać od razu. Rzadko wyglądają przyjemnie, zdarza się, że roznoszą różne choroby i pasożyty, chociaż sami rzadko chorują. Generalnie obce jest im poczucie sprawiedliwości lub litość i rzadko przekonują ich czyjeś prośby czy też argumentacje. Rzeczą, która najmocniej do nich przemawia, są pieniądze, gdyż zwykle zarabiają bardzo mało. Strażnicy szybko przyzwyczajają się do cierpienia, którego każdego dnia są świadkami, więc wielu z nich to brutale i sadyści. Prawie wszyscy są też alkoholikami. Przedmioty: pałka, ciężkie klucze na kółku, butelka kiepskiego wina, pchły.');
+SELECT pg_temp.addProfession('Szczurołap', 'Łotr', '{tresura, ukrywanie się w mieście, odporność na choroby, odporność na trucizny, zastawianie pułapek, wykrywanie pułapek, cichy chód w mieście, specjalna broń – proca}', 0, 10, 10, 0, 0, 1, 0, 0, 10, 0, 0, 10, 0, 0, 'Szczurołap to pospolita postać w wioskach, miasteczkach i miastach. Zarabia na życie likwidowaniem pospolitych szkodników, których, w tych mało higienicznych czasach, pełno we wszystkich domach. Szczurołapi dużo podróżują, chociaż w dużych miastach można spotkać osiadłych łapaczy szkodników zatrudnionych przez miejscowe władze. Walczą przede wszystkim ze szczurami, ale potrafią również walczyć z kretami, myszami i podobnymi szkodnikami. Trudno nazwać takie życie wspaniałym, dlatego wielu szczurołapów porzuca piwnice i szuka przygód pod otwartym niebem, gdzie stają się ulubionymi zwiadowcami poszukiwaczy przygód penetrujących lochy i jaskinie. Przedmioty: tyczka szczurołapa i K6 martwych szczurów, K6 pułapek na zwierzęta, mały, ale zajadły pies, proca i amunicja.');
+SELECT pg_temp.addProfession('Szlachcic', 'Wojownik', '{jeździectwo, etykieta, błyskotliwość, heraldyka, szczęście, urok osobisty, gadanina, Czytanie/pisanie, szulerstwo, krasomówstwo, mocna głowa, specjalna broń – rapier, muzykalność}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 20, 0, 10, 0, 10, 'W świadomości przeciętnych obywateli Starego Świata przynależność do klasy rządzącej jest równoznaczna z posiadaniem prawa do życia bez trosk i zwykłych codziennych kłopotów. Szlachta ma w swoich rękach ziemię; jednocześnie wielu szlachciców miało dość rozsądku, by zaangażować się w działalność gospodarczą, konkurując z bankierami i finansistami. Jednak młodsi synowie szlacheckich rodów często muszą sami zadbać o siebie, gdyż ich starsi bracia zagarniają zwykle całą rodową fortunę i posiadłości. Klasa szlachecka wyrządza wiele krzywd innym członkom społeczeństwa, nawet tym pochodzącym ze wspólnej rodziny. Wielu wydziedziczonych szlachciców poświęca się karierom wojskowym lub zaczyna na własną rękę poszukiwać przygód, wielu dla dreszczu emocji, ale większość dlatego, że nie wie, co innego mogłaby robić. Z pewnością żaden szlachcic nie zniży się do handlu, a tylko nieliczni zniosą nudę, towarzyszącą studiom związanym z profesjami Uczonych. Szlachta postrzega wojnę jako wielką i wspaniałą grę, podobnie zresztą widzi pijaństwa, obrażanie zwykłych obywateli i demolowanie gospod. Wydaje się, że szlachcic niezdolny jest do dłuższego skupienia się na jednej sprawie, ma irytującą wymowę i niezawodną umiejętność odnoszenia się do zwykłych śmiertelników w najgorszy z możliwych sposobów. Na ogół, dzięki zresztą połączenia swego szczęścia i uroku osobistego z wpływem, jakie ich swobodne maniery mają na kupców, szlachcice wiodą życie dość dostatnie.');
+SELECT pg_temp.addProfession('Szuler', 'Łotr', '{szulerstwo, szczęście, zwinne palce}', 0, 0, 10, 0, 0, 2, 10, 0, 10, 0, 10, 0, 0, 10, 'Wielu mieszkańców Starego Świata szuka łatwych sposobów zarabiania pieniędzy. Szulerzy zdobywają je od innych ludzi dzięki swym umiejętnościom. Czasami coś się nie udaje i szuler traci pieniądze. W takim wypadku najlepszym dla niego wyjściem jest jak najszybsza ucieczka, zanim wierzyciele zorientują się, że szuler nie ma żadnych możliwości spłaty długu. W samej naturze szulerów leży częsta zmiana miejsca pobytu, czasem, jak widać, nieco wymuszona chęcią uniknięcia spłaty starych zobowiązań czy ucieczki przed rozwścieczonymi wierzycielami. Przedmioty: broń ręczna, kurtka skórzana, talia kart (zawierająca dodatkowe asy), komplet kości, komplet kości szachrajskich (zawsze wyrzucają szóstki).');
+SELECT pg_temp.addProfession('Traper', 'Ranger', '{cichy chód na wsi, zastawianie pułapek, Sekretny język – rangerów, wyczucie kierunku, ukrywanie się na wsi, wykrywanie pułapek, sekretne znaki drwali, wiosłowanie}', 0, 10, 10, 1, 0, 2, 10, 0, 10, 0, 0, 0, 0, 0, 'Traperzy polują na zwierzęta futerkowe dla ich skór, które są w Starym Świecie wartościowym towarem. Ich umiejętność polega na ściąganiu skóry w ten sposób, że nie ulega ona uszkodzeniu. Nie strzelają do zwierzyny, na którą polują, jak to robią myśliwi, ale zakładają na nią pułapki. Pomimo to traperzy uczą się posługiwania bronią. Żyją w dzikich i niebezpiecznych górach Starego Świata i dlatego muszą umieć bronić siebie przed dzikimi stworami – aby nie wspomnieć o goblinach – z którymi dzielą środowisko. Ponieważ i tak dużo ze swego życia spędzają w tych częściach świata, gdzie awanturnicy szukają przygód, zmiana rodzaju pracy nie stanowi dla nich dużego problemu. Przedmioty: łódź wiosłowa lub kanoe – zacumowana lub ukryta na najbliższym akwenie wodnym, K4 pułapki na zwierzęta, sznur – 10 metrów, kaftan skórzany, futrzana czapka i strój ze skóry, łuk albo kusza i amunicja.');
+SELECT pg_temp.addProfession('Uczeń alchemika', 'Uczony', '{piwowarstwo, szacowanie, Czytanie/pisanie, Chemia}', 0, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 0, 0, 'Jedynym sposobem, żeby zostać alchemikiem jest terminowanie u kogoś w tej profesji doświadczonego. Jednakże życie ucznia sprowadza się często nie tyle do nauki, ile do ciężkiej, fizycznej pracy. Uczeń często pełni rolę darmowego służącego, spędzając zbyt wiele czasu na szorowaniu podłóg, by uszczknąć cokolwiek z rzeczywistej, alchemicznej wiedzy. Nie powinno nikogo dziwić, że tylko niewielu uczniów wytrzymuje to wystarczająco długo, by zostać biegłymi alchemikami. Przedmioty: brak.');
+SELECT pg_temp.addProfession('Uczeń czarodzieja', 'Uczony', '{język tajemny – magiczny, rzucanie czarów, Czytanie/pisanie, sekretny język – klasyczny, wiedza o magicznych pergaminach}', 0, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 10, 0, 'Każdy, kto chce zostać czarodziejem, musi odsłużyć długi i niebezpieczny okres nauki. Wskutek jej podjęcia przyszły czarodziej, spędza wiele długich godzin przy pracach fizycznych. W zamian za to dostaje miejsce do spania, a od czasu do czasu pobiera także lekcje magii. Wielu uczniów męczy się skrobaniem podłóg, czyszczeniem i porządkowaniem czyli pozycją niemal zwykłych służących, dlatego nie kończy swych nauk. Punkty magii: ludzie i elfy – 2K4, krasnoludowie i halflingi – 1K4. Przedmioty: nie ma.');
+SELECT pg_temp.addProfession('Uczeń medyka', 'Uczony', '{Czytanie/pisanie, wiedza o magicznych pergaminach, sekretny język – klasyczny, leczenie chorób, leczenie ran, farmacja, warzenie trucizn}', 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 10, 10, 0, 0, 'Poza służbą wojskową i powołaniem kapłańskim, najbardziej popularną profesją dla młodego, zamożnego mieszkańca Starego Świata jest medyk. Każdy obdarzony talentem – lub reputacją – może zbić majątek, lecząc na przykład szlachtę. Jak w większości profesji Uczonych, tak i tu jedynym sposobem zdobycia zawodu jest pobieranie lekcji u praktykującego medyka. Jednak medycy nie biorą uczniów tak po prostu. Jeśli sławny lub emerytowany medyk przekazuje swą wiedzę grupce studentów, to pobiera od nich za tę naukę honorarium. Większość hospicjów i uniwersytetów w dużych miastach ma odpowiednie warunki do nauki tej profesji, ale studia trwają kilka lat i żeby stać się medykiem potrzeba naprawdę dużego samozaparcia. Nic więc dziwnego, że nie wszyscy uczniowie tę naukę owocnie kończą. Przedmioty: broń ręczna, instrumenty medyczne (używane) w torbie, słój gliniany z k6 pijawkami.');
+SELECT pg_temp.addProfession('Wędrowny kramarz', 'Łotr', '{opieka nad zwierzętami, gadanina, powożenie, szacowanie, targowanie się, zielarstwo, Sekretne znaki wędrownych kramarzy, specjalna broń – uliczna, astronomia}', 0, 10, 10, 1, 0, 2, 10, 0, 0, 0, 0, 0, 0, 10, 'Jedynie w nielicznych wioskach są sklepy lub faktorie handlowe, tak więc większość ludności zdana jest na wędrownych kramarzy, zajmujących się handlem na niewielką skalę. Kupują oni od rzemieślników i kupców łatwe do transportu dobra, po czym podróżują od wioski do wioski, sprzedając swoje towary, a przy okazji roznosząc plotki i wiadomości. Wędrowny kramarz może handlować wszystkim, co łatwo nosić: garnkami, rondlami, ubraniami, małymi przedmiotami, sakiewkami, igłami, nożami itp. Na gęściej zamieszkałych obszarach, w celu ochrony przed konkurencją ze strony niezrzeszonych handlarzy, wędrowni kramarze mają zwykle licencje i tworzą własną gildię. Większość z nich nie ma stałego miejsca zamieszkania i wiedzie życie nomadów; wędrowni kramarze mają silne poczucie więzi z osobami, wykonującymi ten sam zawód, nawet jeśli pochodzą z różnych ras i nie mają wspólnej tradycji, historii ani języka. Wielu z nich zdobyło umiejętności, podobne do tych, jakie mają zielarze. Prawie nikt im nie ufa, a już najmniej strażnicy miejscy i drogowi. Przedmioty: latarnia, furgon i koń, materac i K4 koce w furgonie, K4 worki zawierające: K4 garnki i rondle, 3K6 małych noży, K6x100 igieł, K6 szpulek kolorowych wstążek; paczka zawierająca: hubkę i krzesiwo, 4 koce, sznur – 10 metrów.');
+SELECT pg_temp.addProfession('Wieszczek', 'Uczony', '{Język tajemny – magiczny, wróżenie, wykrywanie magii, gadanina, krasomówstwo, posłuch u zwierząt}', 0, 0, 0, 0, 0, 1, 0, 0, 0, 10, 0, 10, 10, 10, 'Wieszczek, działając poza powszechnymi kościołami, sam ogłasza się religijnym autorytetem. Można go spotkać na rynkach targowych każdego miasta, gdy wygłasza swoje najnowsze rewelacje każdemu, kto zechce ich słuchać. W epoce religijnej nietolerancji wieszczków często uważa się za odstępców od prawdziwej wiary i na niektórych obszarach Starego Świata prześladuje. Jednak w czasach, kiedy choroby umysłowe nie są zrozumiałe, wieszczków traktuje się raczej jako ekscentryków. Niektórzy z nich rzeczywiście mogą być natchnieni przez bogów, jednak znacznie częściej są oni szarlatanami albo szaleńcami. Przedmioty: przedmioty do przepowiadania przyszłości (np. kawałki kości, kostki do gry itp.).');
+SELECT pg_temp.addProfession('Wojownik podziemny', 'Wojownik', '{wyczucie kierunku, uniki, silny cios, celny cios, wspinaczka, ogłuszenie}', 0, 10, 0, 1, 1, 2, 10, 1, 0, 10, 0, 10, 0, 0, 'Inwazje Chaosu na Góry Krańca Świata pokonały wiele twierdz krasnoludzkich, a przez stulecia wiele innych musiało zostać opuszczonych. Mimo to od wieków krasnoludowie zmuszeni są do walki o przeżycie i w tym celu utworzyli armie dobrze wyćwiczonych wojowników, którzy specjalizują się w walkach toczonych pod powierzchnią ziemi. Jak można przewidzieć, prawie wszyscy wojownicy podziemni są krasnoludami, a ludzie bywają zatrudniani tylko jako najemnicy, gdyż chcą być nagradzani krasnoludzkimi skarbami. W ostatnich latach, wskutek wciąż zmniejszającej się liczby krasnoludów, wojownikami podziemnymi zostają nawet halflingi, ponieważ wielokrotnie zapłata za służbę jest bardzo hojna. Uwaga: tylko krasnoludy mogą mieć tę profesję jako początkową.');
+SELECT pg_temp.addProfession('Woźnica', 'Ranger', '{powożenie, jeździectwo, muzykalność, opieka nad zwierzętami, specjalna broń – palna}', 0, 10, 10, 0, 0, 2, 10, 0, 0, 0, 0, 10, 0, 0, 'Podróżowanie drogami Starego Świata jest niebezpieczne i ci, którzy robią to regularnie zdobywają umiejętności, pozwalające takie wyprawy przetrwać. Jedną z tego typu osób jest woźnica, który niemal codziennie staje twarzą w twarz z niebezpieczeństwem. Drogi są nie tylko groźne, gdyż można się spodziewać na nich kłopotów ze strony bandytów, rozbójników, zirytowanych mytników, dociekliwych strażników dróg, nie wspominając już o przypadkowo napotkanych potworach czy bandach goblinów, ale również miejscami trudne do przejechania, jako że ich nawierzchnia rzadko jest prawidłowo konserwowana. Niełatwym zadaniem woźnicy jest bezpieczne przeprowadzenie zarówno pasażerów, jak i ładunku przez te wszystkie niebezpieczeństwa, a także, od czasu do czasu, przewożenie oficjalnych przesyłek lub opieka nad urzędowymi posłańcami. Tylko nieliczni z nich zostają w tej pracy tak długo, że mogą się cieszyć korzyściami, płynącymi z emerytury wypłacanej przez gildię woźniców, a niektórzy wykorzystują nabyte w czasie tej pracy umiejętności, zaczynając życie poszukiwaczy przygód. Przedmioty: róg powozowy, garłacz, K6 ładunków prochu i amunicji, broń ręczna, koszulka kolcza.');
+SELECT pg_temp.addProfession('Zabijaka', 'Wojownik', '{bijatyka, silny cios, ogłuszenie, uniki, jeździectwo, celny cios, rozbrajanie}', 0, 10, 0, 1, 0, 2, 10, 1, 0, 0, 0, 10, 0, 0, 'Niektórzy mieszkańcy Starego Świata tak przywykli do gwałtu, że zdobywają każdego miedziaka przy pomocy pięści lub miecza. Zabijacy zarabiają na życie dzięki umiejętnościom walki, bijąc się dla niewielkich sum – nawet za cenę kufla piwa. W wielu przypadkach wynajmuje się ich, aby kogoś pobili lub dali komuś "lekcję" szermierki. Oczywiście, nikt nie wie o osobie zleceniodawcy, wyciągającego z działań zabijaki korzyści czy bawiącego się walką, sprowokowaną przez jakąś drobnostkę. Przetrzepanie skóry kilku mieszczuchom jest stosunkowo tanie, walka z groźniejszym przeciwnikiem lub cięższe pobicie ma odpowiednio wyższą cenę, zaś na morderstwie zabijaka może zarobić tyle, że wystarczy mu to na kilkumiesięczne utrzymanie. Gdy brakuje klientów, zabijacy podróżują z miejsca na miejsce, wyzywając na pojedynek tych, którzy im się nawiną pod rękę, po wygranej walce dokładnie ich ogołacając. Oczywiście, ryzyko jest duże. Miejscowi przedstawiciele sił porządkowych nie tolerują, rzecz jasna, trybu życia zabijaków, a błąd w ocenie przeciwnika może być dla nich fatalny w skutkach. Zabijacy dodają do naturalnej gwałtowności Starego Świata coś, co można nazwać atmosferą nieprzewidywalności.');
+SELECT pg_temp.addProfession('Zabójca trolli', 'Wojownik', '{bijatyka, silny cios, rozbrajanie, uniki, specjalna broń – dwuręczna}', 0, 10, 10, 1, 0, 4, 10, 1, 10, 0, 0, 20, 0, 0, 'Krasnoludzki zabójca trolli jest przykładem dziwnej mentalności, która skazuje wielu młodych krasnoludów na krótkie i gwałtowne życie. Młodzi krasnoludowie, którzy splamili swój honor, doświadczyli miłosnych niepowodzeń albo zostali w jakiś inny sposób upokorzeni, porzucają konwencjonalne społeczeństwa krasnoludzkie i wyruszają na poszukiwanie śmierci, polując na najniebezpieczniejsze bestie Starego Świata. Większość z nich ginie bardzo szybko, ale ci którzy przeżyją, stają się członkami tajemniczego kultu zabójców trolli. Żyją tylko po to, by umrzeć, a poprzez śmierć odkupić swoją winę lub zmazać hańbę (a wnikać w przyczyny zostania zabójcą trolli nie jest ani uprzejme, ani rozsądne). W każdym razie szukają śmierci przez dobrowolne uczestniczenie w nierównych bitwach – za przykład może służyć samotna wędrówka w głąb goblińskiej twierdzy. Trolle są uważane za idealnych przeciwników, ponieważ w takich przypadkach śmierć krasnoluda jest prawie pewna. Zabójców trolli można łatwo rozpoznać dzięki włosom, które są nastroszone i ufarbowane na pomarańczowo oraz po licznych tatuażach, pokrywających całe ciało. Lubują się też oni w egzotycznej biżuterii, takiej jak pierścienie w uszach i w nosie. Spędzają dużą ilość czasu na opowieściach o swoich wyczynach, pokazując blizny, za często i zbyt szybko pobierają też duże dawki różnych środków pobudzających.');
+SELECT pg_temp.addProfession('Złodziej', 'Łotr', '{cichy chód w mieście, cichy chód na wsi, Ukrywanie się w mieście, Sekretny język – złodziei, sekretne znaki złodziei, szacowanie}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10, 'Wielu Łotrów nie ma żadnych specjalnych umiejętności czy skłonności, lecz wykorzystuje swoje złodziejskie inklinacje, gdy tylko zdarza się okazja. Najprostszym sposobem na zarobienie pieniędzy w Starym Świecie jest zabranie ich komuś innemu. Złodzieje wykorzystują nadarzającą się okazję, są gotowi zająć się wszystkim – mogą nawet od czasu do czasu mieć jakieś legalne zatrudnienie, chociaż wielu odczuwa wstręt do pracy. Jakkolwiek prawie każdy złodziej jest specjalistą od wszystkiego, są i tacy, którzy specjalizują się w pewnych typach zbrodni. Włamywacze specjalizują się we wchodzeniu do domów i ograbianiu ich, głównie w nocy. Analizując nieznaczne nawet wskazówki, potrafią stwierdzić, w którym domu nie ma mieszkańców; są też sprawni w radzeniu sobie z zamkami, alarmami i innymi środkami zabezpieczeń.');
+SELECT pg_temp.addProfession('Złodziej–włamywacz', 'Łotr', '{cichy chód w mieście, cichy chód na wsi, Ukrywanie się w mieście, Sekretny język – złodziei, sekretne znaki złodziei, szacowanie}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10, 'Skrawkarz jest zwykłym oszustem, który zarabia na życie, okrawając monety. Pieniądze w Starym Świecie są nieregularnego kształtu, a ich wartość zależy od ilości metalu, który zawierają. Stempel wybijany przez władzę na obu stronach monety jest gwarancją jej wagi, a w konsekwencji i wartości. Podrabiacz monet wykorzystuje ten fakt, lekko przycinając lub opiłowując monetę. Postępując tak z dziesięcioma-dwudziestoma monetami skrawkarz uzyskuje wystarczającą ilość metalu, aby zrobić nową monetę. Jedną z najtrudniejszych sztuczek jest takie przecięcie monety od jednej krawędzi do drugiej, by otrzymać dwie, które można wcisnąć nieostrożnym.');
+SELECT pg_temp.addProfession('Złodziej–skrawkarz', 'Łotr', '{cichy chód w mieście, cichy chód na wsi, Ukrywanie się w mieście, Sekretny język – złodziei, sekretne znaki złodziei, szacowanie}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10, 'Malwersanci są dobrze wyszkolonymi Łotrami, pracującymi dla siebie lub dla jakiejś organizacji, w najróżniejsze sposoby zdobywającymi pieniądze. Starają się zająć pozycje budzące zaufanie, a następnie wspomagają siebie pieniędzmi swych klientów.');
+SELECT pg_temp.addProfession('Złodziej–malwersant', 'Łotr', '{cichy chód w mieście, cichy chód na wsi, Ukrywanie się w mieście, Sekretny język – złodziei, sekretne znaki złodziei, szacowanie}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10, 'Kieszonkowcy to wyspecjalizowani złodzieje, zajmujący się kradzeniem kosztowności z kieszeni i sakiewek. Kieszonkowcy są stałym przekleństwem miast, a w dni targowe, gdy panuje tłok, można znaleźć wielu pojedynczych osobników czy nawet całe gangi, działające wśród tłumu. Najlepsza jest oczywiście gotówka. Najpopularniejsza technika kradzieży to obcinanie sakiewki małym nożem lub brzytwą. Klejnoty mają wysoką wartość, ale za to trudno je czasami ukraść bez zwrócenia na siebie uwagi; po za tym są łatwe do odnalezienia – co czyni je trudnymi do zbycia bez pomocy godnego zaufania pasera, który prawdopodobnie okradnie złodzieja, bardziej niż ten, przed momentem, prawdziwego właściciela.');
+SELECT pg_temp.addProfession('Złodziej–kieszonkowiec', 'Łotr', '{cichy chód w mieście, cichy chód na wsi, Ukrywanie się w mieście, Sekretny język – złodziei, sekretne znaki złodziei, szacowanie}', 0, 10, 10, 0, 0, 2, 10, 0, 10, 0, 0, 0, 0, 10, '');
+SELECT pg_temp.addProfession('Zielarz', 'Uczony', '{Język tajemny – druidyczny, leczenie chorób, leczenie ran, zielarstwo, rozpoznawanie roślin, Czytanie/pisanie, sekretny język – klasyczny, Sekretny język – gildii, warzenie trucizn}', 0, 0, 0, 0, 0, 1, 0, 0, 10, 0, 10, 0, 0, 0, 'Medycyna w Starym Świecie jest prymitywna i niezbyt skuteczna, a ponadto kosztowna, tak więc wielu ludzi polega raczej na tradycyjnych lekach, o których wiedza jest gromadzona i przekazywana poprzez stulecia. W gruncie rzeczy wielu ludzi po prostu tej "naukowej" medycynie nie ufa. Z drugiej strony, zielarze są szanowanymi członkami społeczeństwa, chociaż ich klientela nie jest tak ekskluzywna jak medyków. Zbierają oni i sprzedają zioła oraz przygotowują lekarstwa przeciw wszystkim rodzajom chorób. W rzadkich i poważnych przypadkach osobiście doglądają pacjentów. Niektórzy nadużywają swoich umiejętności, o czym aż za dobrze wiedzą ci, którzy byli poddani działaniu napojów miłosnych, ale sama profesja jest mocno osadzona w ludowych tradycjach i większość prostego ludu uważa, że w razie choroby zielarz jest ich jedynym przyjacielem. Przedmioty: moździerz i tłuczek, torba z zasuszonymi ziołami.');
+SELECT pg_temp.addProfession('Żak', 'Uczony', '{Język tajemny – magiczny, Czytanie/pisanie, sekretny język – klasyczny, mocna głowa, historia, astronomia, kartografia, rozpoznawanie roślin, monetoznawstwo, Znajomość dodatkowego języka}', 0, 0, 0, 0, 0, 1, 10, 0, 0, 0, 10, 10, 0, 10, 'Wielu żaków otrzymuje wykształcenie na uniwersytetach Starego Świata. Dzięki temu mają oni możliwość nauczenia się różnych umiejętności, a przez to przejścia do zyskownych i szanowanych profesji. Jednak wielu żaków zaprzepaszcza tę szansę na rzecz rozszerzenia swej działalności towarzyskiej i rozwija mniej intelektualne zainteresowania. Przedmioty: broń ręczna, przybory do pisania, K3 książki odpowiednie dla każdej znanej umiejętności.');
+SELECT pg_temp.addProfession('Żebrak', 'Łotr', '{żebractwo, sekretny język – złodziei, sekretne znaki złodziei, cichy chód w mieście, ukrywanie się w mieście, mocna głowa}', 0, 10, 10, 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 'Żebracy są wyrzutkami społeczeństwa, zdesperowanymi ludźmi nie posiadającymi określonego źródła utrzymania. Ciągną do miasteczek i miast Starego Świata jak ćmy do światła, ponieważ jedynie tam żebranina może utrzymać ich przy życiu. Żebractwo to ryzykowne zajęcie, gdyż w większości miast Starego Świata strażnicy miejscy mają wolną rękę w postępowaniu z włóczęgami – wedle woli mogą ich bić, piętnować czy też zakuwać w dyby. Żebrak godzi się z tym ryzykiem i traktuje je jako zwyczajny składnik swego zawodu. Wielu z nich zdobywa wielką wprawę w sztuce wyłudzania pieniędzy od przechodniów – niektórzy odwołują się do litości, inni błogosławią albo grożą przekleństwem, by nakłonić przechodzącego obok do wrzucenia grosza do żebraczej miski. W niektórych większych miastach żebracy zorganizowali się w półlegalne gildie, które zajmują się przydzielaniem miejsc do żebrania, neutralizowaniem zbyt gorliwych urzędników miejskich oraz usuwaniem amatorów i żebraków niezrzeszonych. W wielu wypadkach gildia żebracza współpracuje z gildią złodziejską, dostarczając jej informacji albo obserwatorów. Przedmioty: miska żebracza, ciężki kij, nędzne odzienie, butelka kiepskiej gorzałki.');
+SELECT pg_temp.addProfession('Żeglarz', 'Wojownik', '{uniki, żeglowanie, wiosłowanie, pływanie, wspinaczka, silny cios, bijatyka, Znajomość dodatkowego języka, mocna głowa}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 0, 0, 0, 0, 0, 'Wielu ludzi żyje z pracy na morzu: rybacy, kupcy, a nawet niektórzy królowie, ale najbardziej z morzem związani są rzecz jasna żeglarze. Jednak ich życie, czy to na pokładzie statku kupieckiego, czy na pokładzie wojennego okrętu, jest trudne i często brutalne. W rezultacie żeglarze zachowują się głośno i zuchwale, lubią się przechwalać, wrzeszczeć i śpiewać, a także wszczynać bójki, co często przeszkadza innym ludziom. Nadużywają tanich alkoholi, więc każdy bohater z tą profesją ma 5% szans, że jest alkoholikiem. Jako doświadczone wilki morskie, żeglarze świetnie walczą na lądzie i morzu, a nagle wybuchające bijatyki na pokładzie czy na nabrzeżu zdarzają się nadzwyczaj często.');
+SELECT pg_temp.addProfession('Żołnierz', 'Wojownik', '{rozbrajanie, uniki, silny cios, sekretny język – bitewny, bijatyka, opieka nad zwierzętami, jeździectwo}', 0, 10, 10, 0, 0, 2, 10, 1, 0, 10, 0, 0, 0, 0, 'W Starym Świecie stałe siły wojskowe można ujrzeć dosyć rzadko, gdyż większość państw polega na swej milicji i szlachcie, wspomaganych w razie potrzeby najemnikami. Jednakże podczas dłuższych wojen wszystkie kraje rozwijają i zatrudniają zawodowe siły militarne. Pozycja społeczna żołnierzy jest nieco wyższa, niż wynikałoby to z ich rzeczywistych zasług, gdyż to właśnie ich umiejętności na polu bitwy, mimo iż podległe dowództwu oficerów i panów, są decydującym czynnikiem, od którego zależy przetrwanie każdego królestwa podczas długotrwałego konfliktu. Z chwilą uzyskania niezależności wielu rezygnuje z trudnego życia w armii i zwraca się ku życiu poszukiwacza przygód w nadziei uzyskania większych korzyści.');
+SELECT pg_temp.addProfession('Żołnierz okrętowy', 'Wojownik', '{mocna głowa, uniki, wiosłowanie, ogłuszenie, pływanie, silny cios, sekretny język – bitewny, rozbrajanie}', 0, 10, 10, 1, 0, 2, 10, 1, 0, 0, 0, 10, 0, 0, 'Żołnierze okrętowi to wojownicy, którzy utrzymują się z walki na morzu. Żeglując na statkach cywilnych lub wojskowych okrętach, zapewniają im ochronę przed piratami. Na okrętach tworzą czasami oddziały werbowników, wzbudzające strach w portowych miastach Starego Świata. Pechowcy, którzy zostali zwerbowani siłą, mogą wykupić się ze służby w marynarce, ale – znacznie częściej – nie mając pieniędzy na wykup, zmuszeni są stawić czoła twardej i niebezpiecznej, trwającej pięć lat służbie na okręcie wojennym. Ta część pracy żołnierzy okrętowych sprawiła, iż stali się grupą otoczoną powszechną bojaźnią i niechęcią, nawet jeśli poza tym ich zadania są rzeczywiście trudne i niebezpieczne. Wielu kapitanów po zwycięskiej walce rzuca schwytanych wrogich żołnierzy okrętowych na żer rekinom, chociaż często też próbuje ich przekupić, by wstąpili do nich na służbę.');
+SELECT pg_temp.addProfession('Balistyk', '', '{Specjalna broń – katapulta, Specjalna broń – balista, Stolarstwo, Inżynieria}', 0, 10, 20, 1, 1, 2, 20, 0, 10, 10, 20, 10, 10, 0, '');
+SELECT pg_temp.addProfession('Bakałarz', '', '{Astronomia, Kartografia, Historia, Rozpoznawanie roślin, Uzdolnienia językowe, Wykrywanie magii, Monetoznawstwo, Wiedza o runach, Znajomość dodatkowego języka}', 0, 10, 10, 0, 0, 2, 30, 0, 10, 0, 30, 10, 30, 10, '');
+SELECT pg_temp.addProfession('Bombardier', '', '{Powożenie, Inżynieria, Specjalna broń – rusznica, Specjalna broń – bombarda, Specjalna broń – palna, Specjalna broń – bomby}', 0, 10, 20, 1, 1, 2, 20, 0, 10, 30, 10, 20, 10, 20, '');
+SELECT pg_temp.addProfession('Demagog', '', '{Gadanina, Krasomówstwo, Czytanie/pisanie}', 0, 10, 10, 0, 1, 3, 20, 1, 0, 30, 10, 20, 20, 40, '');
+SELECT pg_temp.addProfession('Fałszerz', '', '{Sztuka, Czytanie/pisanie, Sfragistyka}', 0, 20, 20, 1, 1, 3, 20, 1, 40, 10, 30, 30, 20, 20, '');
+SELECT pg_temp.addProfession('Kapitan', '', '{Tresura, Szkutnictwo, Monetoznawstwo, Znajomość dodatkowego języka, Specjalna broń – rapier, Silny Cios}', 0, 30, 20, 1, 1, 6, 20, 2, 30, 30, 20, 30, 20, 30, '');
+SELECT pg_temp.addProfession('Kupiec', '', '{Szacowanie, Targowanie się, Wykrywanie magii, Monetoznawstwo, Czytanie/pisanie, Jeździectwo, Sekretny język – gildii, Znajomość dodatkowego języka, Geniusz arytmetyczny}', 0, 10, 10, 1, 1, 2, 20, 0, 10, 30, 30, 20, 20, 20, '');
+SELECT pg_temp.addProfession('Handlarz niewolników', '', '{Powożenie, Jeździectwo, Znajomość dodatkowego języka, Ogłuszenie}', 0, 20, 20, 2, 0, 4, 20, 0, 0, 10, 0, 20, 10, 0, '');
+SELECT pg_temp.addProfession('Herszt banitów', '', '{Tropienie, Rozpoznawanie roślin, Sekretny język – bitewny, Sekretny język – złodziei, Jeździectwo}', 0, 20, 30, 1, 3, 5, 20, 2, 10, 30, 10, 10, 0, 10, '');
+SELECT pg_temp.addProfession('Łowca czarownic', '', '{Celne strzelanie, Krasomówstwo, cichy chód w mieście, cichy chód na wsi, Szósty zmysł, Specjalna broń – sieć, Specjalna broń – lasso, Specjalna broń – pistolet strzałkowy, Specjalna broń – rzucana, Silny Cios}', 0, 30, 30, 1, 1, 6, 30, 2, 20, 20, 10, 10, 40, 10, '');
+SELECT pg_temp.addProfession('Medyk', '', '{Leczenie chorób, Leczenie ran, Farmacja, Warzenie trucizn, Chirurgia}', 0, 0, 0, 1, 1, 3, 10, 0, 30, 20, 30, 20, 20, 10, '');
+SELECT pg_temp.addProfession('Nawigator', '', '{Astronomia, Kartografia, Orientacja w terenie}', 0, 10, 0, 1, 1, 3, 20, 0, 10, 20, 30, 10, 20, 10, '');
+SELECT pg_temp.addProfession('Odkrywca', '', '{kartografia, powożenie, szacowanie, tropienie, prawo, uzdolnienia językowe, orientacja w terenie, Czytanie/pisanie, jeździectwo}', 0, 20, 20, 1, 1, 6, 0, 1, 20, 20, 30, 20, 20, 20, 'Odkrywcy podróżują do dalekich krajów, poszukując nowych towarów i otwierając nowe obszary dla handlu. Dzięki swej pracy często zapuszczają się w dzikie, niezbadane ostępy, przez co muszą być doświadczonymi wojownikami. Oprócz tego są również znakomitymi kupcami.');
+SELECT pg_temp.addProfession('Oprawca', '', '{Leczenie ran, specjalna broń – korbacz, Torturowanie}', 0, 10, 0, 2, 0, 4, 10, 0, 10, 10, 10, 10, 20, 0, '');
+SELECT pg_temp.addProfession('Paser', '', '{Szacowanie, Wykrywanie magii, Zwinne palce, Geniusz arytmetyczny}', 0, 20, 20, 1, 0, 4, 20, 1, 10, 10, 0, 10, 10, 10, '');
+SELECT pg_temp.addProfession('Prawnik', '', '{Etykieta, Prawo, Krasomówstwo, Czytanie/pisanie, Sekretny język – klasyczny}', 0, 0, 0, 0, 1, 2, 10, 0, 10, 30, 40, 30, 30, 10, '');
+SELECT pg_temp.addProfession('Reketer', '', '{Uniki, Specjalna broń – uliczna, Specjalna broń – zapalająca, Bijatyka, Silny Cios}', 0, 20, 20, 1, 1, 3, 10, 1, 0, 10, 0, 10, 0, 0, '');
+SELECT pg_temp.addProfession('Rozbójnik', '', '{Opieka nad zwierzętami, Etykieta, Szacowanie, Celne strzelanie, Jeździectwo, cichy chód w mieście, cichy chód na wsi, Specjalna broń – palna, Specjalna broń – rapier, Błyskotliwość, Woltyżerka}', 0, 20, 20, 1, 1, 2, 40, 1, 30, 0, 20, 20, 20, 30, '');
+SELECT pg_temp.addProfession('Saper', '', '{Stolarstwo, Inżynieria, Specjalna broń – katapulta, Specjalna broń – bomby}', 0, 10, 10, 1, 1, 2, 0, 0, 10, 20, 10, 10, 0, 0, '');
+SELECT pg_temp.addProfession('Podrabiacz monet', '', '{Sztuka, Metalurgia, Monetoznawstwo, Geniusz arytmetyczny}', 0, 20, 20, 1, 0, 3, 20, 0, 20, 10, 10, 10, 10, 10, '');
+SELECT pg_temp.addProfession('Rycerz najemny', '', '{rozbrajanie, Uniki, Etykieta, Heraldyka, Jeździectwo, Sekretny język – bitewny, Specjalna broń – korbacz, Specjalna broń – kopia, Specjalna broń – parująca, Specjalna broń – dwuręczna, Silny Cios, Ogłuszenie}', 0, 30, 0, 3, 1, 4, 20, 2, 0, 30, 10, 30, 0, 10, '');
+SELECT pg_temp.addProfession('Rycerz zakonny', '', '{rozbrajanie, Czytanie/pisanie, Jeździectwo, Sekretny język – bitewny, Sekretne znaki rycerzy zakonnych, Silny Cios, Ogłuszenie}', 0, 30, 30, 1, 2, 8, 30, 2, 20, 20, 20, 20, 20, 20, '');
+SELECT pg_temp.addProfession('Sierżant najemników', '', '{Mocna głowa, Szulerstwo, Sekretny język – bitewny, Bijatyka, Silny Cios, Ogłuszenie}', 0, 20, 20, 1, 1, 4, 20, 1, 10, 10, 10, 10, 10, 10, '');
+SELECT pg_temp.addProfession('Kapitan najemników', '', '{rozbrajanie, Uniki, Heraldyka, Jeździectwo, Specjalna broń – kopia, Specjalna broń – dwuręczna, Specjalna broń – korbacz, Specjalna broń – parująca, Celny cios}', 0, 30, 30, 2, 2, 6, 20, 2, 10, 40, 10, 30, 10, 20, '');
+SELECT pg_temp.addProfession('Rzemieślnik', '', '{Metalurgia, Kowalstwo, Piwowarstwo, Stolarstwo, Sztuka, Chemia, Jubilerstwo, Szkutnictwo, Kamieniarstwo, Krawiectwo}', 0, 0, 0, 1, 1, 2, 20, 0, 20, 10, 0, 10, 10, 10, '');
+SELECT pg_temp.addProfession('Strzelec', '', '{Celne strzelanie, specjalna broń – długi łuk}', 0, 0, 40, 1, 1, 4, 20, 1, 30, 10, 10, 30, 10, 20, '');
+SELECT pg_temp.addProfession('Szampierz', '', '{Uniki, Specjalna broń – rapier, Specjalna broń – uliczna, Specjalna broń – korbacz, Specjalna broń – lasso, Specjalna broń – sieć, Specjalna broń – parująca, Specjalna broń – dwuręczna, Silny Cios}', 0, 40, 0, 1, 1, 6, 20, 2, 10, 0, 10, 10, 0, 0, '');
+SELECT pg_temp.addProfession('Szarlatan', '', '{Gadanina, Błyskotliwość, Szacowanie, Urok osobisty, Charakteryzacja, Zwinne palce, Uwodzenie, Naśladownictwo, Krasomówstwo}', 0, 10, 10, 0, 1, 4, 20, 0, 20, 20, 20, 20, 20, 30, '');
+SELECT pg_temp.addProfession('Szpieg', '', '{Aktorstwo, Przekupstwo, Ukrywanie się w mieście, kryptografia, Charakteryzacja, Ucieczka, Uzdolnienia językowe, Otwieranie zamków, Zwinne palce, Czytanie/pisanie, Uwodzenie, śledzenie, Cichy chód w mieście, Szósty zmysł, błyskotliwość}', 0, 20, 20, 0, 1, 4, 20, 1, 20, 10, 20, 40, 0, 20, '');
+SELECT pg_temp.addProfession('Zabójca', '', '{Ukrywanie się w mieście, ukrywanie się na wsi, Charakteryzacja, Celny strzał, Warzenie trucizn, Wspinaczka, śledzenie, cichy chód w mieście, cichy chód na wsi, Specjalna broń – dmuchawka, Specjalna broń – uliczna, Specjalna broń – korbacz, Specjalna broń – lasso, Specjalna broń – parująca, Specjalna broń – nóż rzucany, Specjalna broń – dwuręczna}', 0, 30, 30, 1, 1, 6, 30, 3, 30, 20, 20, 20, 20, 20, '');
+SELECT pg_temp.addProfession('Zabójca gigantów', 'Wojownik', '{Uniki, Sekretny język – bitewny, Specjalna broń – korbacz, Specjalna broń – dwuręczna, Silny Cios}', 0, 40, 0, 3, 3, 8, 20, 2, 10, 0, 0, 30, 0, 0, '');
+SELECT pg_temp.addProfession('Zwadźca', '', '{rozbrajanie, Uniki, Etykieta, Celny strzał, Specjalna broń – rapier, Specjalna broń – palna, Specjalna broń – parująca, Silny Cios, Celny cios, Ogłuszenie}', 0, 30, 30, 1, 3, 3, 20, 1, 0, 10, 30, 30, 20, 0, '');
+SELECT pg_temp.addProfession('Zwiadowca', '', '{Opieka nad zwierzętami, Ukrywanie się na wsi, Tropienie, Orientacja w terenie, Jeździectwo, Sekretny język – rangerów}', 0, 20, 20, 1, 1, 6, 20, 1, 10, 10, 10, 10, 10, 0, '');
+SELECT pg_temp.addProfession('Kapłan druidzki I', '', '{język tajemny – druidyczny, Leczenie ran, Zielarstwo, Medytacja, Jeździectwo, Wiedza druidyczna I}', 0, 0, 0, 0, 0, 2, 10, 0, 0, 0, 0, 10, 10, 10, '');
+SELECT pg_temp.addProfession('Kapłan druidzki II', '', '{Wiedza druidyczna II, posłuch u zwierząt, leczenie chorób, wróżenie, wykrywanie magii}', 0, 10, 10, 1, 1, 3, 20, 0, 10, 10, 10, 10, 20, 10, '');
+SELECT pg_temp.addProfession('Kapłan druidzki III', '', '{Wiedza druidyczna III, astronomia, wykrywanie istot magicznych}', 0, 10, 10, 1, 1, 4, 20, 0, 20, 20, 20, 20, 30, 20, '');
+SELECT pg_temp.addProfession('Kapłan druidzki IV', '', '{Wiedza druidyczna IV, wytwarzanie eliksirów, rozpoznawanie runów}', 0, 10, 10, 1, 1, 4, 30, 0, 30, 30, 30, 30, 30, 30, '');
+SELECT pg_temp.addProfession('Kapłan I', '', '{język tajemny – magiczny, Medytacja, krasomówstwo, Wiedza kapłańska I}', 0, 0, 0, 0, 0, 2, 10, 0, 0, 0, 10, 0, 0, 0, 'Należy wykonać rzut w tabeli rozwoju kapłana przed awansowaniem. Punkty magii +2K8');
+SELECT pg_temp.addProfession('Kapłan II', '', '{Wiedza kapłańska II, rozpoznawanie ożywieńców, wykrywanie magicznych przedmiotów}', 0, 10, 10, 1, 1, 3, 20, 0, 10, 10, 20, 10, 10, 0, 'Należy wykonać rzut w tabeli rozwoju kapłana przed awansowaniem. Punkty magii +2K8');
+SELECT pg_temp.addProfession('Kapłan III', '', '{Wiedza kapłańska III, wykrywanie istot magicznych, tworzenie magicznych pergaminów}', 0, 10, 10, 1, 1, 4, 30, 0, 20, 20, 30, 20, 20, 0, 'Należy wykonać rzut w tabeli rozwoju kapłana przed awansowaniem. Punkty magii +2K8');
+SELECT pg_temp.addProfession('Kapłan IV', '', '{Wiedza kapłańska IV, wytwarzanie eliksirów}', 0, 10, 10, 1, 1, 4, 40, 0, 30, 30, 30, 30, 30, 0, 'Kiedy kapłan skompletuje 4 poziom, wykonuje kolejny rzut wg tabeli rozwoju kapłana. Punkty magii +2K8');
+SELECT pg_temp.addProfession('Czarodziej I', '', '{Rzucanie czarów, Rozpoznawanie Roślin, Wykrywanie magii, Rozpoznawanie runów, Wiedza o magicznych pergaminach}', 0, 0, 0, 0, 0, 2, 10, 0, 0, 0, 10, 0, 0, 0, '');
+SELECT pg_temp.addProfession('Czarodziej II', '', '{Szacowanie, Zielarstwo, Wykrywanie istot magicznych, Medytacja}', 0, 10, 10, 1, 1, 3, 20, 0, 10, 10, 20, 10, 10, 0, '');
+SELECT pg_temp.addProfession('Czarodziej III', '', '{Wiedza o demonach, Rozpoznawanie magicznych przedmiotów, Rozpoznawanie ożywieńców, Warzenie trucizn}', 0, 10, 10, 1, 1, 4, 30, 0, 20, 20, 30, 20, 20, 0, '');
+SELECT pg_temp.addProfession('Czarodziej IV', '', '{Język tajemny – krasnoludzki, Język tajemny – elfi, Wytwarzanie eliksirów, Tworzenie magicznych pergaminów}', 0, 10, 10, 1, 1, 4, 40, 0, 30, 30, 30, 30, 30, 0, '');
+
+
+
+CREATE FUNCTION pg_temp.add_next_professions(profession_name VARCHAR(255),
+                                             professions_to_add VARCHAR(255)[]) RETURNS VOID AS
+$$
+DECLARE
+    actual_names VARCHAR(255)[]= '{}';
+    current_name VARCHAR(255);
+
+BEGIN
+
+    FOR i IN 1 .. array_upper(professions_to_add, 1)
+        LOOP
+            current_name := (SELECT name
+                             FROM profession
+                             WHERE name ILIKE professions_to_add[i]);
+
+            actual_names := (SELECT array_append(actual_names, current_name));
+
+        END LOOP;
+
+    UPDATE profession SET next_professions = actual_names WHERE name ILIKE profession_name;
+END;
+
+$$
+    LANGUAGE plpgsql;
+
+SELECT pg_temp.add_next_professions('Aptekarz', '{medyk, uczeń alchemika, szarlatan, poszukiwacz złota}');
+SELECT pg_temp.add_next_professions('Banita', '{gajowy, bydłokrad, rozbójnik, herszt banitów, strzelec}');
+SELECT pg_temp.add_next_professions('Bydłokrad', '{banita, handlarz niewolników}');
+SELECT pg_temp.add_next_professions('Cyrkowiec–Akrobata', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Aktor', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Treser', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Bentlarz', '{szarlatan}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Eskapolog', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Jasnowidz', '{szarlatan}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Hipnotyzer', '{hipnotyzer}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Parodysta', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Trefniś', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Żongler', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Wierszokleta', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Śpiewak', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Siłacz', '{reketer}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Linoskoczek', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Trubadur', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Brzuchomówca', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Zapaśnik', '{reketer}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Miotacz', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Malarz', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Połykacz', '{złodziej}');
+SELECT pg_temp.add_next_professions('cyrkowiec–Komik', '{złodziej}');
+SELECT pg_temp.add_next_professions('Czeladnik', '{rzemieślnik, ochroniarz, oprych}');
+SELECT pg_temp.add_next_professions('Druid', '{gajowy, myśliwy, banita, traper, drwal, Kapłan druidzki I}');
+SELECT pg_temp.add_next_professions('Drwal', '{druid, banita, zwiadowca}');
+SELECT pg_temp.add_next_professions('Gajowy', '{druid, gawędziarz, milicjant, banita, bydłokrad, strzelec, zwiadowca}');
+SELECT pg_temp.add_next_professions('Gawędziarz', '{szarlatan, demagog}');
+SELECT pg_temp.add_next_professions('Giermek', '{kapitan najemników, rycerz najemny}');
+SELECT pg_temp.add_next_professions('Gladiator', '{szampierz, oprych, herszt banitów, wojownik podziemny, zabójca gigantów, łowca nagród}');
+SELECT pg_temp.add_next_professions('Goniec', '{wojownik podziemny, zwiadowca}');
+SELECT pg_temp.add_next_professions('Handlarz', '{złodziej–skrawkarz, paser, kupiec}');
+SELECT pg_temp.add_next_professions('Hiena cmentarna', '{ochroniarz, paser, szczurołap, wojownik podziemny}');
+SELECT pg_temp.add_next_professions('Hipnotyzer', '{szarlatan, cyrkowiec–Hipnotyzer, medyk}');
+SELECT pg_temp.add_next_professions('Inżynier', '{uczeń alchemika, bombardier, rzemieślnik, saper, balistyk, wojownik podziemny}');
+SELECT pg_temp.add_next_professions('Łowca nagród', '{zabijaka, strzelec, najemnik, handlarz niewolników, oprych, zabójca}');
+SELECT pg_temp.add_next_professions('Milicjant', '{oprych, banita, najemnik}');
+SELECT pg_temp.add_next_professions('Minstrel', '{szarlatan}');
+SELECT pg_temp.add_next_professions('Myśliwy', '{druid, banita, zwiadowca}');
+SELECT pg_temp.add_next_professions('Mytnik', '{złodziej–malwersant, banita, rozbójnik, milicjant}');
+SELECT pg_temp.add_next_professions('Najemnik', '{balistyk, bombardier, kapitan najemników, herszt banitów, saper, handlarz niewolników, wojownik podziemny}');
+SELECT pg_temp.add_next_professions('Nowicjusz', '{podżegacz, kapłan I}');
+SELECT pg_temp.add_next_professions('Ochroniarz', '{łowca nagród, oprych, najemnik, herszt banitów}');
+SELECT pg_temp.add_next_professions('Oprych', '{ochroniarz, rozbójnik, banita, handlarz niewolników, paser, reketer}');
+SELECT pg_temp.add_next_professions('Pasterz', '{milicjant, druid, banita, bydłokrad, zwiadowca}');
+SELECT pg_temp.add_next_professions('Pilot', '{przemytnik, nawigator, kapitan, gawędziarz}');
+SELECT pg_temp.add_next_professions('Poborca podatkowy', '{podżegacz, prawnik, kupiec, milicjant, banita, strażnik dróg, złodziej–skrawkarz, złodziej–malwersant}');
+SELECT pg_temp.add_next_professions('Podżegacz', '{banita, demagog, szarlatan}');
+SELECT pg_temp.add_next_professions('Poganiacz mułów', '{banita, zwiadowca, przemytnik}');
+SELECT pg_temp.add_next_professions('Porywacz zwłok', '{ochroniarz, uczeń medyka, szczurołap}');
+SELECT pg_temp.add_next_professions('Poszukiwacz złota', '{hiena cmentarna, żołnierz, wojownik podziemny, zwiadowca}');
+SELECT pg_temp.add_next_professions('Przemytnik', '{żeglarz, pilot, paser}');
+SELECT pg_temp.add_next_professions('Przepatrywacz', '{najemnik, rozbójnik, zwiadowca}');
+SELECT pg_temp.add_next_professions('Przewoźnik', '{banita, przemytnik, żeglarz}');
+SELECT pg_temp.add_next_professions('Rajfur', '{ochroniarz, paser}');
+SELECT pg_temp.add_next_professions('Robotnik', '{balistyk, ochroniarz, oprych}');
+SELECT pg_temp.add_next_professions('Rybak', '{pilot, żeglarz, przemytnik, handlarz}');
+SELECT pg_temp.add_next_professions('Skryba', '{kupiec, fałszerz, bakałarz, prawnik}');
+SELECT pg_temp.add_next_professions('Służący', '{podżegacz, złodziej, gajowy, skryba}');
+SELECT pg_temp.add_next_professions('Strażnik dróg', '{milicjant, rozbójnik, banita}');
+SELECT pg_temp.add_next_professions('Strażnik miejski', '{łowca nagród, strażnik dróg, szampierz, reketer, kapitan najemników}');
+SELECT pg_temp.add_next_professions('Strażnik więzienny', '{ochroniarz, szczurołap, oprawca, handlarz niewolników}');
+SELECT pg_temp.add_next_professions('Szczurolap', '{strażnik więzienny, ochroniarz, porywacz zwłok, oprych}');
+SELECT pg_temp.add_next_professions('Szlachcic', '{szuler, żak, rajfur, zwadźca, rycerz najemny}');
+SELECT pg_temp.add_next_professions('Szuler', '{szarlatan}');
+SELECT pg_temp.add_next_professions('Traper', '{zwiadowca, druid, banita}');
+SELECT pg_temp.add_next_professions('Uczeń alchemika', '{porywacz zwłok, podrabiacz monet, szarlatan, poszukiwacz złota, rajfur, Cyrkowiec–Bentlarz}');
+SELECT pg_temp.add_next_professions('Uczeń czarodzieja', '{rajfur, szarlatan, czarodziej I, hiena cmentarna, porywacz zwłok, Cyrkowiec–Bentlarz, szuler}');
+SELECT pg_temp.add_next_professions('Uczeń medyka', '{rajfur, szarlatan, porywacz zwłok, medyk}');
+SELECT pg_temp.add_next_professions('Wędrowny kramarz', '{ochroniarz, banita, handlarz, traper, paser}');
+SELECT pg_temp.add_next_professions('Wieszczek', '{podżegacz, szarlatan}');
+SELECT pg_temp.add_next_professions('Wojownik podziemny', '{saper, hiena cmentarna, przemytnik}');
+SELECT pg_temp.add_next_professions('Woźnica', '{rozbójnik, zwiadowca}');
+SELECT pg_temp.add_next_professions('Zabijaka', '{zwadźca, oprych, szampierz, łowca nagród}');
+SELECT pg_temp.add_next_professions('Zabójca trolli', '{zabójca gigantów}');
+SELECT pg_temp.add_next_professions('Złodziej', '{ochroniarz, szarlatan, banita, reketer}');
+SELECT pg_temp.add_next_professions('Złodziej–włamywacz', '{ochroniarz, paser}');
+SELECT pg_temp.add_next_professions('Złodziej–skrawkarz', '{podrabiacz monet, paser}');
+SELECT pg_temp.add_next_professions('Złodziej–malwersant', '{paser, skryba, handlarz}');
+SELECT pg_temp.add_next_professions('Złodziej–kieszonkowiec', '{paser, Ochroniarz}');
+SELECT pg_temp.add_next_professions('Zielarz', '{uczeń medyka, druid}');
+SELECT pg_temp.add_next_professions('Żak', '{rajfur, prawnik, bakałarz, podżegacz, nawigator, złodziej}');
+SELECT pg_temp.add_next_professions('Żebrak', '{ochroniarz, reketer, szczurołap}');
+SELECT pg_temp.add_next_professions('Żeglarz', '{kapitan, pilot, handlarz niewolników, przewoźnik, przemytnik, gawędziarz}');
+SELECT pg_temp.add_next_professions('Żołnierz', '{handlarz niewolników, kapitan najemników, saper, łowca nagród, bombardier, oprych, balistyk}');
+SELECT pg_temp.add_next_professions('Żołnierz okrętowy', '{oprych, łowca nagród, balistyk, kapitan najemników, kapitan, handlarz niewolników}');
+/*SELECT pg_temp.add_next_professions('Balistyk', '{}');
+SELECT pg_temp.add_next_professions('Bakałarz', '{}');
+SELECT pg_temp.add_next_professions('Bombardier', '{}');
+SELECT pg_temp.add_next_professions('Demagog', '{}');
+SELECT pg_temp.add_next_professions('Fałszerz', '{}');
+SELECT pg_temp.add_next_professions('Kapitan', '{}');
+SELECT pg_temp.add_next_professions('Kupiec', '{}');
+SELECT pg_temp.add_next_professions('Handlarz niewolników', '{}');
+SELECT pg_temp.add_next_professions('Herszt banitów', '{}');
+SELECT pg_temp.add_next_professions('Łowca czarownic', '{}');
+SELECT pg_temp.add_next_professions('Medyk', '{}');
+SELECT pg_temp.add_next_professions('Nawigator', '{}');
+SELECT pg_temp.add_next_professions('Odkrywca', '{}');
+SELECT pg_temp.add_next_professions('Oprawca', '{}');
+SELECT pg_temp.add_next_professions('Paser', '{}');
+SELECT pg_temp.add_next_professions('Prawnik', '{}');
+SELECT pg_temp.add_next_professions('Reketer', '{}');
+SELECT pg_temp.add_next_professions('Rozbójnik', '{}');
+SELECT pg_temp.add_next_professions('Saper', '{}');
+SELECT pg_temp.add_next_professions('Podrabiacz monet', '{}');
+SELECT pg_temp.add_next_professions('Rycerz najemny', '{}');
+SELECT pg_temp.add_next_professions('Rycerz zakonny', '{}');
+SELECT pg_temp.add_next_professions('Sierżant najemników', '{}');
+SELECT pg_temp.add_next_professions('Kapitan najemników', '{}');
+SELECT pg_temp.add_next_professions('Rzemieślnik', '{}');
+SELECT pg_temp.add_next_professions('Strzelec', '{}');
+SELECT pg_temp.add_next_professions('Szampierz', '{}');
+SELECT pg_temp.add_next_professions('Szarlatan', '{}');
+SELECT pg_temp.add_next_professions('Szpieg', '{}');
+SELECT pg_temp.add_next_professions('Zabójca', '{}');
+SELECT pg_temp.add_next_professions('Zabójca gigantów', '{}');
+SELECT pg_temp.add_next_professions('Zwadźca', '{}');
+SELECT pg_temp.add_next_professions('Zwiadowca', '{}');*/
+SELECT pg_temp.add_next_professions('Kapłan druidzki I', '{Kapłan druidzki II}');
+SELECT pg_temp.add_next_professions('Kapłan druidzki II', '{Kapłan druidzki III}');
+SELECT pg_temp.add_next_professions('Kapłan druidzki III', '{Kapłan druidzki IV}');
+--SELECT pg_temp.add_next_professions('Kapłan druidzki IV', '{}');
+SELECT pg_temp.add_next_professions('Kapłan I', '{kapłan II, łowca czarownic, demagog}');
+SELECT pg_temp.add_next_professions('Kapłan II', '{kapłan III, łowca czarownic, demagog}');
+SELECT pg_temp.add_next_professions('Kapłan III', '{kapłan IV, łowca czarownic, demagog}');
+SELECT pg_temp.add_next_professions('Kapłan IV', '{łowca czarownic, demagog}');
+SELECT pg_temp.add_next_professions('Czarodziej I', '{Czarodziej II}');
+SELECT pg_temp.add_next_professions('Czarodziej II', '{Czarodziej III}');
+SELECT pg_temp.add_next_professions('Czarodziej III', '{Czarodziej IV}');
+--SELECT pg_temp.add_next_professions('Czarodziej IV', '{}');
 
 DROP FUNCTION pg_temp.addExtension(extension_type VARCHAR, profession_extension_value INT, profession_id_to_insert BIGINT);
+DROP FUNCTION pg_temp.addProfession(profession_name VARCHAR(255),
+    profession_class_name VARCHAR(255),
+    profession_skills_set VARCHAR(255)[],
+    speed_extension INT,
+    battle_extension INT,
+    shooting_extension INT,
+    strenght_extension INT,
+    durability_extension INT,
+    vitality_extension INT,
+    initiative_extension INT,
+    attack_extension INT,
+    dexterity_extension INT,
+    leadership_extension INT,
+    intelligence_extension INT,
+    control_extension INT,
+    will_extension INT,
+    charisma_extension INT,
+    profession_desc text);
+DROP FUNCTION pg_temp.add_next_professions(profession_name VARCHAR, professions_to_add VARCHAR[]);
