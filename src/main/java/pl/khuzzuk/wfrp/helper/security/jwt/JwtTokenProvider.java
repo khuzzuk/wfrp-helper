@@ -14,7 +14,6 @@ import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import pl.khuzzuk.wfrp.helper.WfrpHelperConfig;
@@ -31,8 +30,8 @@ public class JwtTokenProvider {
   private final UserRepo userRepo;
   private final WfrpHelperConfig config;
 
-  public String getToken(Authentication authentication) {
-    User user = userRepo.findByUsername((String) authentication.getPrincipal())
+  public String getToken(String username) {
+    User user = userRepo.findByUsername(username)
                         .orElseThrow(() -> HttpClientErrorException.create(HttpStatus.UNAUTHORIZED,
                                                                            "Unauthenticated",
                                                                            EMPTY,

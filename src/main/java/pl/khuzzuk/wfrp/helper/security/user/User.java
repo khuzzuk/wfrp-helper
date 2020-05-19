@@ -36,13 +36,13 @@ public class User implements UserDetails {
   @NaturalId
   private @Length(min = 3, max = 100) String username;
   private @NotNull String password;
-  private boolean oneTimePassword;
+  private boolean oneTimePassword = true;
   @DTO.Exclude
   private boolean accountNonExpired = true;
   @DTO.Exclude
   private boolean accountNonLocked = true;
   @DTO.Exclude
-  private boolean credentialsNonExpired = false;
+  private boolean credentialsNonExpired = true;
   @DTO.Exclude
   private boolean enabled = true;
   @ManyToMany(fetch = EAGER)

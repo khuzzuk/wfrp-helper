@@ -58,7 +58,7 @@ public class UserModificationService {
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     JwtAuthentication jwtAuth = new JwtAuthentication();
-    jwtAuth.setToken(jwtTokenProvider.getToken(authentication));
+    jwtAuth.setToken(jwtTokenProvider.getToken((String) authentication.getPrincipal()));
     return jwtAuth;
   }
 

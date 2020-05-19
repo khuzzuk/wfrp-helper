@@ -17,17 +17,14 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pl.khuzzuk.wfrp.helper.security.jwt.JwtRequestFilter;
+import pl.khuzzuk.wfrp.helper.security.oauth2.OAuth2AuthenticationSuccessHandler;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  private static final String LOGIN_URL = "/login.html";
-  private static final String LOGIN_SUCCESS_URL = "/index.html";
-  private static final String LOGIN_PERFORM_URL = "/loginPerform";
-  private static final String LOGIN_FAILURE_URL = "/login?error=true";
-
   private final JwtRequestFilter jwtRequestFilter;
+  private final OAuth2AuthenticationSuccessHandler successHandler;
 
   @Bean
   PasswordEncoder passwordEncoder() {
@@ -41,7 +38,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    // @formatter:off
+    //@formatter:off
     http.csrf().disable().cors()
           .and()
         .formLogin().disable()
@@ -57,6 +54,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .hasAnyRole("USER")
           .and()
         .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+        .oauth2Login()
+          .authorizationEndpoint()
+            .baseUri("/oauth2/authorize")
+            .and()
+          .redirectionEndpoint()
+            .baseUri("/oauth2/callback/*")
+          .and()
+        .successHandler(successHandler)
     ;//@formatter:on
   }
 

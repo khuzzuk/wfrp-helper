@@ -16,7 +16,7 @@ public class WfrpHelperConfig {
   }
 
   @Data
-  static class Oauth2 {
+  public static class Oauth2 {
     private String authorizedRedirectUris;
   }
 }

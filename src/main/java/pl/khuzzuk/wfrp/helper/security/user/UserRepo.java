@@ -1,9 +1,11 @@
 package pl.khuzzuk.wfrp.helper.security.user;
 
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+@Transactional
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
 
@@ -14,6 +16,8 @@ public interface UserRepo extends JpaRepository<User, Long> {
    * loading on hibernate annotations.
    */
   Optional<User> findById(Long id);
+
+  boolean existsByUsername(String username);
 
   boolean getUser_oneTimePasswordByUsername(String name);
 }
