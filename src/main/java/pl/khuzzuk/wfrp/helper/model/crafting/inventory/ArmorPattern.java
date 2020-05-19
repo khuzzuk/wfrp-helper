@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 @Setter
 @EqualsAndHashCode(of = "name")
 @Entity
-@Table(schema = "crafting")
+    @Table(schema = "crafting")
 @RemoteEntity
 public class ArmorPattern {
     @Id

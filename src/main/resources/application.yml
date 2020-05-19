@@ -27,3 +27,11 @@ spring:
             audit_table_suffix: _history
   flyway:
     locations: classpath:/db/migration,/db/data
+
+app:
+  auth:
+    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenExpirationSeconds: 14400
+  oauth2:
+    authorizedRedirectUris:
+      - http://localhost:3000/oauth2/redirect

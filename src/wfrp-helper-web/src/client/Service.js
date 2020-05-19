@@ -11,8 +11,13 @@ export default class Service {
     loadData = () => {
         State.fetching(this.entityName);
         fetch(this.entityName, {
-            mode: 'cors'
+            mode: 'cors',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + State.data.user.token
+            }
         })
+            .then(this.handleErrors)
             .then(response => response.json())
             .then(data => data.map(entity => State.suppliers[this.entityName]().updateWith(entity)))
             .then(data => {
@@ -24,7 +29,10 @@ export default class Service {
         fetch(this.entityName, {
             method: 'post',
             mode: 'cors',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + State.data.user.token
+            },
             body: JSON.stringify(entity)
         })
             .then(this.handleErrors)
@@ -35,7 +43,10 @@ export default class Service {
         fetch(this.entityName, {
             method: 'delete',
             mode: 'cors',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + State.data.user.token
+            },
             body: JSON.stringify(entity)
         })
             .then(this.handleErrors)
@@ -56,6 +67,8 @@ export default class Service {
                 message.then(value => {
                     window.confirm(value.errors[0].message);
                 });
+            } else if (response.status === 403 || response.status === 401) {
+                State.updateUser({token: null})
             }
             throw response;
         }

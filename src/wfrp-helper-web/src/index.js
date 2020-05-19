@@ -9,7 +9,6 @@ import Typography from "@material-ui/core/Typography";
 import './i18n';
 
 const App = React.lazy(() => {
-    DataLoader.refreshData();
     return import('./App');
 });
 

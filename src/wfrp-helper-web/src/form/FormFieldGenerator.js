@@ -34,6 +34,9 @@ export const CreateFormField = (fieldData: FormFieldData, t) => {
         case FormFieldType.TEXT:
             return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field}/>;
 
+        case FormFieldType.PASSWORD:
+            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field} type={'password'}/>;
+
         case FormFieldType.TEXT_AREA:
             return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} multiline style={basicStyle.field}/>;
 

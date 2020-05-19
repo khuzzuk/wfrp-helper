@@ -7,14 +7,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 class WebConfiguration implements WebMvcConfigurer {
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/build/");
-        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/static/build/index.html");
-    }
 
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**");
-    }
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry.addResourceHandler("/**").addResourceLocations("classpath:/static/build/");
+    registry.addResourceHandler("/index.html")
+            .addResourceLocations("classpath:/static/build/index.html");
+  }
+
+  @Override
+  public void addCorsMappings(CorsRegistry registry) {
+    registry.addMapping("/**")
+            .allowedOrigins("*")
+            .allowedHeaders("*")
+            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            .allowCredentials(true)
+            .maxAge(3600);
+  }
 }

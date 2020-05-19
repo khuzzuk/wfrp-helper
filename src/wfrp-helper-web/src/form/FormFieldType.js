@@ -1,5 +1,6 @@
 export const FormFieldType = {
     TEXT: 'text',
+    PASSWORD: 'password',
     TEXT_AREA: 'text_area',
     BOOLEAN: 'boolean',
     INTEGER: 'integer',

@@ -26,6 +26,7 @@ public class RemoteEntityProcessor extends AbstractProcessor {
       Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(annotation);
 
       for (Element element : elements) {
+        System.out.println("Processing RemoteEntity: " + element.getSimpleName());
         startRecord();
 
         SourceFileDescription sourceFileDescription =

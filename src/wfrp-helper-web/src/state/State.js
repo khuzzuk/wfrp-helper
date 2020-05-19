@@ -4,6 +4,11 @@ export const State = {
     data: {
         showTable: null,
         fetching: new Set(),
+        user: {
+            username: null,
+            password: null,
+            token: null
+        }
     },
     services: {},
     formFields: {},
@@ -12,6 +17,10 @@ export const State = {
     onUpdate: data => {},
     update(data: any) {
         this.data = {...this.data, ...data};
+        this.onUpdate(this.data);
+    },
+    updateUser(user: any) {
+        this.data.user = {...this.data.user, ...user};
         this.onUpdate(this.data);
     },
     showTable(name: string) {
