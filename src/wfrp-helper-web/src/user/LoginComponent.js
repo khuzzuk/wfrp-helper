@@ -1,6 +1,7 @@
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
+import {Link} from "react-router-dom";
 import googleLogo from "./google-logo.png";
 import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
@@ -33,7 +34,6 @@ class LoginComponent extends Component {
       .then(authData => {
         if (authData.token) {
           State.updateUser(authData);
-          DataLoader.refreshData();
         }
       })
     }
@@ -60,7 +60,7 @@ class LoginComponent extends Component {
         <Button>{t('signup')}</Button>
         <IconButton onClick={this.loginWithGoogle}>
           <img src={googleLogo} alt={t('login with Google')} style={{width: 50, height: 50}}/>
-          <a href={'http://localhost:1081/oauth2/authorize/google?redirect_uri=localhost:3000'}>{t('login with Google')}</a>
+          <a href={'http://localhost:1081/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect'}>{t('login with Google')}</a>
         </IconButton>
       </Grid>
     </Grid>;

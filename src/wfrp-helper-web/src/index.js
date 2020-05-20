@@ -1,12 +1,12 @@
-import React, {Suspense} from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
 import CircularProgress from "@material-ui/core/CircularProgress";
-import DataLoader from "./state/DataLoader";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
+import React, {Suspense} from 'react';
+import ReactDOM from 'react-dom';
 import './i18n';
+import './index.css';
+import {BrowserRouter} from "react-router-dom";
+import * as serviceWorker from './serviceWorker';
 
 const App = React.lazy(() => {
     return import('./App');
@@ -26,9 +26,11 @@ const loadingPage = <Grid container>
 </Grid>;
 
 ReactDOM.render(
-    <Suspense fallback={loadingPage}>
-        <App/>
-    </Suspense>,
+    <BrowserRouter>
+        <Suspense fallback={loadingPage}>
+            <App/>
+        </Suspense>
+    </BrowserRouter>,
     document.getElementById('root'));
 
 serviceWorker.unregister();

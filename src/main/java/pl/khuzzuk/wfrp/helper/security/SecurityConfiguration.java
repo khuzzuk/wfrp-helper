@@ -5,7 +5,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +16,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pl.khuzzuk.wfrp.helper.security.jwt.JwtRequestFilter;
+import pl.khuzzuk.wfrp.helper.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import pl.khuzzuk.wfrp.helper.security.oauth2.OAuth2AuthenticationSuccessHandler;
 
 @RequiredArgsConstructor
@@ -25,6 +25,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
   private final JwtRequestFilter jwtRequestFilter;
   private final OAuth2AuthenticationSuccessHandler successHandler;
+  private final HttpCookieOAuth2AuthorizationRequestRepository authorizationRequestRepository;
 
   @Bean
   PasswordEncoder passwordEncoder() {
@@ -46,7 +47,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .sessionManagement().sessionCreationPolicy(STATELESS)
           .and()
         .authorizeRequests()
-          .antMatchers((HttpMethod) null, "/login*", "/static/**", "/*.{js,html,css,json}")
+          .antMatchers("/login*", "/static/**", "/*.{js,html,css,json}")
             .permitAll()
           .antMatchers("/auth/**", "/oauth2/**")
             .permitAll()
@@ -57,6 +58,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .oauth2Login()
           .authorizationEndpoint()
             .baseUri("/oauth2/authorize")
+            .authorizationRequestRepository(authorizationRequestRepository)
             .and()
           .redirectionEndpoint()
             .baseUri("/oauth2/callback/*")
