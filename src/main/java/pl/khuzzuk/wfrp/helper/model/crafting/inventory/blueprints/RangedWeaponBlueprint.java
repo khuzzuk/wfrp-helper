@@ -2,7 +2,7 @@ package pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.khuzzuk.remote.RemoteEntity;
+import pl.javahello.RemoteEntity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;

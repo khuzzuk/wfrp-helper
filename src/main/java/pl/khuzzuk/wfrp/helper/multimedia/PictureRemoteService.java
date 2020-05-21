@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,9 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import pl.khuzzuk.wfrp.helper.model.world.Place;
-import pl.khuzzuk.wfrp.helper.model.world.PlaceRepo;
 import pl.khuzzuk.wfrp.helper.model.world.Scenario;
-import pl.khuzzuk.wfrp.helper.model.world.ScenarioRepo;
 
 @Slf4j
 @AllArgsConstructor
@@ -35,8 +34,8 @@ import pl.khuzzuk.wfrp.helper.model.world.ScenarioRepo;
 public class PictureRemoteService {
 
   private PictureRepo pictureRepo;
-  private PlaceRepo placeRepo;
-  private ScenarioRepo scenarioRepo;
+  private JpaRepository<Place, Long> placeRepo;
+  private JpaRepository<Scenario, Long> scenarioRepo;
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public SavedImage uploadFile(@RequestParam MultipartFile file) throws IOException {

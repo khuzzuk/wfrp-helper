@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
-import pl.khuzzuk.remote.RemoteEntity;
+import pl.javahello.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 

@@ -17,7 +17,7 @@ import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.userdetails.UserDetails;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.security.role.Role;
 
 @Data

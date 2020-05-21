@@ -26,7 +26,7 @@ import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 @Getter

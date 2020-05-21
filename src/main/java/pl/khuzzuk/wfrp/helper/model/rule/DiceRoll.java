@@ -3,7 +3,7 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
 

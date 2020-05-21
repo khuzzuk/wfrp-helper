@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
-import pl.khuzzuk.remote.RemoteEntity;
+import pl.javahello.RemoteEntity;
 
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;

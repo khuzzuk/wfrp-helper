@@ -20,6 +20,7 @@ configurations {
 repositories {
     mavenCentral()
     maven { url "https://raw.github.com/khuzzuk/MessageBus/mvn-repo/" }
+    maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 }
 
 ext {
@@ -71,8 +72,8 @@ dependencies {
     compileOnly group: 'org.mapstruct', name: 'mapstruct', version: mapstructVersion
     compileOnly group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
     annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: mapstructVersion
-    compile project(':remote-common')
-    annotationProcessor project(':remote-common')
+    compile group: 'pl.javahello', name: 'remote-entity', version: '0.0.1'
+    annotationProcessor group: 'pl.javahello', name: 'remote-entity', version: '0.0.1'
 }
 
 task stage(dependsOn: ['build', 'clean'])

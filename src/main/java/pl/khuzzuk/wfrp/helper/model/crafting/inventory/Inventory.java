@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 
 import javax.persistence.*;
 

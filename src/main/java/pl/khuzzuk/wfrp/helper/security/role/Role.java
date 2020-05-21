@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 
 @Data
 @Entity

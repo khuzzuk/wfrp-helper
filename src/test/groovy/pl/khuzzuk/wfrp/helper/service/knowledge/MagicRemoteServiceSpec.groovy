@@ -11,7 +11,7 @@ import org.springframework.http.HttpEntity
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.http.MediaType
-import pl.khuzzuk.remote.Adapter
+import pl.javahello.Adapter
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolDTO
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevelDTO

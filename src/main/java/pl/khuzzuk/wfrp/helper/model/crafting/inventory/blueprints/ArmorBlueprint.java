@@ -1,18 +1,25 @@
 package pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints;
 
+import static pl.khuzzuk.wfrp.helper.model.rule.Placement.BELT;
+import static pl.khuzzuk.wfrp.helper.model.rule.Placement.HAND;
+import static pl.khuzzuk.wfrp.helper.model.rule.Placement.HEAD;
+import static pl.khuzzuk.wfrp.helper.model.rule.Placement.LEG;
+import static pl.khuzzuk.wfrp.helper.model.rule.Placement.SHIELD;
+import static pl.khuzzuk.wfrp.helper.model.rule.Placement.TORSO;
+
+import java.util.List;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import pl.khuzzuk.remote.RemoteEntity;
+import pl.javahello.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement.PlacementValues;
-
-import javax.persistence.*;
-
-import java.util.List;
-
-import static pl.khuzzuk.wfrp.helper.model.rule.Placement.*;
 
 @Getter
 @Setter

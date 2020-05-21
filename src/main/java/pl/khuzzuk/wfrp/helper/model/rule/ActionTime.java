@@ -2,7 +2,7 @@ package pl.khuzzuk.wfrp.helper.model.rule;
 
 import lombok.Data;
 import org.hibernate.annotations.Type;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 
 import javax.persistence.Embeddable;

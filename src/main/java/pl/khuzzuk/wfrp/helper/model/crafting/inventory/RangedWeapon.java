@@ -2,7 +2,7 @@ package pl.khuzzuk.wfrp.helper.model.crafting.inventory;
 
 import lombok.Getter;
 import lombok.Setter;
-import pl.khuzzuk.remote.RemoteEntity;
+import pl.javahello.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.RangedWeaponBlueprint;
 
 import javax.persistence.Entity;

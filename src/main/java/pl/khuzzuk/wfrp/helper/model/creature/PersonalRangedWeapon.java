@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Ammunition;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.RangedWeapon;
 import pl.khuzzuk.wfrp.helper.repo.ListableEntity;

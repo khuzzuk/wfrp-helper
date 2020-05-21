@@ -1,8 +1,9 @@
 package pl.khuzzuk.wfrp.helper.service.realm;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import pl.khuzzuk.remote.Adapter;
+import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.creature.PersonDTO;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
@@ -12,6 +13,7 @@ import pl.khuzzuk.wfrp.helper.model.money.CurrencyDTO;
 import pl.khuzzuk.wfrp.helper.model.world.*;
 
 import javax.transaction.Transactional;
+import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
 
 @AllArgsConstructor
 @RestController
@@ -28,6 +30,7 @@ public class RealmDataRemoteService {
 
     @Transactional
     @GetMapping("{id}")
+    @Secured(RoleRepo.ROLE_ADMIN)
     public @ResponseBody RealmData getRealmData(@PathVariable("id") long id) {
         Realm realm = realmDataService.getRealmById(id);
 

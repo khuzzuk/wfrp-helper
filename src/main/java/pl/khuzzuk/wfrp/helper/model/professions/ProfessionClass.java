@@ -3,7 +3,7 @@ package pl.khuzzuk.wfrp.helper.model.professions;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
-import pl.khuzzuk.remote.RemoteEntity;
+import pl.javahello.RemoteEntity;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 
 import javax.persistence.Entity;

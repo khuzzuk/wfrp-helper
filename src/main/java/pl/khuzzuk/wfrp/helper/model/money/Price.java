@@ -1,7 +1,7 @@
 package pl.khuzzuk.wfrp.helper.model.money;
 
 import lombok.Data;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 
 import javax.persistence.Embeddable;
 

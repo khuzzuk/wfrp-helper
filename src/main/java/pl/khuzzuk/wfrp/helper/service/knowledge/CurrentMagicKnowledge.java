@@ -3,7 +3,7 @@ package pl.khuzzuk.wfrp.helper.service.knowledge;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import pl.khuzzuk.remote.DTO;
+import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
 

@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pl.khuzzuk.remote.Adapter;
+import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevelDTO;
 
