@@ -3,7 +3,6 @@ package pl.khuzzuk.wfrp.helper.web;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.annotation.Nullable;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import lombok.AllArgsConstructor;
@@ -37,8 +36,8 @@ class ValidationErrorHandler extends ResponseEntityExceptionHandler {
     ApiError apiError = createApiError();
 
     if (exception.getMostSpecificCause() instanceof ConstraintViolationException) {
-      ConstraintViolationException constraintViolationException = (ConstraintViolationException) exception
-          .getMostSpecificCause();
+      ConstraintViolationException constraintViolationException =
+          (ConstraintViolationException) exception.getMostSpecificCause();
       List<ValidationError> validationErrors = new ArrayList<>();
 
       for (ConstraintViolation violation : constraintViolationException.getConstraintViolations()) {
@@ -82,24 +81,21 @@ class ValidationErrorHandler extends ResponseEntityExceptionHandler {
   }
 
   @Override
-  protected ResponseEntity<Object> handleMethodArgumentNotValid(
-      @Nullable MethodArgumentNotValidException ex,
-      @Nullable HttpHeaders headers,
-      @Nullable HttpStatus status,
-      @Nullable WebRequest request) {
+  protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+                                                                HttpHeaders headers,
+                                                                HttpStatus status,
+                                                                WebRequest request) {
     logger.warn(String.format("Wrong request received: %s", request));
     ApiError apiError = createApiError();
 
-    if (ex != null) {
-      List<ValidationError> validationErrors = ex.getBindingResult()
-          .getFieldErrors()
-          .stream()
-          .map(ValidationErrorHandler::getValidationError)
-          .collect(Collectors.toList());
-      validationErrors.forEach(validationError -> validationError.setEntity(ex.getBindingResult()
-                                                                                .getTarget()));
-      apiError.setErrors(validationErrors);
-    }
+    List<ValidationError> validationErrors = ex.getBindingResult()
+                                               .getFieldErrors()
+                                               .stream()
+                                               .map(ValidationErrorHandler::getValidationError)
+                                               .collect(Collectors.toList());
+    validationErrors.forEach(validationError -> validationError.setEntity(ex.getBindingResult()
+                                                                            .getTarget()));
+    apiError.setErrors(validationErrors);
 
     return new ResponseEntity<>(apiError, headers, HttpStatus.BAD_REQUEST);
   }
