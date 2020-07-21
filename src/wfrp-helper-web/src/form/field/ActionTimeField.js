@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {FormLabel} from "@material-ui/core";
+import {FormLabel, TextField} from "@material-ui/core";
 import EnumSelect from "./EnumSelect";
 import IntegerField from "./IntegerField";
 import {withTranslation} from "react-i18next";
@@ -23,6 +23,7 @@ class ActionTimeField extends Component {
       name,
       label = t(name),
       value = State.data.entity[name],
+      editable
     } = this.props;
 
     return <Grid container alignItems={"center"} spacing={2}>
@@ -34,13 +35,15 @@ class ActionTimeField extends Component {
                     label={t('type')}
                     data={ActionType.allOf()}
                     value={value.type}
-                    onChange={type => this.onUpdate({type: type})}/>
+                    onChange={type => this.onUpdate({type: type})}
+                    editable={editable}/>
       </Grid>
       <Grid item>
         <IntegerField key={'amount'}
                       label={t('amount')}
                       value={value.amount}
-                      onChange={amount => this.onUpdate({amount: amount})}/>
+                      onChange={amount => this.onUpdate({amount: amount})}
+                      InputProps={{readOnly: !editable}}/>
       </Grid>
     </Grid>;
   }

@@ -22,7 +22,6 @@ class LoginComponent extends Component {
   login = () => {
     const user = State.data.entity;
     if (user && user.username && user.password) {
-      console.log(user);
       fetch('login', {
         method: 'post',
         mode: 'cors',
@@ -52,10 +51,10 @@ class LoginComponent extends Component {
         <Typography>WFRP Helper</Typography>
       </Grid>
       <Grid item xs={6}>
-        {CreateFormField(loginFieldData, t)}
+        {CreateFormField(loginFieldData, t, true)}
       </Grid>
       <Grid item xs={6}>
-        {CreateFormField(passwordFieldData, t)}
+        {CreateFormField(passwordFieldData, t, true)}
       </Grid>
       <Grid item xs={8}>
         <Button onClick={this.login}>{t('login')}</Button>

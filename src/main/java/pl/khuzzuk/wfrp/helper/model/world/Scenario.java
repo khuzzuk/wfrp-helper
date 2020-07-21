@@ -15,13 +15,15 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
 @Table(schema = "realm")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Scenario {
 
   @Id

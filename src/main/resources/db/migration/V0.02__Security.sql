@@ -21,7 +21,3 @@ CREATE TABLE security.user_roles (
     roles_id BIGINT NOT NULL REFERENCES security.role (id),
     PRIMARY KEY (user_id, roles_id)
 );
-
-INSERT INTO security.role (authority)
-VALUES ('ROLE_USER'),
-       ('ROLE_ADMIN');

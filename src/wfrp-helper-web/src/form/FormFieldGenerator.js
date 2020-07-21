@@ -13,6 +13,7 @@ import PriceField from "./field/PriceField";
 import FormFieldData from "./FormFieldData";
 import {FormFieldType} from "./FormFieldType";
 import CharacterSheetForm from "./sheet/CharacterSheetForm";
+import CharacterSheetView from "./sheet/CharacterSheetView";
 
 const basicStyle = {
     root: {
@@ -23,7 +24,7 @@ const basicStyle = {
     }
 };
 
-export const CreateFormField = (fieldData: FormFieldData, t) => {
+export const CreateFormField = (fieldData: FormFieldData, t, editable) => {
     const {name, type, suggestions, toView, toModel} = fieldData;
     const entity = State.data.entity;
     let value = entity[name];
@@ -32,49 +33,49 @@ export const CreateFormField = (fieldData: FormFieldData, t) => {
 
     switch (type) {
         case FormFieldType.TEXT:
-            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field}/>;
+            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field} InputProps={{readOnly: !editable}}/>;
 
         case FormFieldType.PASSWORD:
-            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field} type={'password'}/>;
+            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field} type={'password'} InputProps={{readOnly: !editable}}/>;
 
         case FormFieldType.TEXT_AREA:
-            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} multiline style={basicStyle.field}/>;
+            return <TextField key={name} label={t(name)} value={value || ''} onChange={onUpdate} multiline style={basicStyle.field} InputProps={{readOnly: !editable}}/>;
 
         case FormFieldType.INTEGER:
-            return <IntegerField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field}/>;
+            return <IntegerField key={name} label={t(name)} value={value || ''} onChange={onUpdate} style={basicStyle.field} InputProps={{readOnly: !editable}}/>;
 
         case FormFieldType.FLOAT:
-            return <TextField key={name} label={t(name)} value={value || ''} type={'number'} onChange={onUpdate} style={basicStyle.field}/>;
+            return <TextField key={name} label={t(name)} value={value || ''} type={'number'} onChange={onUpdate} style={basicStyle.field} InputProps={{readOnly: !editable}}/>;
 
         case FormFieldType.DETERMINANT:
-            return <DeterminantField key={name} name={name} value={value}/>;
+            return <DeterminantField key={name} name={name} value={value} editable={editable}/>;
 
         case FormFieldType.ENTITY_SELECT:
-            return <EntitySelect key={name} name={name} suggestions={suggestions}/>;
+            return <EntitySelect key={name} name={name} suggestions={suggestions} editable={editable}/>;
 
         case FormFieldType.ENTITY_COMBOBOX:
-            return <EntitySelect key={name} name={name} suggestions={suggestions} multi/>;
+            return <EntitySelect key={name} name={name} suggestions={suggestions} multi editable={editable}/>;
 
         case FormFieldType.ENUM_SELECT:
-            return <EnumSelect key={name} name={name} suggestions={suggestions} value={value}/>;
+            return <EnumSelect key={name} name={name} suggestions={suggestions} value={value} editable={editable}/>;
 
         case FormFieldType.ENUM_COMBOBOX:
-            return <EnumCombobox key={name} name={name} suggestions={suggestions} toView={toView}/>;
+            return <EnumSelect key={name} name={name} suggestions={suggestions} value={value} multi editable={editable}/>;
 
         case FormFieldType.PRICE:
-            return <PriceField key={name} name={name}/>;
+            return <PriceField key={name} name={name} editable={editable}/>;
 
         case FormFieldType.ACTION_TIME:
-            return <ActionTimeField key={name} name={name}/>;
+            return <ActionTimeField key={name} name={name} editable={editable}/>;
 
         case FormFieldType.MODIFIER:
-            return <ModifierField id={name} name={name} value={value}/>;
+            return <ModifierField id={name} name={name} value={value} editable={editable}/>;
 
         case FormFieldType.BLUEPRINT_SELECT:
-            return <BlueprintSelect key={name} name={name} suggestions={suggestions}/>;
+            return <BlueprintSelect key={name} name={name} suggestions={suggestions} editable={editable}/>;
 
         case FormFieldType.CHARACTER_SHEET:
-            return <CharacterSheetForm/>;
+            return editable ? <CharacterSheetForm/> : <CharacterSheetView/>;
     }
     throw fieldData;
 };

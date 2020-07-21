@@ -13,12 +13,14 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 
 @Data
 @EqualsAndHashCode(of = {"name"})
 @Entity
 @Table(schema = "world")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Place {
 
   @Id

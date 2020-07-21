@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 
 import javax.persistence.Entity;
@@ -20,7 +21,8 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = {"name"})
 @Entity
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class ProfessionClass {
     @Id
     @SequenceGenerator(name = "profession_class_seq_gen", sequenceName = "profession_class_seq", allocationSize = 1)

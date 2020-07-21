@@ -30,7 +30,7 @@ public class RealmDataRemoteService {
 
     @Transactional
     @GetMapping("{id}")
-    @Secured(RoleRepo.ROLE_ADMIN)
+    @Secured(RoleRepo.ROLE_USER)
     public @ResponseBody RealmData getRealmData(@PathVariable("id") long id) {
         Realm realm = realmDataService.getRealmById(id);
 

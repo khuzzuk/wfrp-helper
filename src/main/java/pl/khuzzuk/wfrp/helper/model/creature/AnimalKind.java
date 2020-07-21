@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.CascadeType;
@@ -20,7 +21,8 @@ import java.util.Set;
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class AnimalKind {
     @Id
     @SequenceGenerator(name = "animal_kind_seq_gen", sequenceName = "animal_kind_seq", allocationSize = 1)

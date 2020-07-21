@@ -15,7 +15,8 @@ class EntitySelect extends Component {
             data = State.data[suggestions],
             value = State.data.entity[name],
             multi = false,
-            onChange = this.updateEntity
+            onChange = this.updateEntity,
+            editable
         } = this.props;
 
         return <div>
@@ -32,7 +33,8 @@ class EntitySelect extends Component {
                     filterOption={(option, input) => option.data.name.startsWith(input)}
                     onChange={onChange}
                     value={value}
-                    isMulti={multi}/>
+                    isMulti={multi}
+                    isDisabled={!editable}/>
         </div>;
     }
 

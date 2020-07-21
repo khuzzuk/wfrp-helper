@@ -6,6 +6,7 @@ import ContentPane from "./content/ContentPane";
 import TopMenu from "./menu/TopMenu";
 import DataLoader from "./state/DataLoader";
 import {State} from "./state/State";
+import AuthoritiesService from "./user/AuthoritiesService";
 import LoginComponent from "./user/LoginComponent";
 import OAuth2RedirectComponent from "./user/OAuth2RedirectComponent";
 import User from "./user/User";
@@ -13,6 +14,7 @@ import User from "./user/User";
 const theme = createMuiTheme({
                                palette: {primary: grey, secondary: orange},
                              });
+const authoritiesService = new AuthoritiesService();
 
 export default class App extends Component {
 
@@ -33,6 +35,10 @@ export default class App extends Component {
           <Route path={"/oauth2/redirect"} component={OAuth2RedirectComponent}/>
         </Switch>
       </MuiThemeProvider>
+    }
+
+    if (!State.data.user.authorities) {
+      authoritiesService.refreshAuthorities();
     }
 
     if (!State.data.initialized) {

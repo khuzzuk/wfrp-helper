@@ -8,8 +8,14 @@ import {State}           from "../../state/State";
 class BlueprintSelect extends Component {
   render() {
     const {
-      t, name, label = t(name), suggestions = name, data = State.data[suggestions], value = State.data.entity[name], onChange = selected => State.updateEntity(
-          {[name]: selected}),
+            t,
+            name,
+            label = t(name),
+            suggestions = name,
+            data = State.data[suggestions],
+            value = State.data.entity[name],
+            onChange = selected => State.updateEntity({[name]: selected}),
+            editable
     } = this.props;
 
     const desc = value ? <div>{t('price')}: {value.suggestedPrice.toString()},
@@ -25,7 +31,8 @@ class BlueprintSelect extends Component {
                 getOptionValue={option => option.id}
                 filterOption={(option, input) => option.data.name.startsWith(input)}
                 onChange={onChange}
-                value={value}/>
+                value={value}
+                isDisabled={!editable}/>
       </Grid>
       <Grid item>
         {desc}

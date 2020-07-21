@@ -11,11 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import pl.javahello.RemoteEntity.SecuredService;
 
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class EyeColor {
     @Id
     @SequenceGenerator(name = "eye_color_seq_gen", sequenceName = "eye_color_seq", allocationSize = 1)

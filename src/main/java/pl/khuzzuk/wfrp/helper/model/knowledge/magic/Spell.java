@@ -23,6 +23,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MiscItem;
 import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 
@@ -30,7 +31,8 @@ import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 @EqualsAndHashCode(of = "name")
 @Entity
 @Table(schema = "magic")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Spell {
 
   @Id

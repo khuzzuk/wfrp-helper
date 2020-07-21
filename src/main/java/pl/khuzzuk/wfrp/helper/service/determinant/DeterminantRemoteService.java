@@ -1,5 +1,6 @@
 package pl.khuzzuk.wfrp.helper.service.determinant;
 
+import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,6 +29,7 @@ public class DeterminantRemoteService {
   private Adapter<CreatureDeterminants, CreatureDeterminantsDTO> creatureDeterminantsDTOAdapter;
 
   @PostMapping("addExperienceExtension")
+  @Transactional
   public DeterminantDTO addExperienceExtension(@RequestBody DeterminantDTO determinantDTO) {
     Determinant determinant = determinantAdapter.map(determinantDTO);
     Determinant extendedDeterminant = determinantService.addExperienceExtension(determinant);
@@ -36,6 +38,7 @@ public class DeterminantRemoteService {
   }
 
   @PostMapping("removeExperienceExtension")
+  @Transactional
   public DeterminantDTO removeExperienceExtension(@RequestBody DeterminantDTO determinantDTO) {
     Determinant determinant = determinantAdapter.map(determinantDTO);
     Determinant afterRemove = determinantService.removeExperienceExtension(determinant);
@@ -43,6 +46,7 @@ public class DeterminantRemoteService {
   }
 
   @GetMapping(value = "generateDeterminants/{raceId}", produces = "application/json")
+  @Transactional
   public CreatureDeterminantsDTO generateDeterminants(@PathVariable long raceId) {
     CreatureDeterminants determinants = creatureDeterminantService.generateDeterminants(raceId);
       return creatureDeterminantsDTOAdapter.map(determinants);

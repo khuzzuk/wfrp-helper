@@ -11,18 +11,20 @@ export default class DiceRollField extends Component {
     };
 
     render() {
-        const {value, id} = this.props;
+        const {value, id, editable} = this.props;
 
         return <div key={id}>
             <EnumSelect key={id + '_type'}
                         label={'dice'}
                         data={Dice.allOf()}
                         value={value.dice}
-                        onChange={selected => this.updateDiceRoll({dice: selected})}/>
+                        onChange={selected => this.updateDiceRoll({dice: selected})}
+                        editable={editable}/>
             <IntegerField key={id + '_rolls'}
                           label={'rolls'}
                           value={value.rolls}
-                          onChange={number => this.updateDiceRoll({rolls: number})}/>
+                          onChange={number => this.updateDiceRoll({rolls: number})}
+                          InputProps={{readOnly: !editable}}/>
         </div>;
     }
 }

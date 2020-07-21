@@ -100,7 +100,7 @@ class CharacterSheetForm extends Component {
           <SimpleTextField name={'weight'} variant={TextFieldType.FLOAT} customStyle={{width: 90, paddingLeft: 20}}/>
           <SimpleEntitySelect name={HairColor.entityName} customStyle={{width: 110, paddingLeft: 10}}/>
           <SimpleEntitySelect name={EyeColor.entityName} customStyle={{width: 90, paddingLeft: 0}}/>
-          <SimpleEntitySelect name={PhysicalFeature.entityName} propName={'physicalFeatures'} multi customStyle={{width: 280, paddingLeft: 65, maxHeight: 70, position: 'relative', top: -30, fontSize: '14px'}}/>
+          <SimpleEntitySelect name={PhysicalFeature.entityName} propName={'physicalFeatures'} multi customStyle={{width: 280, paddingLeft: 60, maxHeight: 70, position: 'relative', top: -30, fontSize: '14px'}}/>
         </div>
 
         {/*profession*/}

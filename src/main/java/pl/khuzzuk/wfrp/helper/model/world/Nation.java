@@ -18,13 +18,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import java.util.Set;
+import pl.javahello.RemoteEntity.SecuredService;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of = "name")
 @Entity
 @Table(schema = "world")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Nation {
     @Id
     @SequenceGenerator(name = "nation_id_seq_gen", allocationSize = 1,

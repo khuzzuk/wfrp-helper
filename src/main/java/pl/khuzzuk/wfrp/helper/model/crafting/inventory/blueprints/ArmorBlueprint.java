@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement.PlacementValues;
@@ -25,7 +26,8 @@ import pl.khuzzuk.wfrp.helper.model.rule.Placement.PlacementValues;
 @Setter
 @DiscriminatorValue("ARMOR")
 @Entity
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class ArmorBlueprint extends ItemBlueprint {
     @Type(type = EnumType.DEF)
     @PlacementValues({HEAD, TORSO, HAND, LEG, BELT, SHIELD})

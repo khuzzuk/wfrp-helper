@@ -42,24 +42,28 @@ class WeaponElement extends Component {
         }))
     };
 
+    onRightClick = (name, weapon) => event => {
+        event.preventDefault();
+        State.updateEntity({[name]: Collections.removeElement(State.data.entity[name], weapon)});
+    };
+
     render() {
-        const {name, classes, customStyle, weapon} = this.props;
+        const {name, classes, customStyle, weapon, disabled} = this.props;
         const currentStyle = {...classes, ...customStyle};
         if (weapon !== this.state.weapon) {
             this.updateDamageValue();
         }
 
-        return <div className={currentStyle.itemContainer}
-                    onContextMenu={event => {
-                        event.preventDefault();
-                        State.updateEntity({[name]: Collections.removeElement(State.data.entity[name], weapon)});
-                    }}>
-            <div className={currentStyle.itemName}>{weapon.name}</div>
-            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.INITIATIVE)}</div>
-            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>
-            <div className={currentStyle.damageText}>{this.state.damageText}</div>
-            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.PARRY)}</div>
-        </div>;
+        const content = [
+            <div className={currentStyle.itemName}>{weapon.name}</div>,
+            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.INITIATIVE)}</div>,
+            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>,
+            <div className={currentStyle.damageText}>{this.state.damageText}</div>,
+            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.PARRY)}</div>];
+
+        return disabled ?
+            <div className={currentStyle.itemContainer}>{content}</div> :
+            <div className={currentStyle.itemContainer} onContextMenu={this.onRightClick(name, weapon)}>{content}</div>;
     }
 }
 

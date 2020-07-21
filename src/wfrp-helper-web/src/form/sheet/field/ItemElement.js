@@ -10,7 +10,7 @@ class ItemElement extends Component {
     State.updateEntity({inventory: State.data.entity.inventory});
   };
 
-  calculateWeight = inventory => {
+  static calculateWeight = inventory => {
     return inventory.amount * inventory.item.weight;
   };
 
@@ -23,8 +23,8 @@ class ItemElement extends Component {
                    removeFrom(allInventory, inventory);
                    State.updateEntity({inventory: allInventory});
                  }}>
-      <div style={{width: 153}}>{inventory.item.name}</div>
-      <div style={{width: 70, textAlign: 'center'}}>{this.calculateWeight(inventory)}</div>
+      <div style={{width: 150, minWidth: 150}}>{inventory.item.name}</div>
+      <div style={{width: 70, textAlign: 'center'}}>{ItemElement.calculateWeight(inventory)}</div>
       <SimpleTextField style={{width: 50, textAlign: 'center'}}
                        variant={TextFieldType.FLOAT}
                        value={inventory.amount}

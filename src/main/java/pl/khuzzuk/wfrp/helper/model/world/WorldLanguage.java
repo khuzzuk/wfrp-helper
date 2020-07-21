@@ -17,12 +17,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.Set;
+import pl.javahello.RemoteEntity.SecuredService;
 
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
 @Table(schema = "world", name = "language")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class WorldLanguage {
     @Id
     @SequenceGenerator(name = "language_seq_gen", sequenceName = "language_seq", allocationSize = 1)

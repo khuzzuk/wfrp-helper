@@ -23,7 +23,9 @@ class EnumSelect extends Component {
       value,
       label = t(name),
       data = State.data[suggestions],
-      onChange = selected => State.updateEntity({[name]: selected})
+      onChange = selected => State.updateEntity({[name]: selected}),
+      multi,
+      editable
     } = this.props;
 
     return <Grid container spacing={2} alignItems={"center"}>
@@ -37,12 +39,13 @@ class EnumSelect extends Component {
             options={data}
             components={makeAnimated()}
             onChange={onChange}
-            value={{label: value, value: value}}
-            getOptionLabel={val => <div>{val.label ? val.label : (typeof val
-            === "string" ? val : undefined)}</div>}
+            value={multi ? value : {label: value, value: value}}
+            getOptionLabel={val => <div>{val.label ? val.label : (typeof val === "string" ? val : undefined)}</div>}
             getOptionValue={val => val}
             isSearchable
-            isClearable/>
+            isClearable
+            isMulti={multi}
+            isDisabled={!editable}/>
       </Grid>
     </Grid>;
   }

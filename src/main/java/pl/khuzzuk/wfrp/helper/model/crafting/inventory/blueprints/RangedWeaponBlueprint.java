@@ -6,12 +6,14 @@ import pl.javahello.RemoteEntity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import pl.javahello.RemoteEntity.SecuredService;
 
 @Getter
 @Setter
 @Entity
 @DiscriminatorValue("RANGED_WEAPON")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class RangedWeaponBlueprint extends WeaponBlueprint {
     private int minimumRange;
     private int mediumRange;

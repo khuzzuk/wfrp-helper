@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 
@@ -21,7 +22,8 @@ import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 @Setter
 @Entity
 @Table(schema = "realm")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Realm {
 
   @SequenceGenerator(name = "realm_id_seq_gen",

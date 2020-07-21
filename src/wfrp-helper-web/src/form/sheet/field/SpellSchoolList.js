@@ -55,7 +55,7 @@ class SpellSchoolList extends Component {
     return map;
   };
 
-  spellSchoolLevelText = (spellSchoolLevel: SpellSchoolLevel) => {
+  static spellSchoolLevelText = (spellSchoolLevel: SpellSchoolLevel) => {
     return spellSchoolLevel.spellSchool.name + ' p. ' + spellSchoolLevel.level;
   };
 
@@ -73,9 +73,9 @@ class SpellSchoolList extends Component {
                       data={availableSpellSchools}
                       onGearAdd={this.onSpellSchoolAdd}>
         {entity.spellSchools.map(spellSchoolLevel => <p
-            key={this.spellSchoolLevelText(spellSchoolLevel)} style={{margin: 0}}
+            key={SpellSchoolList.spellSchoolLevelText(spellSchoolLevel)} style={{margin: 0}}
             onContextMenu={this.onSpellSchoolRemove(spellSchoolLevel)}>
-          {this.spellSchoolLevelText(spellSchoolLevel)}
+          {SpellSchoolList.spellSchoolLevelText(spellSchoolLevel)}
         </p>)}
       </SelectableList>
     </div>;

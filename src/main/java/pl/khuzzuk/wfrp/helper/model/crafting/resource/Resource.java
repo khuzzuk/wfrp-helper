@@ -5,6 +5,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Availability;
 
@@ -14,7 +15,8 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @Table(schema = "crafting")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Resource {
     @Id
     @SequenceGenerator(name = "resource_seq_gen", schema = "crafting", sequenceName = "resource_id_seq", allocationSize = 1)

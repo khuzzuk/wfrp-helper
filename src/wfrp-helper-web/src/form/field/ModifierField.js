@@ -28,7 +28,8 @@ class ModifierField extends Component {
             value,
             label = t(name),
             id,
-            types = ModifierType.allOf()
+            types = ModifierType.allOf(),
+            editable
         } = this.props;
 
         let dices = <div/>;
@@ -37,10 +38,14 @@ class ModifierField extends Component {
                 {
                     value.rolls.map(diceRoll =>
                         <DiceRollField id={id} key={id} value={diceRoll}
-                                       onChange={() => State.update({currentModifierEdit: value})}/>
+                                       onChange={() => State.update({currentModifierEdit: value})}
+                                       editable={editable}/>
                     )
                 }
-                <Button onClick={this.onAddDiceRoll}>{t('newDice')}</Button>
+                {editable ?
+                    <Button onClick={this.onAddDiceRoll}>{t('newDice')}</Button> :
+                    <div/>
+                }
             </Grid>;
         }
 
@@ -48,12 +53,14 @@ class ModifierField extends Component {
             <Grid item>
                 <IntegerField key={id + '_value'} label={label + ' – ' + t('value')}
                               value={value.value}
-                              onChange={number => this.update({value: number})}/>
+                              onChange={number => this.update({value: number})}
+                              InputProps={{readOnly: !editable}}/>
             </Grid>
             <Grid item>
                 <EnumSelect key={id || name + '_type'} label={t('modifierType') + ' ' + name ? t(name) : value.id}
                             data={types} value={value.type}
-                            onChange={selected => this.update({type: selected})}/>
+                            onChange={selected => this.update({type: selected})}
+                            editable={editable}/>
             </Grid>
             {dices}
         </Grid>;

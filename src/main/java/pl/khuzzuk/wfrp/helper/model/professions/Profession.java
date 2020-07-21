@@ -6,6 +6,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.common.StringArrayType;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
@@ -18,7 +19,8 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Profession extends ListableEntity {
     @Id
     @SequenceGenerator(name = "profession_seq_gen", sequenceName = "profession_seq", allocationSize = 1)

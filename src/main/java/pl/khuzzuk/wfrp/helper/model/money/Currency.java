@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.world.Nation;
 
 import javax.persistence.Entity;
@@ -23,7 +24,8 @@ import java.util.Set;
 @EqualsAndHashCode(of = "name")
 @Entity
 @Table(schema = "world")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Currency {
     @Id
     @SequenceGenerator(name = "currency_id_seq_gen", allocationSize = 1,

@@ -7,6 +7,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
+import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
 
 import javax.persistence.*;
@@ -17,7 +18,8 @@ import javax.validation.constraints.NotNull;
 @EqualsAndHashCode(of = "name")
 @Entity
     @Table(schema = "crafting")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class ArmorPattern {
     @Id
     @SequenceGenerator(name = "armor_pattern_seq_gen", schema = "crafting", sequenceName = "armor_pattern_id_seq", allocationSize = 1)

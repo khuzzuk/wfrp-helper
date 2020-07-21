@@ -11,11 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import pl.javahello.RemoteEntity.SecuredService;
 
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Skill {
     @Id
     @SequenceGenerator(name = "skill_seq_gen", sequenceName = "skill_seq", allocationSize = 1)
@@ -23,7 +25,7 @@ public class Skill {
     private Long id;
     @NaturalId
     private @Length(min = 3, max = 100) String name;
-    private @Length(max = 500) String description;
+    private @Length(max = 5000) String description;
 
     @Override
     public String toString() {

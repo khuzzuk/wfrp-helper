@@ -21,6 +21,7 @@ class PriceField extends Component {
       label = t(name),
       onChange = price => State.updateEntity({[name]: price}),
       value = State.data.entity[name],
+      editable
     } = this.props;
 
     return <Grid container spacing={2} alignItems={"center"}>
@@ -31,19 +32,22 @@ class PriceField extends Component {
         <TextField label={t('gold')}
                    type='number'
                    value={value.gold}
-                   onChange={this.updatePrice(onChange, 'gold')}/>
+                   onChange={this.updatePrice(onChange, 'gold')}
+                   InputProps={{readOnly: !editable}}/>
       </Grid>
       <Grid item>
         <TextField label={t('silver')}
                    type='number'
                    value={value.silver}
-                   onChange={this.updatePrice(onChange, 'silver')}/>
+                   onChange={this.updatePrice(onChange, 'silver')}
+                   InputProps={{readOnly: !editable}}/>
       </Grid>
       <Grid item>
         <TextField label={t('lead')}
                    type='number'
                    value={value.lead}
-                   onChange={this.updatePrice(onChange, 'lead')}/>
+                   onChange={this.updatePrice(onChange, 'lead')}
+                   InputProps={{readOnly: !editable}}/>
       </Grid>
     </Grid>
   }

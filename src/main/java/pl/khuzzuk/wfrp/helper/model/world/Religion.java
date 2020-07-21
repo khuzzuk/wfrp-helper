@@ -8,13 +8,15 @@ import pl.javahello.RemoteEntity;
 
 import javax.persistence.*;
 import java.util.List;
+import pl.javahello.RemoteEntity.SecuredService;
 
 @Getter
 @Setter
 @EqualsAndHashCode(of = "name")
 @Entity
 @Table(schema = "world")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class Religion {
     @SequenceGenerator(name = "religion_id_seq_gen", schema = "world", sequenceName = "religion_id_seq")
     @GeneratedValue(generator = "religion_id_seq_gen", strategy = GenerationType.SEQUENCE)

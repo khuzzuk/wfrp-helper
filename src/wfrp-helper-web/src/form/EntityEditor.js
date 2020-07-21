@@ -6,6 +6,7 @@ import {func} from "prop-types";
 import React, {Component} from "react";
 import {withTranslation} from "react-i18next";
 import {State} from "../state/State";
+import AuthoritiesService from "../user/AuthoritiesService";
 import {CreateFormField} from "./FormFieldGenerator";
 
 const styles = theme => ({
@@ -34,8 +35,9 @@ class EntityEditor extends Component {
 
     getFormFields = (): Component[] => {
         const {entityName, t} = this.props;
+        const editable = AuthoritiesService.hasAuthority(entityName);
         return State.formFields[entityName]
-            .map(field => CreateFormField(field, t))
+            .map(field => CreateFormField(field, t, editable))
             .map(component => <Grid key={component.key} item>{component}</Grid>);
     };
 

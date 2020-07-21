@@ -36,6 +36,7 @@ spring:
         hibernate:
           envers:
             audit_table_suffix: _history
+    open-in-view: false
   flyway:
     locations: classpath:/db/migration,/db/data
 
@@ -46,3 +47,7 @@ app:
   oauth2:
     authorizedRedirectUris:
       - http://localhost:3000/oauth2/redirect
+
+logging:
+  level:
+    root: info

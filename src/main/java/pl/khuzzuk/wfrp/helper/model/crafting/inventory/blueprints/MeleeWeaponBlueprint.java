@@ -4,9 +4,11 @@ import pl.javahello.RemoteEntity;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import pl.javahello.RemoteEntity.SecuredService;
 
 @Entity
 @DiscriminatorValue("MELEE_WEAPON")
-@RemoteEntity
+@RemoteEntity(transactional = true)
+@SecuredService(allowRead = true)
 public class MeleeWeaponBlueprint extends WeaponBlueprint {
 }

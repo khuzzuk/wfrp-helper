@@ -6,7 +6,7 @@ import {State} from "../../../state/State";
 import ProfessionExtensionField from "./ProfessionExtensionField";
 import SimpleTextField, {TextFieldType} from "./SimpleTextField";
 
-const PersonalDeterminantFieldStyle = {
+export const PersonalDeterminantFieldStyle = {
     row1: {
         paddingTop: 10,
         maxHeight: 35,
