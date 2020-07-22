@@ -1,7 +1,8 @@
 package pl.khuzzuk.wfrp.helper.security.user;
 
+import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
@@ -13,9 +14,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.security.jwt.JwtAuthentication;
 import pl.khuzzuk.wfrp.helper.security.jwt.JwtTokenProvider;
 import pl.khuzzuk.wfrp.helper.security.role.Role;
+import pl.khuzzuk.wfrp.helper.security.role.RoleDTO;
 import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
 
 @RequiredArgsConstructor
@@ -27,6 +30,8 @@ public class LoginRemoteService {
   private final AuthenticationManager authenticationManager;
   private final JwtTokenProvider jwtTokenProvider;
   private final UserRepo userRepo;
+  private final Adapter<Role, RoleDTO> roleDTOAdapter;
+  private final Adapter<User, UserDTO> userDTOAdapter;
 
   @PostMapping("login")
   public JwtAuthentication login(@RequestBody UserDTO userDTO) {
@@ -39,10 +44,7 @@ public class LoginRemoteService {
 
     JwtAuthentication jwtAuth = new JwtAuthentication();
     jwtAuth.setToken(jwtTokenProvider.getToken((String) authentication.getPrincipal()));
-    jwtAuth.setAuthorities(user.getAuthorities()
-                               .stream()
-                               .map(Role::getAuthority)
-                               .collect(Collectors.toSet()));
+    jwtAuth.setAuthorities(roleDTOAdapter.set(user.getAuthorities()));
     return jwtAuth;
   }
 
@@ -57,8 +59,23 @@ public class LoginRemoteService {
     userModificationService.delete(userDTO);
   }
 
+  @GetMapping("user")
+  @Secured(RoleRepo.ROLE_ADMIN)
+  @Transactional
+  public List<UserDTO> getUsers() {
+    return userDTOAdapter.list(userRepo.findAll());
+  }
+
+  @PostMapping("user")
+  @Secured(RoleRepo.ROLE_ADMIN)
+  @Transactional
+  public UserDTO updateUser(@RequestBody UserDTO userDTO) {
+    userModificationService.updateUserRoles(userDTO);
+    return userDTO;
+  }
+
   @GetMapping("authorities")
-  public Set<String> getAuthorities(@CurrentUser User user) {
-    return user.getAuthorities().stream().map(Role::getAuthority).collect(Collectors.toSet());
+  public Set<RoleDTO> getAuthorities(@CurrentUser User user) {
+    return roleDTOAdapter.set(user.getAuthorities());
   }
 }

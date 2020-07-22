@@ -25,12 +25,12 @@ class EntitySelect extends Component {
                     options={data}
                     components={makeAnimated()}
                     getOptionLabel={option => {
-                        return <div>{option.name}</div>
+                        return <div>{option.name || option.authority}</div>
                     }}
                     getOptionValue={option => {
                         return option.id
                     }}
-                    filterOption={(option, input) => option.data.name.startsWith(input)}
+                    filterOption={(option, input) => !option.data.name || option.data.name.startsWith(input)}
                     onChange={onChange}
                     value={value}
                     isMulti={multi}

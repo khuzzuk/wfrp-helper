@@ -4,7 +4,10 @@ import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import React, {Component} from "react";
 import {withTranslation} from "react-i18next";
+import Picture from "../img/Picture";
 import {State} from "../state/State";
+import AuthoritiesService from "../user/AuthoritiesService";
+import User from "../user/User";
 
 class ToolsMenu extends Component {
   state = {
@@ -21,7 +24,7 @@ class ToolsMenu extends Component {
 
   showPictureForm = () => {
     this.handleClose();
-    State.showTable('picture');
+    State.showTable(Picture.entityName);
   };
 
   showScenarioView = () => {
@@ -29,8 +32,14 @@ class ToolsMenu extends Component {
     State.updateScenario(null);
   };
 
+  showUsersTable = () => {
+    this.handleClose();
+    State.showTable(User.entityName);
+  };
+
   render() {
-    const {t} = this.props;
+    const {t}     = this.props;
+    const isAdmin = AuthoritiesService.hasAuthority('admin');
 
     return <div>
       <IconButton aria-label={'More'}
@@ -44,6 +53,7 @@ class ToolsMenu extends Component {
             anchorEl={this.state.anchorEl}
             open={this.state.anchorEl !== null}
             onClose={this.handleClose}>
+        {isAdmin && <MenuItem onClick={this.showUsersTable}>{t('user')}</MenuItem>}
         <MenuItem onClick={this.showPictureForm}>{t('picture')}</MenuItem>
         <MenuItem onClick={this.showScenarioView}>{t('scenario')}</MenuItem>
       </Menu>

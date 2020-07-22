@@ -9,6 +9,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import pl.javahello.Adapter;
+import pl.khuzzuk.wfrp.helper.security.role.Role;
+import pl.khuzzuk.wfrp.helper.security.role.RoleDTO;
 import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
 
 @Slf4j
@@ -18,6 +21,7 @@ public class UserModificationService {
 
   private final UserRepo userRepo;
   private final RoleRepo roleRepo;
+  private final Adapter<RoleDTO, Role> roleAdapter;
   private final PasswordEncoder passwordEncoder;
   private final String allowedCharacters =
       "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890";
@@ -37,6 +41,12 @@ public class UserModificationService {
                                roleRepo.findByAuthority(RoleRepo.ROLE_PLAYER).orElseThrow()));
 
     userRepo.save(user);
+  }
+
+  @Transactional
+  void updateUserRoles(UserDTO userDTO) {
+    User user = userRepo.getOne(userDTO.getId());
+    user.setAuthorities(roleAdapter.set(userDTO.getAuthorities()));
   }
 
   @Transactional

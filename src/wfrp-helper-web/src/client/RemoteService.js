@@ -8,7 +8,7 @@ export default class RemoteService {
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + State.data.user.token
+                'Authorization': 'Bearer ' + State.data.currentUser.token
             },
             body: jsonBody
         }).then(this.handleResponse(onResponse));
@@ -21,7 +21,7 @@ export default class RemoteService {
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + State.data.user.token
+                'Authorization': 'Bearer ' + State.data.currentUser.token
             },
             body: jsonBody
         }).then(this.handleRawResponse(onResponse));
@@ -32,7 +32,7 @@ export default class RemoteService {
             method: 'get',
             mode: 'cors',
             headers: {
-                'Authorization': 'Bearer ' + State.data.user.token
+                'Authorization': 'Bearer ' + State.data.currentUser.token
             },
         }).then(this.handleResponse(onResponse));
     }
@@ -42,7 +42,7 @@ export default class RemoteService {
             method: 'get',
             mode: 'cors',
             headers: {
-                'Authorization': 'Bearer ' + State.data.user.token
+                'Authorization': 'Bearer ' + State.data.currentUser.token
             },
         }).then(this.handleRawResponse(onResponse))
     }
@@ -52,7 +52,7 @@ export default class RemoteService {
             method: 'post',
             mode: 'cors',
             headers: {
-                'Authorization': 'Bearer ' + State.data.user.token
+                'Authorization': 'Bearer ' + State.data.currentUser.token
             },
             body: data,
         }).then(this.handleRawResponse(onResponse))

@@ -27,7 +27,7 @@ export default class App extends Component {
   }
 
   render() {
-    const token = State.data.user.token;
+    const token = State.data.currentUser.token;
     if (!token) {
       return <MuiThemeProvider theme={theme}>
         <Switch>
@@ -37,7 +37,7 @@ export default class App extends Component {
       </MuiThemeProvider>
     }
 
-    if (!State.data.user.authorities) {
+    if (!State.data.currentUser.authorities) {
       authoritiesService.refreshAuthorities();
     }
 

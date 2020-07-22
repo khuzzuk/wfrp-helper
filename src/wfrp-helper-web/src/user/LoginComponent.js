@@ -7,6 +7,7 @@ import FormFieldData from "../form/FormFieldData";
 import {CreateFormField} from "../form/FormFieldGenerator";
 import {FormFieldType} from "../form/FormFieldType";
 import {State} from "../state/State";
+import AuthoritiesService from "./AuthoritiesService";
 import googleLogo from "./google-logo.png";
 
 const loginFieldData = new FormFieldData();
@@ -31,6 +32,7 @@ class LoginComponent extends Component {
       .then(authData => {
         if (authData.token) {
           State.updateUser(authData);
+          AuthoritiesService.updateAdminAuthoritiesIfNeeded();
         }
       })
     }

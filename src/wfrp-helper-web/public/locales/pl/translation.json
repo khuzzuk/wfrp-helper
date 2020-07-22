@@ -100,5 +100,8 @@
   "scenario": "Scenariusz",
   "generateStats": "Wylosuj statystyki",
   "places": "Miejsca",
-  "persons": "Bohaterowie"
+  "persons": "Bohaterowie",
+  "user": "Użytkownik",
+  "username": "Nazwa użytkownika",
+  "authorities": "Uprawnienia"
 }

@@ -6,7 +6,7 @@ export const State = {
         showForm: null,
         afterForm: null,
         fetching: new Set(),
-        user: {
+        currentUser: {
             username: null,
             password: null,
             token: null
@@ -22,7 +22,7 @@ export const State = {
         this.onUpdate(this.data);
     },
     updateUser(user: any) {
-        this.data.user = {...this.data.user, ...user};
+        this.data.currentUser = {...this.data.currentUser, ...user};
         this.onUpdate(this.data);
     },
     showTable(name: string) {
