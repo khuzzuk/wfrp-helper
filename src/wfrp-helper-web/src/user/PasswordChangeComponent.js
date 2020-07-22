@@ -2,7 +2,6 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
-import {State} from "../state/State";
 import AuthoritiesService from "./AuthoritiesService";
 
 const authoritiesService = new AuthoritiesService();
