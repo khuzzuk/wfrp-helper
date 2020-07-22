@@ -56,6 +56,7 @@ public class UserModificationService {
     user.setEnabled(false);
   }
 
+  @Transactional
   public void changePassword(String newPassword, @CurrentUser User user) {
     user.setOneTimePassword(false);
     user.setPassword(passwordEncoder.encode(newPassword));

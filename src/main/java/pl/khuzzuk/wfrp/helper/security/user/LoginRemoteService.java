@@ -45,6 +45,7 @@ public class LoginRemoteService {
     JwtAuthentication jwtAuth = new JwtAuthentication();
     jwtAuth.setToken(jwtTokenProvider.getToken((String) authentication.getPrincipal()));
     jwtAuth.setAuthorities(roleDTOAdapter.set(user.getAuthorities()));
+    jwtAuth.setOneTimePassword(user.isOneTimePassword());
     return jwtAuth;
   }
 
@@ -77,5 +78,10 @@ public class LoginRemoteService {
   @GetMapping("authorities")
   public Set<RoleDTO> getAuthorities(@CurrentUser User user) {
     return roleDTOAdapter.set(user.getAuthorities());
+  }
+
+  @PostMapping("password")
+  public void updatePassword(@CurrentUser User user, @RequestBody UserDTO userDTO) {
+    userModificationService.changePassword(userDTO.getPassword(), user);
   }
 }

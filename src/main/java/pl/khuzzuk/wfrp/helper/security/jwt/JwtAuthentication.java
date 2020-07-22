@@ -8,4 +8,5 @@ import pl.khuzzuk.wfrp.helper.security.role.RoleDTO;
 public class JwtAuthentication {
   private String token;
   private Set<RoleDTO> authorities;
+  private boolean isOneTimePassword;
 }

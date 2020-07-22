@@ -21,6 +21,12 @@ export default class AuthoritiesService extends RemoteService {
                                                        .endsWith(entityName.toLowerCase()));
   }
 
+  updatePassword(newPassword: string) {
+    this.postRequestWithoutResponse({...State.data.currentUser, ...{password: newPassword}},
+                                    'password',
+                                    () => State.updateUser({oneTimePassword: false}))
+  }
+
   static updateAdminAuthoritiesIfNeeded() {
     if (AuthoritiesService.hasAuthority('admin')) {
       roleService.loadData();

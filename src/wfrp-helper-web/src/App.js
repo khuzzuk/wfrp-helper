@@ -9,6 +9,7 @@ import {State} from "./state/State";
 import AuthoritiesService from "./user/AuthoritiesService";
 import LoginComponent from "./user/LoginComponent";
 import OAuth2RedirectComponent from "./user/OAuth2RedirectComponent";
+import PasswordChangeComponent from "./user/PasswordChangeComponent";
 import User from "./user/User";
 
 const theme = createMuiTheme({
@@ -27,13 +28,20 @@ export default class App extends Component {
   }
 
   render() {
-    const token = State.data.currentUser.token;
+    const {token, oneTimePassword} = State.data.currentUser;
+
     if (!token) {
       return <MuiThemeProvider theme={theme}>
         <Switch>
           <Route exact path={"/"} component={LoginComponent}/>
           <Route path={"/oauth2/redirect"} component={OAuth2RedirectComponent}/>
         </Switch>
+      </MuiThemeProvider>
+    }
+
+    if (oneTimePassword) {
+      return <MuiThemeProvider theme={theme}>
+        <PasswordChangeComponent/>
       </MuiThemeProvider>
     }
 
