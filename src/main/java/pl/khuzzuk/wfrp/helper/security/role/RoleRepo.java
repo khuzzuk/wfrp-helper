@@ -9,6 +9,7 @@ import java.util.Optional;
 public interface RoleRepo extends JpaRepository<Role, Long> {
     String ROLE_USER = "ROLE_USER";
     String ROLE_ADMIN = "ROLE_ADMIN";
+    String ROLE_PLAYER = "ROLE_PLAYER";
 
     Optional<Role> findByAuthority(String name);
 }

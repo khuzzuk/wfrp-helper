@@ -3,13 +3,11 @@ package pl.khuzzuk.wfrp.helper.multimedia;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -24,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.model.world.Place;
 import pl.khuzzuk.wfrp.helper.model.world.Scenario;
 
@@ -36,6 +35,7 @@ public class PictureRemoteService {
   private PictureRepo pictureRepo;
   private JpaRepository<Place, Long> placeRepo;
   private JpaRepository<Scenario, Long> scenarioRepo;
+  private Adapter<SavedImage, SavedImageDTO> savedImageDTOAdapter;
 
   @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public SavedImage uploadFile(@RequestParam MultipartFile file) throws IOException {
@@ -53,11 +53,14 @@ public class PictureRemoteService {
   }
 
   @GetMapping
-  public List<SavedImage> imageList() {
-    return pictureRepo.findAllBy();
+  @Transactional
+  public List<SavedImageDTO> imageList() {
+    List<SavedImage> savedImages = pictureRepo.findAllBy();
+    return savedImageDTOAdapter.list(savedImages);
   }
 
   @GetMapping("{id}")
+  @Transactional
   public void getImage(@PathVariable long id, HttpServletResponse response) throws IOException {
     if (!pictureRepo.existsById(id)) {
       log.info("Requested image id: {}", id);
@@ -75,12 +78,14 @@ public class PictureRemoteService {
   public void updatePicture(@RequestBody @Valid UpdateImageRequest updates) {
     Picture picture = pictureRepo.getOne(updates.id);
     picture.setName(updates.name);
-    updates.placeId.ifPresent(placeId -> picture.setPlace(placeRepo.getOne(placeId)));
+    if (updates.placeId != null) {
+      picture.setPlace(placeRepo.getOne(updates.placeId));
+    }
   }
 
   @DeleteMapping
   public void deletePicture(@RequestBody @Valid SavedImage image) {
-    pictureRepo.deleteById(image.id);
+    pictureRepo.deleteById(image.getId());
   }
 
   @Transactional
@@ -95,21 +100,10 @@ public class PictureRemoteService {
                    .collect(Collectors.toList());
   }
 
-  @Data // getters/setters for json mapping
-  @AllArgsConstructor // for projection query
-  @Builder
-  static class SavedImage {
-
-    private long id;
-    private String name;
-    private Place place;
-  }
-
   @Data
   static class UpdateImageRequest {
-
     private long id;
     private String name;
-    private Optional<Long> placeId;
+    private Long placeId;
   }
 }

@@ -9,7 +9,8 @@ export default class AuthoritiesService extends RemoteService {
   }
 
   static hasAuthority(entityName: string) {
-    return State.data.user.authorities.find(role => role.toLowerCase()
-                                                        .endsWith(entityName.toLowerCase()));
+    const authorities = State.data.user.authorities;
+    return authorities && authorities.find(role => role.toLowerCase()
+                                                       .endsWith(entityName.toLowerCase()));
   }
 }

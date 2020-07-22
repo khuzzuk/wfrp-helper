@@ -4,20 +4,19 @@ import {Cancel} from "@material-ui/icons";
 import {DropzoneArea} from "material-ui-dropzone";
 import React, {Component} from "react";
 import {withTranslation} from "react-i18next";
+import PictureService from "../client/PictureService";
 import EntitySelect from "../form/field/EntitySelect";
 import Place from "../model/world/Place";
 import {State} from "../state/State";
+import AuthoritiesService from "../user/AuthoritiesService";
 import Picture from "./Picture";
 
+const pictureService = new PictureService();
+
 class PictureUploadForm extends Component {
-  onResponse = response => {
-    if (response.ok) {
-      State.showTable(Picture.entityName);
-      State.services.picture.loadData();
-    } else {
-      alert(response.status);
-      console.log(response.error);
-    }
+  onResponse = () => {
+    State.showTable(Picture.entityName);
+    State.services.picture.loadData();
   };
 
   upload = files => {
@@ -29,9 +28,7 @@ class PictureUploadForm extends Component {
     const formData = new FormData();
     formData.append('file', selectedFile);
 
-    fetch(Picture.entityName, {
-      method: 'post', body: formData,
-    }).then(this.onResponse);
+    pictureService.uploadPicture(formData, this.onResponse);
   };
 
   setName = event => {
@@ -52,17 +49,13 @@ class PictureUploadForm extends Component {
       updates.placeId = value.place.id;
     }
 
-    const jsonBody = JSON.stringify(updates);
-    fetch(Picture.entityName, {
-      method: 'post', headers: {'Content-Type': 'application/json'}, body: jsonBody
-    }).then(this.onResponse)
-      .catch(reason => {
-        console.log(reason);
-      });
+    pictureService.updateMetadata(updates, this.onResponse);
   };
 
   render() {
-    const {value, t} = this.props;
+    const {value, t}   = this.props;
+    const hasAuthority = AuthoritiesService.hasAuthority(Picture.entityName);
+
     return <div style={{margin: 10}}>
       {value ?
 
@@ -73,10 +66,12 @@ class PictureUploadForm extends Component {
                            disabled={!value}/>
               </Grid>
               <Grid item xs={6}>
-                <EntitySelect name={Place.entityName} onChange={this.setPlace} value={value.place}/>
+                <EntitySelect name={Place.entityName} onChange={this.setPlace} value={value.place}
+                              editable/>
               </Grid>
-              <Grid item xs={2}>
-                <Button onClick={this.save}>{t('save')}</Button>
+              <Grid item xs={2}>{hasAuthority ?
+                  <Button onClick={this.save}>{t('save')}</Button> :
+                  <div/>}
               </Grid>
             </Grid>
             <Grid item xs={12}>

@@ -33,7 +33,8 @@ public class UserModificationService {
     user.setPassword(passwordEncoder.encode(password));
     user.setOneTimePassword(true);
     user.setOneTimePassword(oneTimePassword);
-    user.setAuthorities(Set.of(roleRepo.findByAuthority(RoleRepo.ROLE_USER).orElseThrow()));
+    user.setAuthorities(Set.of(roleRepo.findByAuthority(RoleRepo.ROLE_USER).orElseThrow(),
+                               roleRepo.findByAuthority(RoleRepo.ROLE_PLAYER).orElseThrow()));
 
     userRepo.save(user);
   }

@@ -18,6 +18,8 @@ WITH role_to_add AS (SELECT id role_id
                      WHERE authority IN (
                                          'ROLE_USER',
                                          'ROLE_ADMIN',
+                                         'ROLE_PLAYER',
+                                         'ROLE_GAMEMASTER',
                                          'ROLE_ARMOR',
                                          'ROLE_AMMUNITION',
                                          'ROLE_ARMORPATTERN',
@@ -47,6 +49,8 @@ WITH role_to_add AS (SELECT id role_id
                                          'ROLE_RACE',
                                          'ROLE_REALM',
                                          'ROLE_RELIGION',
+                                         'ROLE_SCENARIO',
+                                         'ROLE_PICTURE',
                                          'ROLE_WORLDLANGUAGE'))
 INSERT
 INTO security.user_roles (user_id, roles_id)

@@ -6,25 +6,17 @@ import {withTranslation} from "react-i18next";
 import DeterminantService from "../../client/DeterminantService";
 import FrontCharacterSheet from "../../img/A.png";
 import Animal from "../../model/creature/Animal";
-import Language from "../../model/world/Language";
-import Nation from "../../model/world/Nation";
-import Religion from "../../model/world/Religion";
 import ItemService from "../../service/ItemService";
 import ProfessionService from "../../service/ProfessionService";
 import {State} from "../../state/State";
-import {removeFrom} from "../../util/Collections";
 import AnimalElement from "./field/AnimalElement";
 import ArmorCalculationsComponent from "./field/ArmorCalculationsComponent";
 import ArmorElement from "./field/ArmorElement";
 import ItemElement from "./field/ItemElement";
-import MoneyElement from "./field/MoneyElement";
 import PersonalDeterminantsView from "./field/PersonalDeterminantsView";
 import RangedWeaponElementView from "./field/RangedWeaponElementView";
-import SelectableList from "./field/SelectableList";
-import SimpleEntitySelect from "./field/SimpleEntitySelect";
 import SimpleList from "./field/SimpleList";
 import SimpleListView from "./field/SimpleListView";
-import SimpleTextField, {TextFieldType} from "./field/SimpleTextField";
 import SpeedComponent from "./field/SpeedComponent";
 import SpellElement from "./field/SpellElement";
 import SpellSchoolList from "./field/SpellSchoolList";
@@ -47,7 +39,7 @@ const styles = () => ({
   },
 });
 
-class CharacterSheetForm extends Component {
+class CharacterSheetView extends Component {
   determinantService: DeterminantService = new DeterminantService();
   state = {anchorEl: null, currentElement: null,
     generateStatsAction: () => {
@@ -206,7 +198,7 @@ class CharacterSheetForm extends Component {
 
               {/*history*/}
               <div style={{width: 350}}>
-                <div style={{width: 170, height:50, marginLeft: 170, marginTop: 50}}>{entity.nation.name}</div>
+                <div style={{width: 170, height:50, marginLeft: 170, marginTop: 50}}>{entity.nation && entity.nation.name}</div>
                 <div style={{width: 120, height: 35, marginTop: 0, marginLeft: 220}}>{entity.parents}</div>
                 <div style={{width: 220, height: 80, marginLeft: 110}}>{entity.family}</div>
               </div>
@@ -214,7 +206,7 @@ class CharacterSheetForm extends Component {
               {/*religion*/}
               <div style={{width: 350, display: 'flex'}}>
                 <div style={{width: 80, height: 60, marginTop: 10, marginLeft: 110}}>{entity.socialLevel}</div>
-                <div style={{width: 150, marginTop: 35, marginLeft: 5}}>{entity.religion.name}</div>
+                <div style={{width: 150, marginTop: 35, marginLeft: 5}}>{entity.religion && entity.religion.name}</div>
               </div>
 
             </div>
@@ -253,8 +245,8 @@ class CharacterSheetForm extends Component {
   }
 }
 
-CharacterSheetForm.propTypes = {
+CharacterSheetView.propTypes = {
   classes: PropTypes.object
 };
 
-export default withStyles(styles)(withTranslation()(CharacterSheetForm));
+export default withStyles(styles)(withTranslation()(CharacterSheetView));

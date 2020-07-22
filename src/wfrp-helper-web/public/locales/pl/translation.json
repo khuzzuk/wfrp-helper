@@ -98,5 +98,7 @@
   "place": "Miejsce",
   "picture": "Obraz",
   "scenario": "Scenariusz",
-  "generateStats": "Wylosuj statystyki"
+  "generateStats": "Wylosuj statystyki",
+  "places": "Miejsca",
+  "persons": "Bohaterowie"
 }

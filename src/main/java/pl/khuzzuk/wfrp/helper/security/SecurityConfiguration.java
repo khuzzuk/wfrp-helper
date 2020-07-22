@@ -5,6 +5,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -52,6 +53,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .antMatchers("/login*", "/static/**", "/*.{js,html,css,json}")
             .permitAll()
           .antMatchers("/auth/**", "/oauth2/**")
+            .permitAll()
+          .antMatchers(HttpMethod.GET, "/picture/{\\d+}")
             .permitAll()
           .anyRequest()
             .hasAnyRole("USER")

@@ -1,7 +1,7 @@
 import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import withStyles from "@material-ui/core/styles/withStyles";
-import {Cancel, Save} from "@material-ui/icons";
+import {Cancel, KeyboardReturn, Save} from "@material-ui/icons";
 import {func} from "prop-types";
 import React, {Component} from "react";
 import {withTranslation} from "react-i18next";
@@ -17,17 +17,6 @@ const styles = theme => ({
 });
 
 class EntityEditor extends Component {
-    render() {
-        const {entityName, classes} = this.props;
-        return <Grid container direction={"column"} className={classes.root}>
-            {this.getFormFields()}
-            <Grid item>
-                <IconButton onClick={this.saveForm}><Save/></IconButton>
-                <IconButton onClick={() => State.showTable(entityName)}><Cancel/></IconButton>
-            </Grid>
-        </Grid>
-    }
-
     saveForm = () => {
         const {entity, entityName} = this.props;
         State.services[entityName].save(entity, () => State.showTable(entityName));
@@ -49,8 +38,29 @@ class EntityEditor extends Component {
         this.props.entity.updateWith(updates);
         this.setState({entity: this.props.entity});
     };
-    updateState = state => {
-        this.setState(state);
+
+    render() {
+        const {entityName, classes} = this.props;
+        const hasAuthority = AuthoritiesService.hasAuthority(entityName);
+
+        return <Grid container direction={"column"} className={classes.root}>
+            {this.getFormFields()}
+            <Grid item>
+                { hasAuthority ?
+                    [
+                        <IconButton onClick={this.saveForm}><Save/></IconButton>,
+                        <IconButton onClick={() => State.showTable(entityName)}><Cancel/></IconButton>
+                    ] :
+                    <IconButton onClick={() => {
+                        if (State.data.afterForm) {
+                            State.data.afterForm()
+                        } else {
+                            State.showTable(entityName)
+                        }
+                    }}><KeyboardReturn/></IconButton>}
+
+            </Grid>
+        </Grid>
     }
 }
 

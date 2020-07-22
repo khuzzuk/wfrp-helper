@@ -3,6 +3,8 @@ import Entity from "../model/Entity";
 export const State = {
     data: {
         showTable: null,
+        showForm: null,
+        afterForm: null,
         fetching: new Set(),
         user: {
             username: null,

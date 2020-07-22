@@ -1,6 +1,8 @@
 INSERT INTO security.role (authority)
 VALUES ('ROLE_USER'),
        ('ROLE_ADMIN'),
+       ('ROLE_PLAYER'),
+       ('ROLE_GAMEMASTER'),
        ('ROLE_ARMOR'),
        ('ROLE_AMMUNITION'),
        ('ROLE_ARMORPATTERN'),
@@ -31,4 +33,5 @@ VALUES ('ROLE_USER'),
        ('ROLE_REALM'),
        ('ROLE_RELIGION'),
        ('ROLE_SCENARIO'),
+       ('ROLE_PICTURE'),
        ('ROLE_WORLDLANGUAGE');

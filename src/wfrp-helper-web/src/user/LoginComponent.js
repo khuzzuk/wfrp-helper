@@ -1,6 +1,5 @@
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
@@ -37,10 +36,6 @@ class LoginComponent extends Component {
     }
   };
 
-  loginWithGoogle = () => {
-
-  };
-
   render() {
     const {t}        = this.props;
     const loginField = new FormFieldData();
@@ -61,11 +56,11 @@ class LoginComponent extends Component {
         <Button>{t('signup')}</Button>
       </Grid>
       <Grid item xs={6}>
-        <IconButton onClick={this.loginWithGoogle}>
+        <Button>
           <img src={googleLogo} alt={t('login with Google')} style={{width: 50, height: 50}}/>
           <a href={'http://localhost:1081/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect'}
              style={{fontSize: 18}}>{t('login with Google')}</a>
-        </IconButton>
+        </Button>
       </Grid>
     </Grid>;
   }

@@ -38,10 +38,11 @@ import Place from "../model/world/Place";
 import Race from "../model/world/Race";
 import Religion from "../model/world/Religion";
 import {State} from "../state/State";
+import AuthoritiesService from "../user/AuthoritiesService";
 import MenuComponent from "./MenuComponent";
 import ToolsMenu from "./ToolsMenu";
 
-const styles = theme => ({
+const styles           = theme => ({
   languageIcon: {
     marginLeft: 'auto', display: 'flex',
   }, realmSelect: {
@@ -58,46 +59,52 @@ class TopMenu extends Component {
 
   render() {
     const {i18n, classes} = this.props;
+    const isGameMaster    = AuthoritiesService.hasAuthority('gamemaster');
 
-    return <AppBar position={"relative"}>
+    const menuItems = isGameMaster ?
+        [<MenuComponent name={'world'}
+                        entities={[Nation.entityName,
+                                   Currency.entityName,
+                                   Language.entityName,
+                                   Race.entityName,
+                                   Religion.entityName,
+                                   Place.entityName,
+                                   Realm.entityName,
+                                   Scenario.entityName]}/>,
+         <MenuComponent name={'knowledge'}
+                        entities={[Skill.entityName,
+                                   ProfessionClass.entityName,
+                                   Profession.entityName,
+                                   SpellSchool.entityName,
+                                   Spell.entityName,]}/>,
+         <MenuComponent name={'crafting'}
+                        entities={[Item.entityName,
+                                   Armor.entityName,
+                                   MeleeWeapon.entityName,
+                                   RangedWeapon.entityName,
+                                   Ammunition.entityName,
+                                   Jewelry.entityName,]}/>,
+         <MenuComponent name={'types'}
+                        entities={[ArmorBlueprint.entityName,
+                                   MeleeWeaponBlueprint.entityName,
+                                   RangedWeaponBlueprint.entityName,
+                                   ArmorPattern.entityName,
+                                   Resource.entityName,]}/>,
+         < MenuComponent name={'creature'}
+                         entities={[...(State.data.currentRealm ? [Person.entityName] : []),
+                                    ...[Character.entityName,
+                                        EyeColor.entityName,
+                                        HairColor.entityName,
+                                        PhysicalFeature.entityName,
+                                        Animal.entityName,
+                                        AnimalKind.entityName,]]}/>] :
+        <div/>;
+
+    return <AppBar
+        position={"relative"}>
       <Toolbar>
         <ToolsMenu/>
-        <MenuComponent name={'world'}
-                       entities={[Nation.entityName,
-                                  Currency.entityName,
-                                  Language.entityName,
-                                  Race.entityName,
-                                  Religion.entityName,
-                                  Place.entityName,
-                                  Realm.entityName,
-                                  Scenario.entityName]}/>
-        <MenuComponent name={'knowledge'}
-                       entities={[Skill.entityName,
-                                  ProfessionClass.entityName,
-                                  Profession.entityName,
-                                  SpellSchool.entityName,
-                                  Spell.entityName,]}/>
-        <MenuComponent name={'crafting'}
-                       entities={[Item.entityName,
-                                  Armor.entityName,
-                                  MeleeWeapon.entityName,
-                                  RangedWeapon.entityName,
-                                  Ammunition.entityName,
-                                  Jewelry.entityName,]}/>
-        <MenuComponent name={'types'}
-                       entities={[ArmorBlueprint.entityName,
-                                  MeleeWeaponBlueprint.entityName,
-                                  RangedWeaponBlueprint.entityName,
-                                  ArmorPattern.entityName,
-                                  Resource.entityName,]}/>
-        <MenuComponent name={'creature'}
-                       entities={[...(State.data.currentRealm ? [Person.entityName] : []),
-                                  ...[Character.entityName,
-                                      EyeColor.entityName,
-                                      HairColor.entityName,
-                                      PhysicalFeature.entityName,
-                                      Animal.entityName,
-                                      AnimalKind.entityName,]]}/>
+        {menuItems}
         <div className={classes.languageIcon}>
           {State.data.fetching.size > 0 && <IconButton><CircularProgress
               color={"secondary"}/></IconButton>}
@@ -109,8 +116,10 @@ class TopMenu extends Component {
                   value={State.data.currentRealm}
                   onChange={realm => realmDataService.getRealmData(realm)}
           />
-          <IconButton onClick={() => i18n.changeLanguage('en')}><Flag code={'gb'} height={16}/></IconButton>
-          <IconButton onClick={() => i18n.changeLanguage('pl')}><Flag code={'pl'} height={16}/></IconButton>
+          <IconButton onClick={() => i18n.changeLanguage('en')}><Flag code={'gb'}
+                                                                      height={16}/></IconButton>
+          <IconButton onClick={() => i18n.changeLanguage('pl')}><Flag code={'pl'}
+                                                                      height={16}/></IconButton>
         </div>
       </Toolbar>
     </AppBar>;

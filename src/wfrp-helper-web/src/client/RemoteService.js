@@ -2,7 +2,7 @@ import {State} from "../state/State";
 
 export default class RemoteService {
     requestFor(data: object, uri: string, onResponse: VoidFunction) {
-        let jsonBody = JSON.stringify(data);
+        const jsonBody = JSON.stringify(data);
         fetch(uri, {
             method: 'post',
             mode: 'cors',
@@ -12,6 +12,19 @@ export default class RemoteService {
             },
             body: jsonBody
         }).then(this.handleResponse(onResponse));
+    }
+
+    postRequestWithoutResponse(data: object, uri: string, onResponse: VoidFunction) {
+        const jsonBody = JSON.stringify(data);
+        fetch(uri, {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + State.data.user.token
+            },
+            body: jsonBody
+        }).then(this.handleRawResponse(onResponse));
     }
 
     requestForPath(uri: string, onResponse: VoidFunction) {
@@ -31,6 +44,17 @@ export default class RemoteService {
             headers: {
                 'Authorization': 'Bearer ' + State.data.user.token
             },
+        }).then(this.handleRawResponse(onResponse))
+    }
+
+    rawPostRequest(uri: string, data: object, onResponse: VoidFunction) {
+        fetch(uri, {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Authorization': 'Bearer ' + State.data.user.token
+            },
+            body: data,
         }).then(this.handleRawResponse(onResponse))
     }
 

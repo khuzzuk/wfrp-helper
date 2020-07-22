@@ -1,3 +1,4 @@
+import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Modal from "@material-ui/core/Modal";
 import Paper from "@material-ui/core/Paper";
@@ -7,6 +8,7 @@ import Carousel, {ModalGateway} from "react-images";
 import ScenarioService from "../client/ScenarioService";
 import EntitySelect from "../form/field/EntitySelect";
 import Scenario from "../model/realm/Scenario";
+import Person from "../model/creature/Person";
 import {State} from "../state/State";
 
 class ScenarioView extends Component {
@@ -32,7 +34,12 @@ class ScenarioView extends Component {
     return <div style={{paddingTop: 10}}>
       {entity ? <Grid container spacing={2}>
         <Grid item container xs={3}>
-          {entity.persons.map(person => <Grid item xs={3}>{person.name}</Grid>)}
+          {entity.persons.map(person => <Grid item xs={3}>
+            <Button onClick={() => {
+              State.showForm(Person.entityName, person);
+              State.update({afterForm: () => State.updateScenario(entity)})
+            }}>{person.name}</Button>
+          </Grid>)}
         </Grid>
         <Grid item container xs={9} spacing={2}>
           {images.map((url, index) => <Grid item><Paper elevation={6}>
@@ -45,7 +52,7 @@ class ScenarioView extends Component {
                       onChange={scenario => {
                         State.updateScenario(scenario);
                         this.fetchImages(scenario);
-                      }} value={null}/>
+                      }} value={null} editable/>
       </div>}
       <ModalGateway>
         <Modal onClose={() => this.setState({viewerIsOpen: false, currentImage: null})}
