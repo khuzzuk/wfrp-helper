@@ -1,3 +1,4 @@
+import {State} from "../../state/State";
 import Entity from "../Entity";
 
 export const Dice = {
@@ -34,3 +35,5 @@ export default class DiceRoll extends Entity {
         return this.rolls + this.dice
     }
 }
+
+State.data.dice = Dice.allOf();

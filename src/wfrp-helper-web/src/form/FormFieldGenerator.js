@@ -5,11 +5,11 @@ import ActionTimeField from "./field/ActionTimeField";
 import BlueprintSelect from "./field/BlueprintSelect";
 import DeterminantField from "./field/DeterminantField";
 import EntitySelect from "./field/EntitySelect";
-import EnumCombobox from "./field/EnumCombobox";
 import EnumSelect from "./field/EnumSelect";
 import IntegerField from "./field/IntegerField";
 import ModifierField from "./field/ModifierField";
 import PriceField from "./field/PriceField";
+import RaceDeterminantsField from "./field/RaceDeterminantsField";
 import FormFieldData from "./FormFieldData";
 import {FormFieldType} from "./FormFieldType";
 import CharacterSheetForm from "./sheet/CharacterSheetForm";
@@ -73,6 +73,9 @@ export const CreateFormField = (fieldData: FormFieldData, t, editable) => {
 
         case FormFieldType.BLUEPRINT_SELECT:
             return <BlueprintSelect key={name} name={name} suggestions={suggestions} editable={editable}/>;
+
+        case FormFieldType.RACE_DETERMINANTS:
+            return <RaceDeterminantsField key={name}/>;
 
         case FormFieldType.CHARACTER_SHEET:
             return editable ? <CharacterSheetForm/> : <CharacterSheetView/>;

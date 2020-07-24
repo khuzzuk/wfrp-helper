@@ -103,5 +103,21 @@
   "persons": "Bohaterowie",
   "user": "Użytkownik",
   "username": "Nazwa użytkownika",
-  "authorities": "Uprawnienia"
+  "authorities": "Uprawnienia",
+  "rolls": "Rzuty kością",
+  "plus": "Plus",
+  "SPEED": "Szybkość",
+  "BATTLE": "Walka wręcz",
+  "SHOOTING": "Umiejętności strzeleckie",
+  "STRENGTH": "Siła",
+  "DURABILITY": "Wytrzymałość",
+  "HEALTH": "Żywotność",
+  "INITIATIVE": "Inicjatywa",
+  "ATTACK": "Ataki",
+  "DEXTERITY": "Zręczność",
+  "LEADER_SKILLS": "Cechy przywódcze",
+  "INTELLIGENCE": "Inteligencja",
+  "CONTROL": "Opanowanie",
+  "WILL": "Siła woli",
+  "CHARISMA": "Ogłada"
 }

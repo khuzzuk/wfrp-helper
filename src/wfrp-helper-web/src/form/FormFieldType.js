@@ -14,5 +14,6 @@ export const FormFieldType = {
     DETERMINANT: 'determinant',
     MODIFIER: 'modifier',
     BLUEPRINT_SELECT: 'blueprint_select',
+    RACE_DETERMINANTS: 'race_determinants',
     CHARACTER_SHEET: 'character_sheet',
 };

@@ -15,5 +15,5 @@ RegisterEntity(Race, [
 ], [
     CreateFormField('name', FormFieldType.TEXT),
     CreateFormField('specialFeatures', FormFieldType.TEXT_AREA),
-    CreateFormField('determinants', FormFieldType.DETERMINANT),
+    CreateFormField('determinants', FormFieldType.RACE_DETERMINANTS),
 ]);
