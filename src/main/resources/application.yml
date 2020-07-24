@@ -20,6 +20,15 @@ spring:
     username: wfrp
     password: wfrp
     driver-class-name: org.postgresql.Driver
+#  cloud:
+#    gcp:
+#      sql:
+#        enabled: true
+#        database-name: wfrp
+#        instance-connection-name: wfrp-helper:europe-west3:wfrp
+#      credentials:
+#        location: file:e:/java/gcp/wfrp-helper-fd665e0fc547.json
+
   jpa:
     hibernate:
       ddl-auto: validate
