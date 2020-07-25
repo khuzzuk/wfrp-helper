@@ -50,7 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .sessionManagement().sessionCreationPolicy(STATELESS)
           .and()
         .authorizeRequests()
-          .antMatchers("/login*", "/static/**", "/*.{js,html,css,json}")
+          .antMatchers("/login*", "/static/**", "/*.{js,html,css,json}", "/_ah/*")
             .permitAll()
           .antMatchers("/auth/**", "/oauth2/**")
             .permitAll()

@@ -28,7 +28,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:1081",
+  "proxy": "https://wfrp-helper.ey.r.appspot.com",
   "eslintConfig": {
     "extends": "react-app"
   },

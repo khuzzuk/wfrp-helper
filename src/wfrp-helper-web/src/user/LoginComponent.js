@@ -60,8 +60,12 @@ class LoginComponent extends Component {
       <Grid item xs={6}>
         <Button>
           <img src={googleLogo} alt={t('login with Google')} style={{width: 50, height: 50}}/>
+          <a href={'https://wfrp-helper.ey.r.appspot.com/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect'}
+             style={{fontSize: 18}}>{t('login with Google')}</a>
+{/*
           <a href={'http://localhost:1081/oauth2/authorize/google?redirect_uri=http://localhost:3000/oauth2/redirect'}
              style={{fontSize: 18}}>{t('login with Google')}</a>
+*/}
         </Button>
       </Grid>
     </Grid>;
