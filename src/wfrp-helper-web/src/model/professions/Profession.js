@@ -30,5 +30,5 @@ RegisterEntity(Profession, [
     CreateFormField('professionClass', FormFieldType.ENTITY_SELECT, ProfessionClass.entityName),
     CreateFormField('determinants', FormFieldType.DETERMINANT),
     CreateFormField('skills', FormFieldType.ENTITY_COMBOBOX, Skill.entityName),
-    CreateFormField('nextProfessions', FormFieldType.ENUM_COMBOBOX, Profession.entityName, prof => prof.name),
+    CreateFormField('nextProfessions', FormFieldType.ENUM_COMBOBOX, Profession.entityName),
 ]);

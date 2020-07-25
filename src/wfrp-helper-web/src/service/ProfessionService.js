@@ -34,10 +34,8 @@ export default class ProfessionService {
 
   static nextProfessions() {
     const {currentProfession} = State.data.entity;
-    if (currentProfession) {
-      const professions = State.data[Profession.entityName];
-      return currentProfession.nextProfessions.map(profName => Collections.findByName(professions,
-                                                                                      profName));
+    if (currentProfession && currentProfession.nextProfessions) {
+      return currentProfession.nextProfessions;
     } else {
       return [];
     }

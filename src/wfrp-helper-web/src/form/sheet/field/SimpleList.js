@@ -1,3 +1,4 @@
+import Tooltip from "@material-ui/core/Tooltip";
 import React, {Component} from "react";
 import {Menu, MenuItem} from "@material-ui/core";
 import {State} from "../../../state/State";
@@ -28,9 +29,11 @@ export default class SimpleList extends Component {
                     const value = element.name || element;
                     return <div key={'listed-entity-' + value} style={{display: 'inline-block'}}>
                         {
-                            element.name
-                                ? <p onClick={this.handleClick(element)} style={{margin: 0}}>{(index > 0 ? ', ' : '') + value}</p>
-                                : <p style={{margin: 0}}>{(index > 0 ? ', ' : '') + value}</p>
+                            element.name ?
+                                element.description ?
+                                    <Tooltip title={element.description}><p onClick={this.handleClick(element)} style={{margin: 0}}>{(index > 0 ? ', ' : '') + value}</p></Tooltip> :
+                                    <p onClick={this.handleClick(element)} style={{margin: 0}}>{(index > 0 ? ', ' : '') + value}</p> :
+                                <p style={{margin: 0}}>{(index > 0 ? ', ' : '') + value}</p>
                         }
                         {
                             element.name
