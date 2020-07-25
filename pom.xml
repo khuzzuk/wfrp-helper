@@ -65,6 +65,16 @@
       <version>5.4.18.Final</version>
     </dependency>
 
+    <!-- GCP -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-gcp-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-gcp-starter-sql-postgresql</artifactId>
+    </dependency>
+
     <!-- Utils -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -131,6 +141,13 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-gcp-dependencies</artifactId>
+        <version>1.2.3.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 <!--      <dependency>
         <groupId>org.spockframework</groupId>
         <artifactId>spock-bom</artifactId>
@@ -150,18 +167,19 @@
           <source>11</source>
           <target>11</target>
           <release>11</release>
-<!--           <forceJavacCompilerUse>true</forceJavacCompilerUse>-->
+<!--
+          <forceJavacCompilerUse>true</forceJavacCompilerUse>
           <compilerArgs>
             <arg>-Werror</arg>
             <arg>-verbose</arg>
           </compilerArgs>
+-->
         </configuration>
       </plugin>
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
-<!--
       <plugin>
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>appengine-maven-plugin</artifactId>
@@ -171,7 +189,6 @@
           <projectId>wfrp-helper</projectId>
         </configuration>
       </plugin>
--->
 
       <!-- Tests -->
 <!--      <plugin>
