@@ -1,0 +1,5 @@
+dispatch:
+  - url: "*/frontend/*"
+    service: wfrp-helper-frontend
+  - url: "*/*"
+    service: default

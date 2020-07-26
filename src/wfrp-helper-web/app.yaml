@@ -1,0 +1,12 @@
+service: wfrp-helper-frontend
+runtime: python27
+api_version: 1
+threadsafe: true
+#instance_class: B1
+#manual_scaling:
+#  instances: 1
+
+handlers:
+  - url: /(.*)
+    static_files: build/\1
+    upload: build/(.*)
