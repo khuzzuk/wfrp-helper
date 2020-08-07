@@ -54,7 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .permitAll()
           .antMatchers("/auth/**", "/oauth2/**")
             .permitAll()
-          .antMatchers(HttpMethod.GET, "/picture/{\\d+}")
+          .antMatchers(HttpMethod.GET, "/picture/{\\d+}", "/locales/**", "/fonts/**")
             .permitAll()
           .anyRequest()
             .hasAnyRole("USER")

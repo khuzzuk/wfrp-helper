@@ -66,6 +66,7 @@
     </dependency>
 
     <!-- GCP -->
+<!--
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-gcp-starter</artifactId>
@@ -74,6 +75,7 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-gcp-starter-sql-postgresql</artifactId>
     </dependency>
+-->
 
     <!-- Utils -->
     <dependency>
