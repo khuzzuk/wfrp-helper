@@ -77,11 +77,5 @@ dependencies {
     annotationProcessor group: 'pl.javahello', name: 'remote-entity', version: remoteEntityVersion
 }
 
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-    }
-}
-
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
