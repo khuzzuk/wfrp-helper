@@ -60,50 +60,53 @@ class DeterminantField extends Component {
     return <Grid container spacing={2} alignItems={"center"}>
       <Grid item>{t(name)}</Grid>
       <Grid item container spacing={2} alignItems={"center"}>
-        {value && value.map(determinant => (
-            <Grid item container spacing={2} alignItems={"center"} key={value}>
-              <Grid item>
-                <EnumSelect key={determinant.id + determinant.type}
-                            label={t(name) + determinant.type}
-                            data={types} value={determinant.type}
-                            onChange={selected => this.update(determinant, {type: selected})}
-                            editable={editable}/>
-              </Grid>
-              <Grid item>
-                <IntegerField key={determinant.id + determinant.type + 'value'} label={'value'}
-                              value={determinant.value}
-                              onChange={number => this.update(determinant, {value: number})}
-                              InputProps={{readOnly: !editable}}/>
-              </Grid>
-              {<Grid item container spacing={2} alignItems={"center"}>
+        {value && value.map(determinant => {
+          console.log(determinant);
+          return (
+              <Grid item container spacing={2} alignItems={"center"} key={determinant.id + determinant.type}>
                 <Grid item>
-                  {t('modifier')}
+                  <EnumSelect key={determinant.id + determinant.type}
+                              label={t(name) + determinant.type}
+                              data={types} value={determinant.type}
+                              onChange={selected => this.update(determinant, {type: selected})}
+                              editable={editable}/>
                 </Grid>
                 <Grid item>
-                  {determinant.modifiers && determinant.modifiers.map(currentModifier => (
-                      <Paper key={determinant.id + determinant.type + '_' + currentModifier.id}>
-                        <ModifierField
-                            id={determinant.id
-                                + determinant.type
-                                + currentModifier.id
-                                + currentModifier.type}
-                            value={currentModifier}
-                            types={modifierTypes}
-                            editable={editable}/>
-                      </Paper>))}
+                  <IntegerField key={determinant.id + determinant.type + 'value'} label={'value'}
+                                value={determinant.value}
+                                onChange={number => this.update(determinant, {value: number})}
+                                InputProps={{readOnly: !editable}}/>
                 </Grid>
-                <Grid item>
-                  {editable ? <Button
-                      onClick={this.addModifierToDeterminant(determinant)}>{t('newModifier')}</Button> :
-                      <div/>
-                  }
-                </Grid>
-              </Grid>}
-              {editable ?
-                  <IconButton key={determinant.id + determinant.type + 'remove'}
-                              onClick={() => this.deleteItem(determinant)}><Remove/></IconButton> :
-                  <div/>}
-            </Grid>))}
+                {<Grid item container spacing={2} alignItems={"center"}>
+                  <Grid item>
+                    {t('modifier')}
+                  </Grid>
+                  <Grid item>
+                    {determinant.modifiers && determinant.modifiers.map(currentModifier => (
+                        <Paper key={determinant.id + determinant.type + '_' + currentModifier.id}>
+                          <ModifierField
+                              id={determinant.id
+                                  + determinant.type
+                                  + currentModifier.id
+                                  + currentModifier.type}
+                              value={currentModifier}
+                              types={modifierTypes}
+                              editable={editable}/>
+                        </Paper>))}
+                  </Grid>
+                  <Grid item>
+                    {editable ? <Button
+                            onClick={this.addModifierToDeterminant(determinant)}>{t('newModifier')}</Button> :
+                        <div/>
+                    }
+                  </Grid>
+                </Grid>}
+                {editable ?
+                    <IconButton key={determinant.id + determinant.type + 'remove'}
+                                onClick={() => this.deleteItem(determinant)}><Remove/></IconButton> :
+                    <div/>}
+              </Grid>)
+        })}
       </Grid>
       <Grid item>
         {editable ? <Button onClick={this.addDeterminant}>{t('newDeterminant')}</Button> : <div/>}
