@@ -33,10 +33,10 @@ public class GearService {
 
     @Transactional
     public int getArmor(Armor armor) {
-        float strength = calculateResourceStrength(armor.getPrimaryResource(), armor.getSecondaryResource());
+        float strength = calculateResourceDurability(armor.getPrimaryResource(), armor.getSecondaryResource());
         float patternStrength = armor.getArmorPattern().getStrength();
 
-        float totalArmorValue = armor.getType().getArmor() * strength * patternStrength;
+        float totalArmorValue = armor.getType().getArmor() * (strength + patternStrength);
         return Math.round(totalArmorValue);
     }
 
@@ -56,6 +56,11 @@ public class GearService {
     private static float calculateResourceStrength(Resource primaryResource, Resource secondaryResource) {
         return (primaryResource != null ? primaryResource.getStrength() : 1)
                 + ((secondaryResource != null ? secondaryResource.getStrength() : 0) / 10);
+    }
+
+    private static float calculateResourceDurability(Resource primaryResource, Resource secondaryResource) {
+        return (primaryResource != null ? primaryResource.getDurability() : 1)
+                + ((secondaryResource != null ? secondaryResource.getDurability() : 0) / 10);
     }
 
     private static String mapDiceRoll(DiceRoll diceRoll, float multiplier) {
