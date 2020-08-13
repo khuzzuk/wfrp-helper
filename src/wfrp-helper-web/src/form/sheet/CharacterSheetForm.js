@@ -191,7 +191,7 @@ class CharacterSheetForm extends Component {
               <SelectableList style={{width: 300}} listStyle={{height: 370}} name={Item.entityName} onGearAdd={ItemService.addItemToInventory}>
                 {entity.inventory.map(eq => <ItemElement key={eq.item.name} inventory={eq}/>)}
               </SelectableList>
-              <div style={{paddingLeft: 220}}>{ItemService.inventoryWeight()} kg</div>
+              <div style={{paddingLeft: 200}}>{ItemService.inventoryWeight()} kg</div>
 
               {/*money*/}
               <SelectableList style={{width: 285}} listStyle={{height: 150}} name={Currency.entityName} data={State.data.currentRealmData.currencies} onGearAdd={MoneyService.addMoney}>

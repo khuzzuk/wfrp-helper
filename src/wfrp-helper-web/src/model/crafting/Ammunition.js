@@ -2,8 +2,6 @@ import {FormFieldType}                                 from "../../form/FormFiel
 import {CreateColumn, CreateFormField, RegisterEntity} from "../Entity";
 import DeterminantContainer                            from "../rule/DeterminantContainer";
 import Price                                           from "../world/Price";
-import ArmorBlueprint                                  from "./ArmorBlueprint";
-import ArmorPattern                                    from "./ArmorPattern";
 import {availabilityEntityName}                        from "./Availability";
 import RangedWeaponBlueprint                           from "./RangedWeaponBlueprint";
 import Resource                                        from "./Resource";

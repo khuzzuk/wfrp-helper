@@ -11,7 +11,7 @@ class ItemElement extends Component {
   };
 
   static calculateWeight = inventory => {
-    return inventory.amount * inventory.item.weight;
+    return (inventory.amount * inventory.item.weight).toFixed(2);
   };
 
   render() {
