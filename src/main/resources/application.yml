@@ -49,6 +49,11 @@ spring:
   flyway:
     locations: classpath:/db/migration,/db/data
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 app:
   auth:
     tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
