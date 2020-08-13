@@ -86,7 +86,7 @@ class CharacterSheetView extends Component {
         <div style={{paddingTop: 40, paddingLeft: 33, width: 860, display: 'flex'}}>
           <div style={{width: 240, paddingLeft: 10}}>{entity.currentProfession && entity.currentProfession.name}</div>
           <SimpleListView data={entity.professions} style={{display: 'inline-block', width: 350, fontSize: '14px'}}/>
-          <SimpleList name={'outgoingProfessions'} data={ProfessionService.nextProfessions()} onRemove={ProfessionService.removeProfessionFromHistory} style={{display: 'inline-block', width: 200, fontSize: '14px'}}/>
+          <SimpleList name={'outgoingProfessions'} data={ProfessionService.nextProfessions()} onRemove={ProfessionService.removeProfessionFromHistory} style={{display: 'inline-block', width: 200, height: 40, fontSize: '14px'}}/>
         </div>
 
         {/*determinants*/}

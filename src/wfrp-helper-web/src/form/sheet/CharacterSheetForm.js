@@ -3,6 +3,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 import {withTranslation} from "react-i18next";
+import SimpleBar from "simplebar-react";
 import DeterminantService from "../../client/DeterminantService";
 import GearService from "../../client/GearService";
 import MagicService from "../../client/MagicService";
@@ -104,10 +105,14 @@ class CharacterSheetForm extends Component {
         </div>
 
         {/*profession*/}
-        <div style={{paddingTop: 30, paddingLeft: 33, width: 860}}>
-          <SimpleEntitySelect name={Profession.entityName} propName={'currentProfession'} options={ProfessionService.getProfessions()} onChange={ProfessionService.updateProfession} customStyle={{width: 240, paddingLeft: 0}}/>
-          <SimpleList name={'professions'} onRemove={ProfessionService.removeProfessionFromHistory} style={{display: 'inline-block', width: 350, fontSize: '14px'}}/>
-          <SimpleList name={'outgoingProfessions'} data={ProfessionService.nextProfessions()} onRemove={ProfessionService.removeProfessionFromHistory} style={{display: 'inline-block', width: 200, fontSize: '14px'}}/>
+        <div style={{paddingTop: 30, paddingLeft: 33, width: 860, height: 40, display: 'flex'}}>
+          <SimpleEntitySelect name={Profession.entityName} propName={'currentProfession'} options={ProfessionService.getProfessions()} onChange={ProfessionService.updateProfession} customStyle={{width: 235, paddingLeft: 0}}/>
+          <SimpleBar style={{width: 360, height: 40}}>
+            <SimpleList name={'professions'} onRemove={ProfessionService.removeProfessionFromHistory} style={{display: 'inline-block', width: 350, fontSize: '14px'}}/>
+          </SimpleBar>
+          <SimpleBar style={{width: 200, height: 40}}>
+            <SimpleList name={'outgoingProfessions'} data={ProfessionService.nextProfessions()} onRemove={ProfessionService.removeProfessionFromHistory} style={{display: 'inline-block', width: 200, height: 40, fontSize: '14px'}}/>
+          </SimpleBar>
         </div>
 
         {/*determinants*/}
