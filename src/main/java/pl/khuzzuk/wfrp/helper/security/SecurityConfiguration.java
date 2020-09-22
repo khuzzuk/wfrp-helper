@@ -1,6 +1,6 @@
 package pl.khuzzuk.wfrp.helper.security;
 
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,11 +13,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import pl.khuzzuk.wfrp.helper.security.jwt.JwtRequestFilter;
 import pl.khuzzuk.wfrp.helper.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import pl.khuzzuk.wfrp.helper.security.oauth2.OAuth2AuthenticationSuccessHandler;
 
@@ -26,7 +24,6 @@ import pl.khuzzuk.wfrp.helper.security.oauth2.OAuth2AuthenticationSuccessHandler
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-  private final JwtRequestFilter jwtRequestFilter;
   private final OAuth2AuthenticationSuccessHandler successHandler;
   private final HttpCookieOAuth2AuthorizationRequestRepository authorizationRequestRepository;
 
@@ -47,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .and()
         .formLogin().disable()
         .httpBasic().disable()
-        .sessionManagement().sessionCreationPolicy(STATELESS)
+        .sessionManagement().sessionCreationPolicy(IF_REQUIRED)
           .and()
         .authorizeRequests()
           .antMatchers("/login*", "/static/**", "/*.{js,html,css,json}", "/_ah/*")
@@ -59,7 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
           .anyRequest()
             .hasAnyRole("USER")
           .and()
-        .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+/*
         .oauth2Login()
           .authorizationEndpoint()
             .baseUri("/oauth2/authorize")
@@ -69,6 +66,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .baseUri("/oauth2/callback/*")
           .and()
         .successHandler(successHandler)
+*/
     ;//@formatter:on
   }
 

@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import pl.javahello.Adapter;
-import pl.khuzzuk.wfrp.helper.security.jwt.JwtAuthentication;
-import pl.khuzzuk.wfrp.helper.security.jwt.JwtTokenProvider;
+import pl.khuzzuk.wfrp.helper.security.LoginResponse;
 import pl.khuzzuk.wfrp.helper.security.role.Role;
 import pl.khuzzuk.wfrp.helper.security.role.RoleDTO;
 import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
@@ -28,13 +27,12 @@ public class LoginRemoteService {
 
   private final UserModificationService userModificationService;
   private final AuthenticationManager authenticationManager;
-  private final JwtTokenProvider jwtTokenProvider;
   private final UserRepo userRepo;
   private final Adapter<Role, RoleDTO> roleDTOAdapter;
   private final Adapter<User, UserDTO> userDTOAdapter;
 
   @PostMapping("login")
-  public JwtAuthentication login(@RequestBody UserDTO userDTO) {
+  public LoginResponse login(@RequestBody UserDTO userDTO) {
     UsernamePasswordAuthenticationToken authentication =
         new UsernamePasswordAuthenticationToken(userDTO.getUsername(), userDTO.getPassword());
     authenticationManager.authenticate(authentication);
@@ -42,11 +40,10 @@ public class LoginRemoteService {
 
     User user = userRepo.findByUsername(userDTO.getUsername()).orElseThrow();
 
-    JwtAuthentication jwtAuth = new JwtAuthentication();
-    jwtAuth.setToken(jwtTokenProvider.getToken((String) authentication.getPrincipal()));
-    jwtAuth.setAuthorities(roleDTOAdapter.set(user.getAuthorities()));
-    jwtAuth.setOneTimePassword(user.isOneTimePassword());
-    return jwtAuth;
+    LoginResponse response = new LoginResponse();
+    response.setAuthorities(roleDTOAdapter.set(user.getAuthorities()));
+    response.setOneTimePassword(user.isOneTimePassword());
+    return response;
   }
 
   @PostMapping("login/signup")

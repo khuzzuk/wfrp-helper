@@ -34,7 +34,7 @@ export default class App extends Component {
       return <MuiThemeProvider theme={theme}>
         <Switch>
           {/* For static spring build */}
-          {/*<Route exact path={"/index.html"} component={LoginComponent}/>*/}
+          <Route exact path={"/index.html"} component={LoginComponent}/>
           <Route exact path={"/"} component={LoginComponent}/>
           <Route path={"/oauth2/redirect"} component={OAuth2RedirectComponent}/>
         </Switch>

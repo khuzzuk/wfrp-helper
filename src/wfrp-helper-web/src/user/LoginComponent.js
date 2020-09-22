@@ -6,6 +6,7 @@ import {withTranslation} from "react-i18next";
 import FormFieldData from "../form/FormFieldData";
 import {CreateFormField} from "../form/FormFieldGenerator";
 import {FormFieldType} from "../form/FormFieldType";
+import DataLoader from "../state/DataLoader";
 import {State} from "../state/State";
 import AuthoritiesService from "./AuthoritiesService";
 import googleLogo from "./google-logo.png";
@@ -30,9 +31,10 @@ class LoginComponent extends Component {
       })
       .then(res => res.json())
       .then(authData => {
-        if (authData.token) {
-          State.updateUser(authData);
+        if (authData) {
+          State.updateUser({...authData, token: true});
           AuthoritiesService.updateAdminAuthoritiesIfNeeded();
+          DataLoader.refreshData();
         }
       })
     }

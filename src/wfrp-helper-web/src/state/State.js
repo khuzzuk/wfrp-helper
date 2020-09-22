@@ -9,7 +9,7 @@ export const State = {
         currentUser: {
             username: null,
             password: null,
-            token: null
+            token: true
         }
     },
     services: {},

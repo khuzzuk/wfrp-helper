@@ -14,7 +14,7 @@ export default class Service {
             mode: 'cors',
             headers: {
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + State.data.currentUser.token
+                // 'Authorization': 'Bearer ' + State.data.currentUser.token
             }
         })
             .then(this.handleErrors)
@@ -31,7 +31,7 @@ export default class Service {
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + State.data.currentUser.token
+                // 'Authorization': 'Bearer ' + State.data.currentUser.token
             },
             body: JSON.stringify(entity)
         })
@@ -45,7 +45,7 @@ export default class Service {
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + State.data.currentUser.token
+                // 'Authorization': 'Bearer ' + State.data.currentUser.token
             },
             body: JSON.stringify(entity)
         })
