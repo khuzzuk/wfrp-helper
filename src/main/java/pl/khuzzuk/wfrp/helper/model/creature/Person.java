@@ -10,6 +10,7 @@ import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.*;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.Spell;
@@ -36,7 +37,7 @@ import java.util.Set;
 @Audited
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class Person {
+public class Person extends BaseEntity {
     @Id
     @SequenceGenerator(name = "person_seq_gen", schema = "creature", sequenceName = "person_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq_gen")

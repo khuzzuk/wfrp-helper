@@ -17,13 +17,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.Set;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = {"name"})
 @Entity
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class ProfessionClass {
+public class ProfessionClass extends BaseEntity {
     @Id
     @SequenceGenerator(name = "profession_class_seq_gen", sequenceName = "profession_class_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "profession_class_seq_gen")

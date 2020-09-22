@@ -17,6 +17,7 @@ import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 @Table(schema = "realm")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class Realm {
+public class Realm extends BaseEntity {
 
   @SequenceGenerator(name = "realm_id_seq_gen",
                      schema = "realm",

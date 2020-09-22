@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {Button, Menu} from "@material-ui/core";
 import {withTranslation} from "react-i18next";
 import MenuItem from "@material-ui/core/MenuItem";
+import DataLoader from "../state/DataLoader";
 import {State} from "../state/State";
 
 class MenuComponent extends Component {
@@ -19,6 +20,7 @@ class MenuComponent extends Component {
 
     handleItemClick = entityName => () => {
         this.handleClose();
+        DataLoader.refreshForEntity(entityName);
         State.showTable(entityName);
     };
 

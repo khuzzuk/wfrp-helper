@@ -6,6 +6,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 import pl.khuzzuk.wfrp.helper.model.money.Price;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(schema = "crafting")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class Item {
+public abstract class Item extends BaseEntity {
     @Id
     @SequenceGenerator(name = "item_seq_gen", schema = "crafting", sequenceName = "item_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_seq_gen")

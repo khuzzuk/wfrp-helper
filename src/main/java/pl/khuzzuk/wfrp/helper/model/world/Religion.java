@@ -16,6 +16,7 @@ import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Getter
 @Setter
@@ -24,7 +25,7 @@ import pl.javahello.RemoteEntity.SecuredService;
 @Table(schema = "world")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class Religion {
+public class Religion extends BaseEntity {
 
   @SequenceGenerator(name = "religion_id_seq_gen",
                      schema = "world",

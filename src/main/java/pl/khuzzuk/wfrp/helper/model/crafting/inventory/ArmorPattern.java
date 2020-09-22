@@ -12,6 +12,7 @@ import pl.khuzzuk.wfrp.helper.common.EnumType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Getter
 @Setter
@@ -20,7 +21,7 @@ import javax.validation.constraints.NotNull;
     @Table(schema = "crafting")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class ArmorPattern {
+public class ArmorPattern extends BaseEntity {
     @Id
     @SequenceGenerator(name = "armor_pattern_seq_gen", schema = "crafting", sequenceName = "armor_pattern_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "armor_pattern_seq_gen")

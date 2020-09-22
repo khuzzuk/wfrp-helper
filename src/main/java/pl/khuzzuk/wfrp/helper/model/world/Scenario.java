@@ -17,6 +17,7 @@ import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.creature.Person;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = "name")
@@ -24,7 +25,7 @@ import pl.khuzzuk.wfrp.helper.model.creature.Person;
 @Table(schema = "realm")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class Scenario {
+public class Scenario extends BaseEntity {
 
   @Id
   @SequenceGenerator(name = "scenario_seq_gen",

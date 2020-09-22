@@ -12,13 +12,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import pl.javahello.RemoteEntity.SecuredService;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class HairColor {
+public class HairColor extends BaseEntity {
     @Id
     @SequenceGenerator(name = "hair_color_seq_gen", sequenceName = "hair_color_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "hair_color_seq_gen")

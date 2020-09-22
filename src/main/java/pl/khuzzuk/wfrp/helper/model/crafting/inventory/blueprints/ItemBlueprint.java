@@ -3,6 +3,7 @@ package pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.validator.constraints.Length;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 import pl.khuzzuk.wfrp.helper.model.money.Price;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
@@ -15,7 +16,7 @@ import java.util.List;
 @DiscriminatorColumn(name = "type", length = 255)
 @Entity
 @Table(schema = "crafting")
-public abstract class ItemBlueprint {
+public abstract class ItemBlueprint extends BaseEntity {
     @Id
     @SequenceGenerator(name = "item_blueprint_seq_gen", schema = "crafting", sequenceName = "item_blueprint_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "item_blueprint_seq_gen")

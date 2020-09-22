@@ -17,13 +17,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import java.util.Set;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = {"name"})
 @Entity
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class PhysicalFeature {
+public class PhysicalFeature extends BaseEntity {
     @Id
     @SequenceGenerator(name = "character_seq_gen", sequenceName = "character_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "character_seq_gen")

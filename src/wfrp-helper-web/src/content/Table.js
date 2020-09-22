@@ -3,6 +3,7 @@ import {Add, Delete, Edit, OpenInNew} from "@material-ui/icons";
 import MUIDataTable from "mui-datatables";
 import React, {Component} from "react";
 import {withTranslation} from "react-i18next";
+import RealmDataService from "../client/RealmDataService";
 import {State} from "../state/State";
 import AuthoritiesService from "../user/AuthoritiesService";
 
@@ -27,9 +28,9 @@ class Table extends Component {
             </div>
           </React.Fragment>;
         } else {
-            return <React.Fragment>
-                <IconButton onClick={() => State.showForm(entityName, entity)}><OpenInNew/></IconButton>
-            </React.Fragment>
+          return <React.Fragment>
+            <IconButton onClick={() => State.showForm(entityName, entity)}><OpenInNew/></IconButton>
+          </React.Fragment>
         }
       }
       return <React.Fragment/>
@@ -43,8 +44,8 @@ class Table extends Component {
   };
 
   render() {
-    const {showTable} = State.data;
-    const {t} = this.props;
+    const {showTable}  = State.data;
+    const {t}          = this.props;
     const hasAuthority = AuthoritiesService.hasAuthority(showTable);
 
     const title = <div>
@@ -53,15 +54,18 @@ class Table extends Component {
                                                                 showTable: null,
                                                                 showForm: showTable,
                                                                 entity: State.suppliers[showTable]()
-      })}>
+                                                              })}>
         <Add/>
       </IconButton> : <div/>}
     </div>;
 
+    const data = RealmDataService.hasRealmData(showTable) ?
+        RealmDataService.getRealmData(showTable) :
+        State.data[showTable];
     return <MUIDataTable title={title}
                          options={this.options}
                          columns={this.translateColumns(State.columns[showTable])}
-                         data={State.data[showTable]}/>
+                         data={data}/>
   }
 }
 

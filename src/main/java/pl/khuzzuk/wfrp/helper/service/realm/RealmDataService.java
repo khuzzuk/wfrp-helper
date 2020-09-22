@@ -56,7 +56,7 @@ public class RealmDataService {
         List<Nation> nations = realm.getNations();
         return raceRepo.findAll()
             .stream()
-            .filter(race -> Collections.disjoint(nations, race.getNations()))
+            .filter(race -> !Collections.disjoint(nations, race.getNations()))
             .collect(Collectors.toList());
     }
 }

@@ -19,6 +19,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import java.util.Set;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = "name")
@@ -26,7 +27,7 @@ import java.util.Set;
 @Table(schema = "world")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class Currency {
+public class Currency extends BaseEntity {
     @Id
     @SequenceGenerator(name = "currency_id_seq_gen", allocationSize = 1,
             schema = "world", sequenceName = "currency_id_seq")

@@ -26,6 +26,7 @@ import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MiscItem;
 import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = "name")
@@ -33,7 +34,7 @@ import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 @Table(schema = "magic")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class Spell {
+public class Spell extends BaseEntity {
 
   @Id
   @SequenceGenerator(name = "spell_seq_gen",

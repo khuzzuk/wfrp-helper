@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Availability;
 
 import javax.persistence.*;
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @Table(schema = "crafting")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class Resource {
+public class Resource extends BaseEntity {
     @Id
     @SequenceGenerator(name = "resource_seq_gen", schema = "crafting", sequenceName = "resource_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "resource_seq_gen")

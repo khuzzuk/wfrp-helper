@@ -10,6 +10,7 @@ import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.*;
 import java.util.Set;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = {"name"})
@@ -17,7 +18,7 @@ import java.util.Set;
 @Table(schema = "world")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class Race {
+public class Race extends BaseEntity {
     @Id
     @SequenceGenerator(name = "race_seq_gen", schema = "world", sequenceName = "race_id_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "race_seq_gen")

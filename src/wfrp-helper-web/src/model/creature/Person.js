@@ -66,6 +66,7 @@ export default class Person extends Entity {
   updateWith(entity: *): Person {
     this.updateProp(entity, 'id');
     this.updateProp(entity, 'uuid');
+    this.updateProp(entity, 'version');
     this.updateProp(entity, 'name');
     this.updateProp(entity, 'gender');
     this.updateNumProp(entity, 'age');

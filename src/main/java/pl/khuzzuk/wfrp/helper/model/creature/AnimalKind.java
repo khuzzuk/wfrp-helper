@@ -6,6 +6,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 
 import javax.persistence.CascadeType;
@@ -23,7 +24,7 @@ import java.util.Set;
 @Entity
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class AnimalKind {
+public class AnimalKind extends BaseEntity {
     @Id
     @SequenceGenerator(name = "animal_kind_seq_gen", sequenceName = "animal_kind_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_kind_seq_gen")

@@ -14,6 +14,7 @@ import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = "name")
@@ -21,7 +22,7 @@ import pl.javahello.RemoteEntity.SecuredService;
 @Table(schema = "magic")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class SpellSchool {
+public class SpellSchool extends BaseEntity {
 
   @Id
   @SequenceGenerator(name = "spell_school_seq_gen",

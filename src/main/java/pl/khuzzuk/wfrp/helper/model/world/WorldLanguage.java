@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.util.Set;
 import pl.javahello.RemoteEntity.SecuredService;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
 @EqualsAndHashCode(of = "name")
@@ -25,7 +26,7 @@ import pl.javahello.RemoteEntity.SecuredService;
 @Table(schema = "world", name = "language")
 @RemoteEntity(transactional = true)
 @SecuredService(allowRead = true)
-public class WorldLanguage {
+public class WorldLanguage extends BaseEntity {
     @Id
     @SequenceGenerator(name = "language_seq_gen", sequenceName = "language_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "language_seq_gen")
