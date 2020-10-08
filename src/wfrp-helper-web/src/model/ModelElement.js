@@ -5,7 +5,7 @@ export default class ModelElement {
     }
 
     updateProp(entity: any, prop: string) {
-        if (entity[prop] || entity[prop] === '') {
+        if (typeof entity[prop] !== 'undefined') {
             this[prop] = entity[prop];
         }
     }

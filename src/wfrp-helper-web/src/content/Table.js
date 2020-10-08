@@ -6,6 +6,7 @@ import {withTranslation} from "react-i18next";
 import RealmDataService from "../client/RealmDataService";
 import {State} from "../state/State";
 import AuthoritiesService from "../user/AuthoritiesService";
+import {Collections} from "../util/Collections";
 
 class Table extends Component {
   options = {
@@ -17,7 +18,9 @@ class Table extends Component {
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
       if (selectedRows.data.length > 0) {
         const entityName = State.data.showTable;
-        const entity     = State.data[entityName][selectedRows.data[0].dataIndex];
+        //const entity     = State.data[entityName][selectedRows.data[0].dataIndex];
+        const element    = displayData[selectedRows.data[0].dataIndex];
+        const entity     = Collections.findByName(State.data[entityName], {name: element.data[0]});
 
         if (AuthoritiesService.hasAuthority(entityName)) {
           return <React.Fragment>
