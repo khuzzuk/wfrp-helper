@@ -67,7 +67,7 @@ export default class Service {
                 message.then(value => {
                     window.confirm(value.errors[0].message);
                 });
-            } else if (response.status === 403 || response.status === 401) {
+            } else if (response.status === 403 || response.status === 401 || response.status === 405) {
                 State.updateUser({token: null})
             }
             throw response;

@@ -18,9 +18,9 @@ class Table extends Component {
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
       if (selectedRows.data.length > 0) {
         const entityName = State.data.showTable;
-        //const entity     = State.data[entityName][selectedRows.data[0].dataIndex];
-        const element    = displayData[selectedRows.data[0].dataIndex];
-        const entity     = Collections.findByName(State.data[entityName], {name: element.data[0]});
+        const dataIndex    = selectedRows.data[0].index;
+        const selectedName = displayData[dataIndex].data[0];
+        const entity = Collections.findByName(State.data[entityName], {name: selectedName});
 
         if (AuthoritiesService.hasAuthority(entityName)) {
           return <React.Fragment>

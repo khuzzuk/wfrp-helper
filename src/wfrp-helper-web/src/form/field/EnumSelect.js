@@ -15,6 +15,16 @@ class EnumSelect extends Component {
     })
   };
 
+  getLabel = val => {
+    let label;
+    if (typeof val === 'string') label = val;
+    else if (val.label) label = val.label;
+    if (val.name) return val.name;
+    if (val) return val.toString();
+
+    return <div>label</div>;
+  }
+
   render() {
     const {
       t,
@@ -40,7 +50,7 @@ class EnumSelect extends Component {
             components={makeAnimated()}
             onChange={onChange}
             value={multi ? value : {label: value, value: value}}
-            getOptionLabel={val => <div>{val.label ? val.label : (typeof val === "string" ? val : undefined)}</div>}
+            getOptionLabel={this.getLabel}
             getOptionValue={val => val}
             isSearchable
             isClearable

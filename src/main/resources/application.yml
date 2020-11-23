@@ -12,12 +12,11 @@ spring:
       client:
         registration:
           google:
-            client-id: 554052234273-se9acbvqso7fukjvfcg6cbn085snl8ka.apps.googleusercontent.com
-            client-secret: DdGenAs4Q2SsVQEX8PVDcOWO
-            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
+            client-id: 438518771997-jv58q8ru6tjqq18sgu018rn1656k4oja.apps.googleusercontent.com
+            client-secret: cR_quZ1S9CElInxDyJu7rtFm
+#            redirectUri: "{baseUrl}/oauth2/callback/{registrationId}"
             scope:
               - email
-              - profile
   datasource:
     url: jdbc:postgresql://localhost:5432/wfrp
     username: wfrp
