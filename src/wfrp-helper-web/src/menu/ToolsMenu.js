@@ -8,6 +8,7 @@ import Picture from "../img/Picture";
 import {State} from "../state/State";
 import AuthoritiesService from "../user/AuthoritiesService";
 import User from "../user/User";
+import DataLoader from "../state/DataLoader";
 
 class ToolsMenu extends Component {
   state = {
@@ -34,6 +35,7 @@ class ToolsMenu extends Component {
 
   showUsersTable = () => {
     this.handleClose();
+    DataLoader.refreshForEntity(User.entityName);
     State.showTable(User.entityName);
   };
 

@@ -50,7 +50,7 @@ class ProfessionExtensionField extends Component {
         return <div className={`${classes.fieldContainer} ${customClassName}`} {...other}>
             <p className={classes.extension}>{'+' + professionValue}</p>
             <div className={classes.checkboxContainer}>
-                {extended.map(mod => <ExtMark key={'' + mod.value + '-' + mod.type}/>)}
+                {extended.map(mod => <ExtMark key={`${mod.id}-${mod.value}-${mod.type}`}/>)}
             </div>
         </div>;
     }

@@ -100,14 +100,12 @@ class TopMenu extends Component {
                                         AnimalKind.entityName,]]}/>] :
         <div/>;
 
-    return <AppBar
-        position={"relative"}>
+    return <AppBar position={"relative"}>
       <Toolbar>
         <ToolsMenu/>
         {menuItems}
         <div className={classes.languageIcon}>
-          {State.data.fetching.size > 0 && <IconButton><CircularProgress
-              color={"secondary"}/></IconButton>}
+          {State.data.fetching.size > 0 && <IconButton><CircularProgress color={"secondary"}/></IconButton>}
           <Select className={classes.realmSelect}
                   options={State.data.realm}
                   getOptionLabel={option => <div>{option.name}</div>}
@@ -116,10 +114,8 @@ class TopMenu extends Component {
                   value={State.data.currentRealm}
                   onChange={realm => realmDataService.getRealmData(realm)}
           />
-          <IconButton onClick={() => i18n.changeLanguage('en')}><Flag code={'gb'}
-                                                                      height={16}/></IconButton>
-          <IconButton onClick={() => i18n.changeLanguage('pl')}><Flag code={'pl'}
-                                                                      height={16}/></IconButton>
+          <IconButton onClick={() => i18n.changeLanguage('en')}><Flag code={'gb'} height={16}/></IconButton>
+          <IconButton onClick={() => i18n.changeLanguage('pl')}><Flag code={'pl'} height={16}/></IconButton>
         </div>
       </Toolbar>
     </AppBar>;

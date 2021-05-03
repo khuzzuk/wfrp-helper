@@ -246,7 +246,7 @@ class CharacterSheetForm extends Component {
           </div>
 
           {/*animals*/}
-          <SelectableList style={{width: 700}} listStyle={{height: 100}} name={Animal.entityName} propName={'animals'}>
+          <SelectableList style={{width: 700}} listStyle={{height: 100}} name={Animal.entityName}>
             {entity.animals.map(animal => <AnimalElement animal={animal}/>)}
           </SelectableList>
 

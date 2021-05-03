@@ -8,7 +8,9 @@ class SimpleListView extends Component {
     return <div {...other}>
       <SimpleBar style={{...{height: '100%', width: '100%'}, ...listStyle}}>
         {children}
-        {data && data.map(element => <div>{element.name || element}</div>)}
+        {data && data
+                  .map(element => element.name || element)
+                  .map(name => <div key={name}>{name}</div>)}
       </SimpleBar>
     </div>;
   }

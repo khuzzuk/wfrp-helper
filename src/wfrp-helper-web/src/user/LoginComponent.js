@@ -23,29 +23,40 @@ class LoginComponent extends Component {
   login = () => {
     const user = State.data.entity;
     if (user && user.username && user.password) {
-      fetch('login', {
-        method: 'post',
-        mode: 'cors',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(user)
-      })
-      .then(res => res.json())
-      .then(authData => {
-        if (authData) {
-          State.updateUser({...authData, token: true});
-          AuthoritiesService.updateAdminAuthoritiesIfNeeded();
-          DataLoader.refreshData();
-        }
-      })
+      this.send('login', JSON.stringify(user));
     }
   };
+
+  signup = () => {
+    const user = State.data.entity;
+    if (user && user.username && user.password) {
+      this.send('login/signup', JSON.stringify(user));
+    }
+  }
+
+  send = (uri: string, user: string) => {
+    fetch(uri, {
+      method: 'post',
+      mode: 'cors',
+      headers: {'Content-Type': 'application/json'},
+      body: user
+    })
+    .then(res => res.json())
+    .then(authData => {
+      if (authData) {
+        State.updateUser({...authData, token: true});
+        AuthoritiesService.updateAdminAuthoritiesIfNeeded();
+        DataLoader.refreshData();
+      }
+    });
+  }
 
   render() {
     const {t}        = this.props;
     const loginField = new FormFieldData();
     loginField.name  = 'username';
 
-    return <Grid container alignItems={"center"} spacing={2} xs={12} direction={"column"}>
+    return <Grid container alignItems={"center"} spacing={2} direction={"column"}>
       <Grid item xs={6}>
         <Typography>WFRP Helper</Typography>
       </Grid>
@@ -57,7 +68,7 @@ class LoginComponent extends Component {
       </Grid>
       <Grid item xs={8}>
         <Button onClick={this.login}>{t('login')}</Button>
-        <Button>{t('signup')}</Button>
+        <Button onClick={this.signup}>{t('signup')}</Button>
       </Grid>
       <Grid item xs={6}>
         <Button>

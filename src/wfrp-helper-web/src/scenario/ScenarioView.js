@@ -34,7 +34,7 @@ class ScenarioView extends Component {
     return <div style={{paddingTop: 10}}>
       {entity ? <Grid container spacing={2}>
         <Grid item container xs={3}>
-          {entity.persons.map(person => <Grid item xs={3}>
+          {entity.persons.map(person => <Grid key={person.name} item xs={3}>
             <Button onClick={() => {
               State.showForm(Person.entityName, person);
               State.update({afterForm: () => State.updateScenario(entity)})

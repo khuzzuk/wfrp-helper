@@ -31,6 +31,8 @@ import EyeColor              from "../model/creature/EyeColor";
 import HairColor             from "../model/creature/HairColor";
 import PhysicalFeature       from "../model/creature/PhysicalFeature";
 import Armor                 from "../model/crafting/Armor";
+import User from "../user/User";
+import Role from "../user/Role";
 
 const refreshRegistry = {
     [Nation.entityName]: [],
@@ -79,6 +81,8 @@ const refreshRegistry = {
                           MeleeWeapon.entityName,
                           RangedWeapon.entityName,
                           Jewelry.entityName],
+    [User.entityName]: [],
+    [Role.entityName]: [],
 };
 
 export default class DataLoader {

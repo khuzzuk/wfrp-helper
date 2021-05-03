@@ -17,6 +17,7 @@ class Table extends Component {
     selectableRowsHeader: false,
     customToolbarSelect: (selectedRows, displayData, setSelectedRows) => {
       if (selectedRows.data.length > 0) {
+        const data = State.data;
         const entityName = State.data.showTable;
         const dataIndex    = selectedRows.data[0].index;
         const selectedName = displayData[dataIndex].data[0];

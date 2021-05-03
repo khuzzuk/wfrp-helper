@@ -30,12 +30,11 @@ public class UserModificationService {
     User user = new User();
     user.setUsername(userDTO.getUsername());
 
-    final boolean oneTimePassword = StringUtils.isNotBlank(userDTO.getPassword());
+    boolean oneTimePassword = StringUtils.isBlank(userDTO.getPassword());
     String password =
-        oneTimePassword ? userDTO.getPassword() : RandomStringUtils.random(8, allowedCharacters);
+        oneTimePassword ? RandomStringUtils.random(8, allowedCharacters) : userDTO.getPassword();
 
     user.setPassword(passwordEncoder.encode(password));
-    user.setOneTimePassword(true);
     user.setOneTimePassword(oneTimePassword);
     user.setAuthorities(Set.of(roleRepo.findByAuthority(RoleRepo.ROLE_USER).orElseThrow(),
                                roleRepo.findByAuthority(RoleRepo.ROLE_PLAYER).orElseThrow()));

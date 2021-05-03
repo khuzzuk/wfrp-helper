@@ -41,11 +41,7 @@ const styles = () => ({
 
 class CharacterSheetView extends Component {
   determinantService: DeterminantService = new DeterminantService();
-  state = {anchorEl: null, currentElement: null,
-    generateStatsAction: () => {
-      const race = State.data.entity.race;
-      race && this.determinantService.rollForRace(race);
-    }};
+  state = {anchorEl: null};
 
   handleClose = () => {
     this.setState({anchorEl: null, showMenu: ''})
@@ -116,7 +112,7 @@ class CharacterSheetView extends Component {
 
             {/*skills*/}
             <SimpleListView style={{width: 200, height: 315, paddingLeft: 0, paddingTop: 60}}>
-              {entity.skills.map(skill => <Tooltip title={skill.description}><p key={skill.name} style={{margin: 0}}>{skill.name}</p></Tooltip>)}
+              {entity.skills.map(skill => <Tooltip key={skill.name} title={skill.description}><p style={{margin: 0}}>{skill.name}</p></Tooltip>)}
             </SimpleListView>
 
             {/*armor values*/}
@@ -222,25 +218,12 @@ class CharacterSheetView extends Component {
           </div>
 
           {/*animals*/}
-          <SimpleListView style={{width: 700}} listStyle={{height: 100}} name={Animal.entityName} propName={'animals'}>
+          <SimpleListView style={{width: 700}} listStyle={{height: 100}} name={Animal.entityName}>
             {entity.animals.map(animal => <AnimalElement animal={animal}/>)}
           </SimpleListView>
 
         </div>
       </div>
-
-      <Menu anchorEl={this.state.anchorEl}
-            open={this.state.currentElement && this.state.anchorEl !== null}
-            onClose={this.handleClose}>
-        {
-          this.state.currentElement && this.state.currentElement.map(elementName =>
-            <MenuItem onClick={() => {
-              this.handleClose();
-              this.state[elementName + 'Action']();
-            }}>{t(elementName)}</MenuItem>
-          )
-        }
-      </Menu>
     </div>;
   }
 }

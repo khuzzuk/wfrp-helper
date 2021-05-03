@@ -8,21 +8,24 @@ import Table from "./Table";
 class ContentPane extends Component {
   render() {
     const {showTable, showForm, showScenario, entity} = State.data;
-    let content                                       = <div/>;
 
     if (showTable) {
-      content = <Table/>
-    } else if (showForm) {
-      if (showForm === 'picture') {
-        content = <PictureUploadForm value={entity.id ? entity : undefined}/>
-      } else {
-        content = <EntityEditor entity={entity} entityName={showForm}/>
-      }
-    } else if (showScenario) {
-      content = <ScenarioView/>
+      return <Table/>;
     }
 
-    return content;
+    if (showForm === 'picture') {
+      return <PictureUploadForm value={entity.id ? entity : undefined}/>;
+    }
+
+    if (showForm) {
+      return <EntityEditor entity={entity} entityName={showForm}/>;
+    }
+
+    if (showScenario) {
+      return <ScenarioView/>;
+    }
+
+    return <div/>
   }
 
 }

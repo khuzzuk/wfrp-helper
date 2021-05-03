@@ -55,15 +55,15 @@ class WeaponElement extends Component {
         }
 
         const content = [
-            <div className={currentStyle.itemName}>{weapon.name}</div>,
-            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.INITIATIVE)}</div>,
-            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>,
-            <div className={currentStyle.damageText}>{this.state.damageText}</div>,
-            <div className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.PARRY)}</div>];
+            <div key={'name'} className={currentStyle.itemName}>{weapon.name}</div>,
+            <div key={'init'} className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.INITIATIVE)}</div>,
+            <div key={'batt'} className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.BATTLE)}</div>,
+            <div key={'damg'} className={currentStyle.damageText}>{this.state.damageText}</div>,
+            <div key={'parr'} className={currentStyle.itemVariable}>{weapon.getFinalValueForType(DeterminantType.PARRY)}</div>];
 
         return disabled ?
-            <div className={currentStyle.itemContainer}>{content}</div> :
-            <div className={currentStyle.itemContainer} onContextMenu={this.onRightClick(name, weapon)}>{content}</div>;
+            <div key={'cont'} className={currentStyle.itemContainer}>{content}</div> :
+            <div key={'actn'} className={currentStyle.itemContainer} onContextMenu={this.onRightClick(name, weapon)}>{content}</div>;
     }
 }
 
