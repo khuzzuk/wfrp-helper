@@ -17,7 +17,7 @@ import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 @Data
 @EqualsAndHashCode(of = "name")
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Skill extends BaseEntity {
     @Id

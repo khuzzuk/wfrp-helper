@@ -20,7 +20,7 @@ import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 @EqualsAndHashCode(of = "name")
 @Entity
 @Table(schema = "magic")
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class SpellSchool extends BaseEntity {
 

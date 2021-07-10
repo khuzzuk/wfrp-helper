@@ -1,0 +1,15 @@
+{
+  "common": {
+    "login": "Zaloguj się",
+    "username": "Nazwa użytkownika",
+    "password": "Hasło"
+  },
+  "pages": {
+    "home": {
+      "title": "WFRP Helper"
+    },
+    "login": {
+      "warning": "Zła nazwa użytkownika lub hasło"
+    }
+  }
+}

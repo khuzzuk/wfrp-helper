@@ -1,9 +1,11 @@
 plugins {
     id "java"
     id "groovy"
-    id 'org.springframework.boot' version '2.4.5'
+    id 'org.springframework.boot' version '2.5.1'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
+
+sourceCompatibility = '16'
 
 group 'pl.khuzzuk'
 version '1.0.0-SNAPSHOT'
@@ -17,7 +19,7 @@ repositories {
 ext {
     mapstructVersion = "1.4.2.Final"
     lombokVersion = "1.18.20"
-    remoteEntityVersion = "0.0.7"
+    remoteEntityVersion = "0.0.8-SNAPSHOT"
 }
 
 dependencies {
@@ -27,8 +29,10 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-websocket'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
     implementation group: 'org.springframework.security', name: 'spring-security-oauth2-client'
     implementation group: 'org.springframework.security', name: 'spring-security-oauth2-jose'
+    implementation group: 'de.codecentric', name: 'spring-boot-admin-starter-client', version: '2.4.1'
 
     //db
     //compile('org.postgresql:postgresql')

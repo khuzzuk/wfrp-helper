@@ -4,6 +4,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.IF_
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,6 +54,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .permitAll()
           .antMatchers(HttpMethod.GET, "/picture/{\\d+}", "/locales/**", "/fonts/**")
             .permitAll()
+          .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
           .anyRequest()
             .hasAnyRole("USER")
           .and()
