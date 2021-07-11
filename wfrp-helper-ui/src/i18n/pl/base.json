@@ -2,7 +2,8 @@
   "common": {
     "login": "Zaloguj się",
     "username": "Nazwa użytkownika",
-    "password": "Hasło"
+    "password": "Hasło",
+    "users": "Użytkownicy"
   },
   "pages": {
     "home": {

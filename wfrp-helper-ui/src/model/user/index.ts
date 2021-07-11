@@ -7,3 +7,5 @@ export default class User {
   password: string = '';
   authorities: Authority[] = [];
 }
+
+export const ROLE_ADMIN = 'ROLE_ADMIN';

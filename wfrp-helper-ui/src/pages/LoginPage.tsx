@@ -8,6 +8,7 @@ import Button from "../components/Button";
 import User from "../model/user";
 import withAuthData from "../state/login/loginSelector";
 import { WarningLabel } from "../components/Label";
+import TopBar from "../components/TopBar";
 
 function LoginPage(props: {error: boolean, authorize: (user: User) => void}) {
   const [t] = useTranslation('base');
@@ -16,6 +17,7 @@ function LoginPage(props: {error: boolean, authorize: (user: User) => void}) {
   const [password, setPassword] = useState('');
 
   return <MainPane>
+    <TopBar/>
     <Form>
       {props.error && <WarningLabel>{t('pages.login.warning')}</WarningLabel>}
       <TextField onUpdate={setUsername} placeholder={t('common.username')} value={username}/>

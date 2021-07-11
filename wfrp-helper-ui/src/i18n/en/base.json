@@ -2,7 +2,8 @@
   "common": {
     "login": "Login",
     "username": "User name",
-    "password": "Password"
+    "password": "Password",
+    "users": "Users"
   },
   "pages": {
     "home": {
