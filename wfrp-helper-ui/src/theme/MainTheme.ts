@@ -5,7 +5,7 @@ export const MainTheme: Theme = {
     primary: {
       main: '#ffffff',
       light: 'rgba(255,255,255,0.5)',
-      dark: '#ffffff'
+      dark: '#fafafa'
     },
     secondary: {
       main: '#9a9991',

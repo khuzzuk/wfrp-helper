@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 
 export const TopBarWrapper = styled.div`
   display: flex;
@@ -38,4 +38,18 @@ export const LanguageIcon = styled.div`
   &:hover {
     background: ${props => props.theme.colors.secondary.dark};
   }
+`;
+
+const IndicatorAnimation = keyframes`
+  from {transform: rotate(0deg);}
+  to {transform: rotate(360deg);}
+`;
+
+export const LoadingIndicator = styled.div<{hide: boolean}>`
+  display: flex;
+  width: 1.5em;
+  height: 1.5em;
+  border-top: 2px solid ${props => props.hide ? 'transparent' : props.theme.colors.primary.dark};
+  border-radius: 1.5em;
+  animation: ${IndicatorAnimation} 2s linear infinite;
 `;
