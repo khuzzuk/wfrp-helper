@@ -20,7 +20,7 @@ spring:
             scope:
               - email
   datasource:
-    url: jdbc:postgresql://localhost:5432/wfrp2
+    url: jdbc:postgresql://localhost:5432/wfrp
     username: wfrp
     password: wfrp
     driver-class-name: org.postgresql.Driver

@@ -4,10 +4,10 @@ import { createBrowserHistory } from 'history'
 import {connectRouter, routerMiddleware} from 'connected-react-router'
 import uiReducer from "./ui/uiSlice";
 import loginReducer from "./login/loginSlice";
-import userReducer from './model/user/userSlice';
+import modelReducer from './model/modelSlice';
 import createSagaMiddleware from "redux-saga";
 import {loginSaga} from "./login/loginSaga";
-import {userSaga} from "./model/user/userSaga";
+import {modelSaga} from "./model/modelSaga";
 
 export const sagaMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -18,13 +18,13 @@ export const Store = configureStore({
     router: connectRouter(history),
     ui: uiReducer,
     login: loginReducer,
-    user: userReducer
+    model: modelReducer,
   },
   middleware: [...getDefaultMiddleware({thunk: false}), sagaMiddleware, historyMiddleware]
 });
 
 sagaMiddleware.run(loginSaga);
-sagaMiddleware.run(userSaga);
+sagaMiddleware.run(modelSaga);
 
 export type RootState = ReturnType<typeof Store.getState>;
 export type AppDispatch = typeof Store.dispatch;

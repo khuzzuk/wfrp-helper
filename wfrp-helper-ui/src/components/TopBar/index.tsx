@@ -1,27 +1,27 @@
 import {useTranslation} from "react-i18next";
 import Flag from 'react-world-flags';
-import {ButtonsWrapper, LanguageIcon, LoadingIndicator, TopBarWrapper } from "./styled";
+import {ButtonsWrapper, LanguageIcon, LoadingIndicator, TopBarWrapper} from "./styled";
 import withAuthData from "../../state/login/loginSelector";
 import User, {ROLE_ADMIN} from "../../model/user";
 import Button from "../Button";
 import withUiState from "../../state/ui/uiSelector";
-import withUserData from "../../state/model/user/userSelector";
+import withModel from "../../state/model/modelSelector";
+import {ModelType} from "../../state/model/ModelConfig";
 
 export interface TopBarProps {
   user?: User;
   isLoading?: boolean;
-  getUsers?: () => void;
-  users?: User[];
+  model?: {[key in ModelType]: any[]};
+  table?: ModelType;
+  getEntities?: (modelType: ModelType) => void;
 }
 
 function TopBar(props: TopBarProps) {
   const {t, i18n} = useTranslation('base');
 
   const onUsers = () => {
-    props.getUsers && props.getUsers();
+    props.getEntities && props.getEntities(ModelType.USER);
   };
-
-  console.log(props.users)
 
   return <TopBarWrapper>
     <ButtonsWrapper>
@@ -35,4 +35,4 @@ function TopBar(props: TopBarProps) {
   </TopBarWrapper>
 }
 
-export default withAuthData(withUiState(withUserData(TopBar)));
+export default withAuthData(withUiState(withModel(TopBar)));
