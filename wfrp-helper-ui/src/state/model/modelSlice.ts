@@ -24,7 +24,7 @@ const initialState: ModelState = {
 };
 
 const reducers = {
-    getEntities: () => {},
+    getEntities: (state: ModelState, action: PayloadAction<ModelType>) => {},
     setEntities: (state: ModelState, action: PayloadAction<{ model: ModelType, entities: any[] }>) => {
         state.model[action.payload.model] = action.payload.entities;
     },
