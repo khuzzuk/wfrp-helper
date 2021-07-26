@@ -1,6 +1,6 @@
 import {AppDispatch, RootState} from "../Store";
 import {connect} from "react-redux";
-import User from "../../model/user";
+import User from "model/user";
 import {login} from "./loginSlice";
 
 export const mapStateToProps = (state: RootState) => ({

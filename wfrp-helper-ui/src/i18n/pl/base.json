@@ -3,7 +3,9 @@
     "login": "Zaloguj się",
     "username": "Nazwa użytkownika",
     "password": "Hasło",
-    "users": "Użytkownicy"
+    "users": "Użytkownicy",
+    "user": "Użytkownicy",
+    "skill": "Umiejętności"
   },
   "pages": {
     "home": {

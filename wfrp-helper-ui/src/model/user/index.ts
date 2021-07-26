@@ -1,10 +1,13 @@
-export interface Authority {
-  authority: string;
+import {BaseEntity} from "../BaseEntity";
+
+export class Authority extends BaseEntity {
+  authority: string = '';
 }
 
-export default class User {
+export default class User extends BaseEntity {
   username: string = '';
   password: string = '';
+  oneTimePassword?: boolean = false;
   authorities: Authority[] = [];
 }
 

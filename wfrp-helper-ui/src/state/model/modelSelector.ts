@@ -1,5 +1,5 @@
 import {AppDispatch, RootState} from "../Store";
-import {ModelType} from "./ModelConfig";
+import {ModelType} from "model/ModelConfig";
 import {getEntities} from "./modelSlice";
 import {connect} from "react-redux";
 

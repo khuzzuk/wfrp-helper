@@ -1,4 +1,4 @@
-import ModelConfig, {ModelType} from "./ModelConfig";
+import ModelConfig, {ModelType} from "model/ModelConfig";
 import {call, put, takeLatest} from "redux-saga/effects";
 import {getAll} from "./requsts";
 import {AxiosResponse} from "axios";

@@ -1,8 +1,10 @@
-import {FieldType} from "../../Entity/FieldType";
+import {FieldType} from "entity/FieldType";
 
 export enum ModelType {
     USER = 'USER',
     AUTHORITY = 'AUTHORITY',
+
+    SKILL = 'SKILL',
 }
 
 export interface FieldDef {
@@ -22,7 +24,8 @@ ModelConfig = {
     USER: {
         name: 'user',
         table: [
-            {prop: 'username', type: FieldType.TEXT}
+            {prop: 'username', type: FieldType.TEXT},
+            {prop: 'oneTimePassword', type: FieldType.BOOLEAN}
         ],
         form: [
             {prop: 'username', type: FieldType.TEXT}
@@ -39,7 +42,18 @@ ModelConfig = {
             {prop: 'authority', type: FieldType.TEXT}
         ],
         linked: []
-    }
+    },
+
+    SKILL: {
+        name: 'skill',
+        table: [
+            {prop: 'name', type: FieldType.TEXT}
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT}
+        ],
+        linked: []
+    },
 }
 
 export default ModelConfig;

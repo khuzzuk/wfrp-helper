@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import User, {Authority} from "../../model/user";
-import {ModelType} from "./ModelConfig";
+import User, {Authority} from "model/user";
+import {ModelType} from "model/ModelConfig";
 
 export const name = 'model';
 
@@ -18,6 +18,7 @@ const initialState: ModelState = {
     model: {
         USER: [],
         AUTHORITY: [],
+        SKILL: []
     },
     users: [],
     roles: [],

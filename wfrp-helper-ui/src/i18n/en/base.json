@@ -3,7 +3,9 @@
     "login": "Login",
     "username": "User name",
     "password": "Password",
-    "users": "Users"
+    "users": "Users",
+    "user": "User",
+    "skill": "Skill"
   },
   "pages": {
     "home": {
