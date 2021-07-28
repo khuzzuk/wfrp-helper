@@ -1,13 +1,15 @@
 import ModelConfig, {ModelType} from "model/ModelConfig";
 import {call, put, select, takeLatest} from "redux-saga/effects";
-import {getAll, save} from "./requsts";
+import {deleteOne, getAll, save} from "./requsts";
 import {AxiosResponse} from "axios";
 import {
     applyEntity,
     createNewEntity,
+    deleteEntity,
     getEntities,
     saveEntity,
-    setEntities, setEntity,
+    setEntities,
+    setEntity,
     setForm,
     setTable,
     startEdit
@@ -15,7 +17,7 @@ import {
 import {push} from "connected-react-router";
 import {FORM, TABLE} from "../../navigation/RoutingProvider";
 import {loading, loadingFinished} from "../ui/uiSlice";
-import {entitySelector, tableSelector, formSelector} from "./modelSelector";
+import {entitySelector, formSelector, tableSelector} from "./modelSelector";
 import {BaseEntity} from "../../model/BaseEntity";
 
 export function* watchGetEntities({payload}: { payload: ModelType }) {
@@ -95,11 +97,30 @@ export function* watchSaveEntity() {
 }
 
 export function* watchCreateNewEntity() {
-    console.log('createNewEntity');
     const modelType: ModelType = yield select(tableSelector);
     yield put(setEntity({}));
     yield put(setForm(modelType))
     yield put(push(FORM));
+}
+
+export function* watchDeleteEntity() {
+    const modelType: ModelType = yield select(tableSelector);
+    const entityName = ModelConfig[modelType].name;
+    const entity: BaseEntity = yield select(entitySelector);
+
+    yield put(loading(entityName));
+
+    try {
+        console.log('deleting')
+        yield call(deleteOne, entityName, entity);
+        yield put(getEntities(modelType));
+    } catch (e) {
+        console.log(e.status);
+        window.alert(e.status);
+    }
+
+    yield put(loadingFinished(entityName));
+
 }
 
 export function* modelSaga() {
@@ -108,4 +129,5 @@ export function* modelSaga() {
     yield takeLatest(applyEntity, watchApplyEntity);
     yield takeLatest(saveEntity, watchSaveEntity);
     yield takeLatest(createNewEntity, watchCreateNewEntity);
+    yield takeLatest(deleteEntity, watchDeleteEntity);
 }

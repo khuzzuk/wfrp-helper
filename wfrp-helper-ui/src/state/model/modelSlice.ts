@@ -39,6 +39,7 @@ const reducers = {
         state.entity = action.payload;
     },
     createNewEntity: () => {},
+    deleteEntity: () => {},
     setForm: (state: ModelState, action: PayloadAction<ModelType>) => {
         state.form = action.payload;
         state.table = undefined;
@@ -59,6 +60,7 @@ export const {
     setForm,
     setEntity,
     createNewEntity,
+    deleteEntity,
     startEdit,
     updateEntityProperty,
     applyEntity,

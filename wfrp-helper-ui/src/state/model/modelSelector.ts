@@ -3,6 +3,7 @@ import {ModelType} from "model/ModelConfig";
 import {
    applyEntity,
    createNewEntity,
+   deleteEntity,
    getEntities,
    saveEntity,
    setEntity,
@@ -23,6 +24,7 @@ const mapDispatchToProps = (dispatch: AppDispatch) => ({
    setEntity: (entity: any) => dispatch(setEntity(entity)),
    startEdit: () => dispatch(startEdit()),
    createEntity: () => dispatch(createNewEntity()),
+   deleteEntity: () => dispatch(deleteEntity()),
    updateEntityProp: (val: any, propName: string) => dispatch(updateEntityProperty({val, propName})),
    applyEdit: () => dispatch(applyEntity()),
    saveEdit: () => dispatch(saveEntity()),

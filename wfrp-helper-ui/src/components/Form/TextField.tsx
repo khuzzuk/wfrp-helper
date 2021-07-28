@@ -31,6 +31,6 @@ export default function TextField(props: TextFieldProps) {
     {props.label && <Label>{props.label}</Label>}
     <TextFieldStyled onChange={e => props.onUpdate(e.target.value)}
                      placeholder={props.placeholder || props.label}
-                     value={props.value}/>
+                     value={props.value || ''}/>
   </FieldWrapper>
 }

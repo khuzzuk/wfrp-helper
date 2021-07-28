@@ -9,7 +9,7 @@ import {
     SecondaryBar,
     SecondaryButton
 } from "./styled";
-import { MdModeEdit, MdCheck, MdSave, MdAdd } from "react-icons/md";
+import { MdModeEdit, MdCheck, MdSave, MdAdd, MdDelete } from "react-icons/md";
 import User from "model/user";
 import ModelConfig, {ModelType} from "model/ModelConfig";
 import withAuthData from "state/login/loginSelector";
@@ -35,6 +35,7 @@ export interface MainPaneProps {
     getEntities?: (modelType: ModelType) => void;
     createEntity: () => void;
     startEdit: () => void;
+    deleteEntity: () => void;
     applyEdit: () => void;
     saveEdit: () => void;
 }
@@ -73,6 +74,9 @@ function MainPane(props: MainPaneProps) {
                     }
                     {showEditButton &&
                     <SecondaryButton onClick={props.startEdit}><MdModeEdit/>{t('common.edit')}</SecondaryButton>
+                    }
+                    {showEditButton &&
+                    <SecondaryButton onClick={props.deleteEntity}><MdDelete/>{t('common.delete')}</SecondaryButton>
                     }
                     {showApplyButton &&
                     <SecondaryButton onClick={props.applyEdit}><MdCheck/>{t('common.apply')}</SecondaryButton>
