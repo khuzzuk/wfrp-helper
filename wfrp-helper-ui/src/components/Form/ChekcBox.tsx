@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { FieldWrapper } from "./styled";
 
-export const TextFieldStyled = styled.input`
+export const CheckBoxStyled = styled.input`
   color: ${props => props.theme.colors.text.main};
   background: ${props => props.theme.colors.primary.main};
   
@@ -20,17 +20,17 @@ export const Label = styled.div`
 `;
 
 export interface TextFieldProps {
-  onUpdate: (t: string) => void;
+  onUpdate: (t: boolean) => void;
   placeholder?: string;
-  value?: string;
+  value?: boolean;
   label?: string;
 }
 
-export default function TextField(props: TextFieldProps) {
+export default function ChekcBox(props: TextFieldProps) {
   return <FieldWrapper>
     {props.label && <Label>{props.label}</Label>}
-    <TextFieldStyled onChange={e => props.onUpdate(e.target.value)}
-                     placeholder={props.placeholder || props.label}
-                     value={props.value}/>
+    <CheckBoxStyled type={'checkbox'}
+                    value={props.value ? 'true' : 'false'}
+                    onChange={e => props.onUpdate(e.target.value === 'true')}/>
   </FieldWrapper>
 }

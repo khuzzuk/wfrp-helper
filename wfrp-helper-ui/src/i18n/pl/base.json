@@ -1,11 +1,23 @@
 {
   "common": {
+    "edit": "Zmień",
+    "apply": "Zatwierdź",
+    "save": "Zapisz",
+    "delete": "Usuń",
+    "back": "Cofnij",
     "login": "Zaloguj się",
     "username": "Nazwa użytkownika",
     "password": "Hasło",
-    "users": "Użytkownicy",
+    "users": "Użytkownicy"
+  },
+  "model": {
     "user": "Użytkownicy",
     "skill": "Umiejętności"
+  },
+  "props": {
+    "name": "Nazwa",
+    "username": "Nazwa użytkownika",
+    "oneTimePassword": "Hasło jednorazowe"
   },
   "pages": {
     "home": {

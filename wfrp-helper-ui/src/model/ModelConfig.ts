@@ -25,10 +25,11 @@ ModelConfig = {
         name: 'user',
         table: [
             {prop: 'username', type: FieldType.TEXT},
-            {prop: 'oneTimePassword', type: FieldType.BOOLEAN}
+            {prop: 'oneTimePassword', type: FieldType.BOOLEAN},
         ],
         form: [
-            {prop: 'username', type: FieldType.TEXT}
+            {prop: 'username', type: FieldType.TEXT},
+            {prop: 'oneTimePassword', type: FieldType.BOOLEAN},
         ],
         linked: [ModelType.AUTHORITY]
     },
@@ -50,7 +51,8 @@ ModelConfig = {
             {prop: 'name', type: FieldType.TEXT}
         ],
         form: [
-            {prop: 'name', type: FieldType.TEXT}
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT},
         ],
         linked: []
     },

@@ -8,3 +8,8 @@ export const Form = styled.div`
   justify-content: start;
   gap: 2em;
 `;
+
+export const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;

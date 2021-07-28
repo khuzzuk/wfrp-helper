@@ -1,11 +1,25 @@
 {
   "common": {
+    "add": "Add",
+    "edit": "Edit",
+    "apply": "Apply",
+    "save": "Save",
+    "delete": "Delete",
+    "back": "Back",
     "login": "Login",
     "username": "User name",
     "password": "Password",
-    "users": "Users",
+    "users": "Users"
+  },
+  "model": {
     "user": "User",
     "skill": "Skill"
+  },
+  "props": {
+    "name": "Name",
+    "description": "Description",
+    "username": "User name",
+    "oneTimePassword": "One time password"
   },
   "pages": {
     "home": {

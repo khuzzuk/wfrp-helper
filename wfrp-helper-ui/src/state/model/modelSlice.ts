@@ -1,13 +1,14 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import User, {Authority} from "model/user";
 import {ModelType} from "model/ModelConfig";
+import {BaseEntity} from "../../model/BaseEntity";
 
 export const name = 'model';
 
 export interface ModelState {
     table?: ModelType;
     form?: ModelType;
-    entity?: any;
+    entity?: BaseEntity;
 
     model: { [key in ModelType]: any[] };
     users: User[];
@@ -29,13 +30,38 @@ const reducers = {
     setEntities: (state: ModelState, action: PayloadAction<{ model: ModelType, entities: any[] }>) => {
         state.model[action.payload.model] = action.payload.entities;
     },
-    setTable: (state: ModelState, action: PayloadAction<ModelType>) => {
+    setTable: (state: ModelState, action: PayloadAction<ModelType | undefined>) => {
         state.form = undefined;
         state.entity = undefined;
         state.table = action.payload;
     },
+    setEntity: (state: ModelState, action: PayloadAction<any>) => {
+        state.entity = action.payload;
+    },
+    createNewEntity: () => {},
+    setForm: (state: ModelState, action: PayloadAction<ModelType>) => {
+        state.form = action.payload;
+        state.table = undefined;
+    },
+    startEdit: () => {},
+    updateEntityProperty: (state: ModelState, action: PayloadAction<{ val: any, propName: string }>) => {
+        (state.entity as any)[action.payload.propName] = action.payload.val;
+    },
+    applyEntity: () => {},
+    saveEntity: () => {},
 }
 
 const modelSlice = createSlice({name, initialState, reducers});
-export const {getEntities, setEntities, setTable} = modelSlice.actions;
+export const {
+    getEntities,
+    setEntities,
+    setTable,
+    setForm,
+    setEntity,
+    createNewEntity,
+    startEdit,
+    updateEntityProperty,
+    applyEntity,
+    saveEntity
+} = modelSlice.actions;
 export default modelSlice.reducer;

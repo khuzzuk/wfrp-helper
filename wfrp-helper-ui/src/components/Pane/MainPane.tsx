@@ -6,8 +6,10 @@ import {
     MainPaneWrapper,
     PrimaryBar,
     PrimaryBarCell,
-    SecondaryBar
+    SecondaryBar,
+    SecondaryButton
 } from "./styled";
+import { MdModeEdit, MdCheck, MdSave, MdAdd } from "react-icons/md";
 import User from "model/user";
 import ModelConfig, {ModelType} from "model/ModelConfig";
 import withAuthData from "state/login/loginSelector";
@@ -28,7 +30,13 @@ export interface MainPaneProps {
     isLoading?: boolean;
     model?: { [key in ModelType]: any[] };
     table?: ModelType;
+    form?: ModelType;
+    entity?: any;
     getEntities?: (modelType: ModelType) => void;
+    createEntity: () => void;
+    startEdit: () => void;
+    applyEdit: () => void;
+    saveEdit: () => void;
 }
 
 function MainPane(props: MainPaneProps) {
@@ -41,19 +49,38 @@ function MainPane(props: MainPaneProps) {
         props.getEntities && props.getEntities(modelType);
     };
 
+    const showAddButton: boolean = !!props.table;
+    const showEditButton: boolean = props.entity && props.table;
+    const showApplyButton: boolean = props.entity && props.form;
+
     return <MainPaneWrapper>
         <PrimaryBar>
             {buttons.filter(modelType => props.user?.authorities
                 .filter(a => a.authority === 'ROLE_' + ModelConfig[modelType].name.toUpperCase()))
                 .map(modelType =>
-                    <PrimaryBarCell selected={selectedOption === modelType} onClick={() => onModel(modelType)}>
-                        {t('common.' + ModelConfig[modelType].name)}
+                    <PrimaryBarCell key={modelType}
+                                    selected={selectedOption === modelType}
+                                    onClick={() => onModel(modelType)}>
+                        {t('model.' + ModelConfig[modelType].name)}
                     </PrimaryBarCell>
                 )}
         </PrimaryBar>
         <InnerPane>
             <SecondaryBar>
-                <ButtonsWrapper></ButtonsWrapper>
+                <ButtonsWrapper>
+                    {showAddButton &&
+                    <SecondaryButton onClick={props.createEntity}><MdAdd/>{t('common.add')}</SecondaryButton>
+                    }
+                    {showEditButton &&
+                    <SecondaryButton onClick={props.startEdit}><MdModeEdit/>{t('common.edit')}</SecondaryButton>
+                    }
+                    {showApplyButton &&
+                    <SecondaryButton onClick={props.applyEdit}><MdCheck/>{t('common.apply')}</SecondaryButton>
+                    }
+                    {showApplyButton &&
+                    <SecondaryButton onClick={props.saveEdit}><MdSave/>{t('common.save')}</SecondaryButton>
+                    }
+                </ButtonsWrapper>
                 <LoadingIndicator hide={!props.isLoading}/>
                 <LanguageIcon onClick={() => i18n.changeLanguage(i18n.language === 'pl' ? 'en' : 'pl')}>
                     <Flag code={i18n.language === 'pl' ? 'pl' : 'gb'}/>

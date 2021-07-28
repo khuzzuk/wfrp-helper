@@ -22,7 +22,7 @@ export const PrimaryBar = styled.div`
   background-color: ${props => props.theme.colors.primary.main};
   box-shadow: 2px 0 8px ${props => props.theme.colors.secondary.dark};
 
-  font-size: 2em;
+  font-size: 1.5em;
   line-height: 3em;
 `;
 
@@ -31,16 +31,17 @@ export const PrimaryBarCell = styled.div<{ selected: boolean }>`
   border-left: min(1vh, 1vw) solid ${props => props.selected ?
           props.theme.colors.secondary.main :
           props.theme.colors.primary.main};
-  
+
   width: calc(100% - 10px);
   text-align: center;
   user-select: none;
 
   transition: 0.3s;
-  
+
   &:hover {
     background-color: ${props => props.theme.colors.primary.dark};
   }
+
   &:active {
     background-color: ${props => props.theme.colors.secondary.main};
   }
@@ -63,8 +64,26 @@ export const ButtonsWrapper = styled.div`
   display: flex;
   align-items: center;
   flex: 1;
+  gap: 1em;
   padding: 0 0 0 1em;
-  height: 3em;
+  height: 100%;
+`;
+
+export const SecondaryButton = styled.div`
+  display: flex;
+  gap: 0.25em;
+  align-items: center;
+  
+  padding: 0 2vw;
+  
+  font-size: 1.25em;
+  line-height: 7vh;
+  user-select: none;
+  transition: 0.3s;
+  
+  &:hover {
+    background-color: ${props => props.theme.colors.secondary.light};
+  }
 `;
 
 export const LanguageIcon = styled.div`

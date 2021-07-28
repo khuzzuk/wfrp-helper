@@ -1,4 +1,3 @@
-import {useTranslation} from "react-i18next";
 import withModel from "state/model/modelSelector";
 import ModelConfig, {FieldDef, ModelType} from "model/ModelConfig";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "components/Table/styled";
@@ -9,11 +8,12 @@ import {BaseEntity} from "../model/BaseEntity";
 interface HomePageProps {
     model: { [key in ModelType]: any[] };
     table?: ModelType;
+    setEntity: (e: any) => void;
 }
 
 function HomePage(props: HomePageProps) {
     const [selectedEntity, setSelectedEntity] = useState<any>();
-    let cols = props.table && ModelConfig[props.table].table.length || 0;
+    let cols = (props.table && ModelConfig[props.table].table.length) || 1;
 
     const toCell = (entity: any & BaseEntity, fieldDef: FieldDef) => {
         const key = entity.id + '_' + fieldDef.prop;
@@ -30,10 +30,12 @@ function HomePage(props: HomePageProps) {
     const onSelectedEntity = (entity: any) => () => {
         if (selectedEntity === entity) {
             setSelectedEntity(undefined);
+            props.setEntity(undefined);
             return;
         }
 
         setSelectedEntity(entity);
+        props.setEntity(entity);
     }
 
     return <Table>
