@@ -9,17 +9,21 @@
     "login": "Login",
     "username": "User name",
     "password": "Password",
-    "users": "Users"
+    "users": "Users",
+    "search": "Search"
   },
   "model": {
     "user": "User",
-    "skill": "Skill"
+    "skill": "Skill",
+    "profession": "Profession",
+    "professionClass": "Class"
   },
   "props": {
     "name": "Name",
     "description": "Description",
     "username": "User name",
-    "oneTimePassword": "One time password"
+    "oneTimePassword": "One time password",
+    "skills": "Skills"
   },
   "pages": {
     "home": {

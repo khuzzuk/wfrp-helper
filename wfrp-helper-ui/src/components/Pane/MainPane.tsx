@@ -9,7 +9,7 @@ import {
     SecondaryBar,
     SecondaryButton
 } from "./styled";
-import { MdModeEdit, MdCheck, MdSave, MdAdd, MdDelete } from "react-icons/md";
+import {MdAdd, MdCheck, MdDelete, MdModeEdit, MdSave} from "react-icons/md";
 import User from "model/user";
 import ModelConfig, {ModelType} from "model/ModelConfig";
 import withAuthData from "state/login/loginSelector";
@@ -22,6 +22,7 @@ import {useState} from "react";
 const buttons: ModelType[] = [
     ModelType.USER,
     ModelType.SKILL,
+    ModelType.PROFESSION_CLASS,
 ];
 
 export interface MainPaneProps {

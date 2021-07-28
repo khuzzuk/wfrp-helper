@@ -1,7 +1,4 @@
-import {BaseEntity} from "../BaseEntity";
+import {DescribedEntity} from "../DescribedEntity";
 
-export class Skill extends BaseEntity {
-    id?: number;
-    name: string = '';
-    description: string = '';
+export class Skill extends DescribedEntity {
 }

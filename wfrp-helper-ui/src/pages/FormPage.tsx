@@ -5,6 +5,8 @@ import {FieldType} from "../entity/FieldType";
 import TextField from "../components/Form/TextField";
 import CheckBox from "../components/Form/ChekcBox";
 import {useTranslation} from "react-i18next";
+import TextArea from "../components/Form/TextArea";
+import ComboBox from "../components/Form/ComboBox";
 
 export interface FormPageProps {
     entity: any;
@@ -29,8 +31,12 @@ function FormPage({entity, form, updateEntityProp}: FormPageProps) {
         switch (def.type){
             case FieldType.TEXT:
                 return <TextField key={key} label={label} value={entity[def.prop]} onUpdate={upd}/>
+            case FieldType.TEXT_AREA:
+                return <TextArea key={key} label={label} value={entity[def.prop]} onUpdate={upd}/>
             case FieldType.BOOLEAN:
                 return <CheckBox key={key} label={def.prop} value={entity[def.prop]} onUpdate={upd}/>
+            case FieldType.ENTITY_MULTISELECT:
+                return <ComboBox values={entity[def.prop]} accept={upd} def={def}/>
         }
     }
 

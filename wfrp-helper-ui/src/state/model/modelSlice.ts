@@ -19,7 +19,8 @@ const initialState: ModelState = {
     model: {
         USER: [],
         AUTHORITY: [],
-        SKILL: []
+        SKILL: [],
+        PROFESSION_CLASS: []
     },
     users: [],
     roles: [],

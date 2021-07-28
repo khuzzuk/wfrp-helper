@@ -5,11 +5,13 @@ export enum ModelType {
     AUTHORITY = 'AUTHORITY',
 
     SKILL = 'SKILL',
+    PROFESSION_CLASS = 'PROFESSION_CLASS',
 }
 
 export interface FieldDef {
     prop: string;
     type: FieldType;
+    linked?: ModelType;
 }
 
 export interface ModelDef {
@@ -56,6 +58,19 @@ ModelConfig = {
         ],
         linked: []
     },
+
+    PROFESSION_CLASS: {
+        name: 'professionClass',
+        table: [
+            {prop: 'name', type: FieldType.TEXT}
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+            {prop: 'skills', type: FieldType.ENTITY_MULTISELECT, linked: ModelType.SKILL},
+        ],
+        linked: [ModelType.SKILL]
+    }
 }
 
 export default ModelConfig;
