@@ -6,6 +6,9 @@ export enum ModelType {
 
     SKILL = 'SKILL',
     PROFESSION_CLASS = 'PROFESSION_CLASS',
+    NATION = 'NATION',
+    RELIGION = 'RELIGION',
+    RACE = 'RACE',
 }
 
 export interface FieldDef {
@@ -18,7 +21,6 @@ export interface ModelDef {
     name: string;
     table: FieldDef[],
     form: FieldDef[],
-    linked: ModelType[],
 }
 
 let ModelConfig: {[key in ModelType]: ModelDef};
@@ -33,7 +35,6 @@ ModelConfig = {
             {prop: 'username', type: FieldType.TEXT},
             {prop: 'oneTimePassword', type: FieldType.BOOLEAN},
         ],
-        linked: [ModelType.AUTHORITY]
     },
 
     AUTHORITY: {
@@ -44,7 +45,6 @@ ModelConfig = {
         form: [
             {prop: 'authority', type: FieldType.TEXT}
         ],
-        linked: []
     },
 
     SKILL: {
@@ -56,7 +56,6 @@ ModelConfig = {
             {prop: 'name', type: FieldType.TEXT},
             {prop: 'description', type: FieldType.TEXT},
         ],
-        linked: []
     },
 
     PROFESSION_CLASS: {
@@ -69,7 +68,42 @@ ModelConfig = {
             {prop: 'description', type: FieldType.TEXT_AREA},
             {prop: 'skills', type: FieldType.ENTITY_MULTISELECT, linked: ModelType.SKILL},
         ],
-        linked: [ModelType.SKILL]
+    },
+
+    NATION: {
+        name: 'nation',
+        table: [
+            {prop: 'name', type: FieldType.TEXT}
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+            {prop: 'names', type: FieldType.TEXT_ARRAY},
+        ],
+    },
+
+    RELIGION: {
+        name: 'religion',
+        table: [
+            {prop: 'name', type: FieldType.TEXT}
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+            {prop: 'nations', type: FieldType.ENTITY_MULTISELECT, linked: ModelType.NATION},
+        ],
+    },
+    RACE: {
+        name: 'race',
+        table: [
+            {prop: 'name', type: FieldType.TEXT}
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'specialFeatures', type: FieldType.TEXT_AREA},
+            {prop: 'determinants', type: FieldType.DETERMINANT},
+            {prop: 'nations', type: FieldType.ENTITY_MULTISELECT, linked: ModelType.NATION},
+        ],
     }
 }
 

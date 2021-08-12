@@ -28,7 +28,7 @@ export function* watchGetEntities({payload}: { payload: ModelType }) {
         const response: AxiosResponse<any[]> = yield call(getAll, entityName);
         yield put(setEntities({model: payload, entities: response.data}));
 
-        let linked = ModelConfig[payload].linked;
+        let linked: ModelType[] = ModelConfig[payload].form.filter(def => def.linked).map(def => def.linked || ModelType.USER);
         for (let linkedType of linked) {
             const linkedResponse: AxiosResponse<any[]> = yield call(getAll, ModelConfig[linkedType].name);
             yield put(setEntities({model: linkedType, entities: linkedResponse.data}));

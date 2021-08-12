@@ -1,4 +1,4 @@
-import { Form } from "components/Form/styled";
+import {Form} from "components/Form/styled";
 import withModel from "state/model/modelSelector";
 import ModelConfig, {FieldDef, ModelType} from "../model/ModelConfig";
 import {FieldType} from "../entity/FieldType";
@@ -7,6 +7,8 @@ import CheckBox from "../components/Form/ChekcBox";
 import {useTranslation} from "react-i18next";
 import TextArea from "../components/Form/TextArea";
 import ComboBox from "../components/Form/ComboBox";
+import TextArrayField from "../components/Form/TextArrayField";
+import {DeterminantField} from "../components/Form/DeterminantField";
 
 export interface FormPageProps {
     entity: any;
@@ -33,10 +35,14 @@ function FormPage({entity, form, updateEntityProp}: FormPageProps) {
                 return <TextField key={key} label={label} value={entity[def.prop]} onUpdate={upd}/>
             case FieldType.TEXT_AREA:
                 return <TextArea key={key} label={label} value={entity[def.prop]} onUpdate={upd}/>
+            case FieldType.TEXT_ARRAY:
+                return <TextArrayField key={key} label={label} value={entity[def.prop]} onUpdate={upd}/>
             case FieldType.BOOLEAN:
                 return <CheckBox key={key} label={def.prop} value={entity[def.prop]} onUpdate={upd}/>
             case FieldType.ENTITY_MULTISELECT:
-                return <ComboBox values={entity[def.prop]} accept={upd} def={def}/>
+                return <ComboBox key={key} values={entity[def.prop]} accept={upd} def={def}/>
+            case FieldType.DETERMINANT:
+                return <DeterminantField key={key} determinants={entity[def.prop]} accept={upd} label={'det'}/>
         }
     }
 

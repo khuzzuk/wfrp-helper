@@ -1,5 +1,6 @@
 {
   "common": {
+    "add": "Dodaj",
     "edit": "Zmień",
     "apply": "Zatwierdź",
     "save": "Zapisz",
@@ -8,16 +9,55 @@
     "login": "Zaloguj się",
     "username": "Nazwa użytkownika",
     "password": "Hasło",
-    "users": "Użytkownicy"
+    "users": "Użytkownicy",
+    "search": "Szukaj"
   },
   "model": {
     "user": "Użytkownicy",
-    "skill": "Umiejętności"
+    "skill": "Umiejętności",
+    "profession": "Profesja",
+    "professionClass": "Klasa",
+    "nation": "Kraj",
+    "religion": "Religia",
+    "race": "Rasa"
   },
   "props": {
     "name": "Nazwa",
+    "description": "Opis",
     "username": "Nazwa użytkownika",
-    "oneTimePassword": "Hasło jednorazowe"
+    "oneTimePassword": "Hasło jednorazowe",
+    "skills": "Umiejętności",
+    "names": "Imiona",
+    "nations": "Kraje",
+    "determinants": "Statystyki",
+    "specialFeatures": "Cechy szczególne",
+    "base": "Bazowe"
+  },
+  "rule": {
+    "short": {
+      "SPEED":  "Sz",
+      "BATTLE": "Ww",
+      "SHOOTING":  "Us",
+      "STRENGTH": "S",
+      "DURABILITY":  "Wt",
+      "HEALTH": "Żyw",
+      "INITIATIVE":  "I",
+      "ATTACK": "A",
+      "DEXTERITY":  "Zr",
+      "LEADER_SKILLS": "Cp",
+      "INTELLIGENCE":  "Int",
+      "CONTROL": "Op",
+      "WILL":  "Sw",
+      "CHARISMA": "Ch",
+      "PARRY":  "P",
+      "OPPONENT_PARRY": "PP"
+    },
+    "modifier": {
+      "REGULAR": "Zwykłe",
+      "PROFESSION": "Profesja",
+      "EXPERIENCE": "Doświadczenie",
+      "DICE": "Rzut kością"
+    }
   },
   "pages": {
     "home": {

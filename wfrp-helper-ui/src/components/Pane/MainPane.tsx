@@ -23,6 +23,9 @@ const buttons: ModelType[] = [
     ModelType.USER,
     ModelType.SKILL,
     ModelType.PROFESSION_CLASS,
+    ModelType.NATION,
+    ModelType.RELIGION,
+    ModelType.RACE,
 ];
 
 export interface MainPaneProps {

@@ -9,14 +9,16 @@ export const TextAreaStyled = styled.textarea`
   border: 2px solid ${props => props.theme.colors.secondary.light};
   border-radius: 0.5em;
 
-  font-size: 2em;
-  line-height: 3em;
+  font-size: 1em;
+  line-height: 1.25em;
   padding: 0 1em;
+  height: 10vh;
+  width: 100%;
 `;
 
 export const Label = styled.div`
-  font-size: 2em;
-  line-height: 2.5em;
+  font-size: 1.25em;
+  line-height: 1.5em;
   font-weight: bolder;
 `;
 

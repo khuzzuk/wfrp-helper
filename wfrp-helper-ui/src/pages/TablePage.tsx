@@ -3,7 +3,7 @@ import ModelConfig, {FieldDef, ModelType} from "model/ModelConfig";
 import {Table, TableBody, TableCell, TableHead, TableRow} from "components/Table/styled";
 import {useState} from "react";
 import {FieldType} from "entity/FieldType";
-import {BaseEntity} from "../model/BaseEntity";
+import {BaseEntity} from "model/BaseEntity";
 
 interface HomePageProps {
     model: { [key in ModelType]: any[] };

@@ -20,14 +20,17 @@ const initialState: ModelState = {
         USER: [],
         AUTHORITY: [],
         SKILL: [],
-        PROFESSION_CLASS: []
+        PROFESSION_CLASS: [],
+        NATION: [],
+        RELIGION: [],
+        RACE: [],
     },
     users: [],
     roles: [],
 };
 
 const reducers = {
-    getEntities: (state: ModelState, action: PayloadAction<ModelType>) => {},
+    getEntities: (_state: ModelState, _action: PayloadAction<ModelType>) => {},
     setEntities: (state: ModelState, action: PayloadAction<{ model: ModelType, entities: any[] }>) => {
         state.model[action.payload.model] = action.payload.entities;
     },

@@ -16,14 +16,48 @@
     "user": "User",
     "skill": "Skill",
     "profession": "Profession",
-    "professionClass": "Class"
+    "professionClass": "Class",
+    "nation": "Nation",
+    "religion": "Religion",
+    "race": "Race"
   },
   "props": {
     "name": "Name",
     "description": "Description",
     "username": "User name",
     "oneTimePassword": "One time password",
-    "skills": "Skills"
+    "skills": "Skills",
+    "names": "Names",
+    "nations": "Nations",
+    "determinants": "Stats",
+    "specialFeatures": "Special features",
+    "base": "Base"
+  },
+  "rule": {
+    "short": {
+      "SPEED": "SP",
+      "BATTLE": "B",
+      "SHOOTING": "SH",
+      "STRENGTH": "ST",
+      "DURABILITY": "D",
+      "HEALTH": "H",
+      "INITIATIVE": "I",
+      "ATTACK": "A",
+      "DEXTERITY": "DEX",
+      "LEADER_SKILLS": "LS",
+      "INTELLIGENCE": "INT",
+      "CONTROL": "CON",
+      "WILL": "W",
+      "CHARISMA": "CH",
+      "PARRY": "P",
+      "OPPONENT_PARRY": "OP"
+    },
+    "modifier": {
+      "REGULAR": "Regular",
+      "PROFESSION": "Profession extension",
+      "EXPERIENCE": "Experience extension",
+      "DICE": "Dice roll"
+    }
   },
   "pages": {
     "home": {
