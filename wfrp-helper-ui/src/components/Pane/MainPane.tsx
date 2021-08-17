@@ -9,7 +9,7 @@ import {
     SecondaryBar,
     SecondaryButton
 } from "./styled";
-import {MdAdd, MdCheck, MdDelete, MdModeEdit, MdSave} from "react-icons/md";
+import {MdAdd, MdCheck, MdDelete, MdModeEdit, MdSave, MdArrowBack} from "react-icons/md";
 import User from "model/user";
 import ModelConfig, {ModelType} from "model/ModelConfig";
 import withAuthData from "state/login/loginSelector";
@@ -19,14 +19,24 @@ import {useTranslation} from "react-i18next";
 import Flag from "react-world-flags";
 import {useState} from "react";
 
-const buttons: ModelType[] = [
-    ModelType.USER,
-    ModelType.SKILL,
-    ModelType.PROFESSION_CLASS,
-    ModelType.NATION,
-    ModelType.RELIGION,
-    ModelType.RACE,
-];
+const groups = {
+    admin: [
+        ModelType.USER,
+    ],
+    knowledge: [
+        ModelType.SKILL,
+        ModelType.PROFESSION_CLASS,
+        ModelType.PROFESSION,
+    ],
+    world: [
+        ModelType.NATION,
+        ModelType.LANGUAGE,
+        ModelType.CURRENCY,
+        ModelType.RELIGION,
+        ModelType.RACE,
+        ModelType.PLACE,
+    ],
+}
 
 export interface MainPaneProps {
     children: JSX.Element[],
@@ -48,6 +58,7 @@ function MainPane(props: MainPaneProps) {
     const {t, i18n} = useTranslation('base');
 
     const [selectedOption, setSelectedOption] = useState<string>();
+    const [selectedGroup, setSelectedGroup] = useState('');
 
     const onModel = (modelType: ModelType) => {
         setSelectedOption(modelType)
@@ -60,7 +71,12 @@ function MainPane(props: MainPaneProps) {
 
     return <MainPaneWrapper>
         <PrimaryBar>
-            {buttons.filter(modelType => props.user?.authorities
+            {!selectedGroup && Object.keys(groups).map(group => <PrimaryBarCell selected={group === selectedGroup}
+                                                                                onClick={() => setSelectedGroup(group)}>
+                {t('props.' + group)}
+            </PrimaryBarCell>)}
+            {selectedGroup && <PrimaryBarCell selected={false} onClick={() => setSelectedGroup('')}><MdArrowBack/></PrimaryBarCell>}
+            {selectedGroup && ((groups as any)[selectedGroup] as ModelType[]).filter(modelType => props.user?.authorities
                 .filter(a => a.authority === 'ROLE_' + ModelConfig[modelType].name.toUpperCase()))
                 .map(modelType =>
                     <PrimaryBarCell key={modelType}

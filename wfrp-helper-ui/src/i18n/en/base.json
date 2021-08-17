@@ -18,10 +18,16 @@
     "profession": "Profession",
     "professionClass": "Class",
     "nation": "Nation",
+    "worldLanguage": "Language",
+    "currency": "Currency",
     "religion": "Religion",
-    "race": "Race"
+    "race": "Race",
+    "place": "Place"
   },
   "props": {
+    "admin": "Admin",
+    "knowledge": "Knowledge",
+    "world": "World",
     "name": "Name",
     "description": "Description",
     "username": "User name",
@@ -31,7 +37,10 @@
     "nations": "Nations",
     "determinants": "Stats",
     "specialFeatures": "Special features",
-    "base": "Base"
+    "base": "Base",
+    "professionClass": "Class",
+    "valueMultiplier": "Value multiplier",
+    "money": "Money"
   },
   "rule": {
     "short": {

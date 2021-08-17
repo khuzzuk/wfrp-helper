@@ -27,7 +27,7 @@ import pl.khuzzuk.wfrp.helper.repo.ListableBaseEntity;
 @Getter
 @Setter
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Profession extends ListableBaseEntity {
     @Id

@@ -23,10 +23,10 @@ import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
 @Table(schema = "world")
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Nation extends BaseEntity {
     @Id

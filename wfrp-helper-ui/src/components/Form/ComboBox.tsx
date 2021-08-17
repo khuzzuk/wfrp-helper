@@ -3,8 +3,14 @@ import withModel from "state/model/modelSelector";
 import {FieldType} from "../../entity/FieldType";
 import {useTranslation} from "react-i18next";
 import {
-    Dropdown, DropdownButton, DropdownSearch, FieldWrapper,
-    ListElement, SelectableList, SelectedElement, SelectedElements
+    Dropdown,
+    DropdownButton,
+    DropdownSearch,
+    FieldWrapper,
+    ListElement,
+    SelectableList,
+    SelectedElement,
+    SelectedElements
 } from "./styled";
 import {Label} from "./TextArea";
 import {MdClose, MdExpandMore} from "react-icons/md";
@@ -31,11 +37,17 @@ function ComboBox(props: ComboBoxProps) {
         return <div/>;
     }
 
-    const isMulti = props.def.type === FieldType.ENTITY_MULTISELECT;
+    const isMulti = props.def.type === FieldType.ENTITY_MULTISELECT || props.def.type === FieldType.ENUM_MULTISELECT;
+    const isEnum = props.def.type === FieldType.ENUM_MULTISELECT;
     const label = t('props.' + props.def.prop);
+    const compareId = isEnum ? (v1: any, v2: any) => v1 === v2 : (v1: any, v2: any) => v1.id === v2.id;
+    const compareSearch = isEnum ?
+        (o: any) => o.toLowerCase().startsWith(search) :
+        (o: any) => o.name.toLowerCase().startsWith(search);
     const options = props.model[props.def.linked]
-        .filter(o => isMulti ? !(props.values?.find(v => v.id === o.id)) : !(props.value?.id === o.id))
-        .filter(o => !search || o.name.toLowerCase().startsWith(search.toLowerCase()));
+        .map(o => props.def.options ? props.def.options(o) : o)
+        .filter(o => isMulti ? !(props.values?.find(v => compareId(o, v))) : !(compareId(props.value, o)))
+        .filter(o => !search || compareSearch(o));
 
     const cancelSelection = () => {
         setSearch('');
@@ -87,10 +99,10 @@ function ComboBox(props: ComboBoxProps) {
         <Dropdown onKeyDown={onArrow} tabIndex={0}>
             <SelectedElements>
                 {props.values && props.values.map((v: any) =>
-                    <SelectedElement key={v.name} onClick={() => remove(v)}>{v.name}<MdClose/></SelectedElement>)}
+                    <SelectedElement key={v.name || v} onClick={() => remove(v)}>{v.name || v}<MdClose/></SelectedElement>)}
                 {props.value &&
-                    <SelectedElement key={(props.value as any).name} onClick={() => remove(props.value)}>
-                        {(props.value as any).name}<MdClose/>
+                    <SelectedElement key={(props.value as any).name || props.value} onClick={() => remove(props.value)}>
+                        {(props.value as any).name || props.value}<MdClose/>
                     </SelectedElement>}
                 <DropdownSearch onChange={e => setSearch(e.target.value)}
                                 value={search}
@@ -101,8 +113,11 @@ function ComboBox(props: ComboBoxProps) {
             </DropdownButton>
 
             {(showList || search) && <SelectableList>
-                {options.map((o, i) => <ListElement active={i === activeIndex}
-                                                    onClick={() => confirm(o)}>{o.name}</ListElement>)}
+                {options.map(o => {
+                    console.log(showList + ' ' + o);
+                    return o;
+                }).map((o, i) => <ListElement key={o.name || o} active={i === activeIndex}
+                                                    onClick={() => confirm(o)}>{o.name || o}</ListElement>)}
             </SelectableList>}
         </Dropdown>
     </FieldWrapper>

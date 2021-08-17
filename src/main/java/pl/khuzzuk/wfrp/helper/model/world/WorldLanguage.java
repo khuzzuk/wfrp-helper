@@ -21,10 +21,10 @@ import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
 @Table(schema = "world", name = "language")
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class WorldLanguage extends BaseEntity {
     @Id

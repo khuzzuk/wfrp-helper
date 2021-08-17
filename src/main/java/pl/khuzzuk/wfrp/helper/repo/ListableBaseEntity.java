@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "uuid")
+@EqualsAndHashCode(of = "uuid", callSuper = false)
 @MappedSuperclass
 public abstract class ListableBaseEntity extends BaseEntity {
   private @NotNull String uuid = UUID.randomUUID().toString();

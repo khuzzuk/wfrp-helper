@@ -68,7 +68,7 @@ export const SelectedElement = styled.div`
 `;
 
 export const SelectableList = styled.div`
-  position: fixed;
+  position: absolute;
   background: ${props => props.theme.colors.primary.main};
   border: 1px solid ${props => props.theme.colors.secondary.main};
   border-radius: 1vh;

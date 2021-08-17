@@ -18,10 +18,16 @@
     "profession": "Profesja",
     "professionClass": "Klasa",
     "nation": "Kraj",
+    "worldLanguage": "Język",
+    "currency": "Waluta",
     "religion": "Religia",
-    "race": "Rasa"
+    "race": "Rasa",
+    "place": "Miejsce"
   },
   "props": {
+    "admin": "Admin",
+    "knowledge": "Wiedza",
+    "world": "Świat",
     "name": "Nazwa",
     "description": "Opis",
     "username": "Nazwa użytkownika",
@@ -31,7 +37,10 @@
     "nations": "Kraje",
     "determinants": "Statystyki",
     "specialFeatures": "Cechy szczególne",
-    "base": "Bazowe"
+    "base": "Bazowe",
+    "professionClass": "Klasa",
+    "valueMultiplier": "Mnożnik wartości",
+    "money": "Pieniądze"
   },
   "rule": {
     "short": {
