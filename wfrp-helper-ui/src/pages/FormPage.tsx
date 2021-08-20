@@ -9,6 +9,8 @@ import TextArea from "../components/Form/TextArea";
 import ComboBox from "../components/Form/ComboBox";
 import TextArrayField from "../components/Form/TextArrayField";
 import {DeterminantField} from "../components/Form/DeterminantField";
+import ActionTimeField from "../components/Form/ActionTimeField";
+import PriceField from "../components/Form/PriceField";
 
 export interface FormPageProps {
     entity: any;
@@ -44,12 +46,19 @@ function FormPage({entity, form, updateEntityProp}: FormPageProps) {
             case FieldType.BOOLEAN:
                 return <CheckBox key={key} label={def.prop} value={entity[def.prop]} onUpdate={upd}/>
             case FieldType.ENTITY_SELECT:
-                return <ComboBox key={key} value={entity[def.prop]} accept={upd} def={def}/>
+                return <ComboBox key={key} value={entity[def.prop]} accept={upd} {...def} label={def.prop}/>
             case FieldType.ENTITY_MULTISELECT:
+                return <ComboBox key={key} values={entity[def.prop]} accept={upd} {...def} label={def.prop} multi/>
+            case FieldType.ENUM_SELECT:
+                return <ComboBox key={key} value={entity[def.prop]} accept={upd} {...def} label={def.prop} enum/>
             case FieldType.ENUM_MULTISELECT:
-                return <ComboBox key={key} values={entity[def.prop]} accept={upd} def={def}/>
+                return <ComboBox key={key} values={entity[def.prop]} accept={upd} {...def} label={def.prop} multi enum/>
             case FieldType.DETERMINANT:
                 return <DeterminantField key={key} determinants={entity[def.prop]} accept={upd} label={'det'}/>
+            case FieldType.ACTION_TIME:
+                return <ActionTimeField label={def.prop} value={entity[def.prop]} upd={upd}/>
+            case FieldType.PRICE:
+                return <PriceField label={def.prop} value={entity[def.prop]} upd={upd}/>
         }
     }
 

@@ -4,6 +4,7 @@ import {Table, TableBody, TableCell, TableHead, TableRow} from "components/Table
 import {useState} from "react";
 import {FieldType} from "entity/FieldType";
 import {BaseEntity} from "model/BaseEntity";
+import {useTranslation} from "react-i18next";
 
 interface HomePageProps {
     model: { [key in ModelType]: any[] };
@@ -12,18 +13,21 @@ interface HomePageProps {
 }
 
 function HomePage(props: HomePageProps) {
+    const [t] = useTranslation('base');
     const [selectedEntity, setSelectedEntity] = useState<any>();
     let cols = (props.table && ModelConfig[props.table].table.length) || 1;
 
     const toCell = (entity: any & BaseEntity, fieldDef: FieldDef) => {
         const key = entity.id + '_' + fieldDef.prop;
+        const value = entity[fieldDef.prop];
 
         switch (fieldDef.type) {
             case FieldType.TEXT:
-                return <TableCell key={key}>{entity[fieldDef.prop]}</TableCell>
+                return <TableCell key={key}>{fieldDef.translate ? t('data.' + value) : value}</TableCell>
+            case FieldType.PRICE:
+                return <TableCell key={key}>{value.gold} / {value.silver} / {value.lead}</TableCell>
             case FieldType.BOOLEAN:
-                return <TableCell key={key}><input type={'checkbox'} value={entity[fieldDef.prop]}
-                                                   disabled={true}/></TableCell>
+                return <TableCell key={key}><input type={'checkbox'} value={value} disabled={true}/></TableCell>
         }
     }
 

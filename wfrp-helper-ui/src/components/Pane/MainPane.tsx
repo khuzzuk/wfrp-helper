@@ -9,7 +9,7 @@ import {
     SecondaryBar,
     SecondaryButton
 } from "./styled";
-import {MdAdd, MdCheck, MdDelete, MdModeEdit, MdSave, MdArrowBack} from "react-icons/md";
+import {MdAdd, MdArrowBack, MdCheck, MdDelete, MdModeEdit, MdSave} from "react-icons/md";
 import User from "model/user";
 import ModelConfig, {ModelType} from "model/ModelConfig";
 import withAuthData from "state/login/loginSelector";
@@ -27,6 +27,8 @@ const groups = {
         ModelType.SKILL,
         ModelType.PROFESSION_CLASS,
         ModelType.PROFESSION,
+        ModelType.SPELL_SCHOOL,
+        ModelType.SPELL,
     ],
     world: [
         ModelType.NATION,
@@ -36,6 +38,18 @@ const groups = {
         ModelType.RACE,
         ModelType.PLACE,
     ],
+    crafting: [
+        ModelType.RESOURCE,
+        ModelType.ARMOR_PATTERN,
+        ModelType.MISC_ITEM,
+        ModelType.JEWELRY,
+        ModelType.ARMOR,
+    ],
+    blueprint: [
+        ModelType.ARMOR_BLUEPRINT,
+        ModelType.MELEE_WEAPON_BLUEPRINT,
+        ModelType.RANGED_WEAPON_BLUEPRINT,
+    ]
 }
 
 export interface MainPaneProps {

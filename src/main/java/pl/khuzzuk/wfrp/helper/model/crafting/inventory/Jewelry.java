@@ -11,7 +11,7 @@ import javax.persistence.Entity;
 @Getter
 @Setter
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Jewelry extends Wearable {
     @Placement.PlacementValues({Placement.FINGER, Placement.NECK})

@@ -8,7 +8,7 @@ import pl.javahello.RemoteEntity.SecuredService;
 
 @Entity
 @DiscriminatorValue("MELEE_WEAPON")
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class MeleeWeaponBlueprint extends WeaponBlueprint {
 }

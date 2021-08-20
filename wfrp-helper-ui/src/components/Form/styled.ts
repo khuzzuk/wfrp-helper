@@ -16,6 +16,12 @@ export const FieldWrapper = styled.div`
   gap: 0.25em;
 `;
 
+export const FieldRowWrapper = styled.div`
+  display: flex;
+  width: 30vw;
+  gap: 0.25em;
+`;
+
 export const Label = styled.div`
   font-size: 1em;
   line-height: 1.4em;
@@ -96,7 +102,7 @@ export const DropdownSearch = styled.input`
   outline: none;
 `;
 
-export const DeterminantButton = styled.div<{present?: boolean}>`
+export const DeterminantButton = styled.div<{ present?: boolean }>`
   background: ${props => props.present ? props.theme.colors.secondary.light : props.theme.colors.primary.main};;
   border: 1px solid ${props => props.present ? props.theme.colors.secondary.main : props.theme.colors.secondary.light};
   border-radius: 0.25em;
@@ -108,10 +114,11 @@ export const DeterminantButton = styled.div<{present?: boolean}>`
   height: 1.25em;
   transition: 0.3s;
   user-select: none;
-  
+
   &:hover {
     background: ${props => props.theme.colors.secondary.light};
   }
+
   &:active {
     background: ${props => props.theme.colors.secondary.dark};
   }
@@ -135,6 +142,6 @@ export const DeterminantColumn = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.1em;
-  //border: 1px solid ${props => props.theme.colors.secondary.light};
+    //border: 1px solid ${props => props.theme.colors.secondary.light};
   gap: 0.25em;
 `;

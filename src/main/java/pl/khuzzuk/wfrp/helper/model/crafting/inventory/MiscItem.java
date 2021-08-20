@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import pl.javahello.RemoteEntity.SecuredService;
 
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class MiscItem extends Item {
 }

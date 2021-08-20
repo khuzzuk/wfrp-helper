@@ -12,7 +12,7 @@ import pl.javahello.RemoteEntity.SecuredService;
 @Setter
 @Entity
 @DiscriminatorValue("RANGED_WEAPON")
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class RangedWeaponBlueprint extends WeaponBlueprint {
     private int minimumRange;

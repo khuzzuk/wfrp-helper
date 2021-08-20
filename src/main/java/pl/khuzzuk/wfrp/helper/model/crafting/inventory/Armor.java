@@ -13,7 +13,7 @@ import pl.khuzzuk.wfrp.helper.model.crafting.inventory.blueprints.ArmorBlueprint
 @Getter
 @Setter
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Armor extends Wearable {
     @ManyToOne(fetch = FetchType.EAGER)

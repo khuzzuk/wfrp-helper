@@ -29,7 +29,7 @@ import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
 @Table(schema = "magic")
 @RemoteEntity(transactional = true, stomp = true)

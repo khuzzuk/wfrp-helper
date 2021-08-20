@@ -2,6 +2,8 @@ package pl.khuzzuk.wfrp.helper.model.crafting.inventory;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
@@ -13,8 +15,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-@Data
-@EqualsAndHashCode(of = "name")
+@Getter
+@Setter
+@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
 @Table(schema = "crafting")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)

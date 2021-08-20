@@ -35,7 +35,7 @@ export class DeterminantFieldProps {
 export function DeterminantField(props: DeterminantFieldProps) {
     const [t] = useTranslation('base');
     const perType: Map<DeterminantType, Determinant> = new Map();
-    const [determinants, setDeterminants] = useState(props.determinants);
+    const [determinants, setDeterminants] = useState(props.determinants || []);
     const [current, setCurrent] = useState<Determinant>();
     const [diceMod, setDiceMod] = useState(false);
     determinants.forEach(d => perType.set(d.type, d))

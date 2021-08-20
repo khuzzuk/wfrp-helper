@@ -1,6 +1,5 @@
-import {FieldDef, ModelType} from "model/ModelConfig";
+import {ModelType} from "model/ModelConfig";
 import withModel from "state/model/modelSelector";
-import {FieldType} from "../../entity/FieldType";
 import {useTranslation} from "react-i18next";
 import {
     Dropdown,
@@ -15,14 +14,18 @@ import {
 import {Label} from "./TextArea";
 import {MdClose, MdExpandMore} from "react-icons/md";
 import React, {useState} from "react";
-import {BaseEntity} from "../../model/BaseEntity";
+import {BaseEntity} from "model/BaseEntity";
 
 export interface ComboBoxProps {
     value?: BaseEntity;
     values?: BaseEntity[];
-    def: FieldDef;
-    form?: ModelType;
-    entity?: any;
+    multi?: boolean;
+    enum?: boolean;
+    label: string;
+    linked?: ModelType;
+    data?: any[];
+    translate?: boolean;
+    options?: (a: any) => string;
     accept: (v: any[] | any) => void;
     model: { [key in ModelType]: any[] };
 }
@@ -33,20 +36,14 @@ function ComboBox(props: ComboBoxProps) {
     const [search, setSearch] = useState('');
     const [activeIndex, setActiveIndex] = useState(-1);
 
-    if (!props.form || !props.def.linked) {
-        return <div/>;
-    }
-
-    const isMulti = props.def.type === FieldType.ENTITY_MULTISELECT || props.def.type === FieldType.ENUM_MULTISELECT;
-    const isEnum = props.def.type === FieldType.ENUM_MULTISELECT;
-    const label = t('props.' + props.def.prop);
-    const compareId = isEnum ? (v1: any, v2: any) => v1 === v2 : (v1: any, v2: any) => v1.id === v2.id;
-    const compareSearch = isEnum ?
-        (o: any) => o.toLowerCase().startsWith(search) :
-        (o: any) => o.name.toLowerCase().startsWith(search);
-    const options = props.model[props.def.linked]
-        .map(o => props.def.options ? props.def.options(o) : o)
-        .filter(o => isMulti ? !(props.values?.find(v => compareId(o, v))) : !(compareId(props.value, o)))
+    const label = t('props.' + props.label);
+    const compareId = props.enum ? (v1: any, v2: any) => v1 === v2 : (v1: any, v2: any) => (v1 && v2) && v1.id === v2.id;
+    const compareSearch = props.enum ?
+        (o: any) => o.toLowerCase().startsWith(search.toLowerCase()) :
+        (o: any) => o.name.toLowerCase().startsWith(search.toLowerCase());
+    const options = (props.linked ? props.model[props.linked] : props.data || [])
+        .map(o => props.options ? props.options(o) : o)
+        .filter(o => props.multi ? !(props.values?.find(v => compareId(o, v))) : !(compareId(props.value, o)))
         .filter(o => !search || compareSearch(o));
 
     const cancelSelection = () => {
@@ -56,7 +53,7 @@ function ComboBox(props: ComboBoxProps) {
     }
 
     const confirm = (option: any) => {
-        if (isMulti) {
+        if (props.multi) {
             props.values ? props.accept([...props.values, option]) : props.accept([option]);
         } else {
             props.accept(option);
@@ -65,7 +62,7 @@ function ComboBox(props: ComboBoxProps) {
     }
 
     const remove = (option: any) => {
-        if (isMulti) {
+        if (props.multi) {
             const toRemoveIndex = props.values?.indexOf(option);
             if (toRemoveIndex !== undefined && toRemoveIndex >= 0) {
                 const newArray = [...props.values || []];
@@ -99,10 +96,10 @@ function ComboBox(props: ComboBoxProps) {
         <Dropdown onKeyDown={onArrow} tabIndex={0}>
             <SelectedElements>
                 {props.values && props.values.map((v: any) =>
-                    <SelectedElement key={v.name || v} onClick={() => remove(v)}>{v.name || v}<MdClose/></SelectedElement>)}
+                    <SelectedElement key={v.name || v} onClick={() => remove(v)}>{v.name ? v.name : props.translate ? t('data.' + v) : v}<MdClose/></SelectedElement>)}
                 {props.value &&
                     <SelectedElement key={(props.value as any).name || props.value} onClick={() => remove(props.value)}>
-                        {(props.value as any).name || props.value}<MdClose/>
+                        {(props.value as any).name ? (props.value as any).name : props.translate ? t('data.' + props.value) : props.value}<MdClose/>
                     </SelectedElement>}
                 <DropdownSearch onChange={e => setSearch(e.target.value)}
                                 value={search}
@@ -113,11 +110,8 @@ function ComboBox(props: ComboBoxProps) {
             </DropdownButton>
 
             {(showList || search) && <SelectableList>
-                {options.map(o => {
-                    console.log(showList + ' ' + o);
-                    return o;
-                }).map((o, i) => <ListElement key={o.name || o} active={i === activeIndex}
-                                                    onClick={() => confirm(o)}>{o.name || o}</ListElement>)}
+                {options.map((o, i) => <ListElement key={o.name || o} active={i === activeIndex}
+                                                    onClick={() => confirm(o)}>{o.name ? o.name : props.translate ? t('data.' + o) : o}</ListElement>)}
             </SelectableList>}
         </Dropdown>
     </FieldWrapper>

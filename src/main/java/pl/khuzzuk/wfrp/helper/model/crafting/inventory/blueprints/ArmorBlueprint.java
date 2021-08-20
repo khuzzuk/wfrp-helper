@@ -26,7 +26,7 @@ import pl.khuzzuk.wfrp.helper.model.rule.Placement.PlacementValues;
 @Setter
 @DiscriminatorValue("ARMOR")
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class ArmorBlueprint extends ItemBlueprint {
     @Type(type = EnumType.DEF)

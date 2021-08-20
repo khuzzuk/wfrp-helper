@@ -95,7 +95,7 @@ export class DeterminantService {
         const newDet = DeterminantService.clone(det);
         const mod = newDet.modifiers.find(m => m.type === ModifierType.DICE) ||
             DeterminantService.addModifier(newDet, ModifierType.DICE);
-        mod.rolls = mod.rolls.filter(roll => roll.dice != dice);
+        mod.rolls = mod.rolls.filter(roll => roll.dice !== dice);
         return newDet;
     }
 

@@ -1,6 +1,9 @@
 package pl.khuzzuk.wfrp.helper.model.crafting.resource;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
@@ -13,10 +16,12 @@ import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Availability;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
 @Table(schema = "crafting")
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Resource extends BaseEntity {
     @Id
