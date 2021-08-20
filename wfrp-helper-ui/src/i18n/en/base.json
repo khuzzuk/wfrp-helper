@@ -34,7 +34,8 @@
     "jewelry": "Jewelry",
     "armor": "Armor",
     "meleeWeapon": "Melee weapon",
-    "rangedWeapon": "Ranged weapon"
+    "rangedWeapon": "Ranged weapon",
+    "ammunition": "Ammunition"
   },
   "props": {
     "admin": "Admin",
@@ -83,7 +84,8 @@
     "minimumRange": "Minimum range",
     "mediumRange": "Effective range",
     "maximumRange": "Maximum range",
-    "armorPattern": "Armor pattern"
+    "armorPattern": "Armor pattern",
+    "weaponTypes": "Fitting ranged weapon types"
   },
   "rule": {
     "short": {

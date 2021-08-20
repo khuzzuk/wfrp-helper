@@ -28,6 +28,7 @@ export enum ModelType {
     ARMOR = 'ARMOR',
     MELEE_WEAPON = 'MELEE_WEAPON',
     RANGED_WEAPON = 'RANGED_WEAPON',
+    AMMUNITION = 'AMMUNITION',
 }
 
 export interface FieldDef {
@@ -404,6 +405,26 @@ ModelConfig = {
             {prop: 'name', type: FieldType.TEXT},
             {prop: 'description', type: FieldType.TEXT_AREA},
             {prop: 'type', type: FieldType.ENTITY_SELECT, linked: ModelType.RANGED_WEAPON_BLUEPRINT},
+            {prop: 'weight', type: FieldType.FLOAT},
+            {prop: 'price', type: FieldType.PRICE},
+            {prop: 'availability', type: FieldType.ENUM_SELECT, data: Object.keys(Availability), translate: true},
+            {prop: 'primaryResource', type: FieldType.ENTITY_SELECT, linked: ModelType.RESOURCE},
+            {prop: 'secondaryResource', type: FieldType.ENTITY_SELECT, linked: ModelType.RESOURCE},
+            {prop: 'determinants', type: FieldType.DETERMINANT},
+        ],
+    },
+    AMMUNITION: {
+        name: 'ammunition',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'price', type: FieldType.PRICE},
+            {prop: 'weight', type: FieldType.TEXT},
+            {prop: 'availability', type: FieldType.TEXT, translate: true},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+            {prop: 'weaponTypes', type: FieldType.ENTITY_MULTISELECT, linked: ModelType.RANGED_WEAPON_BLUEPRINT},
             {prop: 'weight', type: FieldType.FLOAT},
             {prop: 'price', type: FieldType.PRICE},
             {prop: 'availability', type: FieldType.ENUM_SELECT, data: Object.keys(Availability), translate: true},

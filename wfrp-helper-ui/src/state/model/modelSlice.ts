@@ -41,6 +41,7 @@ const initialState: ModelState = {
         ARMOR: [],
         MELEE_WEAPON: [],
         RANGED_WEAPON: [],
+        AMMUNITION: [],
     },
     users: [],
     roles: [],

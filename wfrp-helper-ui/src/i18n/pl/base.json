@@ -34,7 +34,8 @@
     "jewelry": "Biżuteria",
     "armor": "Pancerz",
     "meleeWeapon": "Broń biała",
-    "rangedWeapon": "Broń strzelecka"
+    "rangedWeapon": "Broń strzelecka",
+    "ammunition": "Amunicja"
   },
   "props": {
     "admin": "Admin",
@@ -83,7 +84,8 @@
     "minimumRange": "Minimalny zasięg",
     "mediumRange": "Effektywny zasięg",
     "maximumRange": "Maxymalny zasięg",
-    "armorPattern": "Rodzaj zbroi"
+    "armorPattern": "Rodzaj zbroi",
+    "weaponTypes": "Pasujący typy broni strzeleckiej"
   },
   "rule": {
     "short": {

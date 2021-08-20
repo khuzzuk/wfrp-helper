@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 @Getter
 @Setter
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class RangedWeapon extends Wearable {
     @ManyToOne(fetch = FetchType.EAGER)

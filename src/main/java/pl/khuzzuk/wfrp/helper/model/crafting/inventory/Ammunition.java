@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Ammunition extends Wearable {
     @ManyToMany
