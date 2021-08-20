@@ -35,10 +35,15 @@
     "armor": "Armor",
     "meleeWeapon": "Melee weapon",
     "rangedWeapon": "Ranged weapon",
-    "ammunition": "Ammunition"
+    "ammunition": "Ammunition",
+    "character": "Character",
+    "eyeColor": "Eye color",
+    "hairColor": "Hair color",
+    "physicalFeature": "Physical feature"
   },
   "props": {
     "admin": "Admin",
+    "creatures": "Creatures",
     "knowledge": "Knowledge",
     "world": "World",
     "blueprint": "Blueprint",

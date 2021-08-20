@@ -29,6 +29,10 @@ export enum ModelType {
     MELEE_WEAPON = 'MELEE_WEAPON',
     RANGED_WEAPON = 'RANGED_WEAPON',
     AMMUNITION = 'AMMUNITION',
+    CHARACTER = 'CHARACTER',
+    EYE_COLOR = 'EYE_COLOR',
+    HAIR_COLOR = 'HAIR_COLOR',
+    PHYSICAL_FEATURE = 'PHYSICAL_FEATURE',
 }
 
 export interface FieldDef {
@@ -430,6 +434,48 @@ ModelConfig = {
             {prop: 'availability', type: FieldType.ENUM_SELECT, data: Object.keys(Availability), translate: true},
             {prop: 'primaryResource', type: FieldType.ENTITY_SELECT, linked: ModelType.RESOURCE},
             {prop: 'secondaryResource', type: FieldType.ENTITY_SELECT, linked: ModelType.RESOURCE},
+            {prop: 'determinants', type: FieldType.DETERMINANT},
+        ],
+    },
+
+    CHARACTER: {
+        name: 'character',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+        ],
+    },
+    EYE_COLOR: {
+        name: 'eyeColor',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+        ],
+    },
+    HAIR_COLOR: {
+        name: 'hairColor',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+        ],
+    },
+    PHYSICAL_FEATURE: {
+        name: 'physicalFeature',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
             {prop: 'determinants', type: FieldType.DETERMINANT},
         ],
     },

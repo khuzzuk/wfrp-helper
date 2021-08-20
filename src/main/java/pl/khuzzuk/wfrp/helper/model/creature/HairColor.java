@@ -15,9 +15,9 @@ import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 @Data
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class HairColor extends BaseEntity {
     @Id

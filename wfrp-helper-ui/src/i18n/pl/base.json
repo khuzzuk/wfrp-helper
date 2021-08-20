@@ -35,10 +35,15 @@
     "armor": "Pancerz",
     "meleeWeapon": "Broń biała",
     "rangedWeapon": "Broń strzelecka",
-    "ammunition": "Amunicja"
+    "ammunition": "Amunicja",
+    "character": "Charakter",
+    "eyeColor": "Kolor oczu",
+    "hairColor": "Kolor włosów",
+    "physicalFeature": "Cechy specjalne"
   },
   "props": {
     "admin": "Admin",
+    "creatures": "Istoty",
     "knowledge": "Wiedza",
     "world": "Świat",
     "blueprint": "Typ",

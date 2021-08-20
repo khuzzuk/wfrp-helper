@@ -23,6 +23,12 @@ const groups = {
     admin: [
         ModelType.USER,
     ],
+    creatures: [
+        ModelType.CHARACTER,
+        ModelType.EYE_COLOR,
+        ModelType.HAIR_COLOR,
+        ModelType.PHYSICAL_FEATURE,
+    ],
     knowledge: [
         ModelType.SKILL,
         ModelType.PROFESSION_CLASS,
