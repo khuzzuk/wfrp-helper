@@ -32,7 +32,9 @@
     "rangedWeaponBlueprint": "Typ strzelecki",
     "miscItem": "Przedmiot",
     "jewelry": "Biżuteria",
-    "armor": "Pancerz"
+    "armor": "Pancerz",
+    "meleeWeapon": "Broń biała",
+    "rangedWeapon": "Broń strzelecka"
   },
   "props": {
     "admin": "Admin",

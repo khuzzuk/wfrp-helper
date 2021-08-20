@@ -44,6 +44,8 @@ const groups = {
         ModelType.MISC_ITEM,
         ModelType.JEWELRY,
         ModelType.ARMOR,
+        ModelType.MELEE_WEAPON,
+        ModelType.RANGED_WEAPON,
     ],
     blueprint: [
         ModelType.ARMOR_BLUEPRINT,

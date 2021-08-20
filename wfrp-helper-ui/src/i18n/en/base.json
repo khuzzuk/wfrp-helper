@@ -32,7 +32,9 @@
     "rangedWeaponBlueprint": "Ranged blueprint",
     "miscItem": "Item",
     "jewelry": "Jewelry",
-    "armor": "Armor"
+    "armor": "Armor",
+    "meleeWeapon": "Melee weapon",
+    "rangedWeapon": "Ranged weapon"
   },
   "props": {
     "admin": "Admin",

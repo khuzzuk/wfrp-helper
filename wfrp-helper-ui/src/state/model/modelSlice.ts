@@ -39,6 +39,8 @@ const initialState: ModelState = {
         MISC_ITEM: [],
         JEWELRY: [],
         ARMOR: [],
+        MELEE_WEAPON: [],
+        RANGED_WEAPON: [],
     },
     users: [],
     roles: [],
