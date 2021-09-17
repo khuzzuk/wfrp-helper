@@ -20,9 +20,9 @@ import javax.persistence.SequenceGenerator;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class AnimalKind extends BaseEntity {
     @Id

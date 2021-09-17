@@ -14,7 +14,6 @@ export enum ModelType {
     NATION = 'NATION',
     LANGUAGE = 'LANGUAGE',
     CURRENCY = 'CURRENCY',
-    MONEY = 'MONEY',
     RELIGION = 'RELIGION',
     RACE = 'RACE',
     PLACE = 'PLACE',
@@ -33,6 +32,9 @@ export enum ModelType {
     EYE_COLOR = 'EYE_COLOR',
     HAIR_COLOR = 'HAIR_COLOR',
     PHYSICAL_FEATURE = 'PHYSICAL_FEATURE',
+    ANIMAL_KIND = 'ANIMAL_KIND',
+    ANIMAL = 'ANIMAL',
+    PERSON = 'PERSON',
 }
 
 export interface FieldDef {
@@ -181,11 +183,6 @@ ModelConfig = {
             {prop: 'description', type: FieldType.TEXT_AREA},
             {prop: 'nations', type: FieldType.ENTITY_MULTISELECT, linked: ModelType.NATION},
         ],
-    },
-    MONEY: {
-        name: 'money',
-        table: [],
-        form: [],
     },
     RELIGION: {
         name: 'religion',
@@ -479,6 +476,38 @@ ModelConfig = {
             {prop: 'determinants', type: FieldType.DETERMINANT},
         ],
     },
+    ANIMAL_KIND: {
+        name: 'animalKind',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+            {prop: 'determinants', type: FieldType.DETERMINANT},
+        ],
+    },
+    ANIMAL: {
+        name: 'animal',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+            {prop: 'description', type: FieldType.TEXT_AREA},
+            {prop: 'animalKind', type: FieldType.ENTITY_SELECT, linked: ModelType.ANIMAL_KIND},
+            {prop: 'determinants', type: FieldType.DETERMINANT},
+        ],
+    },
+    PERSON: {
+        name: 'person',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.PERSON},
+        ],
+    }
 }
 
 export default ModelConfig;

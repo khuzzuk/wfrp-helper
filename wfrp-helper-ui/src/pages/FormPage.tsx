@@ -11,6 +11,7 @@ import TextArrayField from "../components/Form/TextArrayField";
 import {DeterminantField} from "../components/Form/DeterminantField";
 import ActionTimeField from "../components/Form/ActionTimeField";
 import PriceField from "../components/Form/PriceField";
+import {PersonPage} from "../components/Form/Person/PersonPage";
 
 export interface FormPageProps {
     entity: any;
@@ -59,6 +60,8 @@ function FormPage({entity, form, updateEntityProp}: FormPageProps) {
                 return <ActionTimeField label={def.prop} value={entity[def.prop]} upd={upd}/>
             case FieldType.PRICE:
                 return <PriceField label={def.prop} value={entity[def.prop]} upd={upd}/>
+            case FieldType.PERSON:
+                return <PersonPage/>
         }
     }
 

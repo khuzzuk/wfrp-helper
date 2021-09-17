@@ -31,11 +31,11 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
 @Table(schema = "creature")
 @Audited
-@RemoteEntity(transactional = true)
+@RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Person extends BaseEntity {
     @Id

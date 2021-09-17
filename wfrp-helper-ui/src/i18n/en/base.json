@@ -39,7 +39,10 @@
     "character": "Character",
     "eyeColor": "Eye color",
     "hairColor": "Hair color",
-    "physicalFeature": "Physical feature"
+    "physicalFeature": "Physical feature",
+    "animalKind": "Animal Kind",
+    "animal": "Animal",
+    "person": "Person"
   },
   "props": {
     "admin": "Admin",
@@ -90,7 +93,8 @@
     "mediumRange": "Effective range",
     "maximumRange": "Maximum range",
     "armorPattern": "Armor pattern",
-    "weaponTypes": "Fitting ranged weapon types"
+    "weaponTypes": "Fitting ranged weapon types",
+    "animalKind": "Animal Kind"
   },
   "rule": {
     "short": {

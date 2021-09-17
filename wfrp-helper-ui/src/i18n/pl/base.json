@@ -39,7 +39,9 @@
     "character": "Charakter",
     "eyeColor": "Kolor oczu",
     "hairColor": "Kolor włosów",
-    "physicalFeature": "Cechy specjalne"
+    "physicalFeature": "Cechy specjalne",
+    "animalKind": "Gatunek",
+    "animal": "Zwierzę"
   },
   "props": {
     "admin": "Admin",
@@ -90,7 +92,9 @@
     "mediumRange": "Effektywny zasięg",
     "maximumRange": "Maxymalny zasięg",
     "armorPattern": "Rodzaj zbroi",
-    "weaponTypes": "Pasujący typy broni strzeleckiej"
+    "weaponTypes": "Pasujący typy broni strzeleckiej",
+    "animalKind": "Gatunek",
+    "person": "Bohater"
   },
   "rule": {
     "short": {

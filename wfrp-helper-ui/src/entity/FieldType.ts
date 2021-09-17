@@ -12,4 +12,5 @@ export enum FieldType {
     DETERMINANT = 'DETERMINANT',
     ACTION_TIME = 'ACTION_TIME',
     PRICE = 'PRICE',
+    PERSON = 'PERSON'
 }

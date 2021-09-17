@@ -24,10 +24,13 @@ const groups = {
         ModelType.USER,
     ],
     creatures: [
+        ModelType.PERSON,
         ModelType.CHARACTER,
         ModelType.EYE_COLOR,
         ModelType.HAIR_COLOR,
         ModelType.PHYSICAL_FEATURE,
+        ModelType.ANIMAL_KIND,
+        ModelType.ANIMAL,
     ],
     knowledge: [
         ModelType.SKILL,
