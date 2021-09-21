@@ -1,33 +1,16 @@
 package pl.khuzzuk.wfrp.helper.model.creature;
 
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.ATTACK;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.BATTLE;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.CHARISMA;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.CONTROL;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.DEXTERITY;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.DURABILITY;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.HEALTH;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.INITIATIVE;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.INTELLIGENCE;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.LEADER_SKILLS;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.SHOOTING;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.SPEED;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.STRENGTH;
-import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.WILL;
-
-import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static pl.khuzzuk.wfrp.helper.model.rule.DeterminantType.*;
 
 @Getter
 @Setter

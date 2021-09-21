@@ -1,10 +1,10 @@
 package pl.khuzzuk.wfrp.helper.model.rule;
 
-import static pl.khuzzuk.wfrp.helper.model.rule.ValueType.PERCENTAGE;
-import static pl.khuzzuk.wfrp.helper.model.rule.ValueType.REGULAR;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import static pl.khuzzuk.wfrp.helper.model.rule.ValueType.PERCENTAGE;
+import static pl.khuzzuk.wfrp.helper.model.rule.ValueType.REGULAR;
 
 @AllArgsConstructor
 @Getter
@@ -26,5 +26,5 @@ public enum DeterminantType {
     PARRY(PERCENTAGE),
     OPPONENT_PARRY(PERCENTAGE);
 
-    private ValueType valueType;
+    private final ValueType valueType;
 }

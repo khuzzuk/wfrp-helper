@@ -1,8 +1,5 @@
 package pl.khuzzuk.wfrp.helper.security;
 
-import static org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED;
-
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
@@ -19,6 +16,10 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import pl.khuzzuk.wfrp.helper.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository;
 import pl.khuzzuk.wfrp.helper.security.oauth2.OAuth2AuthenticationSuccessHandler;
+
+import java.util.List;
+
+import static org.springframework.security.config.http.SessionCreationPolicy.IF_REQUIRED;
 
 @RequiredArgsConstructor
 @EnableWebSecurity

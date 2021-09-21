@@ -7,9 +7,12 @@ CREATE TABLE security.role (
 
 CREATE TABLE security."user" (
     id                      BIGSERIAL PRIMARY KEY,
+    uuid                    VARCHAR(36)           DEFAULT uuid_generate_v4(),
+    version                 INTEGER,
+    created                 TIMESTAMP,
+    last_updated            TIMESTAMP,
     username                VARCHAR(100) NOT NULL UNIQUE,
     password                VARCHAR(255) NOT NULL,
-    one_time_password       BOOLEAN      NOT NULL DEFAULT TRUE,
     account_non_expired     BOOLEAN      NOT NULL DEFAULT TRUE,
     account_non_locked      BOOLEAN      NOT NULL DEFAULT TRUE,
     credentials_non_expired BOOLEAN      NOT NULL DEFAULT TRUE,

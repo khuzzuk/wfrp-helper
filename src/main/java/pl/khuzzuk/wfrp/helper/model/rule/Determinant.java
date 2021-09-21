@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 import pl.javahello.DTO;
-import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,20 +12,15 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(schema = "rules")
 @Audited
 @DTO
-public class Determinant extends ListableEntity {
-    @Id
-    @SequenceGenerator(name = "determinant_seq_gen", sequenceName = "determinant_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "determinant_seq_gen")
-    private Long id;
-
+public class Determinant extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private DeterminantType type;
-
     private int value;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinTable(schema = "rules")
     private List<Modifier> modifiers;
 
     public static Determinant empty(DeterminantType type) {

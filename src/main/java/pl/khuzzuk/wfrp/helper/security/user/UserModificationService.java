@@ -1,7 +1,5 @@
 package pl.khuzzuk.wfrp.helper.security.user;
 
-import java.util.Set;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -13,6 +11,9 @@ import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.security.role.Role;
 import pl.khuzzuk.wfrp.helper.security.role.RoleDTO;
 import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
+
+import javax.transaction.Transactional;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class UserModificationService {
         oneTimePassword ? RandomStringUtils.random(8, allowedCharacters) : userDTO.getPassword();
 
     user.setPassword(passwordEncoder.encode(password));
-    user.setOneTimePassword(oneTimePassword);
+    user.setCredentialsNonExpired(!oneTimePassword);
     user.setAuthorities(Set.of(roleRepo.findByAuthority(RoleRepo.ROLE_USER).orElseThrow(),
                                roleRepo.findByAuthority(RoleRepo.ROLE_PLAYER).orElseThrow()));
 
@@ -57,7 +58,7 @@ public class UserModificationService {
 
   @Transactional
   public void changePassword(String newPassword, @CurrentUser User user) {
-    user.setOneTimePassword(false);
+    user.setCredentialsNonExpired(true);
     user.setPassword(passwordEncoder.encode(newPassword));
     userRepo.save(user);
   }

@@ -1,8 +1,5 @@
 package pl.khuzzuk.wfrp.helper.service.knowledge;
 
-import java.util.List;
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,6 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevelDTO;
+
+import javax.transaction.Transactional;
+import javax.validation.Valid;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController

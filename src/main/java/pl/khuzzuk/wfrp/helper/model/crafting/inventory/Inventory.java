@@ -1,26 +1,24 @@
 package pl.khuzzuk.wfrp.helper.model.crafting.inventory;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import pl.javahello.DTO;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = {"item"})
 @Entity
 @Table(schema = "creature")
 @Audited
 @DTO
-public class Inventory {
-    @Id
-    @SequenceGenerator(name = "inventory_seq_gen", schema = "creature", sequenceName = "inventory_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "inventory_seq_gen")
-    private Long id;
+public class Inventory extends BaseEntity {
     @ManyToOne
     @JoinColumn
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)

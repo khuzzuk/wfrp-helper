@@ -1,11 +1,11 @@
-INSERT INTO character (name, description)
+INSERT INTO creature.character (name, description)
 VALUES ('Praworządny', ''),
        ('Dobry', ''),
        ('Neutralny', ''),
        ('Zły', ''),
        ('Chaotyczny', '');
 
-INSERT INTO eye_color (name, description)
+INSERT INTO creature.eye_color (name, description)
 VALUES ('Niebieskie', ''),
        ('Piwne', ''),
        ('Bursztynowe', ''),
@@ -15,7 +15,7 @@ VALUES ('Niebieskie', ''),
        ('Szare', ''),
        ('Czerwone', '');
 
-INSERT INTO hair_color (name, description)
+INSERT INTO creature.hair_color (name, description)
 VALUES ('Brak', ''),
        ('Jasny blond', ''),
        ('Ciemny blond', ''),
@@ -28,7 +28,7 @@ VALUES ('Brak', ''),
        ('Białe', ''),
        ('Siwe', '');
 
-INSERT INTO physical_feature (name, description)
+INSERT INTO creature.physical_feature (name, description)
 VALUES ('Blizna na twarzy', ''),
        ('Długie włosy', ''),
        ('Długa broda', ''),

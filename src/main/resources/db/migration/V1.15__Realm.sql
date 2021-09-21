@@ -1,8 +1,12 @@
 CREATE SCHEMA realm;
 
 CREATE TABLE realm.realm (
-    id   BIGSERIAL PRIMARY KEY,
-    name VARCHAR(255) NOT NULL UNIQUE
+    id           BIGSERIAL PRIMARY KEY,
+    uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
+    version      INTEGER,
+    created      TIMESTAMP,
+    last_updated TIMESTAMP,
+    name         VARCHAR(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE realm.realm_nations (
@@ -30,9 +34,13 @@ CREATE TABLE realm.realm_persons (
 );
 
 CREATE TABLE realm.scenario (
-    id       BIGSERIAL PRIMARY KEY,
-    name     VARCHAR(255) NOT NULL UNIQUE,
-    realm_id BIGINT       NOT NULL REFERENCES realm.realm
+    id           BIGSERIAL PRIMARY KEY,
+    uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
+    version      INTEGER,
+    created      TIMESTAMP,
+    last_updated TIMESTAMP,
+    name         VARCHAR(255) NOT NULL UNIQUE,
+    realm_id     BIGINT       NOT NULL REFERENCES realm.realm
 );
 CREATE TABLE realm.scenario_place (
     scenario_id BIGINT NOT NULL REFERENCES realm.scenario,

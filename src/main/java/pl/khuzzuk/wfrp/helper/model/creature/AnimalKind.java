@@ -1,38 +1,27 @@
 package pl.khuzzuk.wfrp.helper.model.creature;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.NaturalId;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
-import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.util.Set;
 
-@Data
-@EqualsAndHashCode(of = "name", callSuper = false)
+@Getter
+@Setter
 @Entity
+@Table(schema = "creature")
 @RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class AnimalKind extends BaseEntity {
-    @Id
-    @SequenceGenerator(name = "animal_kind_seq_gen", sequenceName = "animal_kind_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "animal_kind_seq_gen")
-    private Long id;
-    @NaturalId
     private @Length(min = 3, max = 64) String name;
     private @Length(max = 500) String description;
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinTable(schema = "creature")
     private Set<Determinant> determinants;
 
     @Override

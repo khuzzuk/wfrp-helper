@@ -10,7 +10,10 @@ import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
 
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service

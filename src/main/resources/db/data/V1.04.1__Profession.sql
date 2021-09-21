@@ -12,17 +12,17 @@ BEGIN
     IF profession_extension_value > 0
     THEN
 
-        INSERT INTO determinant (type, value)
+        INSERT INTO rules.determinant (type, value)
         VALUES (extension_type, 0)
         RETURNING id
             INTO inserted_extension_id;
-        INSERT INTO modifier (type, value)
+        INSERT INTO rules.modifier (type, value)
         VALUES ('PROFESSION', profession_extension_value)
         RETURNING id
             INTO inserted_modifier_id;
-        INSERT INTO determinant_modifiers (determinant_id, modifiers_id)
+        INSERT INTO rules.determinant_modifiers (determinant_id, modifiers_id)
         VALUES (inserted_extension_id, inserted_modifier_id);
-        INSERT INTO profession_determinants (profession_id, determinants_id)
+        INSERT INTO knowledge.profession_determinants (profession_id, determinants_id)
         VALUES (profession_id_to_insert, inserted_extension_id);
 
     END IF;
@@ -58,18 +58,18 @@ DECLARE
     inserted_profession_id BIGINT;
 
 BEGIN
-    INSERT INTO profession (name, description, profession_class_id)
+    INSERT INTO knowledge.profession (name, description, profession_class_id)
     VALUES (profession_name,
             profession_desc,
-            (SELECT id FROM profession_class pc WHERE pc.name = profession_class_name))
+            (SELECT id FROM knowledge.profession_class pc WHERE pc.name = profession_class_name))
     RETURNING id
         INTO inserted_profession_id;
 
     FOR i IN 1 .. array_upper(profession_skills_set, 1)
         LOOP
-            INSERT INTO profession_skills (profession_id, skills_id)
+            INSERT INTO knowledge.profession_skills (profession_id, skills_id)
             VALUES (inserted_profession_id,
-                    (SELECT sk.id FROM skill sk WHERE sk.name ILIKE profession_skills_set[i]));
+                    (SELECT sk.id FROM knowledge.skill sk WHERE sk.name ILIKE profession_skills_set[i]));
         END LOOP;
 
     PERFORM pg_temp.addExtension('SPEED', speed_extension, inserted_profession_id);
@@ -240,14 +240,14 @@ BEGIN
     FOR i IN 1 .. array_upper(professions_to_add, 1)
         LOOP
             current_name := (SELECT name
-                             FROM profession
+                             FROM knowledge.profession
                              WHERE name ILIKE professions_to_add[i]);
 
             actual_names := (SELECT array_append(actual_names, current_name));
 
         END LOOP;
 
-    UPDATE profession SET next_professions = actual_names WHERE name ILIKE profession_name;
+    UPDATE knowledge.profession SET next_professions = actual_names WHERE name ILIKE profession_name;
 END;
 
 $$

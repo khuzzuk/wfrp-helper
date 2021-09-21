@@ -1,12 +1,5 @@
 package pl.khuzzuk.wfrp.helper.security.oauth2;
 
-import static pl.khuzzuk.wfrp.helper.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-
-import java.io.IOException;
-import java.util.Set;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -20,6 +13,14 @@ import pl.khuzzuk.wfrp.helper.security.jwt.JwtTokenProvider;
 import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
 import pl.khuzzuk.wfrp.helper.security.user.User;
 import pl.khuzzuk.wfrp.helper.security.user.UserRepo;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Set;
+
+import static pl.khuzzuk.wfrp.helper.security.oauth2.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -71,7 +72,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     User user = new User();
     user.setUsername(email);
     user.setAuthorities(Set.of(roleRepo.findByAuthority(RoleRepo.ROLE_USER).orElseThrow()));
-    user.setOneTimePassword(false);
+    user.setCredentialsNonExpired(true);
     user.setPassword("oauth2");
 
     userRepo.save(user);

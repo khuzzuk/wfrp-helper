@@ -1,12 +1,13 @@
 package pl.khuzzuk.wfrp.helper.service.determinant;
 
-import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.khuzzuk.wfrp.helper.model.creature.CreatureDeterminants;
 import pl.khuzzuk.wfrp.helper.model.world.Race;
 import pl.khuzzuk.wfrp.helper.model.world.RaceRepo;
+
+import javax.transaction.Transactional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor

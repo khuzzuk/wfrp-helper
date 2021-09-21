@@ -7,6 +7,7 @@ import pl.javahello.RemoteEntity.SecuredService;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @Setter

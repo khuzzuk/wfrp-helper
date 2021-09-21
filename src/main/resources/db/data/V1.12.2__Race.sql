@@ -13,18 +13,18 @@ DECLARE
 BEGIN
 
 
-    INSERT INTO determinant (type, value)
+    INSERT INTO rules.determinant (type, value)
     VALUES (extension_type, 0) RETURNING id
         INTO inserted_extension_id;
 
-    INSERT INTO modifier (type, value)
+    INSERT INTO rules.modifier (type, value)
     VALUES ('DICE', mods_to_insert) RETURNING id
         INTO inserted_modifier_id;
-    INSERT INTO determinant_modifiers (determinant_id, modifiers_id)
+    INSERT INTO rules.determinant_modifiers (determinant_id, modifiers_id)
     VALUES (inserted_extension_id, inserted_modifier_id);
 
-    INSERT INTO dice_roll (dice, rolls) VALUES (dice_to_insert, rolls_to_insert) RETURNING id INTO inserted_rolls_id;
-    INSERT INTO modifier_rolls (modifier_id, rolls_id) VALUES (inserted_modifier_id, inserted_rolls_id);
+    INSERT INTO rules.dice_roll (dice, rolls) VALUES (dice_to_insert, rolls_to_insert) RETURNING id INTO inserted_rolls_id;
+    INSERT INTO rules.modifier_rolls (modifier_id, rolls_id) VALUES (inserted_modifier_id, inserted_rolls_id);
 
     INSERT INTO world.race_determinants (race_id, determinants_id)
     VALUES (race_id_to_insert, inserted_extension_id);
@@ -71,7 +71,7 @@ BEGIN
     PERFORM pg_temp.addRaceRoll('WILL', will_rolls, will_mod, will_dice, inserted_race_id);
     PERFORM pg_temp.addRaceRoll('CHARISMA', charisma_rolls, charisma_mod, charisma_dice, inserted_race_id);
 
-    INSERT INTO determinant (type, value)
+    INSERT INTO rules.determinant (type, value)
     VALUES ('ATTACK', 1)
     RETURNING id INTO inserted_attack_determinant_id;
 

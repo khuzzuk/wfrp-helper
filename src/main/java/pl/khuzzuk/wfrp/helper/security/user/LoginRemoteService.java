@@ -1,24 +1,21 @@
 package pl.khuzzuk.wfrp.helper.security.user;
 
-import java.util.List;
-import java.util.Set;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.security.LoginResponse;
 import pl.khuzzuk.wfrp.helper.security.role.Role;
 import pl.khuzzuk.wfrp.helper.security.role.RoleDTO;
 import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -42,7 +39,7 @@ public class LoginRemoteService {
 
     LoginResponse response = new LoginResponse();
     response.setAuthorities(roleDTOAdapter.set(user.getAuthorities()));
-    response.setOneTimePassword(user.isOneTimePassword());
+    response.setOneTimePassword(!user.isCredentialsNonExpired());
     return response;
   }
 

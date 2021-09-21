@@ -11,9 +11,9 @@ import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolDTO;
 import pl.khuzzuk.wfrp.helper.model.money.Currency;
 import pl.khuzzuk.wfrp.helper.model.money.CurrencyDTO;
 import pl.khuzzuk.wfrp.helper.model.world.*;
+import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
 
 import javax.transaction.Transactional;
-import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
 
 @AllArgsConstructor
 @RestController

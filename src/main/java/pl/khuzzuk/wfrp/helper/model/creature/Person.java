@@ -1,17 +1,16 @@
 package pl.khuzzuk.wfrp.helper.model.creature;
 
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.NaturalId;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
-import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
-import pl.khuzzuk.wfrp.helper.model.crafting.inventory.*;
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Armor;
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Inventory;
+import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MeleeWeapon;
 import pl.khuzzuk.wfrp.helper.model.knowledge.Skill;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.Spell;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
@@ -22,6 +21,7 @@ import pl.khuzzuk.wfrp.helper.model.world.Nation;
 import pl.khuzzuk.wfrp.helper.model.world.Race;
 import pl.khuzzuk.wfrp.helper.model.world.Religion;
 import pl.khuzzuk.wfrp.helper.model.world.WorldLanguage;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -31,18 +31,12 @@ import java.util.Set;
 
 @Getter
 @Setter
-@EqualsAndHashCode(of = "name", callSuper = false)
 @Entity
 @Table(schema = "creature")
 @Audited
 @RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Person extends BaseEntity {
-    @Id
-    @SequenceGenerator(name = "person_seq_gen", schema = "creature", sequenceName = "person_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq_gen")
-    private Long id;
-    @NaturalId
     private @Length(min = 3, max = 255) String name;
     @ManyToOne
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)

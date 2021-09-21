@@ -1,12 +1,13 @@
 package pl.khuzzuk.wfrp.helper.security.oauth2;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.oauth2.client.web.AuthorizationRequestRepository;
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.stereotype.Repository;
 import pl.khuzzuk.wfrp.helper.common.CookieUtils;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * Uses a state parameter to prevent CSRF attacks. The application sends state in the authorization

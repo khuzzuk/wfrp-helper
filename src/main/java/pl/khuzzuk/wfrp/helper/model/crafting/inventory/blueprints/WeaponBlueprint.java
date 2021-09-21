@@ -7,7 +7,7 @@ import pl.khuzzuk.wfrp.helper.common.EnumType;
 import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 import pl.khuzzuk.wfrp.helper.model.rule.Placement;
-import pl.khuzzuk.wfrp.helper.model.rule.Placement.PlacementValues;
+import pl.khuzzuk.wfrp.helper.model.rule.Placement.*;
 
 import javax.persistence.*;
 import java.util.List;

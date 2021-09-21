@@ -7,9 +7,12 @@ import org.hibernate.envers.RelationTargetAuditMode;
 import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.Ammunition;
 import pl.khuzzuk.wfrp.helper.model.crafting.inventory.RangedWeapon;
-import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Getter
 @Setter
@@ -17,11 +20,7 @@ import javax.persistence.*;
 @Table(schema = "creature", name = "person_ranged_weapons")
 @Audited
 @DTO
-public class PersonalRangedWeapon extends ListableEntity {
-    @Id
-    @SequenceGenerator(name = "person_ranged_weapon_seq_gen", schema = "creature", sequenceName = "person_ranged_weapons_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "person_seq_gen")
-    private Long id;
+public class PersonalRangedWeapon extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "ranged_weapon_id")
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)

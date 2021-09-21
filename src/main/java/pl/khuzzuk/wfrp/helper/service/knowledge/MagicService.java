@@ -1,13 +1,14 @@
 package pl.khuzzuk.wfrp.helper.service.knowledge;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchool;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolLevel;
 import pl.khuzzuk.wfrp.helper.model.knowledge.magic.SpellSchoolRepo;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service

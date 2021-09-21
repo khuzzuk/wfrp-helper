@@ -3,15 +3,10 @@ package pl.khuzzuk.wfrp.helper.security.role;
 import lombok.Data;
 import org.hibernate.annotations.NaturalId;
 import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 import org.springframework.security.core.GrantedAuthority;
 import pl.javahello.DTO;
+
+import javax.persistence.*;
 
 @Data
 @Entity

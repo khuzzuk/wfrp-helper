@@ -5,15 +5,11 @@ import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import pl.javahello.DTO;
-import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Getter
@@ -22,12 +18,7 @@ import javax.persistence.Table;
 @Entity
 @Table(schema = "creature", name = "person_spell_school_level")
 @DTO
-public class SpellSchoolLevel extends ListableEntity {
-    @SequenceGenerator(name = "person_spell_school_level_id_seq", allocationSize = 1,
-            schema = "creature", sequenceName = "person_spell_school_level_id_seq")
-    @GeneratedValue(generator = "person_spell_school_level_id_seq", strategy = GenerationType.SEQUENCE)
-    @Id
-    private Long id;
+public class SpellSchoolLevel extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "spell_school_id")
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)

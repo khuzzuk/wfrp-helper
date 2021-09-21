@@ -1,9 +1,5 @@
 package pl.khuzzuk.wfrp.helper.service.determinant;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.khuzzuk.wfrp.helper.model.creature.CreatureDeterminants;
@@ -11,6 +7,11 @@ import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.model.rule.DeterminantType;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 import pl.khuzzuk.wfrp.helper.model.rule.ModifierType;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service

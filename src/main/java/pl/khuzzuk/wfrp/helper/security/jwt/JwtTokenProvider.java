@@ -1,16 +1,8 @@
 package pl.khuzzuk.wfrp.helper.security.jwt;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.time.ZoneOffset.UTC;
-import static org.springframework.http.HttpHeaders.EMPTY;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Optional;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +12,15 @@ import pl.khuzzuk.wfrp.helper.WfrpHelperConfig;
 import pl.khuzzuk.wfrp.helper.common.date.CurrentDateTimeService;
 import pl.khuzzuk.wfrp.helper.security.user.User;
 import pl.khuzzuk.wfrp.helper.security.user.UserRepo;
+
+import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.Optional;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.time.ZoneOffset.UTC;
+import static org.springframework.http.HttpHeaders.EMPTY;
 
 @Slf4j
 @RequiredArgsConstructor

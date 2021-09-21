@@ -1,7 +1,5 @@
 package pl.khuzzuk.wfrp.helper.service.realm;
 
-import java.util.ArrayList;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import pl.khuzzuk.wfrp.helper.model.creature.PersonDTO;
@@ -11,6 +9,9 @@ import pl.khuzzuk.wfrp.helper.model.world.NationDTO;
 import pl.khuzzuk.wfrp.helper.model.world.RaceDTO;
 import pl.khuzzuk.wfrp.helper.model.world.ReligionDTO;
 import pl.khuzzuk.wfrp.helper.model.world.WorldLanguageDTO;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter

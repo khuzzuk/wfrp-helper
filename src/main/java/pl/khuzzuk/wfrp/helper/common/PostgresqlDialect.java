@@ -1,7 +1,8 @@
 package pl.khuzzuk.wfrp.helper.common;
 
-import java.sql.Types;
 import org.hibernate.dialect.PostgreSQL95Dialect;
+
+import java.sql.Types;
 
 public class PostgresqlDialect extends PostgreSQL95Dialect {
 

@@ -1,12 +1,13 @@
 package pl.khuzzuk.wfrp.helper.service.determinant;
 
-import java.util.Optional;
-import java.util.stream.IntStream;
 import org.springframework.stereotype.Service;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.model.rule.Modifier;
 import pl.khuzzuk.wfrp.helper.model.rule.ModifierType;
 import pl.khuzzuk.wfrp.helper.model.rule.ValueType;
+
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 @Service
 public class ModifierService {

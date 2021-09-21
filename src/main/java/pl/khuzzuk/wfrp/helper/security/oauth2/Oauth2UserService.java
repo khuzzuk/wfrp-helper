@@ -1,6 +1,5 @@
 package pl.khuzzuk.wfrp.helper.security.oauth2;
 
-import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -10,6 +9,8 @@ import org.springframework.stereotype.Service;
 import pl.khuzzuk.wfrp.helper.security.role.RoleRepo;
 import pl.khuzzuk.wfrp.helper.security.user.User;
 import pl.khuzzuk.wfrp.helper.security.user.UserRepo;
+
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -32,7 +33,7 @@ public class Oauth2UserService extends DefaultOAuth2UserService {
     User user = new User();
     user.setUsername(email);
     user.setAuthorities(Set.of(roleRepo.findByAuthority(RoleRepo.ROLE_USER).orElseThrow()));
-    user.setOneTimePassword(false);
+    user.setCredentialsNonExpired(true);
 
     return userRepo.save(user);
   }

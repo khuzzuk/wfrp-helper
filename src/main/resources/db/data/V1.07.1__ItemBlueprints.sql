@@ -68,13 +68,13 @@ DECLARE
     inserted_determinant_id BIGINT;
 
 BEGIN
-    INSERT INTO dice_roll(dice, rolls)
+    INSERT INTO rules.dice_roll(dice, rolls)
     VALUES (dice_type, rolls_to_insert) RETURNING id INTO inserted_roll_id;
 
-    INSERT INTO modifier (type, value)
+    INSERT INTO rules.modifier (type, value)
     VALUES ('DICE', damage_value) RETURNING id INTO inserted_mod_id;
 
-    INSERT INTO modifier_rolls (modifier_id, rolls_id) VALUES (inserted_mod_id, inserted_roll_id);
+    INSERT INTO rules.modifier_rolls (modifier_id, rolls_id) VALUES (inserted_mod_id, inserted_roll_id);
 
     INSERT INTO crafting.item_blueprint (type,
                                 name,
@@ -99,33 +99,33 @@ BEGIN
 
     IF initiative_mod > 0
     THEN
-        INSERT INTO determinant (type, value) VALUES ('INITIATIVE', 0) RETURNING id INTO inserted_determinant_id;
-        INSERT INTO modifier (type, value) VALUES ('REGULAR', initiative_mod) RETURNING id INTO inserted_mod_id;
-        INSERT INTO determinant_modifiers (determinant_id, modifiers_id)
+        INSERT INTO rules.determinant (type, value) VALUES ('INITIATIVE', 0) RETURNING id INTO inserted_determinant_id;
+        INSERT INTO rules.modifier (type, value) VALUES ('REGULAR', initiative_mod) RETURNING id INTO inserted_mod_id;
+        INSERT INTO rules.determinant_modifiers (determinant_id, modifiers_id)
         VALUES (inserted_determinant_id, inserted_mod_id);
     END IF;
 
     IF parry_mod > 0
     THEN
-        INSERT INTO determinant (type, value) VALUES ('PARRY', 0) RETURNING id INTO inserted_determinant_id;
-        INSERT INTO modifier (type, value) VALUES ('REGULAR', parry_mod) RETURNING id INTO inserted_mod_id;
-        INSERT INTO determinant_modifiers (determinant_id, modifiers_id)
+        INSERT INTO rules.determinant (type, value) VALUES ('PARRY', 0) RETURNING id INTO inserted_determinant_id;
+        INSERT INTO rules.modifier (type, value) VALUES ('REGULAR', parry_mod) RETURNING id INTO inserted_mod_id;
+        INSERT INTO rules.determinant_modifiers (determinant_id, modifiers_id)
         VALUES (inserted_determinant_id, inserted_mod_id);
     END IF;
 
     IF opponent_parry_mod > 0
     THEN
-        INSERT INTO determinant (type, value) VALUES ('OPPONENT_PARRY', 0) RETURNING id INTO inserted_determinant_id;
-        INSERT INTO modifier (type, value) VALUES ('REGULAR', opponent_parry_mod) RETURNING id INTO inserted_mod_id;
-        INSERT INTO determinant_modifiers (determinant_id, modifiers_id)
+        INSERT INTO rules.determinant (type, value) VALUES ('OPPONENT_PARRY', 0) RETURNING id INTO inserted_determinant_id;
+        INSERT INTO rules.modifier (type, value) VALUES ('REGULAR', opponent_parry_mod) RETURNING id INTO inserted_mod_id;
+        INSERT INTO rules.determinant_modifiers (determinant_id, modifiers_id)
         VALUES (inserted_determinant_id, inserted_mod_id);
     END IF;
 
     IF battle_mod > 0
     THEN
-        INSERT INTO determinant (type, value) VALUES ('BATTLE', 0) RETURNING id INTO inserted_determinant_id;
-        INSERT INTO modifier (type, value) VALUES ('REGULAR', battle_mod) RETURNING id INTO inserted_mod_id;
-        INSERT INTO determinant_modifiers (determinant_id, modifiers_id)
+        INSERT INTO rules.determinant (type, value) VALUES ('BATTLE', 0) RETURNING id INTO inserted_determinant_id;
+        INSERT INTO rules.modifier (type, value) VALUES ('REGULAR', battle_mod) RETURNING id INTO inserted_mod_id;
+        INSERT INTO rules.determinant_modifiers (determinant_id, modifiers_id)
         VALUES (inserted_determinant_id, inserted_mod_id);
     END IF;
 
@@ -192,13 +192,13 @@ DECLARE
     inserted_blueprint_id BIGINT;
 
 BEGIN
-    INSERT INTO dice_roll(dice, rolls)
+    INSERT INTO rules.dice_roll(dice, rolls)
     VALUES (dice_type, rolls_to_insert) RETURNING id INTO inserted_roll_id;
 
-    INSERT INTO modifier (type, value)
+    INSERT INTO rules.modifier (type, value)
     VALUES ('DICE', damage_value) RETURNING id INTO inserted_mod_id;
 
-    INSERT INTO modifier_rolls (modifier_id, rolls_id) VALUES (inserted_mod_id, inserted_roll_id);
+    INSERT INTO rules.modifier_rolls (modifier_id, rolls_id) VALUES (inserted_mod_id, inserted_roll_id);
 
     INSERT INTO crafting.item_blueprint (type,
                                 name,

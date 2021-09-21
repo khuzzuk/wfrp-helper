@@ -1,26 +1,7 @@
 package pl.khuzzuk.wfrp.helper.model.knowledge.magic;
 
-import java.util.List;
-import javax.persistence.AttributeOverride;
-import javax.persistence.AttributeOverrides;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.hibernate.annotations.NaturalId;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.validator.constraints.Length;
 import pl.javahello.RemoteEntity;
 import pl.javahello.RemoteEntity.SecuredService;
@@ -28,22 +9,18 @@ import pl.khuzzuk.wfrp.helper.model.crafting.inventory.MiscItem;
 import pl.khuzzuk.wfrp.helper.model.rule.ActionTime;
 import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
-@Data
-@EqualsAndHashCode(of = "name", callSuper = false)
+import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
+@Getter
+@Setter
 @Entity
 @Table(schema = "magic")
 @RemoteEntity(transactional = true, stomp = true)
 @SecuredService(allowRead = true)
 public class Spell extends BaseEntity {
-
-  @Id
-  @SequenceGenerator(name = "spell_seq_gen",
-                     schema = "magic",
-                     sequenceName = "spell_id_seq",
-                     allocationSize = 1)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "spell_seq_gen")
-  private Long id;
-  @NaturalId
   private @Length(min = 3, max = 64) String name;
   private @Length(max = 500) String description;
   private @NotNull @Length(min = 3, max = 500) String effect;

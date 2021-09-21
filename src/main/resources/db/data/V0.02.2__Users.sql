@@ -1,6 +1,5 @@
 INSERT INTO security."user" (username,
                              password,
-                             one_time_password,
                              account_non_expired,
                              account_non_locked,
                              credentials_non_expired,
@@ -9,8 +8,7 @@ VALUES ('admin',
         '$2a$10$PvTBhGi0xjIvDOQI3drkX.TMjpWFJMYxwxPpJk.sqO0yzDWJpjNlq',
         TRUE,
         TRUE,
-        TRUE,
-        TRUE,
+        FALSE,
         TRUE);
 
 WITH role_to_add AS (SELECT id role_id

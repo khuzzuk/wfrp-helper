@@ -5,19 +5,9 @@ import lombok.Setter;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.RelationTargetAuditMode;
 import pl.javahello.DTO;
-import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -27,14 +17,10 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Table(schema = "rules")
 @Audited
 @DTO
-public class Modifier extends ListableEntity {
-    @Id
-    @SequenceGenerator(name = "modifier_seq_gen", sequenceName = "modifier_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "modifier_seq_gen")
-    private Long id;
-
+public class Modifier extends BaseEntity {
     private @Min(-100) @Max(100) int value;
 
     @Column(nullable = false)
@@ -42,6 +28,7 @@ public class Modifier extends ListableEntity {
     private @NotNull ModifierType type = ModifierType.REGULAR;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinTable(schema = "rules")
     @Audited(targetAuditMode = RelationTargetAuditMode.NOT_AUDITED)
     private List<DiceRoll> rolls = new ArrayList<>();
 }

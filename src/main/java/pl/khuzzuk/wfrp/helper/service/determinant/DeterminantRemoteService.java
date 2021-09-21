@@ -1,13 +1,7 @@
 package pl.khuzzuk.wfrp.helper.service.determinant;
 
-import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.model.creature.CreatureDeterminants;
 import pl.khuzzuk.wfrp.helper.model.creature.CreatureDeterminantsDTO;
@@ -15,6 +9,8 @@ import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.model.rule.DeterminantDTO;
 import pl.khuzzuk.wfrp.helper.model.world.Race;
 import pl.khuzzuk.wfrp.helper.model.world.RaceDTO;
+
+import javax.transaction.Transactional;
 
 @AllArgsConstructor
 @RestController

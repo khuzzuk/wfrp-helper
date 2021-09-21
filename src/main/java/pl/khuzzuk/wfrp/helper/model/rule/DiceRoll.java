@@ -5,14 +5,11 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import pl.javahello.DTO;
 import pl.khuzzuk.wfrp.helper.common.EnumType;
-import pl.khuzzuk.wfrp.helper.repo.ListableEntity;
+import pl.khuzzuk.wfrp.helper.repo.BaseEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -21,12 +18,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 @DTO
 @Entity
-public class DiceRoll extends ListableEntity {
-    @SequenceGenerator(name = "dice_roll_seq_gen", sequenceName = "dice_roll_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "dice_roll_seq_gen")
-    @Id
-    private Long id;
-
+@Table(schema = "rules")
+public class DiceRoll extends BaseEntity {
     @Column(nullable = false)
     @Type(type = EnumType.DEF)
     private @NotNull Dice dice;
