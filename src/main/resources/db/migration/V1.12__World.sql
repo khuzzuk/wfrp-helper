@@ -3,7 +3,7 @@ CREATE SCHEMA world;
 CREATE TABLE world.nation (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(64) UNIQUE NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE world.nation (
 CREATE TABLE world.language (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(64) UNIQUE NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE world.language_nations (
 CREATE TABLE world.currency (
     id               BIGSERIAL PRIMARY KEY,
     uuid             VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version          INTEGER,
+    version          INTEGER     DEFAULT 0,
     created          TIMESTAMP,
     last_updated     TIMESTAMP,
     name             VARCHAR(64) UNIQUE NOT NULL,
@@ -50,7 +50,7 @@ CREATE TABLE world.culture_name (
 CREATE TABLE world.religion (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(255) NOT NULL UNIQUE,
@@ -65,7 +65,7 @@ CREATE TABLE world.religion_nation (
 CREATE TABLE world.race (
     id               BIGSERIAL PRIMARY KEY,
     uuid             VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version          INTEGER,
+    version          INTEGER     DEFAULT 0,
     created          TIMESTAMP,
     last_updated     TIMESTAMP,
     name             VARCHAR(64) UNIQUE,
@@ -86,7 +86,7 @@ CREATE TABLE world.race_nation (
 CREATE TABLE world.place (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(64) UNIQUE,

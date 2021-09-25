@@ -3,7 +3,7 @@ CREATE SCHEMA knowledge;
 CREATE TABLE knowledge.skill (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(100) UNIQUE,

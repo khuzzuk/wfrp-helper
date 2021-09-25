@@ -3,7 +3,7 @@ CREATE TYPE PLACEMENT AS ENUM ('BODY', 'HEAD', 'TORSO', 'HAND', 'LEG', 'BELT', '
 CREATE TABLE crafting.item_blueprint (
     id               BIGSERIAL PRIMARY KEY,
     uuid             VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version          INTEGER,
+    version          INTEGER     DEFAULT 0,
     created          TIMESTAMP,
     last_updated     TIMESTAMP,
     type             VARCHAR(255)       NOT NULL,

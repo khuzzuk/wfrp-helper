@@ -3,7 +3,7 @@ CREATE SCHEMA realm;
 CREATE TABLE realm.realm (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(255) NOT NULL UNIQUE
@@ -36,7 +36,7 @@ CREATE TABLE realm.realm_persons (
 CREATE TABLE realm.scenario (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(255) NOT NULL UNIQUE,

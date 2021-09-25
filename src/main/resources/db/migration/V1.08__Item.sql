@@ -1,7 +1,7 @@
 CREATE TABLE crafting.item (
     id                    BIGSERIAL PRIMARY KEY,
     uuid                  VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version               INTEGER,
+    version               INTEGER     DEFAULT 0,
     created               TIMESTAMP,
     last_updated          TIMESTAMP,
 

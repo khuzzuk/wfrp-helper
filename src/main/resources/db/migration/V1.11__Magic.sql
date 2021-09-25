@@ -3,7 +3,7 @@ CREATE SCHEMA magic;
 CREATE TABLE magic.spell_school (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(64) NOT NULL UNIQUE,
@@ -14,7 +14,7 @@ CREATE TABLE magic.spell_school (
 CREATE TABLE magic.spell (
     id              BIGSERIAL PRIMARY KEY,
     uuid            VARCHAR(36)           DEFAULT uuid_generate_v4(),
-    version         INTEGER,
+    version         INTEGER               DEFAULT 0,
     created         TIMESTAMP,
     last_updated    TIMESTAMP,
     name            VARCHAR(64)  NOT NULL UNIQUE,

@@ -5,7 +5,7 @@ INSERT INTO security."user" (username,
                              credentials_non_expired,
                              enabled)
 VALUES ('admin',
-        '$2a$10$PvTBhGi0xjIvDOQI3drkX.TMjpWFJMYxwxPpJk.sqO0yzDWJpjNlq',
+        '$2a$10$.QKI6vbAUVldM8yhLb3zVet.zQs6ZcjXlYo8BgkSI.4RDmo/bf.Cu',
         TRUE,
         TRUE,
         FALSE,

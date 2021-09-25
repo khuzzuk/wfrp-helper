@@ -3,7 +3,7 @@ CREATE SCHEMA creature;
 CREATE TABLE creature.character (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(64) UNIQUE NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE creature.character (
 CREATE TABLE creature.eye_color (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(64) UNIQUE NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE creature.eye_color (
 CREATE TABLE creature.hair_color (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(64) UNIQUE NOT NULL,
@@ -33,7 +33,7 @@ CREATE TABLE creature.hair_color (
 CREATE TABLE creature.physical_feature (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     name         VARCHAR(64) UNIQUE NOT NULL,

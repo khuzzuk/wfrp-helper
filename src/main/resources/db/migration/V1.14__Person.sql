@@ -1,7 +1,7 @@
 CREATE TABLE creature.person (
     id                    BIGSERIAL PRIMARY KEY,
     uuid                  VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version               INTEGER,
+    version               INTEGER     DEFAULT 0,
     created               TIMESTAMP,
     last_updated          TIMESTAMP,
     name                  VARCHAR(64) UNIQUE NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE creature.person_animals_history (
 CREATE TABLE creature.inventory (
     id           BIGSERIAL PRIMARY KEY,
     uuid         VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version      INTEGER,
+    version      INTEGER     DEFAULT 0,
     created      TIMESTAMP,
     last_updated TIMESTAMP,
     item_id      BIGINT,

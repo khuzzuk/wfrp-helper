@@ -1,7 +1,7 @@
 CREATE TABLE crafting.armor_pattern (
     id               BIGSERIAL PRIMARY KEY,
     uuid             VARCHAR(36) DEFAULT uuid_generate_v4(),
-    version          INTEGER,
+    version          INTEGER     DEFAULT 0,
     created          TIMESTAMP,
     last_updated     TIMESTAMP,
     name             VARCHAR(64) UNIQUE NOT NULL,
