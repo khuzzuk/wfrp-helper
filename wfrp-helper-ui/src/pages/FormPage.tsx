@@ -1,17 +1,17 @@
 import {Form} from "components/Form/styled";
 import withModel from "state/model/modelSelector";
-import ModelConfig, {FieldDef, ModelType} from "../model/ModelConfig";
-import {FieldType} from "../entity/FieldType";
-import TextField, {InputType} from "../components/Form/TextField";
-import CheckBox from "../components/Form/ChekcBox";
+import ModelConfig, {FieldDef, ModelType} from "model/ModelConfig";
+import {FieldType} from "entity/FieldType";
+import TextField, {InputType} from "components/Form/TextField";
+import CheckBox from "components/Form/ChekcBox";
 import {useTranslation} from "react-i18next";
-import TextArea from "../components/Form/TextArea";
-import ComboBox from "../components/Form/ComboBox";
-import TextArrayField from "../components/Form/TextArrayField";
-import {DeterminantField} from "../components/Form/DeterminantField";
-import ActionTimeField from "../components/Form/ActionTimeField";
-import PriceField from "../components/Form/PriceField";
-import {PersonPage} from "../components/Form/Person/PersonPage";
+import TextArea from "components/Form/TextArea";
+import ComboBox from "components/Form/ComboBox";
+import TextArrayField from "components/Form/TextArrayField";
+import {DeterminantField} from "components/Form/DeterminantField";
+import ActionTimeField from "components/Form/ActionTimeField";
+import PriceField from "components/Form/PriceField";
+import PersonPage from "components/Form/Person/PersonPage";
 
 export interface FormPageProps {
     entity: any;
