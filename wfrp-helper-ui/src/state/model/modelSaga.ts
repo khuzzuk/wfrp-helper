@@ -15,20 +15,23 @@ import {
     startEdit
 } from "./modelSlice";
 import {push} from "connected-react-router";
-import {FORM, TABLE} from "../../navigation/RoutingProvider";
-import {loading, loadingFinished} from "../ui/uiSlice";
+import {FORM, TABLE} from "navigation/RoutingProvider";
+import {loading, loadingFinished} from "state/ui/uiSlice";
 import {entitySelector, formSelector, tableSelector} from "./modelSelector";
-import {BaseEntity} from "../../model/BaseEntity";
+import {BaseEntity} from "model/BaseEntity";
 
 export function* watchGetEntities({payload}: { payload: ModelType }) {
-    let entityName = ModelConfig[payload].name;
+    let modelConfig = ModelConfig[payload];
+    let entityName = modelConfig.name;
     yield put(loading(entityName));
 
     try {
         const response: AxiosResponse<any[]> = yield call(getAll, entityName);
         yield put(setEntities({model: payload, entities: response.data}));
 
-        let linked: ModelType[] = ModelConfig[payload].form.filter(def => def.linked).map(def => def.linked || ModelType.USER);
+        let linked: ModelType[] = modelConfig.form.filter(def => def.linked).map(def => def.linked || ModelType.USER);
+        (modelConfig.linked || []).forEach(type => linked.push(type));
+
         for (let linkedType of linked) {
             const linkedResponse: AxiosResponse<any[]> = yield call(getAll, ModelConfig[linkedType].name);
             yield put(setEntities({model: linkedType, entities: linkedResponse.data}));

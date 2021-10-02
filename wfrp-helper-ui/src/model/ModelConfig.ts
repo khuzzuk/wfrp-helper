@@ -50,6 +50,7 @@ export interface ModelDef {
     name: string;
     table: FieldDef[],
     form: FieldDef[],
+    linked?: ModelType[],
 }
 
 let ModelConfig: {[key in ModelType]: ModelDef};
@@ -507,6 +508,15 @@ ModelConfig = {
         form: [
             {prop: 'name', type: FieldType.PERSON},
         ],
+        linked: [
+            ModelType.RACE,
+            ModelType.PROFESSION_CLASS,
+            ModelType.CHARACTER,
+            ModelType.HAIR_COLOR,
+            ModelType.EYE_COLOR,
+            ModelType.PHYSICAL_FEATURE,
+            ModelType.PROFESSION,
+        ]
     }
 }
 

@@ -15,7 +15,7 @@ export const PersonPane = styled.div`
   object-fit: contain;
 
   font-size: 11px;
-  font-family: 'wfrp';
+  font-family: 'wfrp',serif;
 
   @media (min-width: 1800px) {
     height: 821px;
@@ -46,17 +46,22 @@ export const Box = styled.div`
   position: absolute;
   border: 1px solid rosybrown;
   background-color: rgba(150, 50, 150, 0.25);
+  font-family: 'wfrp',serif;
 `;
 export const InputBox = styled.input`
   position: absolute;
   border: 1px solid dimgray;
   background-color: rgba(150, 50, 150, 0.2);
   outline: none;
+  font-family: 'wfrp',serif;
 `;
 export const SelectBox = styled.select`
   position: absolute;
   border: 1px solid dimgray;
   background-color: rgba(150, 50, 150, 0.2);
+  appearance: none;
+  outline: none;
+  font-family: 'wfrp',serif;
 `;
 
 export const NameBox = styled(InputBox)`
@@ -67,71 +72,90 @@ export const NameBox = styled(InputBox)`
 `;
 
 export const RaceBox = styled(SelectBox)`
-  top: 2.5%;
-  left: 27%;
+  top: 2.75%;
+  left: 27.5%;
   width: 15%;
   height: 2.75%;
 `;
 
 export const GenderBox = styled(SelectBox)`
-  top: 2.5%;
+  top: 2.75%;
   left: 43%;
   width: 7.5%;
   height: 2.75%;
 `;
 export const ClassBox = styled(SelectBox)`
-  top: 2.5%;
+  top: 2.75%;
   left: 52%;
   width: 26%;
   height: 2.75%;
 `;
-export const CharacterBox = styled(Box)`
-  top: 2.5%;
-  left: 79%;
-  width: 19%;
+export const CharacterBox = styled(SelectBox)`
+  top: 2.75%;
+  left: 79.5%;
+  width: 16.5%;
   height: 2.75%;
 `;
 
 export const AgeBox = styled(InputBox)`
-  top: 8.5%;
+  top: 8.75%;
   left: 3%;
   width: 8%;
   height: 2%;
 `;
 
 export const HeightBox = styled(InputBox)`
-  top: 8.5%;
+  top: 8.75%;
   left: 13.5%;
   width: 10.25%;
   height: 2%;
 `;
 
 export const WeightBox = styled(InputBox)`
-  top: 8.5%;
+  top: 8.75%;
   left: 27%;
   width: 9%;
   height: 2%;
 `;
 
 export const HairBox = styled(SelectBox)`
-  top: 8.5%;
+  top: 8.75%;
   left: 38.5%;
   width: 9.5%;
   height: 2.25%;
 `;
 
 export const EyesBox = styled(SelectBox)`
-  top: 8.5%;
+  top: 8.75%;
   left: 50%;
   width: 9%;
   height: 2.25%;
 `;
 
-export const SpecialFeaturesBox = styled(SelectBox)`
+export const SpecialFeaturesBox = styled(Box)`
   top: 6.25%;
-  left: 68%;
-  width: 28%;
+  left: 61%;
+  width: 35%;
   height: 5%;
+`;
+export const SpecialFeaturesSelect = styled(SelectBox)`
+  position: static;
+  width: 20%;
+  height: 40%;
+`;
+export const SpecialFeaturesList = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+`;
+export const Label = styled.div`
+  font-family: 'wfrp';
+  font-size: 1vh;
 `;
 
 export const ProfessionBox = styled(SelectBox)`
@@ -142,10 +166,14 @@ export const ProfessionBox = styled(SelectBox)`
 `;
 
 export const CareerBox = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25em;
   top: 14.25%;
   left: 30%;
   width: 37%;
   height: 2.75%;
+  overflow: auto;
 `;
 
 export const NextProfessionsBox = styled(Box)`
@@ -153,4 +181,52 @@ export const NextProfessionsBox = styled(Box)`
   left: 69%;
   width: 27%;
   height: 2.75%;
+`;
+
+export const StatsBox = styled(Box)`
+  top: 21%;
+  left: 1%;
+  width: 97%;
+  height: 12%;
+`;
+
+export const MeleeWeaponBox = styled(Box)`
+  top: 35%;
+  left: 5.5%;
+  width: 43%;
+  height: 17%;
+`;
+
+export const RangeWeaponBox = styled(Box)`
+  top: 53.5%;
+  left: 3.5%;
+  width: 45.5%;
+  height: 17%;
+`;
+
+export const ArmorSelectBox = styled(Box)`
+  top: 73%;
+  left: 4%;
+  width: 45%;
+  height: 21%;
+`;
+
+export const ArmorStatsBox = styled(Box)`
+  top: 72%;
+  left: 51.5%;
+  width: 20.25%;
+  height: 20.25%;
+`;
+
+export const SkillFirstBox = styled(Box)`
+  top: 35%;
+  left: 51.5%;
+  width: 20.25%;
+  height: 28.25%;
+`;
+export const SkillSecondBox = styled(Box)`
+  top: 35%;
+  left: 75%;
+  width: 20.25%;
+  height: 58.5%;
 `;
