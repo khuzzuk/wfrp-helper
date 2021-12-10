@@ -10,7 +10,8 @@
     "username": "User name",
     "password": "Password",
     "users": "Users",
-    "search": "Search"
+    "search": "Search",
+    "generate": "Generate"
   },
   "model": {
     "user": "User",

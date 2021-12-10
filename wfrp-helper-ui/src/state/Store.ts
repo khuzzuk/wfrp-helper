@@ -8,6 +8,7 @@ import modelReducer from './model/modelSlice';
 import createSagaMiddleware from "redux-saga";
 import {loginSaga} from "./login/loginSaga";
 import {modelSaga} from "./model/modelSaga";
+import {personSaga} from "./person/personSaga";
 
 export const sagaMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -25,6 +26,7 @@ export const Store = configureStore({
 
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(modelSaga);
+sagaMiddleware.run(personSaga);
 
 export type RootState = ReturnType<typeof Store.getState>;
 export type AppDispatch = typeof Store.dispatch;

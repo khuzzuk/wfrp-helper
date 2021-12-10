@@ -1,16 +1,21 @@
 package pl.khuzzuk.wfrp.helper.service.determinant;
 
+import javax.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import pl.javahello.Adapter;
 import pl.khuzzuk.wfrp.helper.model.creature.CreatureDeterminants;
 import pl.khuzzuk.wfrp.helper.model.creature.CreatureDeterminantsDTO;
 import pl.khuzzuk.wfrp.helper.model.rule.Determinant;
 import pl.khuzzuk.wfrp.helper.model.rule.DeterminantDTO;
-import pl.khuzzuk.wfrp.helper.model.world.Race;
-import pl.khuzzuk.wfrp.helper.model.world.RaceDTO;
-
-import javax.transaction.Transactional;
+import pl.khuzzuk.wfrp.helper.security.authorities.PersonAuthority;
+import pl.khuzzuk.wfrp.helper.security.authorities.RaceAuthority;
+import pl.khuzzuk.wfrp.helper.security.authorities.UserAuthority;
 
 @AllArgsConstructor
 @RestController
@@ -21,7 +26,6 @@ public class DeterminantRemoteService {
   private CreatureDeterminantService creatureDeterminantService;
   private Adapter<Determinant, DeterminantDTO> determinantDTOAdapter;
   private Adapter<DeterminantDTO, Determinant> determinantAdapter;
-  private Adapter<RaceDTO, Race> raceAdapter;
   private Adapter<CreatureDeterminants, CreatureDeterminantsDTO> creatureDeterminantsDTOAdapter;
 
   @PostMapping("addExperienceExtension")
@@ -29,8 +33,7 @@ public class DeterminantRemoteService {
   public DeterminantDTO addExperienceExtension(@RequestBody DeterminantDTO determinantDTO) {
     Determinant determinant = determinantAdapter.map(determinantDTO);
     Determinant extendedDeterminant = determinantService.addExperienceExtension(determinant);
-    DeterminantDTO extendedDeterminantDTO = determinantDTOAdapter.map(extendedDeterminant);
-    return extendedDeterminantDTO;
+    return determinantDTOAdapter.map(extendedDeterminant);
   }
 
   @PostMapping("removeExperienceExtension")
@@ -41,6 +44,9 @@ public class DeterminantRemoteService {
     return determinantDTOAdapter.map(afterRemove);
   }
 
+  @UserAuthority
+  @RaceAuthority
+  @PersonAuthority
   @GetMapping(value = "generateDeterminants/{raceId}", produces = "application/json")
   @Transactional
   public CreatureDeterminantsDTO generateDeterminants(@PathVariable long raceId) {

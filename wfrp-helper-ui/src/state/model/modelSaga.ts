@@ -1,6 +1,6 @@
 import ModelConfig, {ModelType} from "model/ModelConfig";
 import {call, put, select, takeLatest} from "redux-saga/effects";
-import {deleteOne, getAll, save} from "./requsts";
+import {deleteOne, getAll, save} from "./requests";
 import {AxiosResponse} from "axios";
 import {
     applyEntity,

@@ -4,8 +4,6 @@ import Card from "theme/card.png";
 export const PersonPane = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  //justify-items: stretch;
-  //align-items: stretch;
 
   height: 616px;
   width: 900px;
@@ -154,7 +152,7 @@ export const SpecialFeaturesList = styled(Box)`
   overflow: auto;
 `;
 export const Label = styled.div`
-  font-family: 'wfrp';
+  font-family: 'wfrp',serif;
   font-size: 1vh;
 `;
 
@@ -188,6 +186,13 @@ export const StatsBox = styled(Box)`
   left: 1%;
   width: 97%;
   height: 12%;
+`;
+
+export const StatsGenerateBox = styled(Box)`
+  top: 1%;
+  left: 1%;
+  width: 20%;
+  height: 100%;
 `;
 
 export const MeleeWeaponBox = styled(Box)`
@@ -229,4 +234,10 @@ export const SkillSecondBox = styled(Box)`
   left: 75%;
   width: 20.25%;
   height: 58.5%;
+`;
+
+export const ContextMenu = styled(Box)<{display: boolean}>`
+  display: ${({display}) => display ? 'inline' : 'none'};
+  top: 0;
+  left: 0;
 `;

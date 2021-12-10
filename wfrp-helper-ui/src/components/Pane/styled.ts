@@ -15,24 +15,23 @@ export const PrimaryBar = styled.div`
   align-items: flex-start;
   justify-self: flex-start;
   width: 20vw;
-  height: 99.25vh;
-  gap: min(1vh, 1vw);
-  padding: 0.5vh 0;
+  height: 100%;
+  gap: 1vh;
 
   background-color: ${props => props.theme.colors.primary.main};
   box-shadow: 2px 0 8px ${props => props.theme.colors.secondary.dark};
 
-  font-size: 1.5em;
-  line-height: 3em;
+  font-size: 1.5vh;
+  line-height: 3vh;
 `;
 
 export const PrimaryBarCell = styled.div<{ selected: boolean }>`
   background-color: ${props => props.theme.colors.primary.main};
-  border-left: min(1vh, 1vw) solid ${props => props.selected ?
+  border-left:0.5vw solid ${props => props.selected ?
           props.theme.colors.secondary.main :
           props.theme.colors.primary.main};
 
-  width: calc(100% - 10px);
+  width: calc(100% - 1vw);
   text-align: center;
   user-select: none;
 
@@ -56,7 +55,6 @@ export const InnerPane = styled.div`
 export const SecondaryBar = styled.div`
   display: flex;
   height: 10vh;
-  width: 100%;
   border-bottom: 1px solid ${props => props.theme.colors.primary.dark};
 `;
 

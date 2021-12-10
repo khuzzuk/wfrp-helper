@@ -1,5 +1,5 @@
 import axios, {AxiosResponse} from "axios";
-import {BaseEntity} from "../../model/BaseEntity";
+import {BaseEntity} from "model/BaseEntity";
 
 export async function getAll(name: string): Promise<AxiosResponse<any[]>> {
     return await axios.get<any[]>('/' + name);

@@ -6,6 +6,7 @@ import {
     CareerBox,
     CharacterBox,
     ClassBox,
+    ContextMenu,
     EyesBox,
     GenderBox,
     HairBox,
@@ -25,23 +26,30 @@ import {
     SpecialFeaturesBox,
     SpecialFeaturesList,
     SpecialFeaturesSelect,
-    StatsBox,
+    StatsBox, StatsGenerateBox,
     WeightBox
 } from "./style";
-import {ChangeEvent} from "react";
+import {ChangeEvent, useState} from "react";
 import {ModelType} from "model/ModelConfig";
 import {getOption, toOptions} from "./SelectUtils";
 import {MdClose} from "react-icons/md";
 import {BaseEntity} from "model/BaseEntity";
 import {DescribedEntity} from "model/DescribedEntity";
+import Button from "components/Button";
+import withPerson from "state/person/personSelector";
+import {useTranslation} from "react-i18next";
 
 interface PersonPageProps {
     entity: any;
     model: { [key in ModelType]: any[] };
     updateEntityProp: (val: any, propName: string) => void;
+    generateNewStats: () => void;
 }
 
-function PersonPage({entity, model, updateEntityProp}: PersonPageProps) {
+function PersonPage({entity, model, updateEntityProp, generateNewStats}: PersonPageProps) {
+    const [t] = useTranslation('base');
+    const [showStatsGenerationMenu, setShowStatsGenerationMenu] = useState(false);
+
     const updateStringProp = (prop: string) => (event: ChangeEvent<HTMLInputElement>) => {
         updateEntityProp(event.target.value, prop);
     }
@@ -138,7 +146,13 @@ function PersonPage({entity, model, updateEntityProp}: PersonPageProps) {
             <NextProfessionsBox>{entity.currentProfession?.nextProfessions && entity.currentProfession.nextProfessions.map((nextProfession: string) =>
                 <span>{nextProfession}</span>
             )}</NextProfessionsBox>
-            <StatsBox></StatsBox>
+            <StatsBox>
+                <StatsGenerateBox onClick={() => setShowStatsGenerationMenu(!showStatsGenerationMenu)}>
+                    <ContextMenu display={showStatsGenerationMenu}>
+                        <Button onClick={generateNewStats}>{t('common.generate')}</Button>
+                    </ContextMenu>
+                </StatsGenerateBox>
+            </StatsBox>
             <MeleeWeaponBox></MeleeWeaponBox>
             <RangeWeaponBox></RangeWeaponBox>
             <ArmorSelectBox></ArmorSelectBox>
@@ -154,4 +168,4 @@ function PersonPage({entity, model, updateEntityProp}: PersonPageProps) {
     </PersonPane>
 }
 
-export default withModel(PersonPage);
+export default withPerson(withModel(PersonPage));
