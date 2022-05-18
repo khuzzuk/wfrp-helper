@@ -12,7 +12,7 @@ export const toOptions = (values: any[], current: any[] = []) => {
 export const getOption = <T extends BaseEntity>(id: number, values: T[]) => {
     let option = values.find(v => v.id === id);
     if (!option) {
-        throw {id, values};
+        throw new Error({id, values}.toString());
     }
     return option;
 }

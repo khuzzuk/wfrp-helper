@@ -24,22 +24,22 @@ public class GearRemoteService {
     @GetMapping("getMeleeWeaponDamage/{id}")
     @Transactional
     public String getMeleeWeaponDamage(@PathVariable("id") long id) {
-        MeleeWeapon weapon = meleeWeaponRepo.getOne(id);
+        MeleeWeapon weapon = meleeWeaponRepo.getById(id);
         return gearService.getDamage(weapon);
     }
 
     @GetMapping("getArmorValue/{id}")
     @Transactional
     public String getArmorValue(@PathVariable("id") long id) {
-        Armor armor = armorRepo.getOne(id);
+        Armor armor = armorRepo.getById(id);
         return String.valueOf(gearService.getArmor(armor));
     }
 
-    @RequestMapping("getArmorValuesForGear")
+    @PostMapping("getArmorValuesForGear")
     @Transactional
     public Map<Placement, Integer> getArmorValuesForGear(@RequestBody List<Long> armorIds) {
         List<Armor> armors = armorIds.stream()
-                .map(armorRepo::getOne)
+                .map(armorRepo::getById)
                 .collect(Collectors.toList());
         return gearService.getArmorValuesForGear(armors);
     }

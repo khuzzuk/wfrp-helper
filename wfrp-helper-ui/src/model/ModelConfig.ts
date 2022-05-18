@@ -1,6 +1,8 @@
 import {FieldType} from "entity/FieldType";
 import {Availability} from "./crafting/Availability";
 import {Placement} from "./crafting/Placement";
+import {BaseEntity} from "./BaseEntity";
+import {createNewPerson} from "./creature/Person";
 
 export enum ModelType {
     USER = 'USER',
@@ -51,10 +53,10 @@ export interface ModelDef {
     table: FieldDef[],
     form: FieldDef[],
     linked?: ModelType[],
+    creator?: () => BaseEntity;
 }
 
-let ModelConfig: {[key in ModelType]: ModelDef};
-ModelConfig = {
+const ModelConfig: {[key in ModelType]: ModelDef} = {
     USER: {
         name: 'user',
         table: [
@@ -516,7 +518,16 @@ ModelConfig = {
             ModelType.EYE_COLOR,
             ModelType.PHYSICAL_FEATURE,
             ModelType.PROFESSION,
-        ]
+            ModelType.MELEE_WEAPON,
+            ModelType.RANGED_WEAPON,
+            ModelType.ARMOR,
+            ModelType.AMMUNITION,
+            ModelType.SKILL,
+            ModelType.MISC_ITEM,
+            ModelType.RELIGION,
+            ModelType.LANGUAGE,
+        ],
+        creator: createNewPerson,
     }
 }
 

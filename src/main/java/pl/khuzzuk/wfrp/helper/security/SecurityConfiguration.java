@@ -51,25 +51,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
           .antMatchers("/login*", "/static/**", "/*.{js,html,css,json}", "/_ah/*")
             .permitAll()
-          .antMatchers("/auth/**", "/oauth2/**")
-            .permitAll()
           .antMatchers(HttpMethod.GET, "/picture/{\\d+}", "/locales/**", "/fonts/**")
             .permitAll()
           .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
           .anyRequest()
             .hasAnyRole("USER")
           .and()
-/*
-        .oauth2Login()
-/*          .authorizationEndpoint()
-            .baseUri("/oauth2/authorize")
-            .authorizationRequestRepository(authorizationRequestRepository)
-            .and()
-          .redirectionEndpoint()
-            .baseUri("/oauth2/callback/*")
-          .and()
-        .successHandler(successHandler)
-*/
     ;//@formatter:on
   }
 

@@ -5,10 +5,12 @@ import {connectRouter, routerMiddleware} from 'connected-react-router'
 import uiReducer from "./ui/uiSlice";
 import loginReducer from "./login/loginSlice";
 import modelReducer from './model/modelSlice';
+import gearReducer from './gear/gearSlice';
 import createSagaMiddleware from "redux-saga";
 import {loginSaga} from "./login/loginSaga";
 import {modelSaga} from "./model/modelSaga";
 import {personSaga} from "./person/personSaga";
+import {gearSaga} from "./gear/gearSaga";
 
 export const sagaMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -20,6 +22,7 @@ export const Store = configureStore({
     ui: uiReducer,
     login: loginReducer,
     model: modelReducer,
+    gear: gearReducer,
   },
   middleware: [...getDefaultMiddleware({thunk: false}), sagaMiddleware, historyMiddleware]
 });
@@ -27,6 +30,7 @@ export const Store = configureStore({
 sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(modelSaga);
 sagaMiddleware.run(personSaga);
+sagaMiddleware.run(gearSaga);
 
 export type RootState = ReturnType<typeof Store.getState>;
 export type AppDispatch = typeof Store.dispatch;

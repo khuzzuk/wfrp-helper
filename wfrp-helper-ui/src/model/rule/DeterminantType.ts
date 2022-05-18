@@ -16,3 +16,34 @@ export enum DeterminantType {
     PARRY = 'PARRY',
     OPPONENT_PARRY = 'OPPONENT_PARRY',
 }
+
+export const creatureDeterminants = [
+    DeterminantType.SPEED,
+    DeterminantType.BATTLE,
+    DeterminantType.SHOOTING,
+    DeterminantType.STRENGTH,
+    DeterminantType.DURABILITY,
+    DeterminantType.HEALTH,
+    DeterminantType.INITIATIVE,
+    DeterminantType.ATTACK,
+    DeterminantType.DEXTERITY,
+    DeterminantType.LEADER_SKILLS,
+    DeterminantType.INTELLIGENCE,
+    DeterminantType.CONTROL,
+    DeterminantType.WILL,
+    DeterminantType.CHARISMA,
+];
+
+export const percentDeterminants = [
+    DeterminantType.BATTLE,
+    DeterminantType.SHOOTING,
+    DeterminantType.INITIATIVE,
+    DeterminantType.DEXTERITY,
+    DeterminantType.LEADER_SKILLS,
+    DeterminantType.INTELLIGENCE,
+    DeterminantType.CONTROL,
+    DeterminantType.WILL,
+    DeterminantType.CHARISMA,
+    DeterminantType.PARRY,
+    DeterminantType.OPPONENT_PARRY,
+];

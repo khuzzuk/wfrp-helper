@@ -101,7 +101,8 @@ export function* watchSaveEntity() {
 
 export function* watchCreateNewEntity() {
     const modelType: ModelType = yield select(tableSelector);
-    yield put(setEntity({}));
+    const entityCreator = ModelConfig[modelType].creator;
+    yield put(setEntity(entityCreator ? entityCreator() : {}));
     yield put(setForm(modelType))
     yield put(push(FORM));
 }

@@ -1,11 +1,15 @@
-import {DeterminantType} from "../model/rule/DeterminantType";
-import {Determinant} from "../model/rule/Determinant";
-import {ModifierType} from "../model/rule/ModifierType";
-import {Modifier} from "../model/rule/Modifier";
-import {DiceRoll} from "../model/rule/DiceRoll";
-import {Dice} from "../model/rule/Dice";
+import {DeterminantType} from "model/rule/DeterminantType";
+import {Determinant} from "model/rule/Determinant";
+import {ModifierType} from "model/rule/ModifierType";
+import {Modifier} from "model/rule/Modifier";
+import {DiceRoll} from "model/rule/DiceRoll";
+import {Dice} from "model/rule/Dice";
 
 export class DeterminantService {
+    static findByType(determinants: Determinant[], type: DeterminantType): Determinant | undefined {
+        return determinants.find(d => d.type === type);
+    }
+
     static findOrAddByType(determinants: Determinant[], type: DeterminantType): Determinant {
         let determinant = determinants.find(d => d.type === type);
         if (determinant) {
@@ -38,14 +42,17 @@ export class DeterminantService {
         return determinant.modifiers.find(m => m.type === mType);
     }
 
+    /**
+     * Creates new modifier if none exists. Should only accept cloned Determinant.
+     */
+    static findOrAddModifierByType(determinant: Determinant, mType: ModifierType): Modifier {
+        const modifier = this.findModifier(determinant, mType);
+        return !modifier ? this.addModifier(determinant, mType) : modifier;
+    }
+
     static updateModifierValue(determinant: Determinant, mType: ModifierType, val: number): Determinant {
         const newDet = DeterminantService.clone(determinant);
-        let mod = newDet.modifiers.find(m => m.type === mType);
-        if (!mod) {
-           mod = new Modifier();
-           mod.type = mType;
-           newDet.modifiers.push(mod);
-        }
+        const mod = this.findOrAddModifierByType(newDet, mType);
         mod.value = val;
         return newDet;
     }
@@ -99,6 +106,21 @@ export class DeterminantService {
         return newDet;
     }
 
+    static getProfessionExtensions(determinants: Determinant[], type: DeterminantType): number | undefined {
+        const determinant = this.findByType(determinants, type);
+        if (!determinant) return;
+
+        const modifier = this.findModifier(determinant, ModifierType.PROFESSION);
+        return modifier?.value;
+    }
+
+    static getTotalValue(determinant?: Determinant) {
+        if (!determinant) return 0;
+
+        return determinant.value +
+            determinant.modifiers.map(mod => mod.value).reduce((a, b) => a + b, 0);
+    }
+
     static clone(determinant: Determinant): Determinant {
         const clone = new Determinant();
         clone.id = determinant.id;
@@ -132,5 +154,26 @@ export class DeterminantService {
         clone.dice = dr.dice;
 
         return clone
+    }
+
+    static toUi(determinants: Determinant[], type: DeterminantType): string {
+        const det = this.findByType(determinants, type);
+        if (!det) return '';
+
+        const diceMod = det.modifiers.find(m => m.type === ModifierType.DICE);
+        if (!diceMod) return '' + this.getTotalValue(det);
+
+        const diceRoll = diceMod.rolls.map(roll => `${roll.rolls > 1 ? roll.rolls : ''}${roll.dice}`).join(' ');
+        const totalValue = this.getTotalValue(det);
+        if (diceRoll.length) {
+            const diceAdd = diceMod?.value;
+            if (diceAdd) {
+                return diceRoll + "+" + diceAdd;
+            } else {
+                return diceRoll;
+            }
+        } else {
+            return totalValue.toString();
+        }
     }
 }

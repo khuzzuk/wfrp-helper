@@ -97,7 +97,8 @@ function MainPane(props: MainPaneProps) {
 
     return <MainPaneWrapper>
         <PrimaryBar>
-            {!selectedGroup && Object.keys(groups).map(group => <PrimaryBarCell selected={group === selectedGroup}
+            {!selectedGroup && Object.keys(groups).map(group => <PrimaryBarCell key={group}
+                                                                                selected={group === selectedGroup}
                                                                                 onClick={() => setSelectedGroup(group)}>
                 {t('props.' + group)}
             </PrimaryBarCell>)}

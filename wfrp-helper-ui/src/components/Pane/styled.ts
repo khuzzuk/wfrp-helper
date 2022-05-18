@@ -3,18 +3,18 @@ import styled, {keyframes} from "styled-components";
 export const MainPaneWrapper = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 1em;
+  gap: 1vw;
 
   width: 100vw;
   height: 100vh;
 `;
 
 export const PrimaryBar = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-self: flex-start;
-  width: 20vw;
   height: 100%;
   gap: 1vh;
 
@@ -47,13 +47,15 @@ export const PrimaryBarCell = styled.div<{ selected: boolean }>`
 `;
 
 export const InnerPane = styled.div`
-  flex: 1;
+  flex: 5;
   display: flex;
   flex-direction: column;
 `;
 
 export const SecondaryBar = styled.div`
   display: flex;
+  align-items: center;
+  padding: 0 1vw;
   height: 10vh;
   border-bottom: 1px solid ${props => props.theme.colors.primary.dark};
 `;
@@ -86,10 +88,9 @@ export const SecondaryButton = styled.div`
 
 export const LanguageIcon = styled.div`
   display: flex;
-  width: 2em;
-  height: 2em;
-  border-radius: 2em;
-  padding: 0.25em;
+  width: 4vw;
+  height: 4vh;
+  padding: 0.25vh 0.25vw;
   transition: 0.3s;
 
   &:hover {
@@ -108,9 +109,10 @@ const IndicatorAnimation = keyframes`
 
 export const LoadingIndicator = styled.div<{ hide: boolean }>`
   display: flex;
-  width: 1.5em;
-  height: 1.5em;
-  border-top: 2px solid ${props => props.hide ? 'transparent' : props.theme.colors.secondary.dark};
-  border-radius: 1.5em;
+  visibility: ${({hide}) => hide ? 'hidden' : 'visible'};
+  width: 3vh;
+  height: 3vh;
+  border-top: 2px solid ${props => props.theme.colors.secondary.dark};
+  border-radius: 1.5vh;
   animation: ${IndicatorAnimation} 2s linear infinite;
 `;

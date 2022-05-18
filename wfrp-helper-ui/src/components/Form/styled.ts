@@ -5,8 +5,8 @@ export const Form = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   justify-content: start;
-  gap: 2em;
-  padding: 2em;
+  gap: 2vh;
+  padding: 2vh 2vw;
 `;
 
 export const FieldWrapper = styled.div`

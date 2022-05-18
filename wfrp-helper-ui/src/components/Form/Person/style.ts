@@ -46,6 +46,15 @@ export const Box = styled.div`
   background-color: rgba(150, 50, 150, 0.25);
   font-family: 'wfrp',serif;
 `;
+export const Input = styled.input`
+  background-color: transparent;
+  outline: none;
+  font-family: 'wfrp',serif;
+  height: 12px;
+  font-size: 12px;
+  border: none;
+  padding-left: 3px;
+`;
 export const InputBox = styled.input`
   position: absolute;
   border: 1px solid dimgray;
@@ -60,6 +69,17 @@ export const SelectBox = styled.select`
   appearance: none;
   outline: none;
   font-family: 'wfrp',serif;
+`;
+export const RemoveIcon = styled.div`
+  color: transparent;
+  width: 1em;
+  height: 9px;
+  &:hover {
+    color: gray;
+  }
+  &:after {
+    content: "X";
+  }
 `;
 
 export const NameBox = styled(InputBox)`
@@ -152,8 +172,11 @@ export const SpecialFeaturesList = styled(Box)`
   overflow: auto;
 `;
 export const Label = styled.div`
+  display: flex;
+  gap: 3px;
   font-family: 'wfrp',serif;
-  font-size: 1vh;
+  font-size: 9px;
+  cursor: default;
 `;
 
 export const ProfessionBox = styled(SelectBox)`
@@ -188,6 +211,33 @@ export const StatsBox = styled(Box)`
   height: 12%;
 `;
 
+export const StatsInnerBox = styled(Box)`
+  top: 0;
+  left: 24.5%;
+  width: 75.5%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+export const StatsRow = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+`;
+
+export const Stat = styled.div`
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 140%;
+  user-select: none;
+  cursor: pointer;
+`;
+
 export const StatsGenerateBox = styled(Box)`
   top: 1%;
   left: 1%;
@@ -195,11 +245,31 @@ export const StatsGenerateBox = styled(Box)`
   height: 100%;
 `;
 
+export const SelectItemBox = styled(SelectBox)`
+  position: relative;
+  width: 100%;
+  height: 16px;
+`;
+
 export const MeleeWeaponBox = styled(Box)`
   top: 35%;
   left: 5.5%;
   width: 43%;
   height: 17%;
+  overflow: auto;
+`;
+export const MeleeWeaponItem = styled(Box)`
+  display: grid;
+  grid-template-columns: 95px 25px 27px 25px 22px;
+  position: relative;
+  width: 100%;
+  height: 12px;
+`;
+export const ItemStat = styled.div`
+  font-size: 8px;
+  line-height: 14px;
+  text-align: center;
+  cursor: default;
 `;
 
 export const RangeWeaponBox = styled(Box)`
@@ -207,6 +277,21 @@ export const RangeWeaponBox = styled(Box)`
   left: 3.5%;
   width: 45.5%;
   height: 17%;
+  overflow: auto;
+`;
+export const RangedWeaponItem = styled(Box)`
+  display: grid;
+  grid-template-columns: 95px 8px 18px 18px 18px 20px 25px;
+  position: relative;
+  width: 100%;
+  height: 12px;
+`;
+export const AmmunitionItem = styled(Box)`
+  display: grid;
+  grid-template-columns: 95px 8px 54px 20px 25px;
+  position: relative;
+  width: 100%;
+  height: 12px;
 `;
 
 export const ArmorSelectBox = styled(Box)`
@@ -214,6 +299,12 @@ export const ArmorSelectBox = styled(Box)`
   left: 4%;
   width: 45%;
   height: 21%;
+  overflow: auto;
+`;
+export const ArmorItem = styled(Box)`
+  position: relative;
+  display: grid;
+  grid-template-columns: 65px 8px 105px 25px;
 `;
 
 export const ArmorStatsBox = styled(Box)`
@@ -222,22 +313,63 @@ export const ArmorStatsBox = styled(Box)`
   width: 20.25%;
   height: 20.25%;
 `;
+const ArmorStat = styled(Box)`
+  width: 20%;
+  height: 20%;
+  text-align: center;
+  font-size: 18px;
+`;
+export const ShieldStat = styled(ArmorStat)`
+  top: 0;
+  left: 62%;
+`;
+export const HeadStat = styled(ArmorStat)`
+  top: 5%;
+  left: 0;
+`;
+export const RightHandStat = styled(ArmorStat)`
+  top: 35%;
+  left: 0;
+`;
+export const RightLegStat = styled(ArmorStat)`
+  top: 83%;
+  left: 0;
+`;
+export const LeftHandStat = styled(ArmorStat)`
+  top: 32%;
+  left: 79%;
+`;
+export const TorsoStat = styled(ArmorStat)`
+  top: 57%;
+  left: 79%;
+`;
+export const LeftLegStat = styled(ArmorStat)`
+  top: 83%;
+  left: 79%;
+`;
 
 export const SkillFirstBox = styled(Box)`
   top: 35%;
   left: 51.5%;
   width: 20.25%;
   height: 28.25%;
+  overflow: auto;
 `;
 export const SkillSecondBox = styled(Box)`
   top: 35%;
   left: 75%;
   width: 20.25%;
   height: 58.5%;
+  overflow: auto;
+`;
+export const SkillItem = styled(Box)`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
 `;
 
-export const ContextMenu = styled(Box)<{display: boolean}>`
-  display: ${({display}) => display ? 'inline' : 'none'};
+export const ContextMenu = styled(Box)<{show: boolean}>`
+  display: ${({show}) => show ? 'inline' : 'none'};
   top: 0;
   left: 0;
 `;
