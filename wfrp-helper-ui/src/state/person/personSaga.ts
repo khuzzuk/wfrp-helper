@@ -2,7 +2,7 @@ import {call, put, select, takeEvery, takeLeading} from "redux-saga/effects";
 import {generateNewStats, tryAddExtension, tryRemoveExtension} from "./personSlice";
 import {entitySelector} from "state/model/modelSelector";
 import {AxiosResponse} from "axios";
-import {getGeneratedStats} from "./requests";
+import {GeneratedStats, getGeneratedStats} from "./requests";
 import {Person} from "model/creature/Person";
 import {Determinant} from "model/rule/Determinant";
 import {updateEntityProperty} from "state/model/modelSlice";
@@ -16,8 +16,8 @@ export function* generateStats() {
   if (!entity.race) return;
   const raceId = entity.race.id;
 
-  const response: AxiosResponse<{determinants: Determinant[]}> = yield call(getGeneratedStats, raceId);
-  const determinants = response.data.determinants;
+  const response: AxiosResponse<GeneratedStats> = yield call(getGeneratedStats, raceId);
+  const determinants = {determinants: response.data.determinants};
   yield put(updateEntityProperty({val: determinants, propName: 'determinants'}));
 }
 
@@ -29,7 +29,7 @@ export function* tryAddExt({payload}: {payload: DeterminantType}) {
   if (!possibleExtensions) return;
 
   const current: Determinant = DeterminantService.clone(
-      DeterminantService.findOrAddByType(entity.determinants, payload));
+      DeterminantService.findOrAddByType(entity.determinants.determinants, payload));
   const modifier: Modifier = DeterminantService.findOrAddModifierByType(current, ModifierType.EXPERIENCE);
   if (modifier.value >= possibleExtensions) return;
 
@@ -40,14 +40,14 @@ export function* tryAddExt({payload}: {payload: DeterminantType}) {
     newDeterminant = DeterminantService.updateModifierValue(current, ModifierType.EXPERIENCE, modifier.value + 1);
   }
 
-  const determinants: Determinant[] = [newDeterminant, ...DeterminantService.removeByType(entity.determinants, payload)];
-  yield put(updateEntityProperty({val: determinants, propName: 'determinants'}));
+  const determinants: Determinant[] = [newDeterminant, ...DeterminantService.removeByType(entity.determinants.determinants, payload)];
+  yield put(updateEntityProperty({val: {determinants: determinants}, propName: 'determinants'}));
 }
 
 export function* tryRemoveExt({payload}: {payload: DeterminantType}) {
   const entity: Person = yield select(entitySelector);
   const current: Determinant = DeterminantService.clone(
-      DeterminantService.findOrAddByType(entity.determinants, payload));
+      DeterminantService.findOrAddByType(entity.determinants.determinants, payload));
 
   const modifier: Modifier = DeterminantService.findOrAddModifierByType(current, ModifierType.EXPERIENCE);
   if (modifier.value === 0) return;
@@ -59,8 +59,8 @@ export function* tryRemoveExt({payload}: {payload: DeterminantType}) {
     newDeterminant = DeterminantService.updateModifierValue(current, ModifierType.EXPERIENCE, modifier.value - 1);
   }
 
-  const determinants: Determinant[] = [newDeterminant, ...DeterminantService.removeByType(entity.determinants, payload)];
-  yield put(updateEntityProperty({val: determinants, propName: 'determinants'}));
+  const determinants: Determinant[] = [newDeterminant, ...DeterminantService.removeByType(entity.determinants.determinants, payload)];
+  yield put(updateEntityProperty({val: {determinants: determinants}, propName: 'determinants'}));
 }
 
 export function* personSaga() {

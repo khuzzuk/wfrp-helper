@@ -5,8 +5,6 @@ server:
       timeout: 60m
 
 spring:
-  main:
-    allow-bean-definition-overriding: true
   application:
     name: wfrp-helper
   security:
@@ -50,8 +48,6 @@ spring:
           envers:
             audit_table_suffix: _history
     open-in-view: false
-  flyway:
-    locations: classpath:/db/migration,/db/data
 
   servlet:
     multipart:

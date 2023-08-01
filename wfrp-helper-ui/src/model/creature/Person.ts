@@ -1,6 +1,5 @@
 import {BaseEntity} from "model/BaseEntity";
 import {Determinant} from "model/rule/Determinant";
-import DeterminantEntity from "model/rule/DeterminantEntity";
 import {ProfessionClass} from "model/knowledge/ProfessionClass";
 import {DescribedEntity} from "model/DescribedEntity";
 import {Profession} from "model/knowledge/Profession";
@@ -8,10 +7,10 @@ import {Item} from "model/crafting/Item";
 import {PersonalRangedWeapon} from "../crafting/RangedWeapon";
 import {Armor} from "../crafting/Armor";
 
-export interface Person extends DeterminantEntity {
+export interface Person extends BaseEntity {
   name?: string;
   gender?: any;
-  character?: BaseEntity;
+  personality?: BaseEntity;
   weight?: number;
   height?: number;
   age?: number;
@@ -20,7 +19,7 @@ export interface Person extends DeterminantEntity {
   physicalFeatures: DescribedEntity[];
   race?: BaseEntity;
   professionClass?: ProfessionClass;
-  determinants: Determinant[];
+  determinants: CreatureDeterminants;
   currentProfession?: Profession;
   professions: DescribedEntity[];
   meleeWeapons: Item[];
@@ -30,11 +29,17 @@ export interface Person extends DeterminantEntity {
   skills: DescribedEntity[];
 }
 
+export interface CreatureDeterminants {
+  determinants: Determinant[];
+}
+
 export const createNewPerson = (): Person => {
   return {
     physicalFeatures: [],
     professions: [],
-    determinants: [],
+    determinants: {
+      determinants: []
+    },
     meleeWeapons: [],
     rangedWeapons: [],
     armor: [],

@@ -189,8 +189,8 @@ function PersonPage({
                       value={entity.professionClass ? entity.professionClass.id : 'empty'}>
                 {toOptions(model.PROFESSION_CLASS)}
             </ClassBox>
-            <CharacterBox onChange={selectEntity('character', model.CHARACTER)}
-                          value={entity.character ? entity.character.id : 'empty'}>
+            <CharacterBox onChange={selectEntity('personality', model.CHARACTER)}
+                          value={entity.personality ? entity.personality.id : 'empty'}>
                 {toOptions(model.CHARACTER)}
             </CharacterBox>
 
@@ -237,7 +237,7 @@ function PersonPage({
                 <StatsInnerBox>
                     <StatsRow>
                         {creatureDeterminants.map(determinantType => <Stat key={determinantType}>
-                            {DeterminantService.findByType(entity.determinants, determinantType)?.value || 0}
+                            {DeterminantService.findByType(entity.determinants.determinants, determinantType)?.value || 0}
                         </Stat>)}
                     </StatsRow>
                     <StatsRow>
@@ -251,7 +251,7 @@ function PersonPage({
                     <StatsRow>
                         {creatureDeterminants.map(determinantType => <Stat key={determinantType}>
                             {DeterminantService.getTotalValue(
-                                DeterminantService.findByType(entity.determinants, determinantType))}
+                                DeterminantService.findByType(entity.determinants.determinants, determinantType))}
                         </Stat>)}
                     </StatsRow>
                 </StatsInnerBox>
