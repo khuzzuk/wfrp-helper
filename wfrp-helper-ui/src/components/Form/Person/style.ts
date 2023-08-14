@@ -16,14 +16,17 @@ export const PersonPane = styled.div`
   font-family: 'wfrp',serif;
 
   @media (min-width: 1800px) {
+    font-size: 14px;
     height: 821px;
     width: 1200px;
   }
   @media (min-width: 2300px) {
+    font-size: 20px;
     height: 1231px;
     width: 1800px;
   }
   @media (min-width: 3500px) {
+    font-size: 26px;
     height: 1847px;
     width: 2700px;
   }
@@ -32,7 +35,7 @@ export const PersonPane = styled.div`
 export const PersonColumn1 = styled.div`
   position: relative;
   display: inline;
-  border: 1px solid green;
+  border: 1px solid darkcyan;
   background-color: rgba(100, 100, 0, 0);
 `;
 export const PersonColumn2 = styled.div`
@@ -54,6 +57,16 @@ export const Input = styled.input`
   font-size: 12px;
   border: none;
   padding-left: 3px;
+  
+  @media (min-width: 1800px) {
+    font-size: 14px;
+  }
+  @media (min-width: 2300px) {
+    font-size: 20px;
+  }
+  @media (min-width: 3500px) {
+    font-size: 26px;
+  }
 `;
 export const InputBox = styled.input`
   position: absolute;
@@ -61,6 +74,17 @@ export const InputBox = styled.input`
   background-color: rgba(150, 50, 150, 0.2);
   outline: none;
   font-family: 'wfrp',serif;
+  font-size: 16px;
+
+  @media (min-width: 1800px) {
+    font-size: 20px;
+  }
+  @media (min-width: 2300px) {
+    font-size: 24px;
+  }
+  @media (min-width: 3500px) {
+    font-size: 34px;
+  }
 `;
 export const SelectBox = styled.select`
   position: absolute;
@@ -69,17 +93,94 @@ export const SelectBox = styled.select`
   appearance: none;
   outline: none;
   font-family: 'wfrp',serif;
+  font-size: 16px;
+
+  @media (min-width: 1800px) {
+    font-size: 20px;
+  }
+  @media (min-width: 2300px) {
+    font-size: 24px;
+  }
+  @media (min-width: 3500px) {
+    font-size: 34px;
+  }
 `;
 export const RemoveIcon = styled.div`
   color: transparent;
-  width: 1em;
-  height: 9px;
+  width: 9px;
+  height: 14px;
   &:hover {
     color: gray;
   }
   &:after {
     content: "X";
   }
+
+  @media (min-width: 1800px) {
+    height: 16px;
+    width: 10px;
+  }
+  @media (min-width: 2300px) {
+    height: 20px;
+    width: 11px;
+  }
+  @media (min-width: 3500px) {
+    height: 24px;
+    width: 14px;
+  }
+`;
+export const Label = styled.div`
+  display: flex;
+  gap: 3px;
+  font-family: 'wfrp',serif;
+  cursor: default;
+  font-size: 9px;
+  
+  @media (min-width: 1800px) {
+    font-size: 11px;
+  }
+  @media (min-width: 2300px) {
+    font-size: 14px;
+  }
+  @media (min-width: 3500px) {
+    font-size: 20px;
+  }
+`;
+export const LabelBox = styled(Box)`
+  position: relative;
+  display: flex;
+  gap: 3px;
+  font-family: 'wfrp',serif;
+  cursor: default;
+  font-size: 12px;
+  
+  @media (min-width: 1800px) {
+    font-size: 16px;
+  }
+  @media (min-width: 2300px) {
+    font-size: 20px;
+  }
+  @media (min-width: 3500px) {
+    font-size: 26px;
+  }
+`;
+export const SelectItemBox = styled(SelectBox)`
+  position: relative;
+  width: 100%;
+  height: 16px;
+  @media (min-width: 1800px) {
+    height: 24px;
+  }
+  @media (min-width: 2300px) {
+    height: 36px;
+  }
+  @media (min-width: 3500px) {
+    height: 50px;
+  }
+`;
+export const ItemStat = styled(LabelBox)`
+  text-align: center;
+  cursor: default;
 `;
 
 export const NameBox = styled(InputBox)`
@@ -88,28 +189,26 @@ export const NameBox = styled(InputBox)`
   width: 23%;
   height: 2.75%;
 `;
-
 export const RaceBox = styled(SelectBox)`
-  top: 2.75%;
+  top: 3%;
   left: 27.5%;
   width: 15%;
   height: 2.75%;
 `;
-
 export const GenderBox = styled(SelectBox)`
-  top: 2.75%;
+  top: 3%;
   left: 43%;
   width: 7.5%;
   height: 2.75%;
 `;
 export const ClassBox = styled(SelectBox)`
-  top: 2.75%;
+  top: 3%;
   left: 52%;
   width: 26%;
   height: 2.75%;
 `;
 export const CharacterBox = styled(SelectBox)`
-  top: 2.75%;
+  top: 3%;
   left: 79.5%;
   width: 16.5%;
   height: 2.75%;
@@ -121,35 +220,30 @@ export const AgeBox = styled(InputBox)`
   width: 8%;
   height: 2%;
 `;
-
 export const HeightBox = styled(InputBox)`
   top: 8.75%;
   left: 13.5%;
   width: 10.25%;
   height: 2%;
 `;
-
 export const WeightBox = styled(InputBox)`
   top: 8.75%;
   left: 27%;
   width: 9%;
   height: 2%;
 `;
-
 export const HairBox = styled(SelectBox)`
-  top: 8.75%;
+  top: 9%;
   left: 38.5%;
   width: 9.5%;
   height: 2.25%;
 `;
-
 export const EyesBox = styled(SelectBox)`
-  top: 8.75%;
+  top: 9%;
   left: 50%;
   width: 9%;
   height: 2.25%;
 `;
-
 export const SpecialFeaturesBox = styled(Box)`
   top: 6.25%;
   left: 61%;
@@ -171,13 +265,6 @@ export const SpecialFeaturesList = styled(Box)`
   height: 100%;
   overflow: auto;
 `;
-export const Label = styled.div`
-  display: flex;
-  gap: 3px;
-  font-family: 'wfrp',serif;
-  font-size: 9px;
-  cursor: default;
-`;
 
 export const ProfessionBox = styled(SelectBox)`
   top: 14.25%;
@@ -185,7 +272,6 @@ export const ProfessionBox = styled(SelectBox)`
   width: 25%;
   height: 3%;
 `;
-
 export const CareerBox = styled(Box)`
   display: flex;
   flex-wrap: wrap;
@@ -196,7 +282,6 @@ export const CareerBox = styled(Box)`
   height: 2.75%;
   overflow: auto;
 `;
-
 export const NextProfessionsBox = styled(Box)`
   top: 14.25%;
   left: 69%;
@@ -210,7 +295,6 @@ export const StatsBox = styled(Box)`
   width: 97%;
   height: 12%;
 `;
-
 export const StatsInnerBox = styled(Box)`
   top: 0;
   left: 24.5%;
@@ -220,13 +304,11 @@ export const StatsInnerBox = styled(Box)`
   flex-direction: column;
   align-items: stretch;
 `;
-
 export const StatsRow = styled.div`
   flex: 1;
   display: flex;
   align-items: stretch;
 `;
-
 export const Stat = styled.div`
   flex: 1;
   display: flex;
@@ -237,7 +319,6 @@ export const Stat = styled.div`
   user-select: none;
   cursor: pointer;
 `;
-
 export const StatsGenerateBox = styled(Box)`
   top: 1%;
   left: 1%;
@@ -245,53 +326,79 @@ export const StatsGenerateBox = styled(Box)`
   height: 100%;
 `;
 
-export const SelectItemBox = styled(SelectBox)`
-  position: relative;
-  width: 100%;
-  height: 16px;
-`;
-
 export const MeleeWeaponBox = styled(Box)`
   top: 35%;
   left: 5.5%;
-  width: 43%;
+  width: 44%;
   height: 17%;
   overflow: auto;
 `;
-export const MeleeWeaponItem = styled(Box)`
+export const MeleeWeaponItem = styled(LabelBox)`
   display: grid;
   grid-template-columns: 95px 25px 27px 25px 22px;
-  position: relative;
-  width: 100%;
-  height: 12px;
-`;
-export const ItemStat = styled.div`
-  font-size: 8px;
-  line-height: 14px;
-  text-align: center;
-  cursor: default;
+  width: 99.5%;
+  height: 14px;
+  @media (min-width: 1800px) {
+    height: 18px;
+    grid-template-columns: 95px 25px 27px 25px 22px;
+  }
+  @media (min-width: 2300px) {
+    height: 24px;
+    grid-template-columns: 187px 50px 48px 48px 45px;
+  }
+  @media (min-width: 3500px) {
+    height: 34px;
+    grid-template-columns: 95px 25px 27px 25px 22px;
+  }
 `;
 
 export const RangeWeaponBox = styled(Box)`
   top: 53.5%;
   left: 3.5%;
   width: 45.5%;
-  height: 17%;
+  height: 18%;
   overflow: auto;
 `;
-export const RangedWeaponItem = styled(Box)`
+export const RangedWeaponItem = styled(LabelBox)`
   display: grid;
+  gap: 0;
   grid-template-columns: 95px 8px 18px 18px 18px 20px 25px;
   position: relative;
-  width: 100%;
+  width: 99.5%;
   height: 12px;
+  @media (min-width: 1800px) {
+    height: 18px;
+    grid-template-columns: 95px 8px 18px 18px 18px 20px 25px;
+  }
+  @media (min-width: 2300px) {
+    height: 24px;
+    grid-template-columns: 194px 14px 38px 38px 38px 36px 46px;
+  }
+  @media (min-width: 3500px) {
+    height: 34px;
+    grid-template-columns: 95px 8px 18px 18px 18px 20px 25px;
+  }
 `;
-export const AmmunitionItem = styled(Box)`
+export const AmmunitionItem = styled(LabelBox)`
   display: grid;
+  gap: 0;
+  align-items: center;
   grid-template-columns: 95px 8px 54px 20px 25px;
   position: relative;
   width: 100%;
   height: 12px;
+  @media (min-width: 1800px) {
+    height: 18px;
+    grid-template-columns: 95px 8px 54px 20px 25px;
+  }
+  @media (min-width: 2300px) {
+    height: 28px;
+    grid-template-columns: 154px 14px 150px 36px 45px;
+  }
+  @media (min-width: 3500px) {
+    height: 34px;
+    grid-template-columns: 95px 8px 54px 20px 25px;
+  }
 `;
 
 export const ArmorSelectBox = styled(Box)`
@@ -301,10 +408,23 @@ export const ArmorSelectBox = styled(Box)`
   height: 21%;
   overflow: auto;
 `;
-export const ArmorItem = styled(Box)`
+export const ArmorItem = styled(LabelBox)`
   position: relative;
   display: grid;
   grid-template-columns: 65px 8px 105px 25px;
+  text-wrap: nowrap;
+  @media (min-width: 1800px) {
+    height: 18px;
+    grid-template-columns: 65px 8px 105px 25px;
+  }
+  @media (min-width: 2300px) {
+    height: 28px;
+    grid-template-columns: 145px 12px 190px 25px;
+  }
+  @media (min-width: 3500px) {
+    height: 34px;
+    grid-template-columns: 65px 8px 105px 25px;
+  }
 `;
 
 export const ArmorStatsBox = styled(Box)`
