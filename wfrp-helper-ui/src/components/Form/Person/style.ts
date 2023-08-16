@@ -45,7 +45,7 @@ export const PersonColumn2 = styled.div`
 
 export const Box = styled.div`
   position: absolute;
-  border: 1px solid rosybrown;
+  border: 1px solid lightskyblue;
   background-color: rgba(150, 50, 150, 0.25);
   font-family: 'wfrp',serif;
 `;
@@ -93,13 +93,13 @@ export const SelectBox = styled.select`
   appearance: none;
   outline: none;
   font-family: 'wfrp',serif;
-  font-size: 16px;
+  font-size: 12px;
 
   @media (min-width: 1800px) {
-    font-size: 20px;
+    font-size: 18px;
   }
   @media (min-width: 2300px) {
-    font-size: 24px;
+    font-size: 26px;
   }
   @media (min-width: 3500px) {
     font-size: 34px;
@@ -150,33 +150,24 @@ export const LabelBox = styled(Box)`
   position: relative;
   display: flex;
   gap: 3px;
+  overflow: hidden;
   font-family: 'wfrp',serif;
   cursor: default;
   font-size: 12px;
   
   @media (min-width: 1800px) {
-    font-size: 16px;
+    font-size: 18px;
   }
   @media (min-width: 2300px) {
-    font-size: 20px;
+    font-size: 26px;
   }
   @media (min-width: 3500px) {
-    font-size: 26px;
+    font-size: 34px;
   }
 `;
 export const SelectItemBox = styled(SelectBox)`
   position: relative;
   width: 100%;
-  height: 16px;
-  @media (min-width: 1800px) {
-    height: 24px;
-  }
-  @media (min-width: 2300px) {
-    height: 36px;
-  }
-  @media (min-width: 3500px) {
-    height: 50px;
-  }
 `;
 export const ItemStat = styled(LabelBox)`
   text-align: center;
@@ -335,21 +326,10 @@ export const MeleeWeaponBox = styled(Box)`
 `;
 export const MeleeWeaponItem = styled(LabelBox)`
   display: grid;
-  grid-template-columns: 95px 25px 27px 25px 22px;
+  gap: 0;
+  grid-template-columns: 45% 2.8% 13.4% 13.4% 13.2% 12.1%;
   width: 99.5%;
-  height: 14px;
-  @media (min-width: 1800px) {
-    height: 18px;
-    grid-template-columns: 95px 25px 27px 25px 22px;
-  }
-  @media (min-width: 2300px) {
-    height: 24px;
-    grid-template-columns: 187px 50px 48px 48px 45px;
-  }
-  @media (min-width: 3500px) {
-    height: 34px;
-    grid-template-columns: 95px 25px 27px 25px 22px;
-  }
+  height: 15%;
 `;
 
 export const RangeWeaponBox = styled(Box)`
@@ -362,43 +342,25 @@ export const RangeWeaponBox = styled(Box)`
 export const RangedWeaponItem = styled(LabelBox)`
   display: grid;
   gap: 0;
-  grid-template-columns: 95px 8px 18px 18px 18px 20px 25px;
+  grid-template-columns: 48.3% 2.9% 9.2% 9.2% 9.1% 9.2% 12%;
   position: relative;
   width: 99.5%;
-  height: 12px;
-  @media (min-width: 1800px) {
-    height: 18px;
-    grid-template-columns: 95px 8px 18px 18px 18px 20px 25px;
-  }
-  @media (min-width: 2300px) {
-    height: 24px;
-    grid-template-columns: 194px 14px 38px 38px 38px 36px 46px;
-  }
-  @media (min-width: 3500px) {
-    height: 34px;
-    grid-template-columns: 95px 8px 18px 18px 18px 20px 25px;
-  }
+  height: 15%;
 `;
 export const AmmunitionItem = styled(LabelBox)`
   display: grid;
   gap: 0;
-  align-items: center;
-  grid-template-columns: 95px 8px 54px 20px 25px;
+  align-items: baseline;
+  grid-template-columns: 3% 44.5% 2.9% 28.1% 9.2% 9%;
   position: relative;
   width: 100%;
-  height: 12px;
-  @media (min-width: 1800px) {
-    height: 18px;
-    grid-template-columns: 95px 8px 54px 20px 25px;
+  height: 15%;
+  &:before {
+    content: '–';
   }
-  @media (min-width: 2300px) {
-    height: 28px;
-    grid-template-columns: 154px 14px 150px 36px 45px;
-  }
-  @media (min-width: 3500px) {
-    height: 34px;
-    grid-template-columns: 95px 8px 54px 20px 25px;
-  }
+`;
+export const AmmunitionAmountInput = styled(InputBox)`
+  position: relative;
 `;
 
 export const ArmorSelectBox = styled(Box)`
@@ -411,20 +373,9 @@ export const ArmorSelectBox = styled(Box)`
 export const ArmorItem = styled(LabelBox)`
   position: relative;
   display: grid;
-  grid-template-columns: 65px 8px 105px 25px;
+  grid-template-columns: 32.8% 3.1% 50.5% 12%;
   text-wrap: nowrap;
-  @media (min-width: 1800px) {
-    height: 18px;
-    grid-template-columns: 65px 8px 105px 25px;
-  }
-  @media (min-width: 2300px) {
-    height: 28px;
-    grid-template-columns: 145px 12px 190px 25px;
-  }
-  @media (min-width: 3500px) {
-    height: 34px;
-    grid-template-columns: 65px 8px 105px 25px;
-  }
+  height: 15%;
 `;
 
 export const ArmorStatsBox = styled(Box)`
@@ -433,38 +384,39 @@ export const ArmorStatsBox = styled(Box)`
   width: 20.25%;
   height: 20.25%;
 `;
-const ArmorStat = styled(Box)`
+const ArmorStat = styled(LabelBox)`
+  position: absolute;
   width: 20%;
-  height: 20%;
-  text-align: center;
-  font-size: 18px;
+  height: 18%;
+  align-items: center;
+  justify-content: center;
 `;
 export const ShieldStat = styled(ArmorStat)`
   top: 0;
-  left: 62%;
+  left: 64%;
 `;
 export const HeadStat = styled(ArmorStat)`
-  top: 5%;
-  left: 0;
+  top: 6%;
+  left: 2%;
 `;
 export const RightHandStat = styled(ArmorStat)`
   top: 35%;
-  left: 0;
+  left: 2%;
 `;
 export const RightLegStat = styled(ArmorStat)`
   top: 83%;
-  left: 0;
+  left: 2%;
 `;
 export const LeftHandStat = styled(ArmorStat)`
   top: 32%;
   left: 79%;
 `;
 export const TorsoStat = styled(ArmorStat)`
-  top: 57%;
+  top: 58%;
   left: 79%;
 `;
 export const LeftLegStat = styled(ArmorStat)`
-  top: 83%;
+  top: 84%;
   left: 79%;
 `;
 

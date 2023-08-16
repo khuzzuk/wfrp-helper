@@ -14,7 +14,6 @@ import {
     HairBox,
     HeadStat,
     HeightBox,
-    Input,
     ItemStat,
     Label,
     MeleeWeaponBox,
@@ -46,7 +45,7 @@ import {
     RightLegStat,
     LeftHandStat,
     TorsoStat,
-    LeftLegStat, SkillItem,
+    LeftLegStat, SkillItem, AmmunitionAmountInput, LabelBox,
 } from "./style";
 import {ChangeEvent, useEffect, useState} from "react";
 import {ModelType} from "model/ModelConfig";
@@ -264,6 +263,7 @@ function PersonPage({
                 </SelectItemBox>
                 {entity.meleeWeapons.map(w => <MeleeWeaponItem key={w.name}>
                     <div>{w.name}</div>
+                    <RemoveIcon onClick={removeFromMultiEntity('meleeWeapons', w)}/>
                     <ItemStat>{DeterminantService.toUi(w.determinants, DeterminantType.INITIATIVE)}</ItemStat>
                     <ItemStat>{DeterminantService.toUi(w.determinants, DeterminantType.BATTLE)}</ItemStat>
                     <ItemStat>{DeterminantService.toUi(w.determinants, DeterminantType.STRENGTH)}</ItemStat>
@@ -292,7 +292,7 @@ function PersonPage({
                         </SelectItemBox>
                         {w.ammunition && <>
                             <RemoveIcon onClick={removeAmmunition(w)}/>
-                            <Input onChange={updateAmmunitionAmount(w)}/>
+                            <AmmunitionAmountInput onChange={updateAmmunitionAmount(w)}/>
                             <ItemStat>
                                 {DeterminantService.toUi(w.ammunition.determinants, DeterminantType.STRENGTH)}
                             </ItemStat>
@@ -308,10 +308,10 @@ function PersonPage({
                     {toOptions(model.ARMOR, entity.armor)}
                 </SelectItemBox>
                 {entity.armor.map(armor => <ArmorItem key={armor.name}>
-                    {armor.name}
+                    <LabelBox>{armor.name}</LabelBox>
                     <RemoveIcon onClick={removeFromMultiEntity('armor', armor)}/>
-                    <div>{armor.type?.placement.map(p => t(`data.${p}`))}</div>
-                    {armor.type?.armor}
+                    <LabelBox>{armor.type?.placement.map(p => t(`data.${p}`))}</LabelBox>
+                    <LabelBox>{armor.type?.armor}</LabelBox>
                 </ArmorItem>)}
             </ArmorSelectBox>
 
