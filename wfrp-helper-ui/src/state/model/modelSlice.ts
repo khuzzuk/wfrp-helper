@@ -48,6 +48,7 @@ const initialState: ModelState = {
         ANIMAL_KIND: [],
         ANIMAL: [],
         PERSON: [],
+        REALM: [],
     },
     users: [],
     roles: [],

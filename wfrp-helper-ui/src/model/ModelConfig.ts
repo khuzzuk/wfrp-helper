@@ -37,6 +37,7 @@ export enum ModelType {
     ANIMAL_KIND = 'ANIMAL_KIND',
     ANIMAL = 'ANIMAL',
     PERSON = 'PERSON',
+    REALM = 'REALM',
 }
 
 export interface FieldDef {
@@ -523,11 +524,23 @@ const ModelConfig: {[key in ModelType]: ModelDef} = {
             ModelType.ARMOR,
             ModelType.AMMUNITION,
             ModelType.SKILL,
+            ModelType.SPELL_SCHOOL,
             ModelType.MISC_ITEM,
             ModelType.RELIGION,
             ModelType.LANGUAGE,
+            ModelType.REALM,
         ],
         creator: createNewPerson,
+    },
+    REALM: {
+        name: 'realm',
+        table: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        form: [
+            {prop: 'name', type: FieldType.TEXT},
+        ],
+        linked: []
     }
 }
 

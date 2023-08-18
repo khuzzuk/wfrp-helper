@@ -1,11 +1,11 @@
 import {BaseEntity} from "model/BaseEntity";
 
-export const toOptions = (values: any[], current: any[] = []) => {
+export const toOptions = (values: any[], current: any[] = [], toText: (e: any) => string = (e) => e.name) => {
     return [
         <option hidden disabled value={'empty'}/>,
         ...values
             .filter(v => !current.some(c => c.id === v.id))
-            .map((v) => <option key={v.name} value={v.id}>{v.name}</option>)
+            .map((v) => <option key={v.name} value={v.id}>{toText(v)}</option>)
     ];
 }
 

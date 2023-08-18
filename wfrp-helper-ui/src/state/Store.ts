@@ -6,11 +6,13 @@ import uiReducer from "./ui/uiSlice";
 import loginReducer from "./login/loginSlice";
 import modelReducer from './model/modelSlice';
 import gearReducer from './gear/gearSlice';
+import availableSpellSchoolsReducer from './knowledge/availableSpellSchoolLevel/availableSpellSchoolLevelSlice';
 import createSagaMiddleware from "redux-saga";
 import {loginSaga} from "./login/loginSaga";
 import {modelSaga} from "./model/modelSaga";
 import {personSaga} from "./person/personSaga";
 import {gearSaga} from "./gear/gearSaga";
+import {availableSpellSchoolSaga} from "./knowledge/availableSpellSchoolLevel/availableSpellSchoolLevelSaga";
 
 export const sagaMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
@@ -23,6 +25,7 @@ export const Store = configureStore({
     login: loginReducer,
     model: modelReducer,
     gear: gearReducer,
+    availableSpellSchools: availableSpellSchoolsReducer,
   },
   middleware: [...getDefaultMiddleware({thunk: false}), sagaMiddleware, historyMiddleware]
 });
@@ -31,6 +34,7 @@ sagaMiddleware.run(loginSaga);
 sagaMiddleware.run(modelSaga);
 sagaMiddleware.run(personSaga);
 sagaMiddleware.run(gearSaga);
+sagaMiddleware.run(availableSpellSchoolSaga);
 
 export type RootState = ReturnType<typeof Store.getState>;
 export type AppDispatch = typeof Store.dispatch;

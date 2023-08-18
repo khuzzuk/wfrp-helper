@@ -45,7 +45,10 @@ import {
     RightLegStat,
     LeftHandStat,
     TorsoStat,
-    LeftLegStat, SkillItem, AmmunitionAmountInput, LabelBox,
+    LeftLegStat,
+    SkillItem,
+    AmmunitionAmountInput,
+    LabelBox,
 } from "./style";
 import {ChangeEvent, useEffect, useState} from "react";
 import {ModelType} from "model/ModelConfig";
@@ -61,8 +64,10 @@ import {Person} from "model/creature/Person";
 import {PersonalRangedWeapon, RangedWeapon} from "model/crafting/RangedWeapon";
 import {ActionTime} from "model/rule/ActionTime";
 import {Ammunition} from "model/crafting/Ammunition";
-import withGear from "../../../state/gear/gearSelector";
-import {Placement} from "../../../model/crafting/Placement";
+import withGear from "state/gear/gearSelector";
+import {Placement} from "model/crafting/Placement";
+import withAvailableSpellSchools from "state/knowledge/availableSpellSchoolLevel/availableSpellSchoolLevelSelector";
+import {SpellSchoolLevel} from "model/knowledge/SpellSchoolLevel";
 
 interface PersonPageProps {
     entity: Person;
@@ -73,6 +78,8 @@ interface PersonPageProps {
     tryRemoveExtension: (type: DeterminantType) => void;
     armorStats: { [key in Placement]?: number };
     getArmorStats: (ids: number[]) => void;
+    availableSpellSchools: SpellSchoolLevel[];
+    getAvailableSpellSchoolLevels: () => void;
 }
 
 function PersonPage({
@@ -83,16 +90,20 @@ function PersonPage({
                         tryAddExtension,
                         tryRemoveExtension,
                         armorStats,
-                        getArmorStats
+                        getArmorStats,
+                        availableSpellSchools,
+                        getAvailableSpellSchoolLevels,
                     }: PersonPageProps) {
 
     const [t] = useTranslation('base');
     const [showStatsGenerationMenu, setShowStatsGenerationMenu] = useState(false);
 
     useEffect(() => {
-        console.log(entity.armor);
         getArmorStats(entity.armor.map(a => a.id || 0));
-    }, [entity.armor.length, getArmorStats])
+    }, [entity.armor, getArmorStats])
+    useEffect(() => {
+        getAvailableSpellSchoolLevels();
+    }, [getAvailableSpellSchoolLevels, entity.spellSchools])
 
     const updateStringProp = (prop: string) => (event: ChangeEvent<HTMLInputElement>) => {
         updateEntityProp(event.target.value, prop);
@@ -175,33 +186,27 @@ function PersonPage({
     return <PersonPane>
         <PersonColumn1>
             <NameBox onChange={updateStringProp('name')} value={entity.name}/>
-            <RaceBox onChange={selectEntity('race', model.RACE)}
-                     value={entity.race ? entity.race.id : 'empty'}>
+            <RaceBox onChange={selectEntity('race', model.RACE)} value={entity.race ? entity.race.id : 'empty'}>
                 {toOptions(model.RACE)}
             </RaceBox>
-            <GenderBox onChange={selectEnum('gender')}
-                       value={entity.gender || 'empty'}>
+            <GenderBox onChange={selectEnum('gender')} value={entity.gender || 'empty'}>
                 <option value={'MALE'}>M</option>
                 <option value={'FEMALE'}>K</option>
             </GenderBox>
-            <ClassBox onChange={selectEntity('professionClass', model.PROFESSION_CLASS)}
-                      value={entity.professionClass ? entity.professionClass.id : 'empty'}>
+            <ClassBox onChange={selectEntity('professionClass', model.PROFESSION_CLASS)} value={entity.professionClass ? entity.professionClass.id : 'empty'}>
                 {toOptions(model.PROFESSION_CLASS)}
             </ClassBox>
-            <CharacterBox onChange={selectEntity('personality', model.CHARACTER)}
-                          value={entity.personality ? entity.personality.id : 'empty'}>
+            <CharacterBox onChange={selectEntity('personality', model.CHARACTER)} value={entity.personality ? entity.personality.id : 'empty'}>
                 {toOptions(model.CHARACTER)}
             </CharacterBox>
 
             <AgeBox onChange={updateIntProp('age')} value={entity.age}/>
             <HeightBox onChange={updateIntProp('height')} value={entity.height}/>
             <WeightBox onChange={updateFloatProp('weight')} value={entity.weight}/>
-            <HairBox onChange={selectEntity('hairColor', model.HAIR_COLOR)}
-                     value={entity.hairColor ? entity.hairColor.id : 'empty'}>
+            <HairBox onChange={selectEntity('hairColor', model.HAIR_COLOR)} value={entity.hairColor ? entity.hairColor.id : 'empty'}>
                 {toOptions(model.HAIR_COLOR)}
             </HairBox>
-            <EyesBox onChange={selectEntity('eyeColor', model.EYE_COLOR)}
-                     value={entity.eyeColor ? entity.eyeColor.id : 'empty'}>
+            <EyesBox onChange={selectEntity('eyeColor', model.EYE_COLOR)} value={entity.eyeColor ? entity.eyeColor.id : 'empty'}>
                 {toOptions(model.EYE_COLOR)}
             </EyesBox>
             <SpecialFeaturesBox>
@@ -215,8 +220,7 @@ function PersonPage({
                 </SpecialFeaturesList>
             </SpecialFeaturesBox>
 
-            <ProfessionBox onChange={selectProfession(model.PROFESSION)}
-                           value={entity.currentProfession ? entity.currentProfession.id : 'empty'}>
+            <ProfessionBox onChange={selectProfession(model.PROFESSION)} value={entity.currentProfession ? entity.currentProfession.id : 'empty'}>
                 {toOptions(model.PROFESSION)}
             </ProfessionBox>
             <CareerBox>{entity.professions && entity.professions.map((prof: DescribedEntity) =>
@@ -326,7 +330,10 @@ function PersonPage({
             </ArmorStatsBox>
 
             <SkillFirstBox>
-
+                <SelectItemBox value={'empty'}>
+                    <option disabled hidden value={'empty'}/>
+                    {toOptions(availableSpellSchools, [], l => l.spellSchool.name + ' ' + l.level)}
+                </SelectItemBox>
             </SkillFirstBox>
             <SkillSecondBox>
                 <SelectItemBox value={'empty'} onChange={selectMultiEntity('skills', model.SKILL)}>
@@ -348,4 +355,4 @@ function PersonPage({
     </PersonPane>
 }
 
-export default withModel(withGear(withPerson(PersonPage)));
+export default withModel(withAvailableSpellSchools(withGear(withPerson(PersonPage))));
